@@ -29,3 +29,19 @@ $ cd build
 $ cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=%HOMEPATH%\vcpkg\scripts\buildsystems\vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows ..
 $ cmake --build . --config Release
 ```
+
+## Usage
+
+```
+Video Trimmer
+Usage: video_trimmer [OPTIONS]
+
+Options:
+  -h,--help                   Print this help message and exit
+  -v                          log level (-v: INFO, -vv: DEBUG, -vvv: TRACE)
+  --font-size INT:POSITIVE    UI font size in pixels (default: 22)
+  --width INT:POSITIVE Needs: --height
+                              window width (default: 2160)
+  --height INT:POSITIVE Needs: --width
+                              window height (default: 1620)
+```
