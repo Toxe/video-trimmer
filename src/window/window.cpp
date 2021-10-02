@@ -16,15 +16,8 @@ Window::Window(const CommandLine& cli)
     window_->setVerticalSyncEnabled(true);
     window_->requestFocus();
 
-    // create render texture and sprite that shows the image
-    sf::Image image;
-    image.create(cli.video_mode().width, cli.video_mode().height);
-
-    texture_ = std::make_unique<sf::Texture>();
-    texture_->loadFromImage(image);
-
-    sprite_ = std::make_unique<sf::Sprite>();
-    sprite_->setTexture(*texture_);
+    // create the video view
+    video_view_ = std::make_unique<VideoView>();
 
     // init ImGui & ImGui-SFML and load a custom font
     ImGui::SFML::Init(*window_, false);
@@ -46,13 +39,13 @@ void Window::next_frame(const Duration elapsed_time)
     ImGui::SFML::Update(*window_, sf::microseconds(elapsed_time.as_microseconds()));
 }
 
-void Window::render()
+void Window::render(ImagePosition video_view_position, ImageSize video_view_size)
 {
     window_->clear();
 
     {
         std::lock_guard<std::mutex> lock(mtx_);
-        window_->draw(*sprite_);
+        video_view_->render(*window_, video_view_position, video_view_size);
     }
 
     ImGui::SFML::Render(*window_);
@@ -80,14 +73,4 @@ void Window::adjust_view_to_window_size()
     const auto size = window_->getSize();
     sf::FloatRect visibleArea(0.0f, 0.0f, static_cast<float>(size.x), static_cast<float>(size.y));
     window_->setView(sf::View(visibleArea));
-}
-
-void Window::resize_texture(const ImageSize image_size, const sf::Color* pixels)
-{
-    std::lock_guard<std::mutex> lock(mtx_);
-
-    texture_->create(image_size.width, image_size.height);
-    texture_->update(reinterpret_cast<const sf::Uint8*>(pixels), static_cast<unsigned int>(image_size.width), static_cast<unsigned int>(image_size.height), 0, 0);
-
-    sprite_->setTextureRect(sf::IntRect{0, 0, image_size.width, image_size.height});
 }

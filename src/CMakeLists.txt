@@ -13,6 +13,7 @@ add_executable(video_trimmer
     ui/commands.h
     ui/input_value.h
     ui/ui.cpp ui/ui.h
+    video_view/video_view.cpp video_view/video_view.h
     window/commands.h
     window/window.cpp window/window.h
 )

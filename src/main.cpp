@@ -1,7 +1,7 @@
-#include "register_events.h"
 #include "app/app.h"
 #include "command_line/command_line.h"
 #include "event_handler/event_handler.h"
+#include "register_events.h"
 #include "ui/ui.h"
 #include "window/window.h"
 
@@ -25,7 +25,7 @@ int main(int argc, char* argv[])
 
         if (window.is_open()) {
             ui.render(app.elapsed_time());
-            window.render();
+            window.render(ui.video_view_position(), ui.video_view_size());
         }
     }
 }

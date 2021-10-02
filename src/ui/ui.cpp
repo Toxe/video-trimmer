@@ -35,7 +35,7 @@ void UI::render_main_window(const Duration elapsed_time)
 {
     ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
     ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
-    ImGui::Begin(main_window_title_, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoResize);
+    ImGui::Begin(main_window_title_, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoBackground);
 
     render_left_pane(left_pane_width);
 
@@ -160,12 +160,8 @@ void UI::render_video_pane(const float pane_height)
 {
     ImGui::BeginChild("video pane", ImVec2(0, pane_height), false, ImGuiWindowFlags_None);
 
-    ImDrawList* draw_list = ImGui::GetWindowDrawList();
-
-    auto pos = ImGui::GetCursorScreenPos();
-    auto window_size = ImGui::GetWindowSize();
-
-    draw_list->AddRectFilled(ImVec2(pos.x, pos.y), ImVec2(pos.x + window_size.x, pos.y + window_size.y), ImColor(UserInterface::Colors::dark_gray));
+    video_view_position_ = ImGui::GetCursorScreenPos();
+    video_view_size_ = ImGui::GetWindowSize();
 
     ImGui::Text("Video");
     ImGui::Text(fmt::format("{}x{}", ImGui::GetWindowSize().x, ImGui::GetWindowSize().y).c_str());
@@ -186,4 +182,14 @@ void UI::render_trim_controls_pane(const float pane_height)
     ImGui::Text("Trim Controls");
     ImGui::Text(fmt::format("{}x{}", ImGui::GetWindowSize().x, ImGui::GetWindowSize().y).c_str());
     ImGui::EndChild();
+}
+
+ImagePosition UI::video_view_position() const
+{
+    return {static_cast<int>(video_view_position_.x), static_cast<int>(video_view_position_.y)};
+}
+
+ImageSize UI::video_view_size() const
+{
+    return {static_cast<int>(video_view_size_.x), static_cast<int>(video_view_size_.y)};
 }
