@@ -5,9 +5,9 @@
 
 #include <imgui.h>
 
+#include "event_handler/event_handler.h"
 #include "input_value.h"
 #include "types.h"
-#include "event_handler/event_handler.h"
 
 class Duration;
 class CommandLine;
@@ -30,7 +30,15 @@ class UI {
 
     void render_main_window(const Duration elapsed_time);
     void render_help_window();
-    void render_interface_hidden_hint_window();
+
+    void render_left_pane(const float pane_width);
+    void render_right_pane();
+
+    void render_files_pane(const float pane_height);
+    void render_additional_info_pane(const float pane_height);
+    void render_video_pane(const float pane_height);
+    void render_playback_controls_pane(const float pane_height);
+    void render_trim_controls_pane(const float pane_height);
 
 public:
     UI(const CommandLine& cli);
