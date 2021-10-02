@@ -65,10 +65,10 @@ void CommandLine::show_usage_and_exit(const CLI::App& app, const char* error_mes
 
 sf::VideoMode CommandLine::default_video_mode() const
 {
-    // init window at 75% desktop height and 4:3 aspect ratio
+    // init window at 50% desktop height and 16:9 aspect ratio
     const auto desktop = sf::VideoMode::getDesktopMode();
-    const unsigned int height = (desktop.height * 3) / 4;
-    const unsigned int width = 4 * height / 3;
+    const unsigned int height = desktop.height / 2;
+    const unsigned int width = 16 * height / 9;
     return sf::VideoMode{width, height};
 }
 
