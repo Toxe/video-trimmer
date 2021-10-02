@@ -5,12 +5,12 @@
 
 #include <imgui.h>
 
-#include "event_handler/event_handler.h"
 #include "input_value.h"
 #include "types.h"
 
-class Duration;
 class CommandLine;
+class Duration;
+class EventHandler;
 
 class UI {
     const char* main_window_title_ = "Video Trimmer";

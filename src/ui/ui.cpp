@@ -13,6 +13,7 @@
 #include "clock/duration.h"
 #include "colors.h"
 #include "command_line/command_line.h"
+#include "event_handler/event_handler.h"
 
 const float left_pane_width = 500.0f;
 const float additional_info_pane_height = 400.0f;
