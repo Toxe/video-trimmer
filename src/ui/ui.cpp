@@ -21,7 +21,7 @@ const float playback_controls_pane_height = 100.0f;
 const float trim_controls_pane_height = 150.0f;
 
 UI::UI(const CommandLine& cli)
-    : font_size_{static_cast<float>(cli.font_size())}
+    : font_size_{static_cast<float>(cli.font_size())}, fps_view_{font_size_}
 {
 }
 
@@ -37,7 +37,7 @@ void UI::render_main_window(const Duration elapsed_time)
     ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
     ImGui::Begin(main_window_title_, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoBackground);
 
-    render_left_pane(left_pane_width);
+    render_left_pane(left_pane_width, elapsed_time);
 
     ImGui::SameLine();
 
@@ -115,14 +115,14 @@ bool UI::input_double(const char* label, InputValue<double>& value, const double
     return changed_now;
 }
 
-void UI::render_left_pane(const float pane_width)
+void UI::render_left_pane(const float pane_width, const Duration elapsed_time)
 {
     ImGui::BeginChild("left pane", ImVec2(pane_width, 0), false, ImGuiWindowFlags_None);
 
     const float files_pane_height = ImGui::GetWindowSize().y - additional_info_pane_height - ImGui::GetStyle().ItemSpacing.y;
 
     render_files_pane(files_pane_height);
-    render_additional_info_pane(additional_info_pane_height);
+    render_additional_info_pane(additional_info_pane_height, elapsed_time);
 
     ImGui::EndChild();
 }
@@ -148,11 +148,15 @@ void UI::render_files_pane(const float pane_height)
     ImGui::EndChild();
 }
 
-void UI::render_additional_info_pane(const float pane_height)
+void UI::render_additional_info_pane(const float pane_height, const Duration elapsed_time)
 {
     ImGui::BeginChild("additional info pane", ImVec2(0, pane_height), true, ImGuiWindowFlags_None);
+
+    fps_view_.render(elapsed_time);
+
     ImGui::Text("Additional Info");
     ImGui::Text(fmt::format("{}x{}", ImGui::GetWindowSize().x, ImGui::GetWindowSize().y).c_str());
+
     ImGui::EndChild();
 }
 
