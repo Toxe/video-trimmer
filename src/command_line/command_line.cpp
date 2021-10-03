@@ -24,6 +24,7 @@ CommandLine::CommandLine(int argc, char* argv[])
     CLI::App app{description};
     app.add_flag("-v", log_level_flag, "log level (-v: INFO, -vv: DEBUG, -vvv: TRACE)");
     app.add_option("--font-size", font_size_, fmt::format("UI font size in pixels (default: {})", font_size_))->check(CLI::PositiveNumber);
+    app.add_option("video filename", video_filename_, "name of video file to load")->required();
     auto opt_width = app.add_option("--width", window_width_, fmt::format("window width (default: {})", window_width_));
     auto opt_height = app.add_option("--height", window_height_, fmt::format("window height (default: {})", window_height_));
 
@@ -50,9 +51,13 @@ CommandLine::CommandLine(int argc, char* argv[])
     }
 
     spdlog::set_level(log_level);
+    spdlog::debug("command line option video filename: {}", video_filename_);
     spdlog::debug("command line option --font-size: {}", font_size_);
     spdlog::debug("command line option --width: {}", window_width_);
     spdlog::debug("command line option --height: {}", window_height_);
+
+    if (!std::filesystem::exists(video_filename_))
+        show_usage_and_exit(app, "file not found", {});
 }
 
 void CommandLine::show_usage_and_exit(const CLI::App& app, const char* error_message = nullptr, const std::optional<CLI::ParseError>& error = {})
