@@ -5,9 +5,9 @@
 
 #include <imgui.h>
 
-#include "fps_view.h"
 #include "input_value.h"
 #include "types.h"
+#include "views/fps_view.h"
 
 class CommandLine;
 class Duration;
