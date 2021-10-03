@@ -11,7 +11,6 @@ add_executable(video_trimmer
     include/types.h
     ui/colors.h
     ui/commands.h
-    ui/input_value.h
     ui/ui.cpp ui/ui.h
     ui/views/fps_view.cpp ui/views/fps_view.h
     ui/views/video_file_info_view.cpp ui/views/video_file_info_view.hpp

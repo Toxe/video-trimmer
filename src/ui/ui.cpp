@@ -1,12 +1,5 @@
 #include "ui.h"
 
-#include <algorithm>
-#include <atomic>
-#include <cassert>
-#include <cmath>
-#include <limits>
-#include <numbers>
-
 #include <fmt/core.h>
 #include <spdlog/spdlog.h>
 
@@ -77,42 +70,6 @@ void UI::help(const std::string& text)
         ImGui::PopTextWrapPos();
         ImGui::EndTooltip();
     }
-}
-
-bool UI::input_int(const char* label, InputValue<int>& value, const int small_inc, const int big_inc, const int min, const int max)
-{
-    bool changed_now = false;
-    int val = value.get();
-
-    ImGui::SetNextItemWidth(ImGui::GetFontSize() * 15);
-
-    if (ImGui::InputInt(label, &val, small_inc, big_inc)) {
-        value.set(std::clamp(val, min, max));
-        changed_now = true;
-    }
-
-    ImGui::SameLine();
-    help(fmt::format("{} to {}\n\n     -/+ to change by {}\nCTRL -/+ to change by {}", min, max, small_inc, big_inc));
-
-    return changed_now;
-}
-
-bool UI::input_double(const char* label, InputValue<double>& value, const double small_inc, const double big_inc, const double min, const double max)
-{
-    bool changed_now = false;
-    double val = value.get();
-
-    ImGui::SetNextItemWidth(ImGui::GetFontSize() * 15);
-
-    if (ImGui::InputDouble(label, &val, small_inc, big_inc, "%.16lf")) {
-        value.set(std::clamp(val, min, max));
-        changed_now = true;
-    }
-
-    ImGui::SameLine();
-    help(fmt::format("{} to {}\n\n     -/+ to change by {}\nCTRL -/+ to change by {}", min, max, small_inc, big_inc));
-
-    return changed_now;
 }
 
 void UI::render_left_pane(const float pane_width, const Duration elapsed_time, const VideoFile& video_file)

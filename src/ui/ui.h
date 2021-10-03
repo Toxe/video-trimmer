@@ -5,7 +5,6 @@
 
 #include <imgui.h>
 
-#include "input_value.h"
 #include "types.h"
 #include "views/fps_view.h"
 #include "views/video_file_info_view.hpp"
@@ -33,8 +32,6 @@ class UI {
     VideoFileInfoView video_file_info_view_;
 
     void help(const std::string& text);
-    bool input_int(const char* label, InputValue<int>& value, const int small_inc, const int big_inc, const int min, const int max);
-    bool input_double(const char* label, InputValue<double>& value, const double small_inc, const double big_inc, const double min, const double max);
 
     void render_main_window(const Duration elapsed_time, const VideoFile& video_file);
     void render_help_window();
