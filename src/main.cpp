@@ -3,11 +3,14 @@
 #include "event_handler/event_handler.h"
 #include "register_events.h"
 #include "ui/ui.h"
+#include "video/video_file.hpp"
 #include "window/window.h"
 
 int main(int argc, char* argv[])
 {
     CommandLine cli(argc, argv);
+
+    VideoFile video_file(cli.video_filename());
 
     App app;
     UI ui(cli);
@@ -24,7 +27,7 @@ int main(int argc, char* argv[])
         event_handler.poll_events(window.window());
 
         if (window.is_open()) {
-            ui.render(app.elapsed_time());
+            ui.render(app.elapsed_time(), video_file);
             window.render(ui.video_view_position(), ui.video_view_size());
         }
     }

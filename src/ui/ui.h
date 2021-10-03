@@ -8,10 +8,12 @@
 #include "input_value.h"
 #include "types.h"
 #include "views/fps_view.h"
+#include "views/video_file_info_view.hpp"
 
 class CommandLine;
 class Duration;
 class EventHandler;
+class VideoFile;
 
 class UI {
     const char* main_window_title_ = "Video Trimmer";
@@ -28,19 +30,20 @@ class UI {
     bool show_help_ = false;
 
     FPSView fps_view_;
+    VideoFileInfoView video_file_info_view_;
 
     void help(const std::string& text);
     bool input_int(const char* label, InputValue<int>& value, const int small_inc, const int big_inc, const int min, const int max);
     bool input_double(const char* label, InputValue<double>& value, const double small_inc, const double big_inc, const double min, const double max);
 
-    void render_main_window(const Duration elapsed_time);
+    void render_main_window(const Duration elapsed_time, const VideoFile& video_file);
     void render_help_window();
 
-    void render_left_pane(const float pane_width, const Duration elapsed_time);
+    void render_left_pane(const float pane_width, const Duration elapsed_time, const VideoFile& video_file);
     void render_right_pane();
 
     void render_files_pane(const float pane_height);
-    void render_additional_info_pane(const float pane_height, const Duration elapsed_time);
+    void render_additional_info_pane(const float pane_height, const Duration elapsed_time, const VideoFile& video_file);
     void render_video_pane(const float pane_height);
     void render_playback_controls_pane(const float pane_height);
     void render_trim_controls_pane(const float pane_height);
@@ -50,7 +53,7 @@ class UI {
 public:
     UI(const CommandLine& cli);
 
-    void render(const Duration elapsed_time);
+    void render(const Duration elapsed_time, const VideoFile& video_file);
 
     void toggle_help() { show_help_ = !show_help_; };
 

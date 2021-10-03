@@ -25,19 +25,19 @@ UI::UI(const CommandLine& cli)
 {
 }
 
-void UI::render(const Duration elapsed_time)
+void UI::render(const Duration elapsed_time, const VideoFile& video_file)
 {
-    render_main_window(elapsed_time);
+    render_main_window(elapsed_time, video_file);
     render_help_window();
 }
 
-void UI::render_main_window(const Duration elapsed_time)
+void UI::render_main_window(const Duration elapsed_time, const VideoFile& video_file)
 {
     ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
     ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
     ImGui::Begin(main_window_title_, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoBackground);
 
-    render_left_pane(left_pane_width, elapsed_time);
+    render_left_pane(left_pane_width, elapsed_time, video_file);
 
     ImGui::SameLine();
 
@@ -115,14 +115,14 @@ bool UI::input_double(const char* label, InputValue<double>& value, const double
     return changed_now;
 }
 
-void UI::render_left_pane(const float pane_width, const Duration elapsed_time)
+void UI::render_left_pane(const float pane_width, const Duration elapsed_time, const VideoFile& video_file)
 {
     ImGui::BeginChild("left pane", ImVec2(pane_width, 0), false, ImGuiWindowFlags_None);
 
     const float files_pane_height = ImGui::GetWindowSize().y - additional_info_pane_height - ImGui::GetStyle().ItemSpacing.y;
 
     render_files_pane(files_pane_height);
-    render_additional_info_pane(additional_info_pane_height, elapsed_time);
+    render_additional_info_pane(additional_info_pane_height, elapsed_time, video_file);
 
     ImGui::EndChild();
 }
@@ -148,7 +148,7 @@ void UI::render_files_pane(const float pane_height)
     ImGui::EndChild();
 }
 
-void UI::render_additional_info_pane(const float pane_height, const Duration elapsed_time)
+void UI::render_additional_info_pane(const float pane_height, const Duration elapsed_time, const VideoFile& video_file)
 {
     ImGui::BeginChild("additional info pane", ImVec2(0, pane_height), true, ImGuiWindowFlags_None);
 
@@ -156,6 +156,8 @@ void UI::render_additional_info_pane(const float pane_height, const Duration ela
 
     ImGui::Text("Additional Info");
     ImGui::Text(fmt::format("{}x{}", ImGui::GetWindowSize().x, ImGui::GetWindowSize().y).c_str());
+
+    video_file_info_view_.render(video_file);
 
     ImGui::EndChild();
 }
