@@ -5,6 +5,7 @@
 #include <imgui.h>
 
 #include "command_line/command_line.h"
+#include "video/video_stream.hpp"
 
 Window::Window(const CommandLine& cli)
     : window_video_mode_{cli.default_window_video_mode()}
@@ -39,13 +40,13 @@ void Window::next_frame(const Duration elapsed_time)
     ImGui::SFML::Update(*window_, sf::microseconds(elapsed_time.as_microseconds()));
 }
 
-void Window::render(ImagePosition video_view_position, ImageSize video_view_size)
+void Window::render(ImagePosition video_view_position, ImageSize video_view_size, VideoStream& video_stream)
 {
     window_->clear();
 
     {
         std::lock_guard<std::mutex> lock(mtx_);
-        video_view_->render(*window_, video_view_position, video_view_size);
+        video_view_->render(*window_, video_view_position, video_view_size, video_stream);
     }
 
     ImGui::SFML::Render(*window_);

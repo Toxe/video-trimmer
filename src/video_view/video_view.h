@@ -8,6 +8,8 @@
 
 #include "types.h"
 
+class VideoStream;
+
 class VideoView {
     std::unique_ptr<sf::Texture> texture_;
     std::unique_ptr<sf::Sprite> sprite_;
@@ -15,5 +17,5 @@ class VideoView {
 public:
     VideoView();
 
-    void render(sf::RenderWindow& window, ImagePosition video_view_position, ImageSize video_view_size);
+    void render(sf::RenderWindow& window, ImagePosition video_view_position, ImageSize video_view_size, VideoStream& video_stream);
 };

@@ -4,6 +4,7 @@
 #include "register_events.h"
 #include "ui/ui.h"
 #include "video/video_file.hpp"
+#include "video/video_stream.hpp"
 #include "window/window.h"
 
 int main(int argc, char* argv[])
@@ -11,6 +12,7 @@ int main(int argc, char* argv[])
     CommandLine cli(argc, argv);
 
     VideoFile video_file(cli.video_filename());
+    VideoStream video_stream{video_file.open_video_stream()};
 
     App app;
     UI ui(cli);
@@ -28,7 +30,7 @@ int main(int argc, char* argv[])
 
         if (window.is_open()) {
             ui.render(app.elapsed_time(), video_file);
-            window.render(ui.video_view_position(), ui.video_view_size());
+            window.render(ui.video_view_position(), ui.video_view_size(), video_stream);
         }
     }
 }

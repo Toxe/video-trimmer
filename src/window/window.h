@@ -11,6 +11,7 @@
 #include "video_view/video_view.h"
 
 class CommandLine;
+class VideoStream;
 
 class Window {
     const char* title_ = "Video Trimmer";
@@ -33,7 +34,7 @@ public:
     [[nodiscard]] ImageSize size() const;
 
     void next_frame(const Duration elapsed_time);
-    void render(ImagePosition video_view_position, ImageSize video_view_size);
+    void render(ImagePosition video_view_position, ImageSize video_view_size, VideoStream& video_stream);
 
     void resized_window();
     void close();
