@@ -17,13 +17,13 @@ extern "C" {
 
 class VideoStream {
     AVFormatContext* format_context_ = nullptr;
-    AVCodecContext* video_codec_context_ = nullptr;
+    AVCodecContext* codec_context_ = nullptr;
 
     auto_delete_ressource<AVFrame> frame_ = {nullptr, nullptr};
     auto_delete_ressource<AVPacket> packet_ = {nullptr, nullptr};
     auto_delete_ressource<SwsContext> scaling_context_ = {nullptr, nullptr};
 
-    int video_stream_index_ = -1;
+    int stream_index_ = -1;
 
     std::array<uint8_t*, 4> img_buf_data_ = {nullptr};
     std::array<uint8_t*, 4> dst_buf_data_ = {nullptr};
@@ -45,7 +45,7 @@ class VideoStream {
     [[nodiscard]] int decode_packet(AVCodecContext* codec_context, const AVPacket* packet, AVFrame* frame, sf::Texture& texture);
 
 public:
-    VideoStream(AVFormatContext* format_context, AVCodecContext* video_codec_context, int video_stream_index);
+    VideoStream(AVFormatContext* format_context, AVCodecContext* codec_context, int stream_index);
 
     bool is_ready() const { return is_ready_; }
 

@@ -2,8 +2,8 @@
 
 #include <spdlog/spdlog.h>
 
-VideoStream::VideoStream(AVFormatContext* format_context, AVCodecContext* video_codec_context, int video_stream_index)
-    : format_context_{format_context}, video_codec_context_{video_codec_context}, video_stream_index_{video_stream_index}
+VideoStream::VideoStream(AVFormatContext* format_context, AVCodecContext* codec_context, int stream_index)
+    : format_context_{format_context}, codec_context_{codec_context}, stream_index_{stream_index}
 {
     spdlog::trace("init VideoStream");
 
@@ -50,22 +50,22 @@ int VideoStream::resize_scaling_context(AVCodecContext* codec_context, int width
 int VideoStream::init_stream()
 {
     // allocate buffer for decoded source images
-    img_buf_size_ = av_image_alloc(img_buf_data_.data(), img_buf_linesize_.data(), video_codec_context_->width, video_codec_context_->height, video_codec_context_->pix_fmt, 1);
+    img_buf_size_ = av_image_alloc(img_buf_data_.data(), img_buf_linesize_.data(), codec_context_->width, codec_context_->height, codec_context_->pix_fmt, 1);
 
     if (img_buf_size_ < 0)
         return show_error("av_image_alloc", img_buf_size_);
 
     // allocate buffer for scaled output images
-    dst_buf_size_ = av_image_alloc(dst_buf_data_.data(), dst_buf_linesize_.data(), video_codec_context_->width, video_codec_context_->height, AV_PIX_FMT_RGBA, 1);
+    dst_buf_size_ = av_image_alloc(dst_buf_data_.data(), dst_buf_linesize_.data(), codec_context_->width, codec_context_->height, AV_PIX_FMT_RGBA, 1);
 
     if (img_buf_size_ < 0)
         return show_error("av_image_alloc", dst_buf_size_);
 
     // create scaling context
-    scale_width_ = video_codec_context_->width;
-    scale_height_ = video_codec_context_->height;
+    scale_width_ = codec_context_->width;
+    scale_height_ = codec_context_->height;
 
-    scaling_context_ = auto_delete_ressource<SwsContext>(sws_getContext(video_codec_context_->width, video_codec_context_->height, video_codec_context_->pix_fmt, scale_width_, scale_height_, AV_PIX_FMT_RGBA, SWS_BILINEAR, nullptr, nullptr, nullptr), [](SwsContext* ctx) { sws_freeContext(ctx); });
+    scaling_context_ = auto_delete_ressource<SwsContext>(sws_getContext(codec_context_->width, codec_context_->height, codec_context_->pix_fmt, scale_width_, scale_height_, AV_PIX_FMT_RGBA, SWS_BILINEAR, nullptr, nullptr, nullptr), [](SwsContext* ctx) { sws_freeContext(ctx); });
 
     if (!scaling_context_)
         return show_error("sws_getContext");
@@ -96,8 +96,8 @@ bool VideoStream::next_frame(sf::Texture& texture)
             return false;
 
         // process only interesting packets, skip the rest
-        if (packet_->stream_index == video_stream_index_) {
-            ret = decode_packet(video_codec_context_, packet_.get(), frame_.get(), texture);
+        if (packet_->stream_index == stream_index_) {
+            ret = decode_packet(codec_context_, packet_.get(), frame_.get(), texture);
             av_packet_unref(packet_.get());
             return ret == 0;
         }
