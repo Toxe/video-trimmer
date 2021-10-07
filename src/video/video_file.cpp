@@ -6,24 +6,13 @@
 #include <fmt/core.h>
 #include <spdlog/spdlog.h>
 
+#include "error.hpp"
+
 VideoFile::VideoFile(const std::string& full_filename)
 {
     spdlog::trace("init VideoFile: {}", full_filename);
 
     is_open_ = open_file(full_filename) == 0;
-}
-
-int VideoFile::show_error(const std::string_view& error_message, std::optional<int> error_code)
-{
-    if (error_code.has_value()) {
-        char buf[AV_ERROR_MAX_STRING_SIZE];
-        av_strerror(error_code.value(), buf, AV_ERROR_MAX_STRING_SIZE);
-        spdlog::error("error: {} ({})\n", error_message, buf);
-        return error_code.value();
-    } else {
-        spdlog::error("error: {}\n", error_message);
-        return -1;
-    }
 }
 
 std::tuple<int, auto_delete_ressource<AVCodecContext>> VideoFile::find_best_stream(AVFormatContext* format_context, const AVMediaType type)

@@ -2,25 +2,14 @@
 
 #include <spdlog/spdlog.h>
 
+#include "error.hpp"
+
 VideoStream::VideoStream(AVFormatContext* format_context, AVCodecContext* codec_context, int stream_index)
     : format_context_{format_context}, codec_context_{codec_context}, stream_index_{stream_index}
 {
     spdlog::trace("init VideoStream");
 
     is_ready_ = init_stream();
-}
-
-int VideoStream::show_error(const std::string_view& error_message, std::optional<int> error_code)
-{
-    if (error_code.has_value()) {
-        char buf[AV_ERROR_MAX_STRING_SIZE];
-        av_strerror(error_code.value(), buf, AV_ERROR_MAX_STRING_SIZE);
-        spdlog::error("error: {} ({})\n", error_message, buf);
-        return error_code.value();
-    } else {
-        spdlog::error("error: {}\n", error_message);
-        return -1;
-    }
 }
 
 int VideoStream::resize_scaling_context(AVCodecContext* codec_context, int width, int height)

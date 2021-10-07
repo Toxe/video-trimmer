@@ -1,8 +1,6 @@
 #pragma once
 
 #include <array>
-#include <optional>
-#include <string_view>
 
 #include <SFML/Graphics/Texture.hpp>
 
@@ -37,7 +35,6 @@ class VideoStream {
 
     bool is_ready_ = false;
 
-    int show_error(const std::string_view& error_message, std::optional<int> error_code = std::nullopt);
     int init_stream();
 
     int resize_scaling_context(AVCodecContext* codec_context, int width, int height);

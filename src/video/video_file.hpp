@@ -1,8 +1,6 @@
 #pragma once
 
-#include <optional>
 #include <string>
-#include <string_view>
 #include <tuple>
 #include <vector>
 
@@ -28,8 +26,6 @@ class VideoFile {
     std::string filename_without_path_;
     std::string file_format_;
     std::vector<StreamInfo> streams_;
-
-    int show_error(const std::string_view& error_message, std::optional<int> error_code = std::nullopt);
 
     [[nodiscard]] std::tuple<int, auto_delete_ressource<AVCodecContext>> find_best_stream(AVFormatContext* format_context, const AVMediaType type);
 
