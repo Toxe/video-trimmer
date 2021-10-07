@@ -1,6 +1,6 @@
 #include "video_view.h"
 
-#include "video/video_stream.hpp"
+#include "video/video_content_provider.hpp"
 
 VideoView::VideoView()
 {
@@ -15,20 +15,28 @@ VideoView::VideoView()
     sprite_->setTexture(*texture_);
 }
 
-void VideoView::render(sf::RenderWindow& window, ImagePosition video_view_position, ImageSize video_view_size, VideoStream& video_stream)
+void VideoView::render(sf::RenderWindow& window, const ImagePosition video_view_position, const ImageSize video_view_size, VideoContentProvider& video_content_provider)
 {
-    const auto texture_size = texture_->getSize();
-
-    if (static_cast<int>(texture_size.x) != video_view_size.width || static_cast<int>(texture_size.y) != video_view_size.height) {
+    if (needs_to_resize_texture(video_view_size)) {
         sf::Image image;
         image.create(video_view_size.width, video_view_size.height, sf::Color::Blue);
 
         texture_->loadFromImage(image);
         sprite_->setTextureRect(sf::IntRect{0, 0, video_view_size.width, video_view_size.height});
-    }
+    } else {
+        const uint8_t* pixels = video_content_provider.next_video_frame();
 
-    video_stream.next_frame(*texture_);
+        if (pixels)
+            texture_->update(pixels);
+    }
 
     sprite_->setPosition(static_cast<float>(video_view_position.x), static_cast<float>(video_view_position.y));
     window.draw(*sprite_);
+}
+
+bool VideoView::needs_to_resize_texture(const ImageSize video_view_size)
+{
+    const auto& texture_size = texture_->getSize();
+
+    return static_cast<int>(texture_size.x) != video_view_size.width || static_cast<int>(texture_size.y) != video_view_size.height;
 }

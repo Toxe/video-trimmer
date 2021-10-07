@@ -9,7 +9,8 @@ VideoStream::VideoStream(AVFormatContext* format_context, AVCodecContext* codec_
 {
     spdlog::trace("init VideoStream");
 
-    is_ready_ = init_stream();
+    is_ready_ = init_stream() == 0;
+    has_frame_ = false;
 }
 
 int VideoStream::resize_scaling_context(AVCodecContext* codec_context, int width, int height)
@@ -64,11 +65,6 @@ int VideoStream::init_stream()
     if (!frame_)
         return show_error("av_frame_alloc");
 
-    packet_ = auto_delete_ressource<AVPacket>(av_packet_alloc(), [](AVPacket* p) { av_packet_free(&p); });
-
-    if (!packet_)
-        return show_error("av_packet_alloc");
-
     // TODO
     // av_free(dst_buf_size_[0]);
     // av_free(img_buf_size_[0]);
@@ -76,38 +72,17 @@ int VideoStream::init_stream()
     return 0;
 }
 
-bool VideoStream::next_frame(sf::Texture& texture)
-{
-    while (true) {
-        int ret = av_read_frame(format_context_, packet_.get());
-
-        if (ret < 0)
-            return false;
-
-        // process only interesting packets, skip the rest
-        if (packet_->stream_index == stream_index_) {
-            ret = decode_packet(codec_context_, packet_.get(), frame_.get(), texture);
-            av_packet_unref(packet_.get());
-            return ret == 0;
-        }
-
-        av_packet_unref(packet_.get());
-    }
-
-    return true;
-}
-
-int VideoStream::decode_packet(AVCodecContext* codec_context, const AVPacket* packet, AVFrame* frame, sf::Texture& texture)
+int VideoStream::decode_packet(const AVPacket* packet, ImageSize video_size)
 {
     // send packet to the decoder
-    int ret = avcodec_send_packet(codec_context, packet);
+    int ret = avcodec_send_packet(codec_context_, packet);
 
     if (ret < 0)
         return show_error("avcodec_send_packet", ret);
 
     // get all available frames from the decoder
     while (ret >= 0) {
-        ret = avcodec_receive_frame(codec_context, frame);
+        ret = avcodec_receive_frame(codec_context_, frame_.get());
 
         if (ret < 0) {
             if (ret == AVERROR_EOF || ret == AVERROR(EAGAIN))
@@ -117,22 +92,32 @@ int VideoStream::decode_packet(AVCodecContext* codec_context, const AVPacket* pa
         }
 
         // copy decoded frame to image buffer
-        av_image_copy(img_buf_data_.data(), img_buf_linesize_.data(), const_cast<const uint8_t**>(frame->data), frame->linesize, codec_context->pix_fmt, codec_context->width, codec_context->height);
+        av_image_copy(img_buf_data_.data(), img_buf_linesize_.data(), const_cast<const uint8_t**>(frame_->data), frame_->linesize, codec_context_->pix_fmt, codec_context_->width, codec_context_->height);
 
         // convert to destination format
-        if (scale_width_ != static_cast<int>(texture.getSize().x) || scale_height_ != static_cast<int>(texture.getSize().y))
-            resize_scaling_context(codec_context, texture.getSize().x, texture.getSize().y);
+        if (scale_width_ != video_size.width || scale_height_ != video_size.height)
+            resize_scaling_context(codec_context_, video_size.width, video_size.height);
 
         if (scaling_context_)
-            sws_scale(scaling_context_.get(), img_buf_data_.data(), img_buf_linesize_.data(), 0, codec_context->height, dst_buf_data_.data(), dst_buf_linesize_.data());
+            sws_scale(scaling_context_.get(), img_buf_data_.data(), img_buf_linesize_.data(), 0, codec_context_->height, dst_buf_data_.data(), dst_buf_linesize_.data());
 
-        texture.update(dst_buf_data_[0]);
+        av_frame_unref(frame_.get());
 
-        av_frame_unref(frame);
+        has_frame_ = true;
 
         if (ret < 0)
             return ret;
     }
 
     return 0;
+}
+
+const uint8_t* VideoStream::next_frame()
+{
+    if (!has_frame_ || !is_ready_)
+        return nullptr;
+
+    has_frame_ = false;
+
+    return dst_buf_data_[0];
 }

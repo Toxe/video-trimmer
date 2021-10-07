@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <string>
 #include <tuple>
 #include <vector>
@@ -9,8 +10,10 @@ extern "C" {
 #include <libavformat/avformat.h>
 }
 
+#include "audio_stream.hpp"
 #include "auto_delete_ressource.hpp"
 #include "stream_info.hpp"
+#include "video_content_provider.hpp"
 #include "video_stream.hpp"
 
 class VideoFile {
@@ -20,6 +23,9 @@ class VideoFile {
 
     int audio_stream_index_ = -1;
     int video_stream_index_ = -1;
+
+    std::unique_ptr<AudioStream> audio_stream_;
+    std::unique_ptr<VideoStream> video_stream_;
 
     bool is_open_ = false;
 
@@ -40,5 +46,5 @@ public:
     [[nodiscard]] int number_of_streams() const { return static_cast<int>(streams_.size()); }
     [[nodiscard]] const StreamInfo& stream_info(const int stream_id) const { return streams_[stream_id]; }
 
-    [[nodiscard]] VideoStream open_video_stream() const;
+    [[nodiscard]] VideoContentProvider open_stream();
 };

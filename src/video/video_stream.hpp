@@ -2,8 +2,6 @@
 
 #include <array>
 
-#include <SFML/Graphics/Texture.hpp>
-
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
@@ -12,13 +10,13 @@ extern "C" {
 }
 
 #include "auto_delete_ressource.hpp"
+#include "types.h"
 
 class VideoStream {
     AVFormatContext* format_context_ = nullptr;
     AVCodecContext* codec_context_ = nullptr;
 
     auto_delete_ressource<AVFrame> frame_ = {nullptr, nullptr};
-    auto_delete_ressource<AVPacket> packet_ = {nullptr, nullptr};
     auto_delete_ressource<SwsContext> scaling_context_ = {nullptr, nullptr};
 
     int stream_index_ = -1;
@@ -34,17 +32,19 @@ class VideoStream {
     int scale_height_ = 0;
 
     bool is_ready_ = false;
+    bool has_frame_ = false;
 
-    int init_stream();
+    [[nodiscard]] int init_stream();
 
     int resize_scaling_context(AVCodecContext* codec_context, int width, int height);
-
-    [[nodiscard]] int decode_packet(AVCodecContext* codec_context, const AVPacket* packet, AVFrame* frame, sf::Texture& texture);
 
 public:
     VideoStream(AVFormatContext* format_context, AVCodecContext* codec_context, int stream_index);
 
-    bool is_ready() const { return is_ready_; }
+    [[nodiscard]] bool is_ready() const { return is_ready_; }
+    [[nodiscard]] int stream_index() const { return stream_index_; }
 
-    bool next_frame(sf::Texture& texture);
+    [[nodiscard]] int decode_packet(const AVPacket* packet, ImageSize video_size);
+
+    const uint8_t* next_frame();
 };

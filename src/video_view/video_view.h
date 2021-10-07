@@ -8,14 +8,16 @@
 
 #include "types.h"
 
-class VideoStream;
+class VideoContentProvider;
 
 class VideoView {
     std::unique_ptr<sf::Texture> texture_;
     std::unique_ptr<sf::Sprite> sprite_;
 
+    bool needs_to_resize_texture(const ImageSize video_view_size);
+
 public:
     VideoView();
 
-    void render(sf::RenderWindow& window, ImagePosition video_view_position, ImageSize video_view_size, VideoStream& video_stream);
+    void render(sf::RenderWindow& window, const ImagePosition video_view_position, const ImageSize video_view_size, VideoContentProvider& video_content_provider);
 };

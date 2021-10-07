@@ -15,9 +15,11 @@ add_executable(video_trimmer
     ui/views/fps_view.cpp ui/views/fps_view.h
     ui/views/video_file_info_view.cpp ui/views/video_file_info_view.hpp
     video_view/video_view.cpp video_view/video_view.h
+    video/audio_stream.cpp video/audio_stream.hpp
     video/auto_delete_ressource.hpp
     video/error.cpp video/error.hpp
     video/stream_info.hpp
+    video/video_content_provider.cpp video/video_content_provider.hpp
     video/video_file.cpp video/video_file.hpp
     video/video_stream.cpp video/video_stream.hpp
     window/commands.h

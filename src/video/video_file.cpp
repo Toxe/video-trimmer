@@ -104,10 +104,13 @@ int VideoFile::open_file(const std::string& full_filename)
     return 0;
 }
 
-VideoStream VideoFile::open_video_stream() const
+VideoContentProvider VideoFile::open_stream()
 {
     if (!is_open())
         throw std::runtime_error("video file is not open");
 
-    return VideoStream(format_context_.get(), video_codec_context_.get(), video_stream_index_);
+    audio_stream_ = std::make_unique<AudioStream>(format_context_.get(), audio_codec_context_.get(), audio_stream_index_);
+    video_stream_ = std::make_unique<VideoStream>(format_context_.get(), video_codec_context_.get(), video_stream_index_);
+
+    return VideoContentProvider(format_context_.get(), *video_stream_, *audio_stream_);
 }
