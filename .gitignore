@@ -1,3 +1,5 @@
-/build*
+/.vs
 /.vscode
+/build*
+/out
 imgui.ini
