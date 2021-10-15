@@ -11,10 +11,10 @@ int show_error(const std::string_view& error_message, std::optional<int> error_c
     if (error_code.has_value()) {
         char buf[AV_ERROR_MAX_STRING_SIZE];
         av_strerror(error_code.value(), buf, AV_ERROR_MAX_STRING_SIZE);
-        spdlog::error("error: {} ({})\n", error_message, buf);
+        spdlog::error("error: {} ({})", error_message, buf);
         return error_code.value();
     } else {
-        spdlog::error("error: {}\n", error_message);
+        spdlog::error("error: {}", error_message);
         return -1;
     }
 }
