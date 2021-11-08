@@ -74,8 +74,8 @@ add_executable(video_trimmer
     ui/views/fps_view.h
     ui/views/video_file_info_view.cpp
     ui/views/video_file_info_view.hpp
-    video_view/video_view.cpp
-    video_view/video_view.h
+    views/video_view/video_view.cpp
+    views/video_view/video_view.h
     window/commands.h
     window/window.cpp
     window/window.h

@@ -8,7 +8,7 @@
 
 #include "clock/duration.h"
 #include "types.h"
-#include "video_view/video_view.h"
+#include "views/video_view/video_view.h"
 
 class CommandLine;
 class VideoFrame;
