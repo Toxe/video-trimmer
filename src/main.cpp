@@ -43,6 +43,9 @@ int main(int argc, char* argv[])
         event_handler.poll_events(window.window());
 
         if (window.is_open()) {
+            const ImageSize video_view_size = ui.video_view_size();
+            video_content_provider.change_scaling_dimensions(video_view_size.width, video_view_size.height);
+
             // current position in playback
             if (!received_first_real_frame)
                 playback_begin = std::chrono::steady_clock::now();
@@ -55,7 +58,7 @@ int main(int argc, char* argv[])
             const auto ms = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1);
 
             if (video_frame) {
-                log_trace(fmt::format("(main) playback_position={:.4f}, found frame: {} ({} more frames available), waited for {}us", playback_position.count(), video_frame->print(), frames_available, ms.count()));
+                // log_trace(fmt::format("(main) playback_position={:.4f}, found frame: {} ({} more frames available), waited for {}us", playback_position.count(), video_frame->print(), frames_available, ms.count()));
 
                 if (!received_first_real_frame) {
                     log_debug("(main) received first frame, begin playback");
