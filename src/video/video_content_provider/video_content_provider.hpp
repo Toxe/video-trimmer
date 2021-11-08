@@ -39,4 +39,6 @@ public:
     void add_finished_video_frame(std::unique_ptr<VideoFrame> video_frame);
 
     [[nodiscard]] std::tuple<std::unique_ptr<VideoFrame>, int> next_frame(const double playback_position);
+
+    void change_scaling_dimensions(const int scale_width, const int scale_height);
 };

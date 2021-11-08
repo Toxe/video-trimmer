@@ -29,4 +29,6 @@ class VideoReader : public WorkThread {
 
 public:
     VideoReader(Factory* factory, StreamInfo* audio_stream_info, StreamInfo* video_stream_info, const int scale_width, const int scale_height);
+
+    void change_scaling_dimensions(const int scale_width, const int scale_height);
 };

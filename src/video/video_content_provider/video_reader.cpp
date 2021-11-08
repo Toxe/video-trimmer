@@ -86,3 +86,9 @@ std::unique_ptr<VideoFrame> VideoReader::decode_video_packet(Packet* packet)
     // get available frame from the decoder
     return video_stream_info_->receive_video_frame(factory(), scale_width_, scale_height_);
 }
+
+void VideoReader::change_scaling_dimensions(const int scale_width, const int scale_height)
+{
+    scale_width_ = scale_width;
+    scale_height_ = scale_height;
+}

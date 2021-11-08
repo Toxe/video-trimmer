@@ -90,3 +90,8 @@ std::tuple<std::unique_ptr<VideoFrame>, int> VideoContentProvider::next_frame(co
 
     return std::make_tuple(std::move(video_frame), finished_video_frames_queue_.size());
 }
+
+void VideoContentProvider::change_scaling_dimensions(const int scale_width, const int scale_height)
+{
+    video_reader_.change_scaling_dimensions(scale_width, scale_height);
+}

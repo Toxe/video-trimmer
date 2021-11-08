@@ -90,9 +90,9 @@ std::unique_ptr<VideoFrame> VideoFrameScaler::remove_from_queue()
 
 void VideoFrameScaler::scale_frame(VideoFrame* video_frame)
 {
-    // // convert to destination format
-    // if (scale_width_ != video_frame->width_ || scale_height_ != video_frame->height_)
-    //     resize_scaling_context(video_frame->width_, video_frame->height_);
+    // convert to destination format
+    if (scale_width_ != video_frame->width() || scale_height_ != video_frame->height())
+        resize_scaling_context(video_frame->width(), video_frame->height());
 
     if (scaling_context_)
         scaling_context_->scale(video_frame);
@@ -100,7 +100,7 @@ void VideoFrameScaler::scale_frame(VideoFrame* video_frame)
 
 int VideoFrameScaler::resize_scaling_context(int width, int height)
 {
-    log_trace(fmt::format("(VideoFrameScaler) resize scaling context to {}x{}", width, height));
+    log_debug(fmt::format("(VideoFrameScaler) resize scaling context to {}x{}", width, height));
 
     scale_width_ = width;
     scale_height_ = height;
