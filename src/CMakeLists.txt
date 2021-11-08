@@ -18,6 +18,54 @@ add_executable(video_trimmer
     logger/logger.hpp
     register_events.cpp
     register_events.h
+    threaded_stream_reader/adapters/codec_context/codec_context.hpp
+    threaded_stream_reader/adapters/codec_context/ffmpeg_codec_context.cpp
+    threaded_stream_reader/adapters/codec_context/ffmpeg_codec_context.hpp
+    threaded_stream_reader/adapters/codec_context/mock_codec_context.cpp
+    threaded_stream_reader/adapters/codec_context/mock_codec_context.hpp
+    threaded_stream_reader/adapters/format_context/ffmpeg_format_context.cpp
+    threaded_stream_reader/adapters/format_context/ffmpeg_format_context.hpp
+    threaded_stream_reader/adapters/format_context/format_context.hpp
+    threaded_stream_reader/adapters/format_context/mock_format_context.cpp
+    threaded_stream_reader/adapters/format_context/mock_format_context.hpp
+    threaded_stream_reader/adapters/frame/ffmpeg_frame.cpp
+    threaded_stream_reader/adapters/frame/ffmpeg_frame.hpp
+    threaded_stream_reader/adapters/frame/frame.cpp
+    threaded_stream_reader/adapters/frame/frame.hpp
+    threaded_stream_reader/adapters/frame/mock_frame.cpp
+    threaded_stream_reader/adapters/frame/mock_frame.hpp
+    threaded_stream_reader/adapters/packet/ffmpeg_packet.cpp
+    threaded_stream_reader/adapters/packet/ffmpeg_packet.hpp
+    threaded_stream_reader/adapters/packet/mock_packet.cpp
+    threaded_stream_reader/adapters/packet/mock_packet.hpp
+    threaded_stream_reader/adapters/packet/packet.hpp
+    threaded_stream_reader/adapters/scaling_context/ffmpeg_scaling_context.cpp
+    threaded_stream_reader/adapters/scaling_context/ffmpeg_scaling_context.hpp
+    threaded_stream_reader/adapters/scaling_context/mock_scaling_context.cpp
+    threaded_stream_reader/adapters/scaling_context/mock_scaling_context.hpp
+    threaded_stream_reader/adapters/scaling_context/scaling_context.hpp
+    threaded_stream_reader/factory/factory.hpp
+    threaded_stream_reader/factory/ffmpeg_factory.cpp
+    threaded_stream_reader/factory/ffmpeg_factory.hpp
+    threaded_stream_reader/factory/mock_factory.cpp
+    threaded_stream_reader/factory/mock_factory.hpp
+    threaded_stream_reader/stream_info/stream_info.cpp
+    threaded_stream_reader/stream_info/stream_info.hpp
+    threaded_stream_reader/video_content_provider/run_state.hpp
+    threaded_stream_reader/video_content_provider/video_content_provider.cpp
+    threaded_stream_reader/video_content_provider/video_content_provider.hpp
+    threaded_stream_reader/video_content_provider/video_frame_queue.cpp
+    threaded_stream_reader/video_content_provider/video_frame_queue.hpp
+    threaded_stream_reader/video_content_provider/video_frame_scaler.cpp
+    threaded_stream_reader/video_content_provider/video_frame_scaler.hpp
+    threaded_stream_reader/video_content_provider/video_reader.cpp
+    threaded_stream_reader/video_content_provider/video_reader.hpp
+    threaded_stream_reader/video_content_provider/work_thread.cpp
+    threaded_stream_reader/video_content_provider/work_thread.hpp
+    threaded_stream_reader/video_file.cpp
+    threaded_stream_reader/video_file.hpp
+    threaded_stream_reader/video_frame/video_frame.cpp
+    threaded_stream_reader/video_frame/video_frame.hpp
     ui/colors.h
     ui/commands.h
     ui/ui.cpp
@@ -28,54 +76,6 @@ add_executable(video_trimmer
     ui/views/video_file_info_view.hpp
     video_view/video_view.cpp
     video_view/video_view.h
-    video/adapters/codec_context/codec_context.hpp
-    video/adapters/codec_context/ffmpeg_codec_context.cpp
-    video/adapters/codec_context/ffmpeg_codec_context.hpp
-    video/adapters/codec_context/mock_codec_context.cpp
-    video/adapters/codec_context/mock_codec_context.hpp
-    video/adapters/format_context/ffmpeg_format_context.cpp
-    video/adapters/format_context/ffmpeg_format_context.hpp
-    video/adapters/format_context/format_context.hpp
-    video/adapters/format_context/mock_format_context.cpp
-    video/adapters/format_context/mock_format_context.hpp
-    video/adapters/frame/ffmpeg_frame.cpp
-    video/adapters/frame/ffmpeg_frame.hpp
-    video/adapters/frame/frame.cpp
-    video/adapters/frame/frame.hpp
-    video/adapters/frame/mock_frame.cpp
-    video/adapters/frame/mock_frame.hpp
-    video/adapters/packet/ffmpeg_packet.cpp
-    video/adapters/packet/ffmpeg_packet.hpp
-    video/adapters/packet/mock_packet.cpp
-    video/adapters/packet/mock_packet.hpp
-    video/adapters/packet/packet.hpp
-    video/adapters/scaling_context/ffmpeg_scaling_context.cpp
-    video/adapters/scaling_context/ffmpeg_scaling_context.hpp
-    video/adapters/scaling_context/mock_scaling_context.cpp
-    video/adapters/scaling_context/mock_scaling_context.hpp
-    video/adapters/scaling_context/scaling_context.hpp
-    video/factory/factory.hpp
-    video/factory/ffmpeg_factory.cpp
-    video/factory/ffmpeg_factory.hpp
-    video/factory/mock_factory.cpp
-    video/factory/mock_factory.hpp
-    video/stream_info/stream_info.cpp
-    video/stream_info/stream_info.hpp
-    video/video_content_provider/run_state.hpp
-    video/video_content_provider/video_content_provider.cpp
-    video/video_content_provider/video_content_provider.hpp
-    video/video_content_provider/video_frame_queue.cpp
-    video/video_content_provider/video_frame_queue.hpp
-    video/video_content_provider/video_frame_scaler.cpp
-    video/video_content_provider/video_frame_scaler.hpp
-    video/video_content_provider/video_reader.cpp
-    video/video_content_provider/video_reader.hpp
-    video/video_content_provider/work_thread.cpp
-    video/video_content_provider/work_thread.hpp
-    video/video_file.cpp
-    video/video_file.hpp
-    video/video_frame/video_frame.cpp
-    video/video_frame/video_frame.hpp
     window/commands.h
     window/window.cpp
     window/window.h

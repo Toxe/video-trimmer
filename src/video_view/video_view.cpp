@@ -1,6 +1,6 @@
 #include "video_view.h"
 
-#include "video/video_frame/video_frame.hpp"
+#include "threaded_stream_reader/video_frame/video_frame.hpp"
 
 VideoView::VideoView()
 {

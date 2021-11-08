@@ -7,11 +7,11 @@
 #include "event_handler/event_handler.h"
 #include "logger/logger.hpp"
 #include "register_events.h"
+#include "threaded_stream_reader/factory/ffmpeg_factory.hpp"
+#include "threaded_stream_reader/video_content_provider/video_content_provider.hpp"
+#include "threaded_stream_reader/video_file.hpp"
+#include "threaded_stream_reader/video_frame/video_frame.hpp"
 #include "ui/ui.h"
-#include "video/factory/ffmpeg_factory.hpp"
-#include "video/video_content_provider/video_content_provider.hpp"
-#include "video/video_file.hpp"
-#include "video/video_frame/video_frame.hpp"
 #include "window/window.h"
 
 int main(int argc, char* argv[])
