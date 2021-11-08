@@ -8,7 +8,7 @@
 
 #include "types.h"
 
-class VideoContentProvider;
+class VideoFrame;
 
 class VideoView {
     std::unique_ptr<sf::Texture> texture_;
@@ -19,5 +19,5 @@ class VideoView {
 public:
     VideoView();
 
-    void render(sf::RenderWindow& window, const ImagePosition video_view_position, const ImageSize video_view_size, VideoContentProvider& video_content_provider);
+    void render(sf::RenderWindow& window, const ImagePosition video_view_position, const ImageSize video_view_size, VideoFrame* video_frame);
 };

@@ -1,6 +1,6 @@
 #include "video_view.h"
 
-#include "video/video_content_provider.hpp"
+#include "video/video_frame/video_frame.hpp"
 
 VideoView::VideoView()
 {
@@ -15,7 +15,7 @@ VideoView::VideoView()
     sprite_->setTexture(*texture_);
 }
 
-void VideoView::render(sf::RenderWindow& window, const ImagePosition video_view_position, const ImageSize video_view_size, VideoContentProvider& video_content_provider)
+void VideoView::render(sf::RenderWindow& window, const ImagePosition video_view_position, const ImageSize video_view_size, VideoFrame* video_frame)
 {
     if (needs_to_resize_texture(video_view_size)) {
         sf::Image image;
@@ -24,10 +24,12 @@ void VideoView::render(sf::RenderWindow& window, const ImagePosition video_view_
         texture_->loadFromImage(image);
         sprite_->setTextureRect(sf::IntRect{0, 0, video_view_size.width, video_view_size.height});
     } else {
-        const uint8_t* pixels = video_content_provider.next_video_frame();
+        if (video_frame) {
+            auto pixels = video_frame->frame()->pixels();
 
-        if (pixels)
-            texture_->update(pixels);
+            if (!pixels.empty())
+                texture_->update(pixels.data());
+        }
     }
 
     sprite_->setPosition(static_cast<float>(video_view_position.x), static_cast<float>(video_view_position.y));

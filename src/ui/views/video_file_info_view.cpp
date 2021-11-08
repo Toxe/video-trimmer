@@ -12,16 +12,13 @@ void VideoFileInfoView::render(const VideoFile& video_file)
         return;
 
     ImGui::NewLine();
-    ImGui::TextColored(UserInterface::Colors::light_blue, video_file.filename().c_str());
+    ImGui::TextColored(UserInterface::Colors::light_blue, fmt::format("{} ({})", video_file.filename(), video_file.file_format()).c_str());
 
-    const int num_streams = video_file.number_of_streams();
+    ImGui::TextColored(UserInterface::Colors::light_blue, fmt::format("stream #{} ({}):", video_file.video_stream_info()->stream_index(), video_file.video_stream_info()->codec_type()).c_str());
+    ImGui::TextColored(UserInterface::Colors::light_blue, fmt::format("    {}", video_file.video_stream_info()->codec_name()).c_str());
+    ImGui::TextColored(UserInterface::Colors::light_blue, fmt::format("    {}", video_file.video_stream_info()->codec_additional_info()).c_str());
 
-    if (num_streams > 0) {
-        for (int stream_id = 0; stream_id < num_streams; ++stream_id) {
-            const auto stream_info = video_file.stream_info(stream_id);
-            ImGui::TextColored(UserInterface::Colors::light_blue, fmt::format("stream #{} ({}):", stream_id, stream_info.type).c_str());
-            ImGui::TextColored(UserInterface::Colors::light_blue, fmt::format("    {}", stream_info.codec).c_str());
-            ImGui::TextColored(UserInterface::Colors::light_blue, fmt::format("    {}", stream_info.additional_info).c_str());
-        }
-    }
+    ImGui::TextColored(UserInterface::Colors::light_blue, fmt::format("stream #{} ({}):", video_file.audio_stream_info()->stream_index(), video_file.audio_stream_info()->codec_type()).c_str());
+    ImGui::TextColored(UserInterface::Colors::light_blue, fmt::format("    {}", video_file.audio_stream_info()->codec_name()).c_str());
+    ImGui::TextColored(UserInterface::Colors::light_blue, fmt::format("    {}", video_file.audio_stream_info()->codec_additional_info()).c_str());
 }

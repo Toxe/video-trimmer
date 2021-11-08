@@ -1,29 +1,84 @@
 add_executable(video_trimmer
     main.cpp
-    register_events.cpp register_events.h
-    app/app.cpp app/app.h
+    app/app.cpp
+    app/app.h
     clock/clock.h
     clock/duration.h
     clock/stopwatch.h
-    command_line/command_line.cpp command_line/command_line.h
-    event_handler/event_handler.cpp event_handler/event_handler.h
+    command_line/command_line.cpp
+    command_line/command_line.h
+    error/error.cpp
+    error/error.hpp
+    event_handler/event_handler.cpp
+    event_handler/event_handler.h
     event_handler/events.h
+    include/auto_delete_ressource.hpp
     include/types.h
+    logger/logger.cpp
+    logger/logger.hpp
+    register_events.cpp
+    register_events.h
     ui/colors.h
     ui/commands.h
-    ui/ui.cpp ui/ui.h
-    ui/views/fps_view.cpp ui/views/fps_view.h
-    ui/views/video_file_info_view.cpp ui/views/video_file_info_view.hpp
-    video_view/video_view.cpp video_view/video_view.h
-    video/audio_stream.cpp video/audio_stream.hpp
-    video/auto_delete_ressource.hpp
-    video/error.cpp video/error.hpp
-    video/stream_info.hpp
-    video/video_content_provider.cpp video/video_content_provider.hpp
-    video/video_file.cpp video/video_file.hpp
-    video/video_stream.cpp video/video_stream.hpp
+    ui/ui.cpp
+    ui/ui.h
+    ui/views/fps_view.cpp
+    ui/views/fps_view.h
+    ui/views/video_file_info_view.cpp
+    ui/views/video_file_info_view.hpp
+    video_view/video_view.cpp
+    video_view/video_view.h
+    video/adapters/codec_context/codec_context.hpp
+    video/adapters/codec_context/ffmpeg_codec_context.cpp
+    video/adapters/codec_context/ffmpeg_codec_context.hpp
+    video/adapters/codec_context/mock_codec_context.cpp
+    video/adapters/codec_context/mock_codec_context.hpp
+    video/adapters/format_context/ffmpeg_format_context.cpp
+    video/adapters/format_context/ffmpeg_format_context.hpp
+    video/adapters/format_context/format_context.hpp
+    video/adapters/format_context/mock_format_context.cpp
+    video/adapters/format_context/mock_format_context.hpp
+    video/adapters/frame/ffmpeg_frame.cpp
+    video/adapters/frame/ffmpeg_frame.hpp
+    video/adapters/frame/frame.cpp
+    video/adapters/frame/frame.hpp
+    video/adapters/frame/mock_frame.cpp
+    video/adapters/frame/mock_frame.hpp
+    video/adapters/packet/ffmpeg_packet.cpp
+    video/adapters/packet/ffmpeg_packet.hpp
+    video/adapters/packet/mock_packet.cpp
+    video/adapters/packet/mock_packet.hpp
+    video/adapters/packet/packet.hpp
+    video/adapters/scaling_context/ffmpeg_scaling_context.cpp
+    video/adapters/scaling_context/ffmpeg_scaling_context.hpp
+    video/adapters/scaling_context/mock_scaling_context.cpp
+    video/adapters/scaling_context/mock_scaling_context.hpp
+    video/adapters/scaling_context/scaling_context.hpp
+    video/factory/factory.hpp
+    video/factory/ffmpeg_factory.cpp
+    video/factory/ffmpeg_factory.hpp
+    video/factory/mock_factory.cpp
+    video/factory/mock_factory.hpp
+    video/stream_info/stream_info.cpp
+    video/stream_info/stream_info.hpp
+    video/video_content_provider/run_state.hpp
+    video/video_content_provider/video_content_provider.cpp
+    video/video_content_provider/video_content_provider.hpp
+    video/video_content_provider/video_frame_queue.cpp
+    video/video_content_provider/video_frame_queue.hpp
+    video/video_content_provider/video_frame_scaler.cpp
+    video/video_content_provider/video_frame_scaler.hpp
+    video/video_content_provider/video_reader.cpp
+    video/video_content_provider/video_reader.hpp
+    video/video_content_provider/work_thread.cpp
+    video/video_content_provider/work_thread.hpp
+    video/video_file.cpp
+    video/video_file.hpp
+    video/video_frame/video_frame.cpp
+    video/video_frame/video_frame.hpp
     window/commands.h
-    window/window.cpp window/window.h
+    window/window.cpp
+    window/window.h
 )
 
 set_target_properties(video_trimmer PROPERTIES CXX_EXTENSIONS OFF)
@@ -31,4 +86,4 @@ target_compile_features(video_trimmer PUBLIC cxx_std_20)
 target_compile_options(video_trimmer PRIVATE ${SANITIZER_FLAGS} ${DEFAULT_COMPILER_OPTIONS_AND_WARNINGS})
 target_include_directories(video_trimmer PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} include ${FFMPEG_INCLUDE_DIRS})
 target_link_directories(video_trimmer PRIVATE ${FFMPEG_LIBRARY_DIRS})
-target_link_libraries(video_trimmer PRIVATE ${SANITIZER_FLAGS} CLI11::CLI11 fmt::fmt spdlog::spdlog spdlog::spdlog_header_only sfml-system sfml-graphics sfml-window sfml-audio ImGui-SFML::ImGui-SFML ${FFMPEG_LIBRARIES})
+target_link_libraries(video_trimmer PRIVATE ${SANITIZER_FLAGS} CLI11::CLI11 fmt::fmt spdlog::spdlog sfml-system sfml-graphics sfml-window sfml-audio ImGui-SFML::ImGui-SFML ${FFMPEG_LIBRARIES})

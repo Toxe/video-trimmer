@@ -1,11 +1,10 @@
 #include "window.h"
 
-#include <spdlog/spdlog.h>
 #include <imgui-SFML.h>
 #include <imgui.h>
+#include <spdlog/spdlog.h>
 
 #include "command_line/command_line.h"
-#include "video/video_content_provider.hpp"
 
 Window::Window(const CommandLine& cli)
     : window_video_mode_{cli.default_window_video_mode()}
@@ -40,13 +39,13 @@ void Window::next_frame(const Duration elapsed_time)
     ImGui::SFML::Update(*window_, sf::microseconds(elapsed_time.as_microseconds()));
 }
 
-void Window::render(ImagePosition video_view_position, ImageSize video_view_size, VideoContentProvider& video_content_provider)
+void Window::render(ImagePosition video_view_position, ImageSize video_view_size, VideoFrame* video_frame)
 {
     window_->clear();
 
     {
         std::lock_guard<std::mutex> lock(mtx_);
-        video_view_->render(*window_, video_view_position, video_view_size, video_content_provider);
+        video_view_->render(*window_, video_view_position, video_view_size, video_frame);
     }
 
     ImGui::SFML::Render(*window_);
