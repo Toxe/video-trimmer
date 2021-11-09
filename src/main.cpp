@@ -21,7 +21,7 @@ int main(int argc, char* argv[])
     const auto factory = std::make_unique<FFmpegFactory>();
 
     VideoFile video_file(cli.video_filename(), factory.get());
-    VideoContentProvider video_content_provider(factory.get(), video_file, 1396, 806);
+    VideoContentProvider video_content_provider(factory.get(), video_file, 640, 480);
     video_content_provider.run();
 
     App app;
