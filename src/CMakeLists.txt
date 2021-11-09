@@ -64,6 +64,8 @@ add_executable(video_trimmer
     threaded_stream_reader/video_content_provider/work_thread.hpp
     threaded_stream_reader/video_file.cpp
     threaded_stream_reader/video_file.hpp
+    threaded_stream_reader/video_frame/texture.cpp
+    threaded_stream_reader/video_frame/texture.hpp
     threaded_stream_reader/video_frame/video_frame.cpp
     threaded_stream_reader/video_frame/video_frame.hpp
     ui/colors.h

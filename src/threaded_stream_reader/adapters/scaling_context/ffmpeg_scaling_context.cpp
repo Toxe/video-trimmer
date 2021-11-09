@@ -26,5 +26,7 @@ int FFmpegScalingContext::scale(VideoFrame* video_frame)
     if (ret != dst_height_)
         show_error("sws_scale");
 
+    video_frame->create_texture();
+
     return ret;
 }
