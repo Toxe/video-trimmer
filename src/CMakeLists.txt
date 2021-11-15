@@ -69,6 +69,7 @@ add_executable(video_trimmer
     threaded_stream_reader/video_frame/video_frame.cpp
     threaded_stream_reader/video_frame/video_frame.hpp
     ui/colors.h
+    ui/commands.cpp
     ui/commands.h
     ui/ui.cpp
     ui/ui.h
@@ -78,6 +79,7 @@ add_executable(video_trimmer
     ui/views/video_file_info_view.hpp
     views/video_view/video_view.cpp
     views/video_view/video_view.h
+    window/commands.cpp
     window/commands.h
     window/window.cpp
     window/window.h
