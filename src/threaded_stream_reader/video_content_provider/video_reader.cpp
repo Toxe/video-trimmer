@@ -3,7 +3,6 @@
 #include "../adapters/format_context/format_context.hpp"
 #include "../adapters/packet/packet.hpp"
 #include "../factory/factory.hpp"
-#include "../stream_info/stream_info.hpp"
 #include "../video_frame/video_frame.hpp"
 #include "error/error.hpp"
 #include "logger/logger.hpp"
