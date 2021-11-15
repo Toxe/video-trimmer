@@ -7,8 +7,7 @@
 #include "logger/logger.hpp"
 
 VideoContentProvider::VideoContentProvider(Factory* factory, VideoFile& video_file, const int scale_width, const int scale_height)
-    : factory_{factory},
-      video_frame_scaler_{factory, video_file.video_stream_info(), scale_width, scale_height},
+    : video_frame_scaler_{factory, video_file.video_stream_info(), scale_width, scale_height},
       video_reader_{factory, video_file.audio_stream_info(), video_file.video_stream_info(), scale_width, scale_height}
 {
 }

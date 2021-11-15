@@ -9,13 +9,10 @@
 #include "video_frame_scaler.hpp"
 #include "video_reader.hpp"
 
-class Factory;
 class VideoFrame;
 
 class VideoContentProvider {
     std::mutex mtx_;
-
-    Factory* factory_;
 
     VideoFrameQueue finished_video_frames_queue_;
     VideoFrameScaler video_frame_scaler_;
