@@ -1,7 +1,5 @@
 #include "mock_scaling_context.hpp"
 
-#include <stdexcept>
-
 #include "../../video_frame/video_frame.hpp"
 
 MockScalingContext::MockScalingContext(CodecContext* codec_context, const int width, const int height)
