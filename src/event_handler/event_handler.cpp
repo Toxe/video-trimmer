@@ -1,12 +1,13 @@
 #include "event_handler.h"
 
-#include <spdlog/spdlog.h>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>
 #include <imgui-SFML.h>
 #include <imgui.h>
 
-const Command no_command = [] { spdlog::debug("NoCommand"); };
+#include "logger/logger.hpp"
+
+const Command no_command = [] { log_debug("NoCommand"); };
 
 EventHandler::EventHandler()
 {

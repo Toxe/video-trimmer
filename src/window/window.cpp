@@ -1,16 +1,17 @@
 #include "window.h"
 
+#include <fmt/core.h>
 #include <imgui-SFML.h>
 #include <imgui.h>
-#include <spdlog/spdlog.h>
 
 #include "command_line/command_line.h"
+#include "logger/logger.hpp"
 
 Window::Window(const CommandLine& cli)
     : window_video_mode_{cli.default_window_video_mode()}
 {
     // create window
-    spdlog::info("init window mode {}x{}", cli.video_mode().width, cli.video_mode().height);
+    log_info(fmt::format("init window mode {}x{}", cli.video_mode().width, cli.video_mode().height));
 
     window_ = std::make_unique<sf::RenderWindow>(cli.video_mode(), title_, sf::Style::Default);
     window_->setVerticalSyncEnabled(true);
@@ -65,7 +66,7 @@ void Window::resized_window()
     const auto size = window_->getSize();
     adjust_view_to_window_size();
 
-    spdlog::info("resized window to {}x{}", size.x, size.y);
+    log_info(fmt::format("resized window to {}x{}", size.x, size.y));
 }
 
 void Window::adjust_view_to_window_size()

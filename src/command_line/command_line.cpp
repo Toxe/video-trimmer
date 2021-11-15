@@ -8,7 +8,8 @@
 #include <CLI/Config.hpp>
 #include <CLI/Formatter.hpp>
 #include <fmt/core.h>
-#include <spdlog/spdlog.h>
+
+#include "logger/logger.hpp"
 
 CommandLine::CommandLine(int argc, char* argv[])
 {
@@ -41,20 +42,20 @@ CommandLine::CommandLine(int argc, char* argv[])
     default_window_video_mode_.height = window_height_;
     video_mode_ = default_window_video_mode_;
 
-    spdlog::level::level_enum log_level;
+    LogLevel log_level = LogLevel::warn;
 
     switch (log_level_flag) {
-        case  1: log_level = spdlog::level::info;   break;
-        case  2: log_level = spdlog::level::debug;  break;
-        case  3: log_level = spdlog::level::trace;  break;
-        default: log_level = spdlog::level::warn;
+        case  1: log_level = LogLevel::info;   break;
+        case  2: log_level = LogLevel::debug;  break;
+        case  3: log_level = LogLevel::trace;  break;
+        default: log_level = LogLevel::warn;
     }
 
-    spdlog::set_level(log_level);
-    spdlog::debug("command line option video filename: {}", video_filename_);
-    spdlog::debug("command line option --font-size: {}", font_size_);
-    spdlog::debug("command line option --width: {}", window_width_);
-    spdlog::debug("command line option --height: {}", window_height_);
+    log_init(log_level);
+    log_debug(fmt::format("command line option video filename: {}", video_filename_));
+    log_debug(fmt::format("command line option --font-size: {}", font_size_));
+    log_debug(fmt::format("command line option --width: {}", window_width_));
+    log_debug(fmt::format("command line option --height: {}", window_height_));
 
     if (!std::filesystem::exists(video_filename_))
         show_usage_and_exit(app, "file not found", {});

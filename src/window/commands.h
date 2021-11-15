@@ -1,14 +1,13 @@
 #pragma once
 
-#include <spdlog/spdlog.h>
-
-#include "window.h"
 #include "event_handler/command.h"
+#include "logger/logger.hpp"
+#include "window.h"
 
 Command CloseWindowCommand(Window& window)
 {
     return [&] {
-        spdlog::debug("CloseWindowCommand");
+        log_debug("CloseWindowCommand");
         window.close();
     };
 }
@@ -16,7 +15,7 @@ Command CloseWindowCommand(Window& window)
 Command ResizedWindowCommand(Window& window)
 {
     return [&] {
-        spdlog::debug("ResizedWindowCommand");
+        log_debug("ResizedWindowCommand");
         window.resized_window();
     };
 }
