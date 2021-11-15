@@ -1,7 +1,6 @@
 #include "ui.h"
 
 #include <fmt/core.h>
-#include <spdlog/spdlog.h>
 
 #include "clock/duration.h"
 #include "colors.h"
