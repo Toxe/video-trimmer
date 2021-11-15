@@ -11,6 +11,14 @@
 
 #include "logger/logger.hpp"
 
+void show_usage_and_exit(const CLI::App& app, const char* error_message = nullptr, const std::optional<CLI::ParseError>& error = {})
+{
+    if (error_message)
+        fmt::print("\n{}\n", error_message);
+
+    std::exit(error ? app.exit(error.value()) : 0);
+}
+
 CommandLine::CommandLine(int argc, char* argv[])
 {
     const auto description = "Video Trimmer";
@@ -59,14 +67,6 @@ CommandLine::CommandLine(int argc, char* argv[])
 
     if (!std::filesystem::exists(video_filename_))
         show_usage_and_exit(app, "file not found", {});
-}
-
-void CommandLine::show_usage_and_exit(const CLI::App& app, const char* error_message = nullptr, const std::optional<CLI::ParseError>& error = {})
-{
-    if (error_message)
-        fmt::print("\n{}\n", error_message);
-
-    std::exit(error ? app.exit(error.value()) : 0);
 }
 
 sf::VideoMode CommandLine::default_video_mode() const

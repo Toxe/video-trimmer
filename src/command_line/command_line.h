@@ -3,7 +3,6 @@
 #include <optional>
 #include <string>
 
-#include <CLI/App.hpp>
 #include <SFML/Window/VideoMode.hpp>
 
 class CommandLine {
@@ -14,7 +13,6 @@ class CommandLine {
     sf::VideoMode default_window_video_mode_;
     std::string video_filename_;
 
-    void show_usage_and_exit(const CLI::App& app, const char* error_message, const std::optional<CLI::ParseError>& error);
     [[nodiscard]] sf::VideoMode default_video_mode() const;
     [[nodiscard]] int default_font_size() const;
 
