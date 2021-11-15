@@ -12,5 +12,5 @@ class FFmpegScalingContext : public ScalingContext {
 public:
     FFmpegScalingContext(CodecContext* codec_context, int width, int height);
 
-    virtual int scale(VideoFrame* video_frame) override;
+    int scale(VideoFrame* video_frame) override;
 };

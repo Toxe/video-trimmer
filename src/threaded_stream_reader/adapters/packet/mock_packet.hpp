@@ -6,9 +6,9 @@ class MockPacket : public Packet {
     int stream_index_ = 0;
 
 public:
-    [[nodiscard]] virtual int stream_index() const override;
-    virtual void set_stream_index(int new_stream_index) override;
+    [[nodiscard]] int stream_index() const override;
+    void set_stream_index(int new_stream_index) override;
 
-    [[nodiscard]] virtual AVPacket* packet() const override;
-    virtual void unref() override;
+    [[nodiscard]] AVPacket* packet() const override;
+    void unref() override;
 };

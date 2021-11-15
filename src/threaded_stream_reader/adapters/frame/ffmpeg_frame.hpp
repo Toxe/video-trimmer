@@ -24,16 +24,16 @@ class FFmpegFrame : public Frame {
 
 public:
     FFmpegFrame(CodecContext* codec_context, int scaled_width, int scaled_height);
-    virtual ~FFmpegFrame() override;
+    ~FFmpegFrame() override;
 
-    [[nodiscard]] virtual AVFrame* frame() override { return frame_.get(); }
+    [[nodiscard]] AVFrame* frame() override { return frame_.get(); }
 
-    [[nodiscard]] virtual uint8_t** src_data() override { return img_buf_data_.data(); }
-    [[nodiscard]] virtual uint8_t** dst_data() override { return dst_buf_data_.data(); }
-    [[nodiscard]] virtual int* src_linesizes() override { return img_buf_linesize_.data(); }
-    [[nodiscard]] virtual int* dst_linesizes() override { return dst_buf_linesize_.data(); }
+    [[nodiscard]] uint8_t** src_data() override { return img_buf_data_.data(); }
+    [[nodiscard]] uint8_t** dst_data() override { return dst_buf_data_.data(); }
+    [[nodiscard]] int* src_linesizes() override { return img_buf_linesize_.data(); }
+    [[nodiscard]] int* dst_linesizes() override { return dst_buf_linesize_.data(); }
 
     [[nodiscard]] std::span<const uint8_t> pixels() override;
 
-    virtual void image_copy() override;
+    void image_copy() override;
 };

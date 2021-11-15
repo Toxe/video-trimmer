@@ -13,8 +13,8 @@ class MockFormatContext : public FormatContext {
 public:
     [[nodiscard]] double stream_time_base(int stream_index) const override;
 
-    [[nodiscard]] virtual const std::string format() const override;
+    [[nodiscard]] const std::string format() const override;
 
-    [[nodiscard]] virtual std::unique_ptr<StreamInfo> find_best_stream(Factory* factory, StreamType type) override;
-    [[nodiscard]] virtual int read_frame(Packet* packet) override;
+    [[nodiscard]] std::unique_ptr<StreamInfo> find_best_stream(Factory* factory, StreamType type) override;
+    [[nodiscard]] int read_frame(Packet* packet) override;
 };
