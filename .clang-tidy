@@ -20,4 +20,6 @@ CheckOptions:
     value: "true"
   - key: readability-implicit-bool-conversion.AllowPointerConditions
     value: "true"
+  - key: readability-uppercase-literal-suffix.NewSuffixes
+    value: "f"
 ...
