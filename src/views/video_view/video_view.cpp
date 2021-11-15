@@ -1,7 +1,5 @@
 #include "video_view.h"
 
-#include <fmt/core.h>
-
 #include "logger/logger.hpp"
 #include "threaded_stream_reader/video_frame/video_frame.hpp"
 
