@@ -1,8 +1,18 @@
-/build*
-/out
+# CLion
+/.idea
+/cmake-build*
+
+# Visual Studio
 /.vs
-/.vscode
+/out
 /CMakeSettings.json
+
+# Visual Studio Code
+/.vscode
+
+# CMake
+/build*
+
 /*.raw
 /*.png
 /*.mp4
