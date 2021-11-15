@@ -24,5 +24,5 @@ public:
     [[nodiscard]] virtual AVPixelFormat pixel_format() const = 0;
 
     [[nodiscard]] virtual int send_packet(Packet* packet) = 0;
-    [[nodiscard]] virtual std::unique_ptr<Frame> receive_frame(Factory* factory, const double time_base, const int scaled_width, const int scaled_height) = 0;
+    [[nodiscard]] virtual std::unique_ptr<Frame> receive_frame(Factory* factory, double time_base, int scaled_width, int scaled_height) = 0;
 };

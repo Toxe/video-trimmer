@@ -29,7 +29,7 @@ class VideoFrameScaler : public WorkThread {
     int resize_scaling_context(int width, int height);
 
 public:
-    VideoFrameScaler(Factory* factory, StreamInfo* video_stream_info, const int width, const int height);
+    VideoFrameScaler(Factory* factory, StreamInfo* video_stream_info, int width, int height);
 
     void add_to_queue(std::unique_ptr<VideoFrame> video_frame);
     [[nodiscard]] std::unique_ptr<VideoFrame> remove_from_queue();

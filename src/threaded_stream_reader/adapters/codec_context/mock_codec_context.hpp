@@ -15,5 +15,5 @@ public:
     [[nodiscard]] AVPixelFormat pixel_format() const override;
 
     [[nodiscard]] virtual int send_packet(Packet* packet) override;
-    [[nodiscard]] virtual std::unique_ptr<Frame> receive_frame(Factory* factory, const double time_base, const int scaled_width, const int scaled_height) override;
+    [[nodiscard]] virtual std::unique_ptr<Frame> receive_frame(Factory* factory, double time_base, int scaled_width, int scaled_height) override;
 };

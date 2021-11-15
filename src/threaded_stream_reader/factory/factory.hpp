@@ -16,9 +16,9 @@ class Factory {
 public:
     [[nodiscard]] virtual std::unique_ptr<CodecContext> create_codec_context(AVStream* stream) = 0;
     [[nodiscard]] virtual std::unique_ptr<FormatContext> create_format_context(const std::string_view& filename) = 0;
-    [[nodiscard]] virtual std::unique_ptr<ScalingContext> create_scaling_context(CodecContext* codec_context, const int width, const int height) = 0;
+    [[nodiscard]] virtual std::unique_ptr<ScalingContext> create_scaling_context(CodecContext* codec_context, int width, int height) = 0;
 
-    [[nodiscard]] virtual std::unique_ptr<Frame> create_frame(CodecContext* codec_context, const int scaled_width, const int scaled_height) = 0;
+    [[nodiscard]] virtual std::unique_ptr<Frame> create_frame(CodecContext* codec_context, int scaled_width, int scaled_height) = 0;
     [[nodiscard]] virtual std::unique_ptr<Packet> create_packet() = 0;
 
     virtual ~Factory() = default;

@@ -28,7 +28,7 @@ class VideoReader : public WorkThread {
     [[nodiscard]] std::unique_ptr<VideoFrame> decode_video_packet(Packet* packet);
 
 public:
-    VideoReader(Factory* factory, StreamInfo* audio_stream_info, StreamInfo* video_stream_info, const int scale_width, const int scale_height);
+    VideoReader(Factory* factory, StreamInfo* audio_stream_info, StreamInfo* video_stream_info, int scale_width, int scale_height);
 
-    void change_scaling_dimensions(const int scale_width, const int scale_height);
+    void change_scaling_dimensions(int scale_width, int scale_height);
 };

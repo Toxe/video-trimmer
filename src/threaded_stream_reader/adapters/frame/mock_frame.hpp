@@ -4,7 +4,7 @@
 
 class MockFrame : public Frame {
 public:
-    MockFrame(CodecContext* codec_context, const int scaled_width, const int scaled_height);
+    MockFrame(CodecContext* codec_context, int scaled_width, int scaled_height);
 
     [[nodiscard]] virtual AVFrame* frame() override { return nullptr; }
 

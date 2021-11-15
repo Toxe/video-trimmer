@@ -33,22 +33,22 @@ class UI {
 
     void help(const std::string& text);
 
-    void render_main_window(const Duration elapsed_time, const VideoFile& video_file);
+    void render_main_window(Duration elapsed_time, const VideoFile& video_file);
     void render_help_window();
 
-    void render_left_pane(const float pane_width, const Duration elapsed_time, const VideoFile& video_file);
+    void render_left_pane(float pane_width, Duration elapsed_time, const VideoFile& video_file);
     void render_right_pane();
 
-    void render_files_pane(const float pane_height);
-    void render_additional_info_pane(const float pane_height, const Duration elapsed_time, const VideoFile& video_file);
-    void render_video_pane(const float pane_height);
-    void render_playback_controls_pane(const float pane_height);
-    void render_trim_controls_pane(const float pane_height);
+    void render_files_pane(float pane_height);
+    void render_additional_info_pane(float pane_height, Duration elapsed_time, const VideoFile& video_file);
+    void render_video_pane(float pane_height);
+    void render_playback_controls_pane(float pane_height);
+    void render_trim_controls_pane(float pane_height);
 
 public:
     UI(const CommandLine& cli);
 
-    void render(const Duration elapsed_time, const VideoFile& video_file);
+    void render(Duration elapsed_time, const VideoFile& video_file);
 
     void toggle_help() { show_help_ = !show_help_; };
 

@@ -23,7 +23,7 @@ class FFmpegFrame : public Frame {
     AVPixelFormat src_pixel_format_;
 
 public:
-    FFmpegFrame(CodecContext* codec_context, const int scaled_width, const int scaled_height);
+    FFmpegFrame(CodecContext* codec_context, int scaled_width, int scaled_height);
     virtual ~FFmpegFrame() override;
 
     [[nodiscard]] virtual AVFrame* frame() override { return frame_.get(); }

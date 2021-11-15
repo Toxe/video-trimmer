@@ -17,5 +17,5 @@ class VideoView {
 public:
     VideoView();
 
-    void render(sf::RenderWindow& window, const ImagePosition video_view_position, const ImageSize video_view_size, VideoFrame* video_frame);
+    void render(sf::RenderWindow& window, ImagePosition video_view_position, ImageSize video_view_size, VideoFrame* video_frame);
 };

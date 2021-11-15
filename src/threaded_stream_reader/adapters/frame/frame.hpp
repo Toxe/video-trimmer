@@ -14,11 +14,11 @@ class Frame {
     double timestamp_ = 0.0;
 
 public:
-    Frame(CodecContext* codec_context, const int scaled_width, const int scaled_height);
+    Frame(CodecContext* codec_context, int scaled_width, int scaled_height);
     virtual ~Frame() = default;
 
     [[nodiscard]] double timestamp() const;
-    void set_timestamp(const double timestamp);
+    void set_timestamp(double timestamp);
 
     [[nodiscard]] int src_width() const { return src_width_; }
     [[nodiscard]] int src_height() const { return src_height_; }

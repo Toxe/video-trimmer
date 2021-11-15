@@ -33,7 +33,7 @@ public:
 
     [[nodiscard]] ImageSize size() const;
 
-    void next_frame(const Duration elapsed_time);
+    void next_frame(Duration elapsed_time);
     void render(ImagePosition video_view_position, ImageSize video_view_size, VideoFrame* video_frame);
 
     void resized_window();

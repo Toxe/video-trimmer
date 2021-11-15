@@ -11,10 +11,10 @@ class FFmpegFormatContext : public FormatContext {
 public:
     FFmpegFormatContext(const std::string_view& filename);
 
-    [[nodiscard]] double stream_time_base(const int stream_index) const override;
+    [[nodiscard]] double stream_time_base(int stream_index) const override;
 
     [[nodiscard]] virtual const std::string format() const override;
 
-    [[nodiscard]] virtual std::unique_ptr<StreamInfo> find_best_stream(Factory* factory, const StreamType type) override;
+    [[nodiscard]] virtual std::unique_ptr<StreamInfo> find_best_stream(Factory* factory, StreamType type) override;
     [[nodiscard]] virtual int read_frame(Packet* packet) override;
 };

@@ -11,7 +11,7 @@ class FPSView {
     std::size_t values_offset_ = 0;
 
 public:
-    FPSView(const float font_size);
+    FPSView(float font_size);
 
-    void render(const Duration elapsed_time);
+    void render(Duration elapsed_time);
 };

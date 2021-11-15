@@ -24,7 +24,7 @@ class VideoContentProvider {
     bool is_running_ = false;
 
 public:
-    VideoContentProvider(Factory* factory, VideoFile& video_file, const int scale_width, const int scale_height);
+    VideoContentProvider(Factory* factory, VideoFile& video_file, int scale_width, int scale_height);
     ~VideoContentProvider();
 
     void run();
@@ -38,7 +38,7 @@ public:
     void add_video_frame_for_scaling(std::unique_ptr<VideoFrame> video_frame);
     void add_finished_video_frame(std::unique_ptr<VideoFrame> video_frame);
 
-    [[nodiscard]] std::tuple<std::unique_ptr<VideoFrame>, int> next_frame(const double playback_position);
+    [[nodiscard]] std::tuple<std::unique_ptr<VideoFrame>, int> next_frame(double playback_position);
 
-    void change_scaling_dimensions(const int scale_width, const int scale_height);
+    void change_scaling_dimensions(int scale_width, int scale_height);
 };

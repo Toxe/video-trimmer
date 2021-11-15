@@ -6,7 +6,7 @@
 
 class MockScalingContext : public ScalingContext {
 public:
-    MockScalingContext(CodecContext* codec_context, const int width, const int height);
+    MockScalingContext(CodecContext* codec_context, int width, int height);
 
     virtual int scale(VideoFrame* video_frame) override;
 };
