@@ -1,3 +1,5 @@
+# https://clang.llvm.org/extra/clang-tidy/checks/list.html
+
 ---
 Checks: 'bugprone-*,
          cert-*,
@@ -14,6 +16,8 @@ Checks: 'bugprone-*,
          -readability-braces-around-statements'
 
 CheckOptions:
+  - key: cppcoreguidelines-special-member-functions.AllowSoleDefaultDtor
+    value: "true"
   - key: readability-implicit-bool-conversion.AllowPointerConditions
-    value: true
+    value: "true"
 ...
