@@ -45,8 +45,6 @@ class UI {
     void render_playback_controls_pane(const float pane_height);
     void render_trim_controls_pane(const float pane_height);
 
-    void show_fps(const Duration elapsed_time);
-
 public:
     UI(const CommandLine& cli);
 
