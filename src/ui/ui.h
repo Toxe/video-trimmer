@@ -54,6 +54,6 @@ public:
 
     void set_event_handler(EventHandler* event_handler) { event_handler_ = event_handler; };
 
-    ImagePosition video_view_position() const;
-    ImageSize video_view_size() const;
+    [[nodiscard]] ImagePosition video_view_position() const;
+    [[nodiscard]] ImageSize video_view_size() const;
 };
