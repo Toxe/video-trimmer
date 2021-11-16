@@ -21,7 +21,7 @@ VideoView::VideoView()
 
 void VideoView::render(sf::RenderWindow& window, const ImagePosition video_view_position, const ImageSize video_view_size, VideoFrame* video_frame)
 {
-    render_ui();
+    render_ui(video_frame);
     render_content(window, video_view_position, video_view_size, video_frame);
 }
 
@@ -39,14 +39,16 @@ void VideoView::render_content(sf::RenderWindow& window, const ImagePosition& vi
     window.draw(*sprite_);
 }
 
-void VideoView::render_ui()
+void VideoView::render_ui(const VideoFrame* video_frame)
 {
     ImGui::Begin("Video Trimmer");
     ImGui::BeginChild("right pane");
     ImGui::BeginChild("video pane");
 
-    ImGui::Text("Video");
-    ImGui::Text(fmt::format("{}x{}", ImGui::GetWindowSize().x, ImGui::GetWindowSize().y).c_str());
+    ImGui::Text(fmt::format("Video [{}x{}]", ImGui::GetWindowSize().x, ImGui::GetWindowSize().y).c_str());
+
+    if (video_frame)
+        ImGui::Text(fmt::format("{}", video_frame->print()).c_str());
 
     ImGui::EndChild();
     ImGui::EndChild();
