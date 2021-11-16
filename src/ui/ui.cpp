@@ -91,7 +91,7 @@ void UI::render_right_pane()
 
     const float video_pane_height = ImGui::GetWindowSize().y - playback_controls_pane_height - trim_controls_pane_height - 2.0f * ImGui::GetStyle().ItemSpacing.y;
 
-    render_video_pane(video_pane_height);
+    setup_video_view(video_pane_height);
     render_playback_controls_pane(playback_controls_pane_height);
     render_trim_controls_pane(trim_controls_pane_height);
 
@@ -120,7 +120,7 @@ void UI::render_additional_info_pane(const float pane_height, const Duration ela
     ImGui::EndChild();
 }
 
-void UI::render_video_pane(const float pane_height)
+void UI::setup_video_view(const float pane_height)
 {
     ImGui::BeginChild("video pane", ImVec2(0, pane_height), false, ImGuiWindowFlags_None);
 

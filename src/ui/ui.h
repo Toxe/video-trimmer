@@ -41,7 +41,7 @@ class UI {
 
     void render_files_pane(float pane_height);
     void render_additional_info_pane(float pane_height, Duration elapsed_time, const VideoFile& video_file);
-    void render_video_pane(float pane_height);
+    void setup_video_view(float pane_height);
     void render_playback_controls_pane(float pane_height);
     void render_trim_controls_pane(float pane_height);
 
