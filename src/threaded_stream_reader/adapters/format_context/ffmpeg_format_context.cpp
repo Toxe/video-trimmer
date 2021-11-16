@@ -45,7 +45,7 @@ double FFmpegFormatContext::stream_time_base(const int stream_index) const
     return av_q2d(stream->time_base);
 }
 
-const std::string FFmpegFormatContext::format() const
+std::string FFmpegFormatContext::format() const
 {
     return format_context_->iformat->long_name;
 }

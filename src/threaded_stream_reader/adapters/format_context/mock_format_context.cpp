@@ -13,7 +13,7 @@ double MockFormatContext::stream_time_base(const int stream_index) const
     return stream_index == 0 ? video_time_base : audio_time_base;
 }
 
-const std::string MockFormatContext::format() const
+std::string MockFormatContext::format() const
 {
     return "";
 }
