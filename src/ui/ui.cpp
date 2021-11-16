@@ -21,6 +21,8 @@ void UI::render(const Duration elapsed_time, const VideoFile& video_file)
 {
     render_main_window(elapsed_time, video_file);
     render_help_window();
+
+//    ImGui::ShowMetricsWindow();
 }
 
 void UI::render_main_window(const Duration elapsed_time, const VideoFile& video_file)
@@ -125,8 +127,6 @@ void UI::render_video_pane(const float pane_height)
     video_view_position_ = ImGui::GetCursorScreenPos();
     video_view_size_ = ImGui::GetWindowSize();
 
-    ImGui::Text("Video");
-    ImGui::Text(fmt::format("{}x{}", ImGui::GetWindowSize().x, ImGui::GetWindowSize().y).c_str());
     ImGui::EndChild();
 }
 

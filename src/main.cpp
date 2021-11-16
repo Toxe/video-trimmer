@@ -72,8 +72,8 @@ int main(int argc, char* argv[])
                 window.render(ui.video_view_position(), ui.video_view_size(), nullptr);
             }
 
-            if (received_first_real_frame && frames_available == 0 && video_content_provider.has_finished())
-                break;
+            // if (received_first_real_frame && frames_available == 0 && video_content_provider.has_finished())
+            //     break;
         }
     }
 
