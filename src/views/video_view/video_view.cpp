@@ -3,7 +3,6 @@
 #include <fmt/core.h>
 #include <imgui.h>
 
-#include "logger/logger.hpp"
 #include "threaded_stream_reader/video_frame/video_frame.hpp"
 #include "ui/colors.h"
 
@@ -30,7 +29,7 @@ void VideoView::render_content(sf::RenderWindow& window, const ImagePosition& vi
 {
     if (video_frame) {
         // receive a new sprite texture
-        texture_ = std::move(video_frame->texture()->release_texture());
+        texture_ = video_frame->texture()->release_texture();
         sprite_->setTexture(*texture_, true);
     }
 
