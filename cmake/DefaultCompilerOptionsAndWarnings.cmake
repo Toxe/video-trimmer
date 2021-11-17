@@ -69,7 +69,9 @@ set(DEFAULT_MSVC_OPTIONS
 # Clang-cl specific options (Clang + MSVC)
 set(DEFAULT_CLANG_CL_OPTIONS
         ${SHARED_CLANG_AND_CLANG_CL_AND_GCC_OPTIONS}
-        ${DEFAULT_MSVC_OPTIONS})
+        ${DEFAULT_MSVC_OPTIONS}
+        /EHsc  # enable exception handling
+)
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND NOT CMAKE_CXX_COMPILER_FRONTEND_VARIANT STREQUAL "MSVC")
     # Clang
