@@ -1,17 +1,17 @@
-#include "fps_view.h"
+#include "fps_widget.hpp"
 
 #include <fmt/core.h>
 #include <imgui.h>
 
 #include "clock/duration.h"
 
-FPSView::FPSView(const float font_size)
+FPSWidget::FPSWidget(const float font_size)
     : font_size_{font_size}
 {
     fps_.resize(5 * 60, 0.0f); // 5 seconds worth of values at 60 FPS
 }
 
-void FPSView::render(const Duration elapsed_time)
+void FPSWidget::render(const Duration elapsed_time)
 {
     const float elapsed_time_in_seconds = elapsed_time.as_seconds();
     const float current_fps = elapsed_time.fps();

@@ -1,4 +1,4 @@
-#include "video_file_info_view.hpp"
+#include "video_file_info_widget.hpp"
 
 #include <fmt/core.h>
 #include <imgui.h>
@@ -6,7 +6,7 @@
 #include "threaded_stream_reader/video_file.hpp"
 #include "ui/colors.h"
 
-void VideoFileInfoView::render(const VideoFile& video_file)
+void VideoFileInfoWidget::render(const VideoFile& video_file)
 {
     if (!video_file.is_open())
         return;
