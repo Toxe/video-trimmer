@@ -1,8 +1,8 @@
 #pragma once
 
 #include "clock/duration.h"
-#include "ui/views/fps_view.h"
-#include "ui/views/video_file_info_view.hpp"
+#include "ui/widgets/fps_view.h"
+#include "ui/widgets/video_file_info_view.hpp"
 
 class CommandLine;
 class VideoFile;
