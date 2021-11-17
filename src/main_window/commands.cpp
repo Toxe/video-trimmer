@@ -2,7 +2,7 @@
 
 #include "logger/logger.hpp"
 
-Command CloseWindowCommand(Window& window)
+Command CloseWindowCommand(MainWindow& window)
 {
     return [&] {
         log_debug("CloseWindowCommand");
@@ -10,7 +10,7 @@ Command CloseWindowCommand(Window& window)
     };
 }
 
-Command ResizedWindowCommand(Window& window)
+Command ResizedWindowCommand(MainWindow& window)
 {
     return [&] {
         log_debug("ResizedWindowCommand");

@@ -1,4 +1,4 @@
-#include "window.h"
+#include "main_window.hpp"
 
 #include <fmt/core.h>
 #include <imgui-SFML.h>
@@ -7,11 +7,11 @@
 #include "command_line/command_line.h"
 #include "logger/logger.hpp"
 
-Window::Window(const CommandLine& cli)
+MainWindow::MainWindow(const CommandLine& cli)
     : window_video_mode_{cli.default_window_video_mode()}
 {
-    // create window
-    log_info(fmt::format("init window mode {}x{}", cli.video_mode().width, cli.video_mode().height));
+    // create main_window
+    log_info(fmt::format("init main_window mode {}x{}", cli.video_mode().width, cli.video_mode().height));
 
     window_ = std::make_unique<sf::RenderWindow>(cli.video_mode(), title_, sf::Style::Default);
     window_->setVerticalSyncEnabled(true);
@@ -29,18 +29,18 @@ Window::Window(const CommandLine& cli)
     ImGui::SFML::UpdateFontTexture();
 }
 
-[[nodiscard]] ImageSize Window::size() const
+[[nodiscard]] ImageSize MainWindow::size() const
 {
     const auto window_size = window_->getSize();
     return {static_cast<int>(window_size.x), static_cast<int>(window_size.y)};
 }
 
-void Window::next_frame(const Duration elapsed_time)
+void MainWindow::next_frame(const Duration elapsed_time)
 {
     ImGui::SFML::Update(*window_, sf::microseconds(elapsed_time.as_microseconds()));
 }
 
-void Window::render(ImagePosition video_view_position, ImageSize video_view_size, VideoFrame* video_frame)
+void MainWindow::render(ImagePosition video_view_position, ImageSize video_view_size, VideoFrame* video_frame)
 {
     window_->clear();
 
@@ -53,7 +53,7 @@ void Window::render(ImagePosition video_view_position, ImageSize video_view_size
     window_->display();
 }
 
-void Window::close()
+void MainWindow::close()
 {
     if (window_->isOpen())
         window_->close();
@@ -61,15 +61,15 @@ void Window::close()
     ImGui::SFML::Shutdown();
 }
 
-void Window::resized_window()
+void MainWindow::resized_window()
 {
     const auto size = window_->getSize();
     adjust_view_to_window_size();
 
-    log_info(fmt::format("resized window to {}x{}", size.x, size.y));
+    log_info(fmt::format("resized main_window to {}x{}", size.x, size.y));
 }
 
-void Window::adjust_view_to_window_size()
+void MainWindow::adjust_view_to_window_size()
 {
     const auto size = window_->getSize();
     sf::FloatRect visibleArea(0.0f, 0.0f, static_cast<float>(size.x), static_cast<float>(size.y));

@@ -13,7 +13,7 @@
 class CommandLine;
 class VideoFrame;
 
-class Window {
+class MainWindow {
     const char* title_ = "Video Trimmer";
 
     sf::VideoMode window_video_mode_;
@@ -26,7 +26,7 @@ class Window {
     void adjust_view_to_window_size();
 
 public:
-    Window(const CommandLine& cli);
+    MainWindow(const CommandLine& cli);
 
     [[nodiscard]] sf::RenderWindow& window() const { return *window_; };
     [[nodiscard]] bool is_open() const { return window_->isOpen(); };

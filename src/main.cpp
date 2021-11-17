@@ -6,13 +6,13 @@
 #include "command_line/command_line.h"
 #include "event_handler/event_handler.h"
 #include "logger/logger.hpp"
+#include "main_window/main_window.hpp"
 #include "register_events.h"
 #include "threaded_stream_reader/factory/ffmpeg_factory.hpp"
 #include "threaded_stream_reader/video_content_provider/video_content_provider.hpp"
 #include "threaded_stream_reader/video_file.hpp"
 #include "threaded_stream_reader/video_frame/video_frame.hpp"
 #include "ui/ui.h"
-#include "window/window.h"
 
 int main(int argc, char* argv[])
 {
@@ -26,7 +26,7 @@ int main(int argc, char* argv[])
 
     App app;
     UI ui(cli);
-    Window window(cli);
+    MainWindow window(cli);
 
     EventHandler event_handler;
     register_events(event_handler, window, ui);

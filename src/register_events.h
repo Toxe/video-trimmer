@@ -2,6 +2,6 @@
 
 class EventHandler;
 class UI;
-class Window;
+class MainWindow;
 
-void register_events(EventHandler& event_handler, Window& window, UI& ui);
+void register_events(EventHandler& event_handler, MainWindow& window, UI& ui);
