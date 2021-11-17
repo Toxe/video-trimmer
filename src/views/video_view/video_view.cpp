@@ -5,6 +5,7 @@
 
 #include "logger/logger.hpp"
 #include "threaded_stream_reader/video_frame/video_frame.hpp"
+#include "ui/colors.h"
 
 VideoView::VideoView()
 {
@@ -45,10 +46,10 @@ void VideoView::render_ui(const VideoFrame* video_frame)
     ImGui::BeginChild("right pane");
     ImGui::BeginChild("video");
 
-    ImGui::Text(fmt::format("video [{}x{}]", ImGui::GetWindowSize().x, ImGui::GetWindowSize().y).c_str());
+    ImGui::TextColored(UserInterface::Colors::magenta, fmt::format("video [{}x{}]", ImGui::GetWindowSize().x, ImGui::GetWindowSize().y).c_str());
 
     if (video_frame)
-        ImGui::Text(fmt::format("{}", video_frame->print()).c_str());
+        ImGui::TextColored(UserInterface::Colors::magenta, fmt::format("{}", video_frame->print()).c_str());
 
     ImGui::EndChild();
     ImGui::EndChild();
