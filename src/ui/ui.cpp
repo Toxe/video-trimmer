@@ -105,7 +105,7 @@ void UI::setup_additional_info_view(const float pane_height)
 
 void UI::setup_video_view(const float pane_height)
 {
-    ImGui::BeginChild("video pane", ImVec2(0, pane_height), false, ImGuiWindowFlags_None);
+    ImGui::BeginChild("video", ImVec2(0, pane_height), false, ImGuiWindowFlags_None);
 
     video_view_position_ = ImGui::GetCursorScreenPos();
     video_view_size_ = ImGui::GetWindowSize();

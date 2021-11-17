@@ -43,9 +43,9 @@ void VideoView::render_ui(const VideoFrame* video_frame)
 {
     ImGui::Begin("Video Trimmer");
     ImGui::BeginChild("right pane");
-    ImGui::BeginChild("video pane");
+    ImGui::BeginChild("video");
 
-    ImGui::Text(fmt::format("Video [{}x{}]", ImGui::GetWindowSize().x, ImGui::GetWindowSize().y).c_str());
+    ImGui::Text(fmt::format("video [{}x{}]", ImGui::GetWindowSize().x, ImGui::GetWindowSize().y).c_str());
 
     if (video_frame)
         ImGui::Text(fmt::format("{}", video_frame->print()).c_str());
