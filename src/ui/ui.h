@@ -6,13 +6,8 @@
 #include <imgui.h>
 
 #include "types.h"
-#include "views/fps_view.h"
-#include "views/video_file_info_view.hpp"
 
-class CommandLine;
-class Duration;
 class EventHandler;
-class VideoFile;
 
 class UI {
     const char* main_window_title_ = "Video Trimmer";
@@ -24,31 +19,24 @@ class UI {
     ImVec2 video_view_position_;
     ImVec2 video_view_size_;
 
-    float font_size_;
-
     bool show_help_ = false;
-
-    FPSView fps_view_;
-    VideoFileInfoView video_file_info_view_;
 
     void help(const std::string& text);
 
-    void render_main_window(Duration elapsed_time, const VideoFile& video_file);
+    void render_main_window();
     void render_help_window();
 
-    void render_left_pane(float pane_width, Duration elapsed_time, const VideoFile& video_file);
+    void render_left_pane(const float pane_width);
     void render_right_pane();
 
-    void render_files_pane(float pane_height);
-    void render_additional_info_pane(float pane_height, Duration elapsed_time, const VideoFile& video_file);
+    void setup_files_view(float pane_height);
+    void setup_additional_info_view(const float pane_height);
     void setup_video_view(float pane_height);
     void render_playback_controls_pane(float pane_height);
     void render_trim_controls_pane(float pane_height);
 
 public:
-    UI(const CommandLine& cli);
-
-    void render(Duration elapsed_time, const VideoFile& video_file);
+    void render();
 
     void toggle_help() { show_help_ = !show_help_; };
 

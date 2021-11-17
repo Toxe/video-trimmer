@@ -13,6 +13,8 @@
 #include "threaded_stream_reader/video_file.hpp"
 #include "threaded_stream_reader/video_frame/video_frame.hpp"
 #include "ui/ui.h"
+#include "views/additional_info_view/additional_info_view.hpp"
+#include "views/files_view/files_view.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -25,8 +27,10 @@ int main(int argc, char* argv[])
     video_content_provider.run();
 
     App app;
-    UI ui(cli);
+    UI ui;
     MainWindow window(cli);
+    AdditionalInfoView additional_info_view(cli);
+    FilesView files_view;
 
     EventHandler event_handler;
     register_events(event_handler, window, ui);
@@ -65,10 +69,14 @@ int main(int argc, char* argv[])
                     received_first_real_frame = true;
                 }
 
-                ui.render(app.elapsed_time(), video_file);
+                ui.render();
+                additional_info_view.render(app.elapsed_time(), video_file);
+                files_view.render();
                 window.render(ui.video_view_position(), ui.video_view_size(), video_frame.get());
             } else {
-                ui.render(app.elapsed_time(), video_file);
+                ui.render();
+                additional_info_view.render(app.elapsed_time(), video_file);
+                files_view.render();
                 window.render(ui.video_view_position(), ui.video_view_size(), nullptr);
             }
 

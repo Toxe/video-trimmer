@@ -2,9 +2,7 @@
 
 #include <fmt/core.h>
 
-#include "clock/duration.h"
 #include "colors.h"
-#include "command_line/command_line.h"
 #include "event_handler/event_handler.h"
 
 const float left_pane_width = 500.0f;
@@ -12,26 +10,21 @@ const float additional_info_pane_height = 400.0f;
 const float playback_controls_pane_height = 100.0f;
 const float trim_controls_pane_height = 150.0f;
 
-UI::UI(const CommandLine& cli)
-    : font_size_{static_cast<float>(cli.font_size())}, fps_view_{font_size_}
+void UI::render()
 {
-}
-
-void UI::render(const Duration elapsed_time, const VideoFile& video_file)
-{
-    render_main_window(elapsed_time, video_file);
+    render_main_window();
     render_help_window();
 
-//    ImGui::ShowMetricsWindow();
+    // ImGui::ShowMetricsWindow();
 }
 
-void UI::render_main_window(const Duration elapsed_time, const VideoFile& video_file)
+void UI::render_main_window()
 {
     ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
     ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
     ImGui::Begin(main_window_title_, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoBackground);
 
-    render_left_pane(left_pane_width, elapsed_time, video_file);
+    render_left_pane(left_pane_width);
 
     ImGui::SameLine();
 
@@ -73,14 +66,14 @@ void UI::help(const std::string& text)
     }
 }
 
-void UI::render_left_pane(const float pane_width, const Duration elapsed_time, const VideoFile& video_file)
+void UI::render_left_pane(const float pane_width)
 {
     ImGui::BeginChild("left pane", ImVec2(pane_width, 0), false, ImGuiWindowFlags_None);
 
     const float files_pane_height = ImGui::GetWindowSize().y - additional_info_pane_height - ImGui::GetStyle().ItemSpacing.y;
 
-    render_files_pane(files_pane_height);
-    render_additional_info_pane(additional_info_pane_height, elapsed_time, video_file);
+    setup_files_view(files_pane_height);
+    setup_additional_info_view(additional_info_pane_height);
 
     ImGui::EndChild();
 }
@@ -98,25 +91,15 @@ void UI::render_right_pane()
     ImGui::EndChild();
 }
 
-void UI::render_files_pane(const float pane_height)
+void UI::setup_files_view(const float pane_height)
 {
-    ImGui::BeginChild("files pane", ImVec2(0, pane_height), true, ImGuiWindowFlags_None);
-    ImGui::Text("Files");
-    ImGui::Text(fmt::format("{}x{}", ImGui::GetWindowSize().x, ImGui::GetWindowSize().y).c_str());
+    ImGui::BeginChild("files", ImVec2(0, pane_height), true, ImGuiWindowFlags_None);
     ImGui::EndChild();
 }
 
-void UI::render_additional_info_pane(const float pane_height, const Duration elapsed_time, const VideoFile& video_file)
+void UI::setup_additional_info_view(const float pane_height)
 {
-    ImGui::BeginChild("additional info pane", ImVec2(0, pane_height), true, ImGuiWindowFlags_None);
-
-    fps_view_.render(elapsed_time);
-
-    ImGui::Text("Additional Info");
-    ImGui::Text(fmt::format("{}x{}", ImGui::GetWindowSize().x, ImGui::GetWindowSize().y).c_str());
-
-    video_file_info_view_.render(video_file);
-
+    ImGui::BeginChild("additional info", ImVec2(0, pane_height), true, ImGuiWindowFlags_None);
     ImGui::EndChild();
 }
 
