@@ -10,8 +10,8 @@ class VideoFile;
 class AdditionalInfoView {
     float font_size_;
 
-    FPSWidget fps_view_;
-    VideoFileInfoWidget video_file_info_view_;
+    FPSWidget fps_widget_;
+    VideoFileInfoWidget video_file_info_widget_;
 
 public:
     AdditionalInfoView(const CommandLine& cli);
