@@ -26,14 +26,14 @@ class UI {
     void render_main_window();
     void render_help_window();
 
-    void render_left_pane(float pane_width);
-    void render_right_pane();
+    void setup_left_pane(float pane_width);
+    void setup_right_pane();
 
     void setup_files_view(float pane_height);
     void setup_additional_info_view(float pane_height);
     void setup_video_view(float pane_height);
-    void render_playback_controls_pane(float pane_height);
-    void render_trim_controls_pane(float pane_height);
+    void setup_playback_controls_pane(float pane_height);
+    void setup_trim_controls_pane(float pane_height);
 
 public:
     void render();

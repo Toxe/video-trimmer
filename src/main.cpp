@@ -15,6 +15,8 @@
 #include "ui/ui.h"
 #include "views/additional_info_view/additional_info_view.hpp"
 #include "views/files_view/files_view.hpp"
+#include "views/trim_controls_view/trim_controls_view.hpp"
+#include "views/playback_controls_view/playback_controls_view.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -31,6 +33,8 @@ int main(int argc, char* argv[])
     MainWindow window(cli);
     AdditionalInfoView additional_info_view(cli);
     FilesView files_view;
+    PlaybackControlsView playback_controls_view;
+    TrimControlsView trim_controls_view;
 
     EventHandler event_handler;
     register_events(event_handler, window, ui);
@@ -72,11 +76,15 @@ int main(int argc, char* argv[])
                 ui.render();
                 additional_info_view.render(app.elapsed_time(), video_file);
                 files_view.render();
+                playback_controls_view.render();
+                trim_controls_view.render();
                 window.render(ui.video_view_position(), ui.video_view_size(), video_frame.get());
             } else {
                 ui.render();
                 additional_info_view.render(app.elapsed_time(), video_file);
                 files_view.render();
+                playback_controls_view.render();
+                trim_controls_view.render();
                 window.render(ui.video_view_position(), ui.video_view_size(), nullptr);
             }
 

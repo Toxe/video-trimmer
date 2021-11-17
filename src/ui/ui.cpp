@@ -24,11 +24,11 @@ void UI::render_main_window()
     ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
     ImGui::Begin(main_window_title_, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoBackground);
 
-    render_left_pane(left_pane_width);
+    setup_left_pane(left_pane_width);
 
     ImGui::SameLine();
 
-    render_right_pane();
+    setup_right_pane();
 
     ImGui::End();
 }
@@ -66,7 +66,7 @@ void UI::help(const std::string& text)
     }
 }
 
-void UI::render_left_pane(const float pane_width)
+void UI::setup_left_pane(const float pane_width)
 {
     ImGui::BeginChild("left pane", ImVec2(pane_width, 0), false, ImGuiWindowFlags_None);
 
@@ -78,15 +78,15 @@ void UI::render_left_pane(const float pane_width)
     ImGui::EndChild();
 }
 
-void UI::render_right_pane()
+void UI::setup_right_pane()
 {
     ImGui::BeginChild("right pane", ImVec2(0, 0), false, ImGuiWindowFlags_None);
 
     const float video_pane_height = ImGui::GetWindowSize().y - playback_controls_pane_height - trim_controls_pane_height - 2.0f * ImGui::GetStyle().ItemSpacing.y;
 
     setup_video_view(video_pane_height);
-    render_playback_controls_pane(playback_controls_pane_height);
-    render_trim_controls_pane(trim_controls_pane_height);
+    setup_playback_controls_pane(playback_controls_pane_height);
+    setup_trim_controls_pane(trim_controls_pane_height);
 
     ImGui::EndChild();
 }
@@ -113,19 +113,15 @@ void UI::setup_video_view(const float pane_height)
     ImGui::EndChild();
 }
 
-void UI::render_playback_controls_pane(const float pane_height)
+void UI::setup_playback_controls_pane(const float pane_height)
 {
-    ImGui::BeginChild("playback controls pane", ImVec2(0, pane_height), true, ImGuiWindowFlags_None);
-    ImGui::Text("Playback Controls");
-    ImGui::Text(fmt::format("{}x{}", ImGui::GetWindowSize().x, ImGui::GetWindowSize().y).c_str());
+    ImGui::BeginChild("playback controls", ImVec2(0, pane_height), true, ImGuiWindowFlags_None);
     ImGui::EndChild();
 }
 
-void UI::render_trim_controls_pane(const float pane_height)
+void UI::setup_trim_controls_pane(const float pane_height)
 {
-    ImGui::BeginChild("trim controls pane", ImVec2(0, pane_height), true, ImGuiWindowFlags_None);
-    ImGui::Text("Trim Controls");
-    ImGui::Text(fmt::format("{}x{}", ImGui::GetWindowSize().x, ImGui::GetWindowSize().y).c_str());
+    ImGui::BeginChild("trim controls", ImVec2(0, pane_height), true, ImGuiWindowFlags_None);
     ImGui::EndChild();
 }
 
