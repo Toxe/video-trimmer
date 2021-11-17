@@ -91,3 +91,14 @@ void VideoContentProvider::change_scaling_dimensions(const int scale_width, cons
 {
     video_reader_.change_scaling_dimensions(scale_width, scale_height);
 }
+
+int VideoContentProvider::finished_video_frame_queue_size()
+{
+    std::lock_guard<std::mutex> lock(mtx_);
+    return finished_video_frames_queue_.size();
+}
+
+int VideoContentProvider::video_frame_scaler_queue_size()
+{
+    return video_frame_scaler_.queue_size();
+}

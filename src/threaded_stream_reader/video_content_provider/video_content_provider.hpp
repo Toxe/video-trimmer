@@ -38,4 +38,7 @@ public:
     [[nodiscard]] std::tuple<std::unique_ptr<VideoFrame>, int> next_frame(double playback_position);
 
     void change_scaling_dimensions(int scale_width, int scale_height);
+
+    [[nodiscard]] int finished_video_frame_queue_size();
+    [[nodiscard]] int video_frame_scaler_queue_size();
 };

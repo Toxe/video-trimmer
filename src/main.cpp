@@ -66,8 +66,6 @@ int main(int argc, char* argv[])
             const auto ms = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1);
 
             if (video_frame) {
-                // log_trace(fmt::format("(main) playback_position={:.4f}, found frame: {} ({} more frames available), waited for {}us", playback_position.count(), video_frame->print(), frames_available, ms.count()));
-
                 if (!received_first_real_frame) {
                     log_debug("(main) received first frame, begin playback");
                     received_first_real_frame = true;
@@ -76,14 +74,14 @@ int main(int argc, char* argv[])
                 ui.render();
                 additional_info_view.render(app.elapsed_time(), video_file);
                 files_view.render();
-                playback_controls_view.render();
+                playback_controls_view.render(playback_position.count(), frames_available, video_content_provider.finished_video_frame_queue_size(), video_content_provider.video_frame_scaler_queue_size());
                 trim_controls_view.render();
                 window.render(ui.video_view_position(), ui.video_view_size(), video_frame.get());
             } else {
                 ui.render();
                 additional_info_view.render(app.elapsed_time(), video_file);
                 files_view.render();
-                playback_controls_view.render();
+                playback_controls_view.render(playback_position.count(), frames_available, video_content_provider.finished_video_frame_queue_size(), video_content_provider.video_frame_scaler_queue_size());
                 trim_controls_view.render();
                 window.render(ui.video_view_position(), ui.video_view_size(), nullptr);
             }

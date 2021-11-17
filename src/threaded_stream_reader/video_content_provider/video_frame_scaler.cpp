@@ -112,3 +112,9 @@ int VideoFrameScaler::resize_scaling_context(int width, int height)
 
     return 0;
 }
+
+int VideoFrameScaler::queue_size()
+{
+    std::lock_guard<std::mutex> lock(mtx_);
+    return static_cast<int>(queue_.size());
+}

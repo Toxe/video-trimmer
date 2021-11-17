@@ -33,4 +33,5 @@ public:
 
     void add_to_queue(std::unique_ptr<VideoFrame> video_frame);
     [[nodiscard]] std::unique_ptr<VideoFrame> remove_from_queue();
+    [[nodiscard]] int queue_size();
 };
