@@ -75,6 +75,8 @@ add_executable(video_trimmer
         ui/colors.h
         ui/commands.cpp
         ui/commands.h
+        ui/imgui_helpers.cpp
+        ui/imgui_helpers.hpp
         ui/ui.cpp
         ui/ui.h
         ui/widgets/fps_widget.cpp
