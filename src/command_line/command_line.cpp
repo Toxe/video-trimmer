@@ -11,7 +11,7 @@
 
 #include "logger/logger.hpp"
 
-void show_usage_and_exit(const CLI::App& app, const char* error_message = nullptr, const std::optional<CLI::ParseError>& error = {})
+[[noreturn]] void show_usage_and_exit(const CLI::App& app, const char* error_message = nullptr, const std::optional<CLI::ParseError>& error = {})
 {
     if (error_message)
         fmt::print("\n{}\n", error_message);
