@@ -2,7 +2,6 @@
 
 #include <cstdlib>
 #include <filesystem>
-#include <string>
 
 #include <CLI/App.hpp>
 #include <CLI/Config.hpp>
@@ -29,11 +28,12 @@ CommandLine::CommandLine(int argc, char* argv[])
     font_size_ = default_font_size();
     window_width_ = default_window_video_mode_.width;
     window_height_ = default_window_video_mode_.height;
+    directory_ = std::filesystem::current_path().string();
 
     CLI::App app{description};
     app.add_flag("-v", log_level_flag, "log level (-v: INFO, -vv: DEBUG, -vvv: TRACE)");
     app.add_option("--font-size", font_size_, fmt::format("UI font size in pixels (default: {})", font_size_))->check(CLI::PositiveNumber);
-    app.add_option("video filename", video_filename_, "name of video file to load")->required();
+    app.add_option("directory", directory_, "video directory (default: current directory)");
     auto opt_width = app.add_option("--width", window_width_, fmt::format("window width (default: {})", window_width_));
     auto opt_height = app.add_option("--height", window_height_, fmt::format("window height (default: {})", window_height_));
 
@@ -60,13 +60,16 @@ CommandLine::CommandLine(int argc, char* argv[])
     }
 
     log_init(log_level);
-    log_debug(fmt::format("command line option video filename: {}", video_filename_));
+    log_debug(fmt::format("command line option directory: {}", directory_));
     log_debug(fmt::format("command line option --font-size: {}", font_size_));
     log_debug(fmt::format("command line option --width: {}", window_width_));
     log_debug(fmt::format("command line option --height: {}", window_height_));
 
-    if (!std::filesystem::exists(video_filename_))
-        show_usage_and_exit(app, "file not found", {});
+    if (!std::filesystem::exists(directory_))
+        show_usage_and_exit(app, fmt::format("directory not found: {}", directory_).c_str(), {});
+
+    if (!std::filesystem::is_directory(directory_))
+        show_usage_and_exit(app, fmt::format("not a directory: {}", directory_).c_str(), {});
 }
 
 sf::VideoMode CommandLine::default_video_mode() const
