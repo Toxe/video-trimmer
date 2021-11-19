@@ -5,6 +5,7 @@ BreakConstructorInitializers: BeforeColon
 BreakInheritanceList: AfterColon
 ConstructorInitializerAllOnOneLineOrOnePerLine: true
 Cpp11BracedListStyle: true
+EmptyLineBeforeAccessModifier: Always
 KeepEmptyLinesAtTheStartOfBlocks: false
 SpaceAfterCStyleCast: true
 SpaceBeforeCpp11BracedList: false
