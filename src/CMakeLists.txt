@@ -83,6 +83,8 @@ add_executable(video_trimmer
         ui/widgets/fps_widget.hpp
         ui/widgets/video_file_info_widget.cpp
         ui/widgets/video_file_info_widget.hpp
+        video_player/video_player.cpp
+        video_player/video_player.hpp
         views/additional_info_view/additional_info_view.cpp
         views/additional_info_view/additional_info_view.hpp
         views/files_view/files_view.cpp

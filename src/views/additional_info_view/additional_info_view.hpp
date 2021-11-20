@@ -16,5 +16,5 @@ class AdditionalInfoView {
 public:
     AdditionalInfoView(const CommandLine& cli);
 
-    void render(Duration elapsed_time, const VideoFile& video_file);
+    void render(const Duration elapsed_time, const VideoFile* video_file);
 };

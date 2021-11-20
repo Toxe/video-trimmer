@@ -10,7 +10,7 @@ AdditionalInfoView::AdditionalInfoView(const CommandLine& cli)
 {
 }
 
-void AdditionalInfoView::render(const Duration elapsed_time, const VideoFile& video_file)
+void AdditionalInfoView::render(const Duration elapsed_time, const VideoFile* video_file)
 {
     ImGui::Begin("Video Trimmer");
     ImGui::BeginChild("left pane");

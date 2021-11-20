@@ -1,32 +1,19 @@
-#include <chrono>
-
-#include <fmt/core.h>
-
 #include "app/app.h"
 #include "command_line/command_line.h"
 #include "event_handler/event_handler.h"
-#include "logger/logger.hpp"
 #include "main_window/main_window.hpp"
 #include "register_events.h"
-#include "threaded_stream_reader/factory/ffmpeg_factory.hpp"
-#include "threaded_stream_reader/video_content_provider/video_content_provider.hpp"
-#include "threaded_stream_reader/video_file.hpp"
 #include "threaded_stream_reader/video_frame/video_frame.hpp"
 #include "ui/ui.h"
+#include "video_player/video_player.hpp"
 #include "views/additional_info_view/additional_info_view.hpp"
 #include "views/files_view/files_view.hpp"
-#include "views/trim_controls_view/trim_controls_view.hpp"
 #include "views/playback_controls_view/playback_controls_view.hpp"
+#include "views/trim_controls_view/trim_controls_view.hpp"
 
 int main(int argc, char* argv[])
 {
     CommandLine cli(argc, argv);
-
-    const auto factory = std::make_unique<FFmpegFactory>();
-
-    VideoFile video_file(cli.video_filename(), factory.get());
-    VideoContentProvider video_content_provider(factory.get(), video_file, 640, 480);
-    video_content_provider.run();
 
     App app;
     UI ui;
@@ -40,9 +27,9 @@ int main(int argc, char* argv[])
     register_events(event_handler, window, ui);
     ui.set_event_handler(&event_handler);
 
-    // begin playback
-    auto playback_begin = std::chrono::steady_clock::now();
-    bool received_first_real_frame = false;
+    VideoPlayer video_player;
+    video_player.open_file("video1.mp4");
+    video_player.start();
 
     while (window.is_open()) {
         app.next_frame();
@@ -51,38 +38,22 @@ int main(int argc, char* argv[])
         event_handler.poll_events(window.window());
 
         if (window.is_open()) {
-            const ImageSize video_view_size = ui.video_view_size();
-            video_content_provider.change_scaling_dimensions(video_view_size.width, video_view_size.height);
+            video_player.update();
 
-            // current position in playback
-            if (!received_first_real_frame)
-                playback_begin = std::chrono::steady_clock::now();
+            ui.render();
+            additional_info_view.render(app.elapsed_time(), video_player.video_file());
+            files_view.render();
+            playback_controls_view.render(video_player.playback_position(), video_player.finished_video_frame_queue_size(), video_player.video_frame_scaler_queue_size());
+            trim_controls_view.render();
 
-            const std::chrono::duration<double> playback_position = std::chrono::steady_clock::now() - playback_begin;
+            if (video_player.is_playing()) {
+                const ImageSize video_view_size = ui.video_view_size();
+                video_player.change_scaling_dimensions(video_view_size.width, video_view_size.height);
 
-            const auto t1 = std::chrono::high_resolution_clock::now();
-            auto [video_frame, frames_available] = video_content_provider.next_frame(playback_position.count());
-            const auto t2 = std::chrono::high_resolution_clock::now();
-            const auto ms = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1);
+                auto video_frame = video_player.next_frame();
 
-            if (video_frame) {
-                if (!received_first_real_frame) {
-                    log_debug("(main) received first frame, begin playback");
-                    received_first_real_frame = true;
-                }
-
-                ui.render();
-                additional_info_view.render(app.elapsed_time(), video_file);
-                files_view.render();
-                playback_controls_view.render(playback_position.count(), frames_available, video_content_provider.finished_video_frame_queue_size(), video_content_provider.video_frame_scaler_queue_size());
-                trim_controls_view.render();
                 window.render(ui.video_view_position(), ui.video_view_size(), video_frame.get());
             } else {
-                ui.render();
-                additional_info_view.render(app.elapsed_time(), video_file);
-                files_view.render();
-                playback_controls_view.render(playback_position.count(), frames_available, video_content_provider.finished_video_frame_queue_size(), video_content_provider.video_frame_scaler_queue_size());
-                trim_controls_view.render();
                 window.render(ui.video_view_position(), ui.video_view_size(), nullptr);
             }
 
@@ -91,5 +62,6 @@ int main(int argc, char* argv[])
         }
     }
 
-    video_content_provider.stop();
+    video_player.stop();
+    video_player.close_file();
 }
