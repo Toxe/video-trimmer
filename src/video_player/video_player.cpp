@@ -106,10 +106,10 @@ std::unique_ptr<VideoFrame> VideoPlayer::next_frame()
     return std::move(video_frame);
 }
 
-void VideoPlayer::change_scaling_dimensions(const int scale_width, const int scale_height)
+void VideoPlayer::change_scaling_dimensions(ImageSize image_size)
 {
     if (has_open_file())
-        video_content_provider_->change_scaling_dimensions(scale_width, scale_height);
+        video_content_provider_->change_scaling_dimensions(image_size.width, image_size.height);
 }
 
 double VideoPlayer::playback_position()

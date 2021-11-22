@@ -5,6 +5,7 @@
 
 #include "threaded_stream_reader/factory/ffmpeg_factory.hpp"
 #include "threaded_stream_reader/video_content_provider/video_content_provider.hpp"
+#include "types.h"
 
 class VideoFile;
 class VideoFrame;
@@ -37,7 +38,7 @@ public:
 
     [[nodiscard]] std::unique_ptr<VideoFrame> next_frame();
 
-    void change_scaling_dimensions(int scale_width, int scale_height);
+    void change_scaling_dimensions(ImageSize image_size);
 
     double playback_position();
 
