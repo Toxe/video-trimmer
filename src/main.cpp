@@ -47,15 +47,15 @@ int main(int argc, char* argv[])
             trim_controls_view.render();
 
             if (video_player.is_playing()) {
-                const ImageSize video_view_size = ui.video_view_size();
-                video_player.change_scaling_dimensions(video_view_size.width, video_view_size.height);
-
                 auto video_frame = video_player.next_frame();
 
                 window.render(video_frame.get());
             } else {
                 window.render(nullptr);
             }
+
+            const ImageSize video_view_size = window.video_view().size();
+            video_player.change_scaling_dimensions(video_view_size.width, video_view_size.height);
 
             // if (received_first_real_frame && frames_available == 0 && video_content_provider.has_finished())
             //     break;

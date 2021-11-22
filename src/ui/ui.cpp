@@ -106,10 +106,6 @@ void UI::setup_additional_info_view(const float pane_height)
 void UI::setup_video_view(const float pane_height)
 {
     ImGui::BeginChild("video", ImVec2(0, pane_height), false, ImGuiWindowFlags_None);
-
-    video_view_position_ = ImGui::GetCursorScreenPos();
-    video_view_size_ = ImGui::GetWindowSize();
-
     ImGui::EndChild();
 }
 
@@ -123,14 +119,4 @@ void UI::setup_trim_controls_pane(const float pane_height)
 {
     ImGui::BeginChild("trim controls", ImVec2(0, pane_height), true, ImGuiWindowFlags_None);
     ImGui::EndChild();
-}
-
-ImagePosition UI::video_view_position() const
-{
-    return {static_cast<int>(video_view_position_.x), static_cast<int>(video_view_position_.y)};
-}
-
-ImageSize UI::video_view_size() const
-{
-    return {static_cast<int>(video_view_size_.x), static_cast<int>(video_view_size_.y)};
 }

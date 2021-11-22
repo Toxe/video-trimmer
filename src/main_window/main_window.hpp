@@ -29,6 +29,8 @@ public:
     MainWindow(const CommandLine& cli);
 
     [[nodiscard]] sf::RenderWindow& window() const { return *window_; };
+    [[nodiscard]] VideoView& video_view() const { return *video_view_; };
+
     [[nodiscard]] bool is_open() const { return window_->isOpen(); };
 
     [[nodiscard]] ImageSize size() const;

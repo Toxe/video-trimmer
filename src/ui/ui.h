@@ -5,8 +5,6 @@
 
 #include <imgui.h>
 
-#include "types.h"
-
 class EventHandler;
 
 class UI {
@@ -16,8 +14,6 @@ class UI {
     EventHandler* event_handler_ = nullptr;
 
     ImVec2 main_window_size_;
-    ImVec2 video_view_position_;
-    ImVec2 video_view_size_;
 
     bool show_help_ = false;
 
@@ -41,7 +37,4 @@ public:
     void toggle_help() { show_help_ = !show_help_; };
 
     void set_event_handler(EventHandler* event_handler) { event_handler_ = event_handler; };
-
-    [[nodiscard]] ImagePosition video_view_position() const;
-    [[nodiscard]] ImageSize video_view_size() const;
 };
