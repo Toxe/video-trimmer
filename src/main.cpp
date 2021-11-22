@@ -52,9 +52,9 @@ int main(int argc, char* argv[])
 
                 auto video_frame = video_player.next_frame();
 
-                window.render(ui.video_view_position(), ui.video_view_size(), video_frame.get());
+                window.render(video_frame.get());
             } else {
-                window.render(ui.video_view_position(), ui.video_view_size(), nullptr);
+                window.render(nullptr);
             }
 
             // if (received_first_real_frame && frames_available == 0 && video_content_provider.has_finished())

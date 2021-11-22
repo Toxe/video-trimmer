@@ -40,13 +40,13 @@ void MainWindow::next_frame(const Duration elapsed_time)
     ImGui::SFML::Update(*window_, sf::microseconds(elapsed_time.as_microseconds()));
 }
 
-void MainWindow::render(ImagePosition video_view_position, ImageSize video_view_size, VideoFrame* video_frame)
+void MainWindow::render(VideoFrame* video_frame)
 {
     window_->clear();
 
     {
         std::lock_guard<std::mutex> lock(mtx_);
-        video_view_->render(*window_, video_view_position, video_view_size, video_frame);
+        video_view_->render(*window_, video_frame);
     }
 
     ImGui::SFML::Render(*window_);
