@@ -20,9 +20,9 @@ VideoView::VideoView()
     sprite_->setTexture(*texture_, true);
 }
 
-void VideoView::render(sf::RenderWindow& window, VideoFrame* video_frame)
+void VideoView::render(sf::RenderWindow& window, VideoFrame* video_frame, const int finished_video_frame_queue_size, const int video_frame_scaler_queue_size)
 {
-    render_ui(video_frame);
+    render_ui(video_frame, finished_video_frame_queue_size, video_frame_scaler_queue_size);
     render_content(window, video_frame);
 }
 
@@ -40,7 +40,7 @@ void VideoView::render_content(sf::RenderWindow& window, VideoFrame* video_frame
     window.draw(*sprite_);
 }
 
-void VideoView::render_ui(const VideoFrame* video_frame)
+void VideoView::render_ui(const VideoFrame* video_frame, const int finished_video_frame_queue_size, const int video_frame_scaler_queue_size)
 {
     ImGui::Begin("Video Trimmer");
     ImGui::BeginChild("right pane");
@@ -54,6 +54,7 @@ void VideoView::render_ui(const VideoFrame* video_frame)
     view_size_ = ImageSize{static_cast<int>(imgui_window_size.x), static_cast<int>(imgui_window_size.y)};
 
     imgui_text_outlined(UserInterface::Colors::white, UserInterface::Colors::black, fmt::format("video [{}x{}]", view_size_.width, view_size_.height));
+    imgui_text_outlined(UserInterface::Colors::white, UserInterface::Colors::black, fmt::format("video frame scaler queue: {}, finished video frames queue: {}", video_frame_scaler_queue_size, finished_video_frame_queue_size));
 
     if (video_frame)
         imgui_text_outlined(UserInterface::Colors::white, UserInterface::Colors::black, fmt::format("{}", video_frame->print()));

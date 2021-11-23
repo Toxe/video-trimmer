@@ -17,13 +17,13 @@ class VideoView {
     ImagePosition view_position_;
     ImageSize view_size_;
 
-    void render_ui(const VideoFrame* video_frame);
+    void render_ui(const VideoFrame* video_frame, int finished_video_frame_queue_size, int video_frame_scaler_queue_size);
     void render_content(sf::RenderWindow& window, VideoFrame* video_frame);
 
 public:
     VideoView();
 
-    void render(sf::RenderWindow& window, VideoFrame* video_frame);
+    void render(sf::RenderWindow& window, VideoFrame* video_frame, int finished_video_frame_queue_size, int video_frame_scaler_queue_size);
 
     [[nodiscard]] ImageSize size() const { return view_size_; }
 };
