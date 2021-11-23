@@ -16,10 +16,11 @@ class VideoPlayer {
     std::unique_ptr<VideoContentProvider> video_content_provider_;
 
     std::chrono::steady_clock::time_point time_point_playback_start_;
-    std::chrono::duration<double> playback_position_;
-    bool received_first_real_frame_ = false;
+    std::chrono::duration<double> playback_position_ = std::chrono::duration<double>::zero();
 
-    bool is_playing_ = false;
+    bool has_started_playing_;
+    bool is_playing_;
+    bool received_first_real_frame_;
 
 public:
     VideoPlayer();
@@ -28,11 +29,13 @@ public:
     void close_file();
 
     void start();
-    void stop();
+    void resume();
+    void pause();
 
     [[nodiscard]] bool has_open_file();
+    [[nodiscard]] bool has_started_playing();
     [[nodiscard]] bool is_playing();
-    [[nodiscard]] bool is_stopped();
+    [[nodiscard]] bool is_paused();
 
     void update();
 
@@ -46,4 +49,6 @@ public:
     [[nodiscard]] int video_frame_scaler_queue_size();
 
     [[nodiscard]] const VideoFile* video_file();
+
+    void render();
 };

@@ -29,7 +29,7 @@ int main(int argc, char* argv[])
 
     VideoPlayer video_player;
     video_player.open_file("video1.mp4");
-    video_player.start();
+    // video_player.start();
 
     while (window.is_open()) {
         app.next_frame();
@@ -45,6 +45,7 @@ int main(int argc, char* argv[])
             files_view.render();
             playback_controls_view.render(video_player.playback_position());
             trim_controls_view.render();
+            video_player.render();
 
             if (video_player.is_playing()) {
                 auto video_frame = video_player.next_frame();
@@ -61,6 +62,6 @@ int main(int argc, char* argv[])
         }
     }
 
-    video_player.stop();
+    video_player.pause();
     video_player.close_file();
 }
