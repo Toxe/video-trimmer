@@ -26,6 +26,8 @@ bool VideoPlayer::open_file(const char* filename)
         video_content_provider_->run();
     }
 
+    playback_position_ = std::chrono::duration<double>::zero();
+
     return has_open_file();
 }
 
