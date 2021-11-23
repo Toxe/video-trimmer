@@ -40,10 +40,10 @@ public:
 
     void change_scaling_dimensions(ImageSize image_size);
 
-    double playback_position();
+    [[nodiscard]] double playback_position();
 
-    int finished_video_frame_queue_size();
-    int video_frame_scaler_queue_size();
+    [[nodiscard]] int finished_video_frame_queue_size();
+    [[nodiscard]] int video_frame_scaler_queue_size();
 
-    const VideoFile* video_file();
+    [[nodiscard]] const VideoFile* video_file();
 };
