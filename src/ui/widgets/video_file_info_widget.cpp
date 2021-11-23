@@ -8,7 +8,7 @@
 
 void VideoFileInfoWidget::render(const VideoFile* video_file)
 {
-    if (!video_file || video_file->is_open())
+    if (!video_file || !video_file->is_open())
         return;
 
     ImGui::NewLine();
