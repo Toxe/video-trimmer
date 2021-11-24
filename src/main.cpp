@@ -18,14 +18,17 @@ int main(int argc, char* argv[])
     App app;
     UI ui;
     MainWindow window(cli);
-    AdditionalInfoView additional_info_view(cli);
-    FilesView files_view;
-    PlaybackControlsView playback_controls_view;
-    TrimControlsView trim_controls_view;
 
     EventHandler event_handler;
     register_events(event_handler, window, ui);
     ui.set_event_handler(&event_handler);
+
+    AdditionalInfoView additional_info_view(cli);
+    PlaybackControlsView playback_controls_view;
+    TrimControlsView trim_controls_view;
+    FilesView files_view;
+
+    files_view.change_directory(cli.directory());
 
     VideoPlayer video_player;
     video_player.open_file("video1.mp4");

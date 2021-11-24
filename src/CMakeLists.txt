@@ -87,6 +87,10 @@ add_executable(video_trimmer
         video_player/video_player.hpp
         views/additional_info_view/additional_info_view.cpp
         views/additional_info_view/additional_info_view.hpp
+        views/files_view/directory_scanner.cpp
+        views/files_view/directory_scanner.hpp
+        views/files_view/file_entry.cpp
+        views/files_view/file_entry.hpp
         views/files_view/files_view.cpp
         views/files_view/files_view.hpp
         views/playback_controls_view/playback_controls_view.cpp
