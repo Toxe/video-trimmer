@@ -12,7 +12,7 @@ add_executable(video_trimmer
         event_handler/event_handler.cpp
         event_handler/event_handler.h
         event_handler/events.h
-        include/auto_delete_ressource.hpp
+        include/auto_delete_resource.hpp
         include/types.h
         logger/logger.cpp
         logger/logger.hpp

@@ -4,7 +4,7 @@
 
 #include <array>
 
-#include "auto_delete_ressource.hpp"
+#include "auto_delete_resource.hpp"
 
 extern "C" {
 #include <libavutil/pixfmt.h>

@@ -2,7 +2,7 @@
 
 #include <string_view>
 
-#include "auto_delete_ressource.hpp"
+#include "auto_delete_resource.hpp"
 #include "format_context.hpp"
 
 class FFmpegFormatContext : public FormatContext {

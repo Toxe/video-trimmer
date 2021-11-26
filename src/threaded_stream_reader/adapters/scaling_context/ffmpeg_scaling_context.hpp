@@ -2,7 +2,7 @@
 
 #include "scaling_context.hpp"
 
-#include "auto_delete_ressource.hpp"
+#include "auto_delete_resource.hpp"
 
 struct SwsContext;
 
