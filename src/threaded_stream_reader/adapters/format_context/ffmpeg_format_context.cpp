@@ -19,7 +19,7 @@ extern "C" {
 FFmpegFormatContext::FFmpegFormatContext(const std::string_view& filename)
 {
     // allocate format context
-    format_context_ = auto_delete_ressource<AVFormatContext>(avformat_alloc_context(), [](AVFormatContext* ctx) { avformat_close_input(&ctx); });
+    format_context_ = auto_delete_resource<AVFormatContext>(avformat_alloc_context(), [](AVFormatContext* ctx) { avformat_close_input(&ctx); });
 
     if (!format_context_)
         throw std::runtime_error("avformat_alloc_context");

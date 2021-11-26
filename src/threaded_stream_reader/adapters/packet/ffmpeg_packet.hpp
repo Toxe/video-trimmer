@@ -5,7 +5,7 @@
 #include "auto_delete_resource.hpp"
 
 class FFmpegPacket : public Packet {
-    auto_delete_ressource<AVPacket> packet_ = {nullptr, nullptr};
+    auto_delete_resource<AVPacket> packet_ = {nullptr, nullptr};
 
 public:
     FFmpegPacket();

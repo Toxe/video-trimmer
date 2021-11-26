@@ -7,7 +7,7 @@ struct AVCodecContext;
 struct AVStream;
 
 class FFmpegCodecContext : public CodecContext {
-    auto_delete_ressource<AVCodecContext> codec_context_ = {nullptr, nullptr};
+    auto_delete_resource<AVCodecContext> codec_context_ = {nullptr, nullptr};
 
     float fps_;
 

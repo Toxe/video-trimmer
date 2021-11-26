@@ -6,7 +6,7 @@
 #include "format_context.hpp"
 
 class FFmpegFormatContext : public FormatContext {
-    auto_delete_ressource<AVFormatContext> format_context_ = {nullptr, nullptr};
+    auto_delete_resource<AVFormatContext> format_context_ = {nullptr, nullptr};
 
 public:
     FFmpegFormatContext(const std::string_view& filename);

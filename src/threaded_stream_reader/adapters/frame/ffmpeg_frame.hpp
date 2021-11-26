@@ -13,7 +13,7 @@ extern "C" {
 struct AVFrame;
 
 class FFmpegFrame : public Frame {
-    auto_delete_ressource<AVFrame> frame_ = {nullptr, nullptr};
+    auto_delete_resource<AVFrame> frame_ = {nullptr, nullptr};
 
     std::array<uint8_t*, 4> img_buf_data_ = {nullptr};
     std::array<uint8_t*, 4> dst_buf_data_ = {nullptr};
