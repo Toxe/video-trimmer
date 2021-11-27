@@ -15,7 +15,7 @@ FFmpegFrame::FFmpegFrame(CodecContext* codec_context, const int scaled_width, co
 {
     src_pixel_format_ = codec_context->pixel_format();
 
-    frame_ = auto_delete_resource<AVFrame>(av_frame_alloc(), [](AVFrame* p) { av_frame_free(&p); });
+    frame_ = AutoDeleteResource<AVFrame>(av_frame_alloc(), [](AVFrame* p) { av_frame_free(&p); });
 
     if (!frame_)
         throw std::runtime_error("av_frame_alloc");

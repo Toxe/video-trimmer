@@ -13,7 +13,7 @@ extern "C" {
 FFmpegScalingContext::FFmpegScalingContext(CodecContext* codec_context, const int width, const int height)
     : ScalingContext(codec_context, width, height)
 {
-    scaling_context_ = auto_delete_resource<SwsContext>(sws_getContext(src_width_, src_height_, src_pixel_format_, dst_width_, dst_height_, dst_pixel_format_, SWS_BILINEAR, nullptr, nullptr, nullptr), [](SwsContext* ctx) { sws_freeContext(ctx); });
+    scaling_context_ = AutoDeleteResource<SwsContext>(sws_getContext(src_width_, src_height_, src_pixel_format_, dst_width_, dst_height_, dst_pixel_format_, SWS_BILINEAR, nullptr, nullptr, nullptr), [](SwsContext* ctx) { sws_freeContext(ctx); });
 
     if (!scaling_context_)
         throw std::runtime_error("sws_getContext");

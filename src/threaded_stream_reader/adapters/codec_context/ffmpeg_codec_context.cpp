@@ -22,7 +22,7 @@ FFmpegCodecContext::FFmpegCodecContext(AVStream* stream)
     if (!decoder)
         throw std::runtime_error("avcodec_find_decoder");
 
-    codec_context_ = auto_delete_resource<AVCodecContext>(avcodec_alloc_context3(decoder), [](AVCodecContext* dec_ctx) { avcodec_free_context(&dec_ctx); });
+    codec_context_ = AutoDeleteResource<AVCodecContext>(avcodec_alloc_context3(decoder), [](AVCodecContext* dec_ctx) { avcodec_free_context(&dec_ctx); });
 
     if (!codec_context_)
         throw std::runtime_error("avcodec_alloc_context3");

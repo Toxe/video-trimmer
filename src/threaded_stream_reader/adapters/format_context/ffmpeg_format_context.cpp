@@ -19,15 +19,13 @@ extern "C" {
 FFmpegFormatContext::FFmpegFormatContext(const std::string_view& filename)
 {
     // allocate format context
-    format_context_ = auto_delete_resource<AVFormatContext>(avformat_alloc_context(), [](AVFormatContext* ctx) { avformat_close_input(&ctx); });
+    format_context_ = AutoDeleteResource<AVFormatContext>(avformat_alloc_context(), [](AVFormatContext* ctx) { avformat_close_input(&ctx); });
 
     if (!format_context_)
         throw std::runtime_error("avformat_alloc_context");
 
     // open input file
-    AVFormatContext* p_ctx = format_context_.get();
-
-    int ret = avformat_open_input(&p_ctx, filename.data(), nullptr, nullptr);
+    int ret = avformat_open_input(format_context_.get_ptr(), filename.data(), nullptr, nullptr);
 
     if (ret < 0)
         throw std::runtime_error("avformat_open_input");
@@ -61,7 +59,7 @@ std::unique_ptr<StreamInfo> FFmpegFormatContext::find_best_stream(Factory* facto
     }
 
     // find decoder for stream
-    AVStream* stream = format_context_.get()->streams[stream_index];
+    AVStream* stream = format_context_->streams[stream_index];
 
     // allocate codec context for decoder
     std::unique_ptr<CodecContext> codec_context = factory->create_codec_context(stream);

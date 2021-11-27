@@ -7,7 +7,7 @@
 struct SwsContext;
 
 class FFmpegScalingContext : public ScalingContext {
-    auto_delete_resource<SwsContext> scaling_context_ = {nullptr, nullptr};
+    AutoDeleteResource<SwsContext> scaling_context_;
 
 public:
     FFmpegScalingContext(CodecContext* codec_context, int width, int height);

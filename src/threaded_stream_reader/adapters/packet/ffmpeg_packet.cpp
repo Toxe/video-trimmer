@@ -8,7 +8,7 @@ extern "C" {
 
 FFmpegPacket::FFmpegPacket()
 {
-    packet_ = auto_delete_resource<AVPacket>(av_packet_alloc(), [](AVPacket* p) { av_packet_free(&p); });
+    packet_ = AutoDeleteResource<AVPacket>(av_packet_alloc(), [](AVPacket* p) { av_packet_free(&p); });
 
     if (!packet_)
         throw std::runtime_error("av_packet_alloc");
