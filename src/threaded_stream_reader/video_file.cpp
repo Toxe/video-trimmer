@@ -34,11 +34,27 @@ int VideoFile::open_file(const std::string_view& full_filename)
         audio_stream_info_ = format_context_->find_best_stream(factory_, FormatContext::StreamType::audio);
         video_stream_info_ = format_context_->find_best_stream(factory_, FormatContext::StreamType::video);
 
-        if (!audio_stream_info_ || !video_stream_info_)
-            return show_error("unable to find streams");
+        // a missing audio stream is fine, but we are looking for at least a video stream
+        if (!video_stream_info_)
+            return -1;
     } catch (const std::runtime_error&) {
         return -1;
     }
 
     return 0;
+}
+
+bool VideoFile::is_video() const
+{
+    return is_open() && has_video_stream() && video_stream_info_->codec_context()->fps() > 0.0f;
+}
+
+bool VideoFile::has_audio_stream() const
+{
+    return audio_stream_info_ != nullptr;
+}
+
+bool VideoFile::has_video_stream() const
+{
+    return video_stream_info_ != nullptr;
 }
