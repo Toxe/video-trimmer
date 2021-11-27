@@ -4,6 +4,7 @@
 
 constexpr int default_width = 1920;
 constexpr int default_height = 1080;
+constexpr float default_fps = 60.0f;
 
 std::string MockCodecContext::codec_type()
 {
@@ -33,6 +34,11 @@ int MockCodecContext::height() const
 AVPixelFormat MockCodecContext::pixel_format() const
 {
     return AV_PIX_FMT_YUV420P;
+}
+
+float MockCodecContext::fps() const
+{
+    return default_fps;
 }
 
 int MockCodecContext::send_packet(Packet* /*packet*/)

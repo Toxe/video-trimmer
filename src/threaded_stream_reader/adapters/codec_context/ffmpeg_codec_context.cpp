@@ -82,6 +82,11 @@ AVPixelFormat FFmpegCodecContext::pixel_format() const
     return codec_context_->pix_fmt;
 }
 
+float FFmpegCodecContext::fps() const
+{
+    return fps_;
+}
+
 int FFmpegCodecContext::send_packet(Packet* packet)
 {
     int ret = avcodec_send_packet(codec_context_.get(), packet->packet());
