@@ -2,8 +2,6 @@
 
 #include <stdexcept>
 
-#include <fmt/core.h>
-
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
@@ -14,7 +12,6 @@ extern "C" {
 #include "../../factory/factory.hpp"
 #include "../codec_context/codec_context.hpp"
 #include "../packet/packet.hpp"
-#include "error/error.hpp"
 
 FFmpegFormatContext::FFmpegFormatContext(const std::string_view& filename)
 {
@@ -53,10 +50,8 @@ std::unique_ptr<StreamInfo> FFmpegFormatContext::find_best_stream(Factory* facto
     const AVMediaType media_type = type == StreamType::audio ? AVMEDIA_TYPE_AUDIO : AVMEDIA_TYPE_VIDEO;
     const int stream_index = av_find_best_stream(format_context_.get(), media_type, -1, -1, nullptr, 0);
 
-    if (stream_index < 0) {
-        show_error(fmt::format("av_find_best_stream [{}]", av_get_media_type_string(media_type)), stream_index);
+    if (stream_index < 0)
         return nullptr;
-    }
 
     // find decoder for stream
     AVStream* stream = format_context_->streams[stream_index];
