@@ -1,14 +1,19 @@
+# https://clang.llvm.org/docs/ClangFormatStyleOptions.html
+
 ---
-Language:        Cpp
-BasedOnStyle:  WebKit
+Language: Cpp
+BasedOnStyle: WebKit
 BreakConstructorInitializers: BeforeColon
 BreakInheritanceList: AfterColon
 ConstructorInitializerAllOnOneLineOrOnePerLine: true
 Cpp11BracedListStyle: true
 EmptyLineBeforeAccessModifier: Always
+FixNamespaceComments: true
+IndentWidth: 4
 KeepEmptyLinesAtTheStartOfBlocks: false
 SpaceAfterCStyleCast: true
 SpaceBeforeCpp11BracedList: false
 SpacesBeforeTrailingComments: 2
-TabWidth:        4
+TabWidth: 4
+UseTab: Never
 ...
