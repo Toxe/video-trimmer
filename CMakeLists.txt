@@ -3,6 +3,9 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 project("Video Trimmer" LANGUAGES CXX)
 
+# testing settings
+include(cmake/Testing.cmake)
+
 # adjust or override some CMake defaults
 include(cmake/OverrideCMakeDefaults.cmake)
 
