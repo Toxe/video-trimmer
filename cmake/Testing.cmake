@@ -1,8 +1,10 @@
-# enable testing with CTest
+# enable testing with CTest (but prevent CTest from adding additional CDash targets)
+set_property(GLOBAL PROPERTY CTEST_TARGETS_ADDED 1)
 include(CTest)
 
 # Catch2 v3
-include(FetchContent)
+find_package(Catch2 3 CONFIG REQUIRED)
+include(Catch)
 
-FetchContent_Declare(Catch2 GIT_REPOSITORY https://github.com/catchorg/Catch2.git GIT_TAG devel)
-FetchContent_MakeAvailable(Catch2)
+# FakeIt
+find_path(FAKEIT_INCLUDE_DIRS "boost/fakeit.hpp")
