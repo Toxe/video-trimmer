@@ -1,7 +1,6 @@
 #include "video_reader.hpp"
 
 #include "../adapters/format_context/format_context.hpp"
-#include "../adapters/packet/packet.hpp"
 #include "../factory/factory.hpp"
 #include "../video_frame/video_frame.hpp"
 #include "error/error.hpp"
@@ -9,15 +8,9 @@
 #include "video_content_provider.hpp"
 
 VideoReader::VideoReader(Factory* factory, StreamInfo* audio_stream_info, StreamInfo* video_stream_info, const int scale_width, const int scale_height)
-    : WorkThread{factory, "VideoReader"}
+    : WorkThread{factory, "VideoReader"}, audio_stream_info_(audio_stream_info), video_stream_info_(video_stream_info), scale_width_(scale_width), scale_height_(scale_height)
 {
-    audio_stream_info_ = audio_stream_info;
-    video_stream_info_ = video_stream_info;
-
-    scale_width_ = scale_width;
-    scale_height_ = scale_height;
-
-    packet_ = factory->create_packet();
+    packet_ = std::make_unique<Packet>();
 }
 
 void VideoReader::main(std::stop_token st, VideoContentProvider* video_content_provider, std::latch& latch)

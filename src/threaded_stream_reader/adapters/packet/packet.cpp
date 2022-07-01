@@ -1,4 +1,4 @@
-#include "ffmpeg_packet.hpp"
+#include "packet.hpp"
 
 #include <stdexcept>
 
@@ -6,7 +6,7 @@ extern "C" {
 #include <libavcodec/packet.h>
 }
 
-FFmpegPacket::FFmpegPacket()
+Packet::Packet()
 {
     packet_ = AutoDeleteResource<AVPacket>(av_packet_alloc(), [](AVPacket* p) { av_packet_free(&p); });
 
@@ -14,17 +14,17 @@ FFmpegPacket::FFmpegPacket()
         throw std::runtime_error("av_packet_alloc");
 }
 
-AVPacket* FFmpegPacket::packet() const
+AVPacket* Packet::packet() const
 {
     return packet_.get();
 }
 
-int FFmpegPacket::stream_index() const
+int Packet::stream_index() const
 {
     return packet_->stream_index;
 }
 
-void FFmpegPacket::unref()
+void Packet::unref()
 {
     av_packet_unref(packet_.get());
 }

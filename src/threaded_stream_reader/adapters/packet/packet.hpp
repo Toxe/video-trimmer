@@ -1,14 +1,18 @@
 #pragma once
 
+#include "auto_delete_resource.hpp"
+
 struct AVPacket;
 
 class Packet {
 public:
-    virtual ~Packet() = default;
+    Packet();
 
-    [[nodiscard]] virtual int stream_index() const = 0;
-    virtual void set_stream_index(const int /* new_stream_index */) { }
+    [[nodiscard]] int stream_index() const;
 
-    [[nodiscard]] virtual AVPacket* packet() const = 0;
-    virtual void unref() = 0;
+    [[nodiscard]] AVPacket* packet() const;
+    void unref();
+
+private:
+    AutoDeleteResource<AVPacket> packet_;
 };

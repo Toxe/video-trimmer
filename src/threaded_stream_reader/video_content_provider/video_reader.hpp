@@ -5,10 +5,10 @@
 #include <optional>
 #include <stop_token>
 
+#include "../adapters/packet/packet.hpp"
 #include "work_thread.hpp"
 
 class Factory;
-class Packet;
 class StreamInfo;
 class VideoContentProvider;
 class VideoFrame;
