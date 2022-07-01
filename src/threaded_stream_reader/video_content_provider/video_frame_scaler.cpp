@@ -4,23 +4,16 @@
 
 #include <fmt/core.h>
 
-#include "../adapters/scaling_context/scaling_context.hpp"
 #include "../factory/factory.hpp"
-#include "../stream_info/stream_info.hpp"
 #include "../video_frame/video_frame.hpp"
 #include "error/error.hpp"
 #include "logger/logger.hpp"
 #include "video_content_provider.hpp"
 
 VideoFrameScaler::VideoFrameScaler(Factory* factory, StreamInfo* video_stream_info, const int width, const int height)
-    : WorkThread{factory, "VideoFrameScaler"}
+    : WorkThread(factory, "VideoFrameScaler"), video_stream_info_(video_stream_info), scale_height_(height), scale_width_(width)
 {
-    video_stream_info_ = video_stream_info;
-
-    scale_width_ = width;
-    scale_height_ = height;
-
-    scaling_context_ = factory->create_scaling_context(video_stream_info_->codec_context(), width, height);
+    scaling_context_ = std::make_unique<ScalingContext>(video_stream_info_->codec_context(), width, height);
 
     if (!scaling_context_)
         throw std::runtime_error("create_scaling_context");
@@ -105,7 +98,7 @@ int VideoFrameScaler::resize_scaling_context(int width, int height)
     scale_width_ = width;
     scale_height_ = height;
 
-    scaling_context_ = factory()->create_scaling_context(video_stream_info_->codec_context(), width, height);
+    scaling_context_ = std::make_unique<ScalingContext>(video_stream_info_->codec_context(), width, height);
 
     if (!scaling_context_)
         return show_error("create_scaling_context");

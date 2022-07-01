@@ -5,10 +5,10 @@
 #include <queue>
 #include <stop_token>
 
+#include "../adapters/scaling_context/scaling_context.hpp"
 #include "work_thread.hpp"
 
 class Factory;
-class ScalingContext;
 class StreamInfo;
 class VideoContentProvider;
 class VideoFrame;

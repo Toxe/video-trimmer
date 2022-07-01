@@ -35,8 +35,7 @@ add_executable(video_trimmer
         threaded_stream_reader/adapters/packet/ffmpeg_packet.cpp
         threaded_stream_reader/adapters/packet/ffmpeg_packet.hpp
         threaded_stream_reader/adapters/packet/packet.hpp
-        threaded_stream_reader/adapters/scaling_context/ffmpeg_scaling_context.cpp
-        threaded_stream_reader/adapters/scaling_context/ffmpeg_scaling_context.hpp
+        threaded_stream_reader/adapters/scaling_context/scaling_context.cpp
         threaded_stream_reader/adapters/scaling_context/scaling_context.hpp
         threaded_stream_reader/factory/factory.hpp
         threaded_stream_reader/factory/ffmpeg_factory.cpp
@@ -87,7 +86,7 @@ add_executable(video_trimmer
         views/trim_controls_view/trim_controls_view.hpp
         views/video_view/video_view.cpp
         views/video_view/video_view.h
-)
+        threaded_stream_reader/adapters/scaling_context/scaling_context.cpp)
 
 set_target_properties(video_trimmer PROPERTIES CXX_EXTENSIONS OFF)
 target_compile_features(video_trimmer PUBLIC cxx_std_20)

@@ -1,4 +1,4 @@
-#include "ffmpeg_scaling_context.hpp"
+#include "scaling_context.hpp"
 
 #include <stdexcept>
 
@@ -10,8 +10,8 @@ extern "C" {
 #include "../../video_frame/video_frame.hpp"
 #include "error/error.hpp"
 
-FFmpegScalingContext::FFmpegScalingContext(CodecContext* codec_context, const int width, const int height)
-    : ScalingContext(codec_context, width, height)
+ScalingContext::ScalingContext(CodecContext* codec_context, const int width, const int height)
+    : src_width_(codec_context->width()), src_height_(codec_context->height()), dst_width_(width), dst_height_(height), src_pixel_format_(codec_context->pixel_format()), dst_pixel_format_(AV_PIX_FMT_RGBA)
 {
     scaling_context_ = AutoDeleteResource<SwsContext>(sws_getContext(src_width_, src_height_, src_pixel_format_, dst_width_, dst_height_, dst_pixel_format_, SWS_BILINEAR, nullptr, nullptr, nullptr), [](SwsContext* ctx) { sws_freeContext(ctx); });
 
@@ -19,7 +19,7 @@ FFmpegScalingContext::FFmpegScalingContext(CodecContext* codec_context, const in
         throw std::runtime_error("sws_getContext");
 }
 
-int FFmpegScalingContext::scale(VideoFrame* video_frame)
+int ScalingContext::scale(VideoFrame* video_frame)
 {
     int ret = sws_scale(scaling_context_.get(), video_frame->frame()->src_data(), video_frame->frame()->src_linesizes(), 0, src_height_, video_frame->frame()->dst_data(), video_frame->frame()->dst_linesizes());
 
