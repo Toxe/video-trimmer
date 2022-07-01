@@ -25,34 +25,22 @@ add_executable(video_trimmer
         threaded_stream_reader/adapters/codec_context/codec_context.hpp
         threaded_stream_reader/adapters/codec_context/ffmpeg_codec_context.cpp
         threaded_stream_reader/adapters/codec_context/ffmpeg_codec_context.hpp
-        threaded_stream_reader/adapters/codec_context/mock_codec_context.cpp
-        threaded_stream_reader/adapters/codec_context/mock_codec_context.hpp
         threaded_stream_reader/adapters/format_context/ffmpeg_format_context.cpp
         threaded_stream_reader/adapters/format_context/ffmpeg_format_context.hpp
         threaded_stream_reader/adapters/format_context/format_context.hpp
-        threaded_stream_reader/adapters/format_context/mock_format_context.cpp
-        threaded_stream_reader/adapters/format_context/mock_format_context.hpp
         threaded_stream_reader/adapters/frame/ffmpeg_frame.cpp
         threaded_stream_reader/adapters/frame/ffmpeg_frame.hpp
         threaded_stream_reader/adapters/frame/frame.cpp
         threaded_stream_reader/adapters/frame/frame.hpp
-        threaded_stream_reader/adapters/frame/mock_frame.cpp
-        threaded_stream_reader/adapters/frame/mock_frame.hpp
         threaded_stream_reader/adapters/packet/ffmpeg_packet.cpp
         threaded_stream_reader/adapters/packet/ffmpeg_packet.hpp
-        threaded_stream_reader/adapters/packet/mock_packet.cpp
-        threaded_stream_reader/adapters/packet/mock_packet.hpp
         threaded_stream_reader/adapters/packet/packet.hpp
         threaded_stream_reader/adapters/scaling_context/ffmpeg_scaling_context.cpp
         threaded_stream_reader/adapters/scaling_context/ffmpeg_scaling_context.hpp
-        threaded_stream_reader/adapters/scaling_context/mock_scaling_context.cpp
-        threaded_stream_reader/adapters/scaling_context/mock_scaling_context.hpp
         threaded_stream_reader/adapters/scaling_context/scaling_context.hpp
         threaded_stream_reader/factory/factory.hpp
         threaded_stream_reader/factory/ffmpeg_factory.cpp
         threaded_stream_reader/factory/ffmpeg_factory.hpp
-        threaded_stream_reader/factory/mock_factory.cpp
-        threaded_stream_reader/factory/mock_factory.hpp
         threaded_stream_reader/stream_info/stream_info.cpp
         threaded_stream_reader/stream_info/stream_info.hpp
         threaded_stream_reader/video_content_provider/run_state.hpp
