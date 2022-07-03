@@ -1,6 +1,8 @@
 #include "logger.hpp"
 
-#include <spdlog/spdlog.h>
+#include "spdlog/spdlog.h"
+
+namespace video_trimmer::logger {
 
 void log_init(LogLevel log_level)
 {
@@ -59,3 +61,5 @@ void log_critical(const std::string& s)
 {
     spdlog::critical(s);
 }
+
+}  // namespace video_trimmer::logger

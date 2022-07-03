@@ -8,7 +8,7 @@
 #include "events.hpp"
 #include "logger/logger.hpp"
 
-const video_trimmer::event_handler::Command no_command = [] { log_debug("NoCommand"); };
+const video_trimmer::event_handler::Command no_command = [] { video_trimmer::logger::log_debug("NoCommand"); };
 
 video_trimmer::event_handler::EventHandler::EventHandler()
 {

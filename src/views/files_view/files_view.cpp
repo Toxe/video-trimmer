@@ -13,10 +13,10 @@ FilesView::FilesView()
 
 void FilesView::change_directory(const std::string& directory)
 {
-    log_debug(fmt::format("(FilesView) change directory: {}", directory));
+    video_trimmer::logger::log_debug(fmt::format("(FilesView) change directory: {}", directory));
 
     if (directory_scanner_->is_scanning()) {
-        log_warn("(FilesView) already scanning another directory");
+        video_trimmer::logger::log_warn("(FilesView) already scanning another directory");
         return;
     }
 

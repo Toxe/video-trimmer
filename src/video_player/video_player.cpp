@@ -10,7 +10,7 @@
 
 bool VideoPlayer::open_file(const char* filename)
 {
-    log_debug(fmt::format("(VideoPlayer) open file: {}", filename));
+    video_trimmer::logger::log_debug(fmt::format("(VideoPlayer) open file: {}", filename));
 
     if (has_open_file())
         return false;
@@ -34,14 +34,14 @@ bool VideoPlayer::open_file(const char* filename)
 
 void VideoPlayer::close_file()
 {
-    log_debug(fmt::format("(VideoPlayer) close file"));
+    video_trimmer::logger::log_debug(fmt::format("(VideoPlayer) close file"));
 
     video_content_provider_->stop();
 }
 
 void VideoPlayer::start()
 {
-    log_debug(fmt::format("(VideoPlayer) start"));
+    video_trimmer::logger::log_debug(fmt::format("(VideoPlayer) start"));
 
     if (has_open_file() && !has_started_playing()) {
         has_started_playing_ = true;
@@ -54,7 +54,7 @@ void VideoPlayer::start()
 
 void VideoPlayer::resume()
 {
-    log_debug(fmt::format("(VideoPlayer) resume"));
+    video_trimmer::logger::log_debug(fmt::format("(VideoPlayer) resume"));
 
     if (has_started_playing() && is_paused()) {
         is_playing_ = true;
@@ -63,7 +63,7 @@ void VideoPlayer::resume()
 
 void VideoPlayer::pause()
 {
-    log_debug(fmt::format("(VideoPlayer) pause"));
+    video_trimmer::logger::log_debug(fmt::format("(VideoPlayer) pause"));
 
     if (has_started_playing() && is_playing()) {
         is_playing_ = false;
@@ -114,7 +114,7 @@ std::unique_ptr<VideoFrame> VideoPlayer::next_frame()
         return nullptr;
 
     if (!received_first_real_frame_) {
-        log_debug("(VideoPlayer) received first frame, begin playback");
+        video_trimmer::logger::log_debug("(VideoPlayer) received first frame, begin playback");
         received_first_real_frame_ = true;
     }
 

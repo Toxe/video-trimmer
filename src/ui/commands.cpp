@@ -5,7 +5,7 @@
 video_trimmer::event_handler::Command ToggleHelpCommand(UI& ui)
 {
     return [&] {
-        log_debug("ToggleHelpCommand");
+        video_trimmer::logger::log_debug("ToggleHelpCommand");
         ui.toggle_help();
     };
 }

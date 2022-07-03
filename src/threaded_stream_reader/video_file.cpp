@@ -15,7 +15,7 @@ int VideoFile::open_file(const std::string_view& full_filename)
     std::filesystem::path path{full_filename};
 
     if (!std::filesystem::exists(path))
-        return show_error("file not found");
+        return video_trimmer::error::show_error("file not found");
 
     filename_without_path_ = path.filename().string();
 

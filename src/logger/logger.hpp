@@ -2,6 +2,8 @@
 
 #include <string>
 
+namespace video_trimmer::logger {
+
 enum class LogLevel {
     trace,
     debug,
@@ -19,3 +21,5 @@ void log_info(const std::string& s);
 void log_warn(const std::string& s);
 void log_error(const std::string& s);
 void log_critical(const std::string& s);
+
+}  // namespace video_trimmer::logger

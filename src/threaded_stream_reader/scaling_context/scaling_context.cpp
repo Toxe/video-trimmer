@@ -23,7 +23,7 @@ int ScalingContext::scale(VideoFrame* video_frame)
     int ret = sws_scale(scaling_context_.get(), video_frame->frame()->src_data(), video_frame->frame()->src_linesizes(), 0, src_height_, video_frame->frame()->dst_data(), video_frame->frame()->dst_linesizes());
 
     if (ret != dst_height_)
-        show_error("sws_scale");
+        video_trimmer::error::show_error("sws_scale");
 
     video_frame->create_texture();
 

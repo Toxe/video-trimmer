@@ -19,7 +19,7 @@ VideoFrameScaler::VideoFrameScaler(StreamInfo* video_stream_info, int width, int
 
 void VideoFrameScaler::main(std::stop_token st, VideoContentProvider* video_content_provider, std::latch& latch)
 {
-    log_debug("(VideoFrameScaler) starting");
+    video_trimmer::logger::log_debug("(VideoFrameScaler) starting");
 
     latch.arrive_and_wait();
 
@@ -54,7 +54,7 @@ void VideoFrameScaler::main(std::stop_token st, VideoContentProvider* video_cont
 
     set_state(RunState::fnished);
 
-    log_debug("(VideoFrameScaler) stopping");
+    video_trimmer::logger::log_debug("(VideoFrameScaler) stopping");
 }
 
 void VideoFrameScaler::add_to_queue(std::unique_ptr<VideoFrame> video_frame)
@@ -91,7 +91,7 @@ void VideoFrameScaler::scale_frame(VideoFrame* video_frame)
 
 int VideoFrameScaler::resize_scaling_context(int width, int height)
 {
-    log_debug(fmt::format("(VideoFrameScaler) resize scaling context to {}x{}", width, height));
+    video_trimmer::logger::log_debug(fmt::format("(VideoFrameScaler) resize scaling context to {}x{}", width, height));
 
     scale_width_ = width;
     scale_height_ = height;
@@ -99,7 +99,7 @@ int VideoFrameScaler::resize_scaling_context(int width, int height)
     scaling_context_ = std::make_unique<ScalingContext>(video_stream_info_->codec_context(), width, height);
 
     if (!scaling_context_)
-        return show_error("create_scaling_context");
+        return video_trimmer::error::show_error("create_scaling_context");
 
     return 0;
 }

@@ -18,7 +18,7 @@ VideoContentProvider::~VideoContentProvider()
 void VideoContentProvider::run()
 {
     if (!is_running_) {
-        log_debug("(VideoContentProvider) run");
+        video_trimmer::logger::log_debug("(VideoContentProvider) run");
 
         std::latch latch{3};
 
@@ -34,7 +34,7 @@ void VideoContentProvider::run()
 void VideoContentProvider::stop()
 {
     if (is_running_) {
-        log_debug("(VideoContentProvider) stop");
+        video_trimmer::logger::log_debug("(VideoContentProvider) stop");
 
         video_reader_.stop();
         video_frame_scaler_.stop();

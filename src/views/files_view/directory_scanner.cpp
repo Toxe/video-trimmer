@@ -12,14 +12,14 @@ void DirectoryScanner::scan(FilesView* files_view, const std::string directory)
     std::lock_guard<std::mutex> lock(mtx_);
 
     if (is_scanning_) {
-        log_warn("(DirectoryScanner) already scanning");
+        video_trimmer::logger::log_warn("(DirectoryScanner) already scanning");
         return;
     }
 
     is_scanning_ = true;
 
     thread_ = std::jthread([this, files_view, directory](std::stop_token st) {
-        log_trace("(DirectoryScanner) scan started");
+        video_trimmer::logger::log_trace("(DirectoryScanner) scan started");
 
         std::filesystem::path dir{directory};
 
@@ -34,7 +34,7 @@ void DirectoryScanner::scan(FilesView* files_view, const std::string directory)
             }
         }
 
-        log_trace("(DirectoryScanner) scan finished");
+        video_trimmer::logger::log_trace("(DirectoryScanner) scan finished");
 
         is_scanning_ = false;
     });
@@ -42,7 +42,7 @@ void DirectoryScanner::scan(FilesView* files_view, const std::string directory)
 
 void DirectoryScanner::abort()
 {
-    log_debug("(DirectoryScanner) abort scan");
+    video_trimmer::logger::log_debug("(DirectoryScanner) abort scan");
 
     thread_.request_stop();
 }

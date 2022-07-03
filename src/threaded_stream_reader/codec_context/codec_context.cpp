@@ -87,7 +87,7 @@ int CodecContext::send_packet(Packet* packet)
     int ret = avcodec_send_packet(codec_context_.get(), packet->packet());
 
     if (ret < 0)
-        return show_error("avcodec_send_packet", ret);
+        return video_trimmer::error::show_error("avcodec_send_packet", ret);
 
     return 0;
 }
@@ -100,7 +100,7 @@ std::unique_ptr<Frame> CodecContext::receive_frame(const double time_base, const
 
     if (ret < 0) {
         if (!(ret == AVERROR_EOF || ret == AVERROR(EAGAIN)))
-            show_error("avcodec_receive_frame");
+            video_trimmer::error::show_error("avcodec_receive_frame");
 
         return nullptr;
     }

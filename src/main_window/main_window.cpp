@@ -11,7 +11,7 @@ MainWindow::MainWindow(const video_trimmer::CommandLine& cli)
     : window_video_mode_{cli.default_window_video_mode()}
 {
     // create main_window
-    log_info(fmt::format("init main_window mode {}x{}", cli.video_mode().width, cli.video_mode().height));
+    video_trimmer::logger::log_info(fmt::format("init main_window mode {}x{}", cli.video_mode().width, cli.video_mode().height));
 
     window_ = std::make_unique<sf::RenderWindow>(cli.video_mode(), title_, sf::Style::Default);
     window_->setVerticalSyncEnabled(true);
@@ -66,7 +66,7 @@ void MainWindow::resized_window()
     const auto size = window_->getSize();
     adjust_view_to_window_size();
 
-    log_info(fmt::format("resized main_window to {}x{}", size.x, size.y));
+    video_trimmer::logger::log_info(fmt::format("resized main_window to {}x{}", size.x, size.y));
 }
 
 void MainWindow::adjust_view_to_window_size()

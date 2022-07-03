@@ -17,7 +17,7 @@ WorkThread::~WorkThread()
 void WorkThread::run(VideoContentProvider* video_content_provider, std::latch& latch)
 {
     if (!thread_.joinable()) {
-        log_debug(fmt::format("({}) run", log_class_name_));
+        video_trimmer::logger::log_debug(fmt::format("({}) run", log_class_name_));
 
         thread_ = std::jthread([this, video_content_provider, &latch](std::stop_token st) { main(std::move(st), video_content_provider, latch); });
     }
@@ -26,7 +26,7 @@ void WorkThread::run(VideoContentProvider* video_content_provider, std::latch& l
 void WorkThread::stop()
 {
     if (thread_.joinable()) {
-        log_debug(fmt::format("({}) stop", log_class_name_));
+        video_trimmer::logger::log_debug(fmt::format("({}) stop", log_class_name_));
 
         thread_.request_stop();
         thread_.join();

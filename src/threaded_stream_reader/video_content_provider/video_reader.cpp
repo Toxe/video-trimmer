@@ -14,7 +14,7 @@ VideoReader::VideoReader(StreamInfo* audio_stream_info, StreamInfo* video_stream
 
 void VideoReader::main(std::stop_token st, VideoContentProvider* video_content_provider, std::latch& latch)
 {
-    log_debug("(VideoReader) starting");
+    video_trimmer::logger::log_debug("(VideoReader) starting");
 
     latch.arrive_and_wait();
 
@@ -42,7 +42,7 @@ void VideoReader::main(std::stop_token st, VideoContentProvider* video_content_p
 
     set_state(RunState::fnished);
 
-    log_debug("(VideoReader) stopping");
+    video_trimmer::logger::log_debug("(VideoReader) stopping");
 }
 
 std::optional<std::unique_ptr<VideoFrame>> VideoReader::read()

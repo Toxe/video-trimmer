@@ -50,20 +50,20 @@ video_trimmer::CommandLine::CommandLine(int argc, char* argv[])
     default_window_video_mode_.height = window_height_;
     video_mode_ = default_window_video_mode_;
 
-    LogLevel log_level = LogLevel::warn;
+    logger::LogLevel log_level = logger::LogLevel::warn;
 
     switch (log_level_flag) {
-        case  1: log_level = LogLevel::info;   break;
-        case  2: log_level = LogLevel::debug;  break;
-        case  3: log_level = LogLevel::trace;  break;
-        default: log_level = LogLevel::warn;
+        case  1: log_level = logger::LogLevel::info;   break;
+        case  2: log_level = logger::LogLevel::debug;  break;
+        case  3: log_level = logger::LogLevel::trace;  break;
+        default: log_level = logger::LogLevel::warn;
     }
 
-    log_init(log_level);
-    log_debug(fmt::format("command line option directory: {}", directory_));
-    log_debug(fmt::format("command line option --font-size: {}", font_size_));
-    log_debug(fmt::format("command line option --width: {}", window_width_));
-    log_debug(fmt::format("command line option --height: {}", window_height_));
+    logger::log_init(log_level);
+    logger::log_debug(fmt::format("command line option directory: {}", directory_));
+    logger::log_debug(fmt::format("command line option --font-size: {}", font_size_));
+    logger::log_debug(fmt::format("command line option --width: {}", window_width_));
+    logger::log_debug(fmt::format("command line option --height: {}", window_height_));
 
     if (!std::filesystem::exists(directory_))
         show_usage_and_exit(app, fmt::format("directory not found: {}", directory_).c_str(), {});
