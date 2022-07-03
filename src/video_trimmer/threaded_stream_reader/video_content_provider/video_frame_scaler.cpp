@@ -2,7 +2,7 @@
 
 #include <stdexcept>
 
-#include <fmt/core.h>
+#include "fmt/core.h"
 
 #include "video_content_provider.hpp"
 #include "video_trimmer/error/error.hpp"

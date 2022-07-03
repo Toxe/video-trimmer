@@ -1,7 +1,7 @@
 #include "playback_controls_view.hpp"
 
-#include <fmt/core.h>
-#include <imgui.h>
+#include "fmt/core.h"
+#include "imgui.h"
 
 namespace video_trimmer::views::playback_controls_view {
 

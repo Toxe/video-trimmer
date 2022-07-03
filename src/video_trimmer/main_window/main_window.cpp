@@ -1,8 +1,8 @@
 #include "main_window.hpp"
 
-#include <fmt/core.h>
-#include <imgui-SFML.h>
-#include <imgui.h>
+#include "fmt/core.h"
+#include "imgui-SFML.h"
+#include "imgui.h"
 
 #include "video_trimmer/command_line/command_line.h"
 #include "video_trimmer/logger/logger.hpp"

@@ -3,8 +3,8 @@
 #include <memory>
 #include <mutex>
 
-#include <SFML/Graphics/RenderWindow.hpp>
-#include <SFML/Window/VideoMode.hpp>
+#include "SFML/Graphics/RenderWindow.hpp"
+#include "SFML/Window/VideoMode.hpp"
 
 #include "types.h"
 #include "video_trimmer/clock/duration.hpp"

@@ -1,7 +1,7 @@
 #include "additional_info_view.hpp"
 
-#include <fmt/core.h>
-#include <imgui.h>
+#include "fmt/core.h"
+#include "imgui.h"
 
 namespace video_trimmer::views::additional_info_view {
 

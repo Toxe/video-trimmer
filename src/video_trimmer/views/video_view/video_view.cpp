@@ -1,7 +1,7 @@
 #include "video_view.h"
 
-#include <fmt/core.h>
-#include <imgui.h>
+#include "fmt/core.h"
+#include "imgui.h"
 
 #include "video_trimmer/ui/colors/colors.hpp"
 #include "video_trimmer/ui/imgui_helpers.hpp"

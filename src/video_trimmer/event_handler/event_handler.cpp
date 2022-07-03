@@ -1,9 +1,9 @@
 #include "event_handler.hpp"
 
-#include <SFML/Graphics/RenderWindow.hpp>
-#include <SFML/Window/Event.hpp>
-#include <imgui-SFML.h>
-#include <imgui.h>
+#include "SFML/Graphics/RenderWindow.hpp"
+#include "SFML/Window/Event.hpp"
+#include "imgui-SFML.h"
+#include "imgui.h"
 
 #include "events.hpp"
 #include "video_trimmer/logger/logger.hpp"

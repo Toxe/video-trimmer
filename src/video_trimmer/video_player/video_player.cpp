@@ -1,7 +1,7 @@
 #include "video_player.hpp"
 
-#include <fmt/core.h>
-#include <imgui.h>
+#include "fmt/core.h"
+#include "imgui.h"
 
 #include "video_trimmer/logger/logger.hpp"
 #include "video_trimmer/threaded_stream_reader/video_file.hpp"

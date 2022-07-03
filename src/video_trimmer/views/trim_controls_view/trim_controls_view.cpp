@@ -1,7 +1,7 @@
 #include "trim_controls_view.hpp"
 
-#include <fmt/core.h>
-#include <imgui.h>
+#include "fmt/core.h"
+#include "imgui.h"
 
 namespace video_trimmer::views::trim_controls_view {
 

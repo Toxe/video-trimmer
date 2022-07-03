@@ -3,10 +3,10 @@
 #include <array>
 #include <stdexcept>
 
-#include <fmt/core.h>
+#include "fmt/core.h"
 
 extern "C" {
-#include <libavutil/error.h>
+#include "libavutil/error.h"
 }
 
 #include "video_trimmer/logger/logger.hpp"

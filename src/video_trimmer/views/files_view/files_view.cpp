@@ -1,7 +1,7 @@
 #include "files_view.hpp"
 
-#include <fmt/core.h>
-#include <imgui.h>
+#include "fmt/core.h"
+#include "imgui.h"
 
 #include "directory_scanner.hpp"
 #include "video_trimmer/logger/logger.hpp"

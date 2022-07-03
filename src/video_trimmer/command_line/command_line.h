@@ -3,7 +3,7 @@
 #include <optional>
 #include <string>
 
-#include <SFML/Window/VideoMode.hpp>
+#include "SFML/Window/VideoMode.hpp"
 
 namespace video_trimmer::command_line {
 

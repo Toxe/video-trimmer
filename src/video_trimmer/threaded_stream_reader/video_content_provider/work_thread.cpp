@@ -1,6 +1,6 @@
 #include "work_thread.hpp"
 
-#include <fmt/core.h>
+#include "fmt/core.h"
 
 #include "video_trimmer/logger/logger.hpp"
 

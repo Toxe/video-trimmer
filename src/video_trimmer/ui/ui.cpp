@@ -1,6 +1,6 @@
 #include "ui.hpp"
 
-#include <fmt/core.h>
+#include "fmt/core.h"
 
 #include "colors/colors.hpp"
 #include "video_trimmer/event_handler/events.hpp"

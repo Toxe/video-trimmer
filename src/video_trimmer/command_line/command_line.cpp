@@ -3,10 +3,10 @@
 #include <cstdlib>
 #include <filesystem>
 
-#include <CLI/App.hpp>
-#include <CLI/Config.hpp>
-#include <CLI/Formatter.hpp>
-#include <fmt/core.h>
+#include "CLI/App.hpp"
+#include "CLI/Config.hpp"
+#include "CLI/Formatter.hpp"
+#include "fmt/core.h"
 
 #include "video_trimmer/logger/logger.hpp"
 
