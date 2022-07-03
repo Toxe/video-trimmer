@@ -1,14 +1,14 @@
-#include "app/app.hpp"
-#include "command_line/command_line.h"
-#include "event_handler/event_handler.hpp"
-#include "main_window/main_window.hpp"
-#include "register_events.hpp"
-#include "ui/ui.hpp"
-#include "video_player/video_player.hpp"
-#include "views/additional_info_view/additional_info_view.hpp"
-#include "views/files_view/files_view.hpp"
-#include "views/playback_controls_view/playback_controls_view.hpp"
-#include "views/trim_controls_view/trim_controls_view.hpp"
+#include "video_trimmer/app/app.hpp"
+#include "video_trimmer/command_line/command_line.h"
+#include "video_trimmer/event_handler/event_handler.hpp"
+#include "video_trimmer/event_handler/register_events.hpp"
+#include "video_trimmer/main_window/main_window.hpp"
+#include "video_trimmer/ui/ui.hpp"
+#include "video_trimmer/video_player/video_player.hpp"
+#include "video_trimmer/views/additional_info_view/additional_info_view.hpp"
+#include "video_trimmer/views/files_view/files_view.hpp"
+#include "video_trimmer/views/playback_controls_view/playback_controls_view.hpp"
+#include "video_trimmer/views/trim_controls_view/trim_controls_view.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -19,7 +19,7 @@ int main(int argc, char* argv[])
     video_trimmer::main_window::MainWindow window(cli);
 
     video_trimmer::event_handler::EventHandler event_handler;
-    register_events(event_handler, window, ui);
+    video_trimmer::event_handler::register_events(event_handler, window, ui);
     ui.set_event_handler(&event_handler);
 
     AdditionalInfoView additional_info_view(cli);

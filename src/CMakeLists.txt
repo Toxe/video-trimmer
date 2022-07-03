@@ -1,113 +1,113 @@
 if (CMAKE_HOST_SYSTEM_NAME STREQUAL "Linux")
     set(
             LINUX_SOURCES
-            ui/widgets/memory_usage_widget/memory_usage_info/linux_memory_usage_info.cpp
-            ui/widgets/memory_usage_widget/memory_usage_info/linux_memory_usage_info.hpp
+            video_trimmer/ui/widgets/memory_usage_widget/memory_usage_info/linux_memory_usage_info.cpp
+            video_trimmer/ui/widgets/memory_usage_widget/memory_usage_info/linux_memory_usage_info.hpp
     )
 endif ()
 
 if (CMAKE_HOST_SYSTEM_NAME STREQUAL "Darwin")
     set(
             MAC_SOURCES
-            ui/widgets/memory_usage_widget/memory_usage_info/mac_memory_usage_info.cpp
-            ui/widgets/memory_usage_widget/memory_usage_info/mac_memory_usage_info.hpp
+            video_trimmer/ui/widgets/memory_usage_widget/memory_usage_info/mac_memory_usage_info.cpp
+            video_trimmer/ui/widgets/memory_usage_widget/memory_usage_info/mac_memory_usage_info.hpp
     )
 endif ()
 
 if (CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
     set(
             WINDOWS_SOURCES
-            ui/widgets/memory_usage_widget/memory_usage_info/windows_memory_usage_info.cpp
-            ui/widgets/memory_usage_widget/memory_usage_info/windows_memory_usage_info.hpp
+            video_trimmer/ui/widgets/memory_usage_widget/memory_usage_info/windows_memory_usage_info.cpp
+            video_trimmer/ui/widgets/memory_usage_widget/memory_usage_info/windows_memory_usage_info.hpp
     )
 endif ()
 
 add_executable(video_trimmer
         main.cpp
-        app/app.cpp
-        app/app.hpp
-        clock/clock.hpp
-        clock/duration.hpp
-        clock/stopwatch.hpp
-        command_line/command_line.cpp
-        command_line/command_line.h
-        error/error.cpp
-        error/error.hpp
-        event_handler/command.hpp
-        event_handler/event_handler.cpp
-        event_handler/event_handler.hpp
-        event_handler/events.hpp
-        include/auto_delete_resource.hpp
-        include/types.h
-        logger/logger.cpp
-        logger/logger.hpp
-        main_window/commands.cpp
-        main_window/commands.hpp
-        main_window/main_window.cpp
-        main_window/main_window.hpp
-        register_events.cpp
-        register_events.hpp
-        threaded_stream_reader/codec_context/codec_context.cpp
-        threaded_stream_reader/codec_context/codec_context.hpp
-        threaded_stream_reader/format_context/format_context.cpp
-        threaded_stream_reader/format_context/format_context.hpp
-        threaded_stream_reader/frame/frame.cpp
-        threaded_stream_reader/frame/frame.hpp
-        threaded_stream_reader/packet/packet.cpp
-        threaded_stream_reader/packet/packet.hpp
-        threaded_stream_reader/scaling_context/scaling_context.cpp
-        threaded_stream_reader/scaling_context/scaling_context.hpp
-        threaded_stream_reader/stream_info/stream_info.cpp
-        threaded_stream_reader/stream_info/stream_info.hpp
-        threaded_stream_reader/video_content_provider/run_state.hpp
-        threaded_stream_reader/video_content_provider/video_content_provider.cpp
-        threaded_stream_reader/video_content_provider/video_content_provider.hpp
-        threaded_stream_reader/video_content_provider/video_frame_queue.cpp
-        threaded_stream_reader/video_content_provider/video_frame_queue.hpp
-        threaded_stream_reader/video_content_provider/video_frame_scaler.cpp
-        threaded_stream_reader/video_content_provider/video_frame_scaler.hpp
-        threaded_stream_reader/video_content_provider/video_reader.cpp
-        threaded_stream_reader/video_content_provider/video_reader.hpp
-        threaded_stream_reader/video_content_provider/work_thread.cpp
-        threaded_stream_reader/video_content_provider/work_thread.hpp
-        threaded_stream_reader/video_file.cpp
-        threaded_stream_reader/video_file.hpp
-        threaded_stream_reader/video_frame/texture.cpp
-        threaded_stream_reader/video_frame/texture.hpp
-        threaded_stream_reader/video_frame/video_frame.cpp
-        threaded_stream_reader/video_frame/video_frame.hpp
-        ui/colors/colors.hpp
-        ui/commands.cpp
-        ui/commands.hpp
-        ui/imgui_helpers.cpp
-        ui/imgui_helpers.hpp
-        ui/ui.cpp
-        ui/ui.hpp
-        ui/widgets/fps_widget/fps_widget.cpp
-        ui/widgets/fps_widget/fps_widget.hpp
-        ui/widgets/memory_usage_widget/memory_usage_info/create_memory_usage_info.cpp
-        ui/widgets/memory_usage_widget/memory_usage_info/create_memory_usage_info.hpp
-        ui/widgets/memory_usage_widget/memory_usage_info/memory_usage_info.hpp
-        ui/widgets/memory_usage_widget/memory_usage_widget.cpp
-        ui/widgets/memory_usage_widget/memory_usage_widget.hpp
-        ui/widgets/video_file_info_widget/video_file_info_widget.cpp
-        ui/widgets/video_file_info_widget/video_file_info_widget.hpp
-        video_player/video_player.cpp
-        video_player/video_player.hpp
-        views/additional_info_view/additional_info_view.cpp
-        views/additional_info_view/additional_info_view.hpp
-        views/files_view/directory_scanner.cpp
-        views/files_view/directory_scanner.hpp
-        views/files_view/file_entry.cpp
-        views/files_view/file_entry.hpp
-        views/files_view/files_view.cpp
-        views/files_view/files_view.hpp
-        views/playback_controls_view/playback_controls_view.cpp
-        views/playback_controls_view/playback_controls_view.hpp
-        views/trim_controls_view/trim_controls_view.cpp
-        views/trim_controls_view/trim_controls_view.hpp
-        views/video_view/video_view.cpp
-        views/video_view/video_view.h
+        video_trimmer/app/app.cpp
+        video_trimmer/app/app.hpp
+        video_trimmer/clock/clock.hpp
+        video_trimmer/clock/duration.hpp
+        video_trimmer/clock/stopwatch.hpp
+        video_trimmer/command_line/command_line.cpp
+        video_trimmer/command_line/command_line.h
+        video_trimmer/error/error.cpp
+        video_trimmer/error/error.hpp
+        video_trimmer/event_handler/command.hpp
+        video_trimmer/event_handler/event_handler.cpp
+        video_trimmer/event_handler/event_handler.hpp
+        video_trimmer/event_handler/events.hpp
+        video_trimmer/event_handler/register_events.cpp
+        video_trimmer/event_handler/register_events.hpp
+        video_trimmer/include/auto_delete_resource.hpp
+        video_trimmer/include/types.h
+        video_trimmer/logger/logger.cpp
+        video_trimmer/logger/logger.hpp
+        video_trimmer/main_window/commands.cpp
+        video_trimmer/main_window/commands.hpp
+        video_trimmer/main_window/main_window.cpp
+        video_trimmer/main_window/main_window.hpp
+        video_trimmer/threaded_stream_reader/codec_context/codec_context.cpp
+        video_trimmer/threaded_stream_reader/codec_context/codec_context.hpp
+        video_trimmer/threaded_stream_reader/format_context/format_context.cpp
+        video_trimmer/threaded_stream_reader/format_context/format_context.hpp
+        video_trimmer/threaded_stream_reader/frame/frame.cpp
+        video_trimmer/threaded_stream_reader/frame/frame.hpp
+        video_trimmer/threaded_stream_reader/packet/packet.cpp
+        video_trimmer/threaded_stream_reader/packet/packet.hpp
+        video_trimmer/threaded_stream_reader/scaling_context/scaling_context.cpp
+        video_trimmer/threaded_stream_reader/scaling_context/scaling_context.hpp
+        video_trimmer/threaded_stream_reader/stream_info/stream_info.cpp
+        video_trimmer/threaded_stream_reader/stream_info/stream_info.hpp
+        video_trimmer/threaded_stream_reader/video_content_provider/run_state.hpp
+        video_trimmer/threaded_stream_reader/video_content_provider/video_content_provider.cpp
+        video_trimmer/threaded_stream_reader/video_content_provider/video_content_provider.hpp
+        video_trimmer/threaded_stream_reader/video_content_provider/video_frame_queue.cpp
+        video_trimmer/threaded_stream_reader/video_content_provider/video_frame_queue.hpp
+        video_trimmer/threaded_stream_reader/video_content_provider/video_frame_scaler.cpp
+        video_trimmer/threaded_stream_reader/video_content_provider/video_frame_scaler.hpp
+        video_trimmer/threaded_stream_reader/video_content_provider/video_reader.cpp
+        video_trimmer/threaded_stream_reader/video_content_provider/video_reader.hpp
+        video_trimmer/threaded_stream_reader/video_content_provider/work_thread.cpp
+        video_trimmer/threaded_stream_reader/video_content_provider/work_thread.hpp
+        video_trimmer/threaded_stream_reader/video_file.cpp
+        video_trimmer/threaded_stream_reader/video_file.hpp
+        video_trimmer/threaded_stream_reader/video_frame/texture.cpp
+        video_trimmer/threaded_stream_reader/video_frame/texture.hpp
+        video_trimmer/threaded_stream_reader/video_frame/video_frame.cpp
+        video_trimmer/threaded_stream_reader/video_frame/video_frame.hpp
+        video_trimmer/ui/colors/colors.hpp
+        video_trimmer/ui/commands.cpp
+        video_trimmer/ui/commands.hpp
+        video_trimmer/ui/imgui_helpers.cpp
+        video_trimmer/ui/imgui_helpers.hpp
+        video_trimmer/ui/ui.cpp
+        video_trimmer/ui/ui.hpp
+        video_trimmer/ui/widgets/fps_widget/fps_widget.cpp
+        video_trimmer/ui/widgets/fps_widget/fps_widget.hpp
+        video_trimmer/ui/widgets/memory_usage_widget/memory_usage_info/create_memory_usage_info.cpp
+        video_trimmer/ui/widgets/memory_usage_widget/memory_usage_info/create_memory_usage_info.hpp
+        video_trimmer/ui/widgets/memory_usage_widget/memory_usage_info/memory_usage_info.hpp
+        video_trimmer/ui/widgets/memory_usage_widget/memory_usage_widget.cpp
+        video_trimmer/ui/widgets/memory_usage_widget/memory_usage_widget.hpp
+        video_trimmer/ui/widgets/video_file_info_widget/video_file_info_widget.cpp
+        video_trimmer/ui/widgets/video_file_info_widget/video_file_info_widget.hpp
+        video_trimmer/video_player/video_player.cpp
+        video_trimmer/video_player/video_player.hpp
+        video_trimmer/views/additional_info_view/additional_info_view.cpp
+        video_trimmer/views/additional_info_view/additional_info_view.hpp
+        video_trimmer/views/files_view/directory_scanner.cpp
+        video_trimmer/views/files_view/directory_scanner.hpp
+        video_trimmer/views/files_view/file_entry.cpp
+        video_trimmer/views/files_view/file_entry.hpp
+        video_trimmer/views/files_view/files_view.cpp
+        video_trimmer/views/files_view/files_view.hpp
+        video_trimmer/views/playback_controls_view/playback_controls_view.cpp
+        video_trimmer/views/playback_controls_view/playback_controls_view.hpp
+        video_trimmer/views/trim_controls_view/trim_controls_view.cpp
+        video_trimmer/views/trim_controls_view/trim_controls_view.hpp
+        video_trimmer/views/video_view/video_view.cpp
+        video_trimmer/views/video_view/video_view.h
         ${LINUX_SOURCES}
         ${MAC_SOURCES}
         ${WINDOWS_SOURCES}
@@ -116,6 +116,6 @@ add_executable(video_trimmer
 set_target_properties(video_trimmer PROPERTIES CXX_EXTENSIONS OFF)
 target_compile_features(video_trimmer PUBLIC cxx_std_20)
 target_compile_options(video_trimmer PRIVATE ${SANITIZER_FLAGS} ${DEFAULT_COMPILER_OPTIONS_AND_WARNINGS})
-target_include_directories(video_trimmer PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} include ${FFMPEG_INCLUDE_DIRS})
+target_include_directories(video_trimmer PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} video_trimmer/include ${FFMPEG_INCLUDE_DIRS})
 target_link_directories(video_trimmer PRIVATE ${FFMPEG_LIBRARY_DIRS})
 target_link_libraries(video_trimmer PRIVATE ${SANITIZER_FLAGS} CLI11::CLI11 fmt::fmt spdlog::spdlog sfml-system sfml-graphics sfml-window sfml-audio ImGui-SFML::ImGui-SFML ${FFMPEG_LIBRARIES})
