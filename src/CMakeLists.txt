@@ -33,9 +33,10 @@ add_executable(video_trimmer
         command_line/command_line.h
         error/error.cpp
         error/error.hpp
+        event_handler/command.hpp
         event_handler/event_handler.cpp
-        event_handler/event_handler.h
-        event_handler/events.h
+        event_handler/event_handler.hpp
+        event_handler/events.hpp
         include/auto_delete_resource.hpp
         include/types.h
         logger/logger.cpp

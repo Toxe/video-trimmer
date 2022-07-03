@@ -2,7 +2,7 @@
 
 #include "logger/logger.hpp"
 
-Command CloseWindowCommand(MainWindow& window)
+video_trimmer::event_handler::Command CloseWindowCommand(MainWindow& window)
 {
     return [&] {
         log_debug("CloseWindowCommand");
@@ -10,7 +10,7 @@ Command CloseWindowCommand(MainWindow& window)
     };
 }
 
-Command ResizedWindowCommand(MainWindow& window)
+video_trimmer::event_handler::Command ResizedWindowCommand(MainWindow& window)
 {
     return [&] {
         log_debug("ResizedWindowCommand");

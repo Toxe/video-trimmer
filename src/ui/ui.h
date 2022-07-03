@@ -5,13 +5,13 @@
 
 #include <imgui.h>
 
-#include "event_handler/event_handler.h"
+#include "event_handler/event_handler.hpp"
 
 class UI {
     const char* main_window_title_ = "Video Trimmer";
     const char* help_window_title_ = "Help";
 
-    EventHandler* event_handler_ = nullptr;
+    video_trimmer::event_handler::EventHandler* event_handler_ = nullptr;
 
     ImVec2 main_window_size_;
 
@@ -36,5 +36,5 @@ public:
 
     void toggle_help() { show_help_ = !show_help_; };
 
-    void set_event_handler(EventHandler* event_handler) { event_handler_ = event_handler; };
+    void set_event_handler(video_trimmer::event_handler::EventHandler* event_handler) { event_handler_ = event_handler; };
 };

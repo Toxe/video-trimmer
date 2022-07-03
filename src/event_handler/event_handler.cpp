@@ -1,32 +1,33 @@
-#include "event_handler.h"
+#include "event_handler.hpp"
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>
 #include <imgui-SFML.h>
 #include <imgui.h>
 
+#include "events.hpp"
 #include "logger/logger.hpp"
 
-const Command no_command = [] { log_debug("NoCommand"); };
+const video_trimmer::event_handler::Command no_command = [] { log_debug("NoCommand"); };
 
-EventHandler::EventHandler()
+video_trimmer::event_handler::EventHandler::EventHandler()
 {
-    commands_[Event::CloseWindow]   = no_command;
+    commands_[Event::CloseWindow] = no_command;
     commands_[Event::ResizedWindow] = no_command;
-    commands_[Event::ToggleHelp]    = no_command;
+    commands_[Event::ToggleHelp] = no_command;
 }
 
-void EventHandler::set_command(const Event& event, Command command)
+void video_trimmer::event_handler::EventHandler::set_command(const Event& event, Command command)
 {
     commands_[event] = command;
 }
 
-void EventHandler::handle_event(const Event& event)
+void video_trimmer::event_handler::EventHandler::handle_event(const Event& event)
 {
     commands_[event]();
 }
 
-void EventHandler::poll_events(sf::RenderWindow& window)
+void video_trimmer::event_handler::EventHandler::poll_events(sf::RenderWindow& window)
 {
     sf::Event event;
 

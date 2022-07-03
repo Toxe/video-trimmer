@@ -3,6 +3,7 @@
 #include <fmt/core.h>
 
 #include "colors.h"
+#include "event_handler/events.hpp"
 
 const float left_pane_width = 500.0f;
 const float additional_info_pane_height = 500.0f;
@@ -47,7 +48,7 @@ void UI::render_help_window()
         ImGui::Text("quit");
 
         if (ImGui::Button("Close"))
-            event_handler_->handle_event(Event::ToggleHelp);
+            event_handler_->handle_event(video_trimmer::event_handler::Event::ToggleHelp);
 
         ImGui::End();
     }

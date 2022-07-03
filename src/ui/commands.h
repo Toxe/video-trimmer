@@ -1,6 +1,6 @@
 #pragma once
 
-#include "event_handler/command.h"
+#include "event_handler/command.hpp"
 #include "ui.h"
 
-extern Command ToggleHelpCommand(UI& ui);
+extern video_trimmer::event_handler::Command ToggleHelpCommand(UI& ui);

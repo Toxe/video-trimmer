@@ -2,7 +2,7 @@
 
 #include "logger/logger.hpp"
 
-Command ToggleHelpCommand(UI& ui)
+video_trimmer::event_handler::Command ToggleHelpCommand(UI& ui)
 {
     return [&] {
         log_debug("ToggleHelpCommand");

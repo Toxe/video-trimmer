@@ -1,9 +1,8 @@
 #include "app/app.h"
 #include "command_line/command_line.h"
-#include "event_handler/event_handler.h"
+#include "event_handler/event_handler.hpp"
 #include "main_window/main_window.hpp"
 #include "register_events.h"
-#include "threaded_stream_reader/video_frame/video_frame.hpp"
 #include "ui/ui.h"
 #include "video_player/video_player.hpp"
 #include "views/additional_info_view/additional_info_view.hpp"
@@ -19,7 +18,7 @@ int main(int argc, char* argv[])
     UI ui;
     MainWindow window(cli);
 
-    EventHandler event_handler;
+    video_trimmer::event_handler::EventHandler event_handler;
     register_events(event_handler, window, ui);
     ui.set_event_handler(&event_handler);
 

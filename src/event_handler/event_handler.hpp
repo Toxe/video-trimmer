@@ -2,12 +2,14 @@
 
 #include <unordered_map>
 
-#include "command.h"
-#include "events.h"
+#include "command.hpp"
+#include "events.hpp"
 
 namespace sf {
-    class RenderWindow;
+class RenderWindow;
 }
+
+namespace video_trimmer::event_handler {
 
 class EventHandler {
     std::unordered_map<Event, Command> commands_;
@@ -21,3 +23,5 @@ public:
 
     void poll_events(sf::RenderWindow& window);
 };
+
+}  // namespace video_trimmer::event_handler
