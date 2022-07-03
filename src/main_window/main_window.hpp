@@ -6,7 +6,7 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/VideoMode.hpp>
 
-#include "clock/duration.h"
+#include "clock/duration.hpp"
 #include "command_line/command_line.h"
 #include "types.h"
 #include "views/video_view/video_view.h"
@@ -35,7 +35,7 @@ public:
 
     [[nodiscard]] ImageSize size() const;
 
-    void next_frame(Duration elapsed_time);
+    void next_frame(video_trimmer::clock::Duration elapsed_time);
     void render(int finished_video_frame_queue_size, int video_frame_scaler_queue_size, VideoFrame* video_frame);
 
     void resized_window();

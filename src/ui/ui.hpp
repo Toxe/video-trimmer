@@ -3,9 +3,11 @@
 #include <string>
 #include <vector>
 
-#include <imgui.h>
+#include "imgui.h"
 
 #include "event_handler/event_handler.hpp"
+
+namespace video_trimmer::ui {
 
 class UI {
     const char* main_window_title_ = "Video Trimmer";
@@ -38,3 +40,5 @@ public:
 
     void set_event_handler(video_trimmer::event_handler::EventHandler* event_handler) { event_handler_ = event_handler; };
 };
+
+}  // namespace video_trimmer::ui

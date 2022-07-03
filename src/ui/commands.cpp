@@ -1,6 +1,8 @@
-#include "commands.h"
+#include "commands.hpp"
 
 #include "logger/logger.hpp"
+
+namespace video_trimmer::ui {
 
 video_trimmer::event_handler::Command ToggleHelpCommand(UI& ui)
 {
@@ -9,3 +11,5 @@ video_trimmer::event_handler::Command ToggleHelpCommand(UI& ui)
         ui.toggle_help();
     };
 }
+
+}  // namespace video_trimmer::ui

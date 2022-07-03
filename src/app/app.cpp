@@ -1,4 +1,4 @@
-#include "app.h"
+#include "app.hpp"
 
 void video_trimmer::App::next_frame()
 {

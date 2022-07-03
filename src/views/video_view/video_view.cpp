@@ -3,7 +3,7 @@
 #include <fmt/core.h>
 #include <imgui.h>
 
-#include "ui/colors.h"
+#include "ui/colors/colors.hpp"
 #include "ui/imgui_helpers.hpp"
 
 VideoView::VideoView()
@@ -52,11 +52,11 @@ void VideoView::render_ui(const VideoFrame* video_frame, const int finished_vide
     view_position_ = ImagePosition{static_cast<int>(imgui_cursor_screen_pos.x), static_cast<int>(imgui_cursor_screen_pos.y)};
     view_size_ = ImageSize{static_cast<int>(imgui_window_size.x), static_cast<int>(imgui_window_size.y)};
 
-    imgui_text_outlined(UserInterface::Colors::white, UserInterface::Colors::black, fmt::format("video [{}x{}]", view_size_.width, view_size_.height));
-    imgui_text_outlined(UserInterface::Colors::white, UserInterface::Colors::black, fmt::format("video frame scaler queue: {}, finished video frames queue: {}", video_frame_scaler_queue_size, finished_video_frame_queue_size));
+    video_trimmer::ui::imgui_text_outlined(video_trimmer::ui::colors::white, video_trimmer::ui::colors::black, fmt::format("video [{}x{}]", view_size_.width, view_size_.height));
+    video_trimmer::ui::imgui_text_outlined(video_trimmer::ui::colors::white, video_trimmer::ui::colors::black, fmt::format("video frame scaler queue: {}, finished video frames queue: {}", video_frame_scaler_queue_size, finished_video_frame_queue_size));
 
     if (video_frame)
-        imgui_text_outlined(UserInterface::Colors::white, UserInterface::Colors::black, fmt::format("{}", video_frame->print()));
+        video_trimmer::ui::imgui_text_outlined(video_trimmer::ui::colors::white, video_trimmer::ui::colors::black, fmt::format("{}", video_frame->print()));
 
     ImGui::EndChild();
     ImGui::EndChild();

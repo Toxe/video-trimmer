@@ -37,7 +37,7 @@ MainWindow::MainWindow(const video_trimmer::CommandLine& cli)
     return {static_cast<int>(window_size.x), static_cast<int>(window_size.y)};
 }
 
-void MainWindow::next_frame(const Duration elapsed_time)
+void MainWindow::next_frame(const video_trimmer::clock::Duration elapsed_time)
 {
     ImGui::SFML::Update(*window_, sf::microseconds(elapsed_time.as_microseconds()));
 }

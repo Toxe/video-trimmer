@@ -1,9 +1,11 @@
-#include "ui.h"
+#include "ui.hpp"
 
 #include <fmt/core.h>
 
-#include "colors.h"
+#include "colors/colors.hpp"
 #include "event_handler/events.hpp"
+
+namespace video_trimmer::ui {
 
 const float left_pane_width = 500.0f;
 const float additional_info_pane_height = 500.0f;
@@ -39,11 +41,11 @@ void UI::render_help_window()
         ImGui::SetNextWindowPos(ImVec2(20 + 20 + main_window_size_.x, 20), ImGuiCond_FirstUseEver);
         ImGui::Begin(help_window_title_, &show_help_, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse);
 
-        ImGui::TextColored(UserInterface::Colors::light_blue, "   F1");
+        ImGui::TextColored(video_trimmer::ui::colors::light_blue, "   F1");
         ImGui::SameLine();
         ImGui::Text("show/hide help");
 
-        ImGui::TextColored(UserInterface::Colors::light_blue, "  ESC");
+        ImGui::TextColored(video_trimmer::ui::colors::light_blue, "  ESC");
         ImGui::SameLine();
         ImGui::Text("quit");
 
@@ -120,3 +122,5 @@ void UI::setup_trim_controls_pane(const float pane_height)
     ImGui::BeginChild("trim controls", ImVec2(0, pane_height), true, ImGuiWindowFlags_None);
     ImGui::EndChild();
 }
+
+}  // namespace video_trimmer::ui

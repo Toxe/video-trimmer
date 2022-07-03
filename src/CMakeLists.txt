@@ -25,10 +25,10 @@ endif ()
 add_executable(video_trimmer
         main.cpp
         app/app.cpp
-        app/app.h
-        clock/clock.h
-        clock/duration.h
-        clock/stopwatch.h
+        app/app.hpp
+        clock/clock.hpp
+        clock/duration.hpp
+        clock/stopwatch.hpp
         command_line/command_line.cpp
         command_line/command_line.h
         error/error.cpp
@@ -76,22 +76,22 @@ add_executable(video_trimmer
         threaded_stream_reader/video_frame/texture.hpp
         threaded_stream_reader/video_frame/video_frame.cpp
         threaded_stream_reader/video_frame/video_frame.hpp
-        ui/colors.h
+        ui/colors/colors.hpp
         ui/commands.cpp
-        ui/commands.h
+        ui/commands.hpp
         ui/imgui_helpers.cpp
         ui/imgui_helpers.hpp
         ui/ui.cpp
-        ui/ui.h
-        ui/widgets/fps_widget.cpp
-        ui/widgets/fps_widget.hpp
+        ui/ui.hpp
+        ui/widgets/fps_widget/fps_widget.cpp
+        ui/widgets/fps_widget/fps_widget.hpp
         ui/widgets/memory_usage_widget/memory_usage_info/create_memory_usage_info.cpp
         ui/widgets/memory_usage_widget/memory_usage_info/create_memory_usage_info.hpp
         ui/widgets/memory_usage_widget/memory_usage_info/memory_usage_info.hpp
         ui/widgets/memory_usage_widget/memory_usage_widget.cpp
         ui/widgets/memory_usage_widget/memory_usage_widget.hpp
-        ui/widgets/video_file_info_widget.cpp
-        ui/widgets/video_file_info_widget.hpp
+        ui/widgets/video_file_info_widget/video_file_info_widget.cpp
+        ui/widgets/video_file_info_widget/video_file_info_widget.hpp
         video_player/video_player.cpp
         video_player/video_player.hpp
         views/additional_info_view/additional_info_view.cpp

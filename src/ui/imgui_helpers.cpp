@@ -1,5 +1,7 @@
 #include "imgui_helpers.hpp"
 
+namespace video_trimmer::ui {
+
 // Draw outlined text.
 void imgui_text_outlined(const ImVec4& text_color, const ImVec4& outline_color, const std::string& text)
 {
@@ -16,3 +18,5 @@ void imgui_text_outlined(const ImVec4& text_color, const ImVec4& outline_color, 
 
     ImGui::NewLine();
 }
+
+}  // namespace video_trimmer::ui

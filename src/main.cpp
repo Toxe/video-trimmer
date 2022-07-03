@@ -1,9 +1,9 @@
-#include "app/app.h"
+#include "app/app.hpp"
 #include "command_line/command_line.h"
 #include "event_handler/event_handler.hpp"
 #include "main_window/main_window.hpp"
 #include "register_events.hpp"
-#include "ui/ui.h"
+#include "ui/ui.hpp"
 #include "video_player/video_player.hpp"
 #include "views/additional_info_view/additional_info_view.hpp"
 #include "views/files_view/files_view.hpp"
@@ -15,7 +15,7 @@ int main(int argc, char* argv[])
     video_trimmer::CommandLine cli(argc, argv);
 
     video_trimmer::App app;
-    UI ui;
+    video_trimmer::ui::UI ui;
     video_trimmer::main_window::MainWindow window(cli);
 
     video_trimmer::event_handler::EventHandler event_handler;

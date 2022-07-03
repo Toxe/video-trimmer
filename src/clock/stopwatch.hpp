@@ -1,6 +1,8 @@
 #pragma once
 
-#include "clock.h"
+#include "clock.hpp"
+
+namespace video_trimmer::clock {
 
 class Stopwatch {
     bool running_ = false;
@@ -31,3 +33,5 @@ public:
         return elapsed_time_ = clock_.elapsed_time();
     }
 };
+
+}  // namespace video_trimmer::clock

@@ -2,7 +2,9 @@
 
 #include <chrono>
 
-#include "duration.h"
+#include "duration.hpp"
+
+namespace video_trimmer::clock {
 
 class Clock {
     std::chrono::steady_clock::time_point start_;
@@ -24,3 +26,5 @@ public:
         return Duration{dur};
     }
 };
+
+}  // namespace video_trimmer::clock
