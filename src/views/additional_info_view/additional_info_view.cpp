@@ -6,7 +6,7 @@
 #include "command_line/command_line.h"
 
 AdditionalInfoView::AdditionalInfoView(const CommandLine& cli)
-    : font_size_{static_cast<float>(cli.font_size())}, fps_widget_{font_size_}
+    : font_size_{static_cast<float>(cli.font_size())}, fps_widget_{font_size_}, memory_usage_widget_{font_size_}
 {
 }
 
@@ -17,6 +17,7 @@ void AdditionalInfoView::render(const Duration elapsed_time, const VideoFile* vi
     ImGui::BeginChild("additional info");
 
     fps_widget_.render(elapsed_time);
+    memory_usage_widget_.render(elapsed_time);
 
     ImGui::Text(fmt::format("additional info [{}x{}]", ImGui::GetWindowSize().x, ImGui::GetWindowSize().y).c_str());
 

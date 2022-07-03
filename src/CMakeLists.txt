@@ -1,3 +1,27 @@
+if (CMAKE_HOST_SYSTEM_NAME STREQUAL "Linux")
+    set(
+            LINUX_SOURCES
+            ui/widgets/memory_usage_widget/memory_usage_info/linux_memory_usage_info.cpp
+            ui/widgets/memory_usage_widget/memory_usage_info/linux_memory_usage_info.hpp
+    )
+endif ()
+
+if (CMAKE_HOST_SYSTEM_NAME STREQUAL "Darwin")
+    set(
+            MAC_SOURCES
+            ui/widgets/memory_usage_widget/memory_usage_info/mac_memory_usage_info.cpp
+            ui/widgets/memory_usage_widget/memory_usage_info/mac_memory_usage_info.hpp
+    )
+endif ()
+
+if (CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
+    set(
+            WINDOWS_SOURCES
+            ui/widgets/memory_usage_widget/memory_usage_info/windows_memory_usage_info.cpp
+            ui/widgets/memory_usage_widget/memory_usage_info/windows_memory_usage_info.hpp
+    )
+endif ()
+
 add_executable(video_trimmer
         main.cpp
         app/app.cpp
@@ -60,6 +84,11 @@ add_executable(video_trimmer
         ui/ui.h
         ui/widgets/fps_widget.cpp
         ui/widgets/fps_widget.hpp
+        ui/widgets/memory_usage_widget/memory_usage_info/create_memory_usage_info.cpp
+        ui/widgets/memory_usage_widget/memory_usage_info/create_memory_usage_info.hpp
+        ui/widgets/memory_usage_widget/memory_usage_info/memory_usage_info.hpp
+        ui/widgets/memory_usage_widget/memory_usage_widget.cpp
+        ui/widgets/memory_usage_widget/memory_usage_widget.hpp
         ui/widgets/video_file_info_widget.cpp
         ui/widgets/video_file_info_widget.hpp
         video_player/video_player.cpp
@@ -78,6 +107,9 @@ add_executable(video_trimmer
         views/trim_controls_view/trim_controls_view.hpp
         views/video_view/video_view.cpp
         views/video_view/video_view.h
+        ${LINUX_SOURCES}
+        ${MAC_SOURCES}
+        ${WINDOWS_SOURCES}
         )
 
 set_target_properties(video_trimmer PROPERTIES CXX_EXTENSIONS OFF)
