@@ -7,6 +7,8 @@
 #include "command_line/command_line.h"
 #include "logger/logger.hpp"
 
+namespace video_trimmer::main_window {
+
 MainWindow::MainWindow(const video_trimmer::CommandLine& cli)
     : window_video_mode_{cli.default_window_video_mode()}
 {
@@ -75,3 +77,5 @@ void MainWindow::adjust_view_to_window_size()
     sf::FloatRect visibleArea(0.0f, 0.0f, static_cast<float>(size.x), static_cast<float>(size.y));
     window_->setView(sf::View(visibleArea));
 }
+
+}  // namespace video_trimmer::main_window

@@ -2,7 +2,7 @@
 #include "command_line/command_line.h"
 #include "event_handler/event_handler.hpp"
 #include "main_window/main_window.hpp"
-#include "register_events.h"
+#include "register_events.hpp"
 #include "ui/ui.h"
 #include "video_player/video_player.hpp"
 #include "views/additional_info_view/additional_info_view.hpp"
@@ -16,7 +16,7 @@ int main(int argc, char* argv[])
 
     video_trimmer::App app;
     UI ui;
-    MainWindow window(cli);
+    video_trimmer::main_window::MainWindow window(cli);
 
     video_trimmer::event_handler::EventHandler event_handler;
     register_events(event_handler, window, ui);
@@ -29,7 +29,7 @@ int main(int argc, char* argv[])
 
     files_view.change_directory(cli.directory());
 
-    VideoPlayer video_player;
+    video_trimmer::VideoPlayer video_player;
     video_player.open_file("video1.mp4");
     // video_player.start();
 

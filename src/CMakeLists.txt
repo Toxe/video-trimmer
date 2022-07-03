@@ -42,11 +42,11 @@ add_executable(video_trimmer
         logger/logger.cpp
         logger/logger.hpp
         main_window/commands.cpp
-        main_window/commands.h
+        main_window/commands.hpp
         main_window/main_window.cpp
         main_window/main_window.hpp
         register_events.cpp
-        register_events.h
+        register_events.hpp
         threaded_stream_reader/codec_context/codec_context.cpp
         threaded_stream_reader/codec_context/codec_context.hpp
         threaded_stream_reader/format_context/format_context.cpp

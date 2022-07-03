@@ -11,6 +11,8 @@
 #include "types.h"
 #include "views/video_view/video_view.h"
 
+namespace video_trimmer::main_window {
+
 class MainWindow {
     const char* title_ = "Video Trimmer";
 
@@ -24,7 +26,7 @@ class MainWindow {
     void adjust_view_to_window_size();
 
 public:
-    MainWindow(const video_trimmer::CommandLine& cli);
+    explicit MainWindow(const CommandLine& cli);
 
     [[nodiscard]] sf::RenderWindow& window() const { return *window_; };
     [[nodiscard]] VideoView& video_view() const { return *video_view_; };
@@ -39,3 +41,5 @@ public:
     void resized_window();
     void close();
 };
+
+}  // namespace video_trimmer::main_window

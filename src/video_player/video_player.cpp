@@ -8,6 +8,8 @@
 #include "threaded_stream_reader/video_frame/video_frame.hpp"
 #include "ui/colors.h"
 
+namespace video_trimmer {
+
 bool VideoPlayer::open_file(const char* filename)
 {
     video_trimmer::logger::log_debug(fmt::format("(VideoPlayer) open file: {}", filename));
@@ -194,3 +196,5 @@ void VideoPlayer::render()
     ImGui::EndChild();
     ImGui::End();
 }
+
+}  // namespace video_trimmer
