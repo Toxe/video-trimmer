@@ -22,9 +22,8 @@ add_executable(video_trimmer
         main_window/main_window.hpp
         register_events.cpp
         register_events.h
+        threaded_stream_reader/adapters/codec_context/codec_context.cpp
         threaded_stream_reader/adapters/codec_context/codec_context.hpp
-        threaded_stream_reader/adapters/codec_context/ffmpeg_codec_context.cpp
-        threaded_stream_reader/adapters/codec_context/ffmpeg_codec_context.hpp
         threaded_stream_reader/adapters/format_context/ffmpeg_format_context.cpp
         threaded_stream_reader/adapters/format_context/ffmpeg_format_context.hpp
         threaded_stream_reader/adapters/format_context/format_context.hpp
@@ -83,7 +82,7 @@ add_executable(video_trimmer
         views/trim_controls_view/trim_controls_view.hpp
         views/video_view/video_view.cpp
         views/video_view/video_view.h
-        threaded_stream_reader/adapters/scaling_context/scaling_context.cpp threaded_stream_reader/adapters/packet/packet.cpp)
+        threaded_stream_reader/adapters/scaling_context/scaling_context.cpp threaded_stream_reader/adapters/packet/packet.cpp threaded_stream_reader/adapters/codec_context/codec_context.cpp)
 
 set_target_properties(video_trimmer PROPERTIES CXX_EXTENSIONS OFF)
 target_compile_features(video_trimmer PUBLIC cxx_std_20)

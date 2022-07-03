@@ -9,7 +9,6 @@ extern "C" {
 #include <libavutil/rational.h>
 }
 
-#include "../../factory/factory.hpp"
 #include "../codec_context/codec_context.hpp"
 #include "../packet/packet.hpp"
 
@@ -57,7 +56,7 @@ std::unique_ptr<StreamInfo> FFmpegFormatContext::find_best_stream(Factory* facto
     AVStream* stream = format_context_->streams[stream_index];
 
     // allocate codec context for decoder
-    std::unique_ptr<CodecContext> codec_context = factory->create_codec_context(stream);
+    std::unique_ptr<CodecContext> codec_context = std::make_unique<CodecContext>(stream);
 
     if (!codec_context)
         return nullptr;

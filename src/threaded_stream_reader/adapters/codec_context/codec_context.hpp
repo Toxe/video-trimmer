@@ -7,23 +7,33 @@ extern "C" {
 #include <libavutil/pixfmt.h>
 }
 
+#include "auto_delete_resource.hpp"
+
+struct AVCodecContext;
+struct AVStream;
+
 class Factory;
 class Frame;
 class Packet;
 
 class CodecContext {
 public:
-    virtual ~CodecContext() = default;
+    CodecContext(AVStream* stream);
 
-    [[nodiscard]] virtual std::string codec_type() = 0;
-    [[nodiscard]] virtual std::string codec_name() = 0;
-    [[nodiscard]] virtual std::string codec_additional_info() = 0;
+    [[nodiscard]] std::string codec_type();
+    [[nodiscard]] std::string codec_name();
+    [[nodiscard]] std::string codec_additional_info();
 
-    [[nodiscard]] virtual int width() const = 0;
-    [[nodiscard]] virtual int height() const = 0;
-    [[nodiscard]] virtual AVPixelFormat pixel_format() const = 0;
-    [[nodiscard]] virtual float fps() const = 0;
+    [[nodiscard]] int width() const;
+    [[nodiscard]] int height() const;
+    [[nodiscard]] AVPixelFormat pixel_format() const;
+    [[nodiscard]] float fps() const { return fps_; };
 
-    [[nodiscard]] virtual int send_packet(Packet* packet) = 0;
-    [[nodiscard]] virtual std::unique_ptr<Frame> receive_frame(Factory* factory, double time_base, int scaled_width, int scaled_height) = 0;
+    [[nodiscard]] int send_packet(Packet* packet);
+    [[nodiscard]] std::unique_ptr<Frame> receive_frame(Factory* factory, double time_base, int scaled_width, int scaled_height);
+
+private:
+    AutoDeleteResource<AVCodecContext> codec_context_;
+
+    float fps_;
 };

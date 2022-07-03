@@ -1,4 +1,4 @@
-#include "ffmpeg_codec_context.hpp"
+#include "codec_context.hpp"
 
 #include <stdexcept>
 
@@ -15,7 +15,7 @@ extern "C" {
 #include "../frame/frame.hpp"
 #include "../packet/packet.hpp"
 
-FFmpegCodecContext::FFmpegCodecContext(AVStream* stream)
+CodecContext::CodecContext(AVStream* stream)
 {
     const AVCodec* decoder = avcodec_find_decoder(stream->codecpar->codec_id);
 
@@ -45,17 +45,17 @@ FFmpegCodecContext::FFmpegCodecContext(AVStream* stream)
     fps_ = codec_context_->codec_type == AVMEDIA_TYPE_VIDEO ? static_cast<float>(av_q2d(stream->avg_frame_rate)) : 0.0f;
 }
 
-std::string FFmpegCodecContext::codec_type()
+std::string CodecContext::codec_type()
 {
     return av_get_media_type_string(codec_context_->codec_type);
 }
 
-std::string FFmpegCodecContext::codec_name()
+std::string CodecContext::codec_name()
 {
     return codec_context_->codec->long_name;
 }
 
-std::string FFmpegCodecContext::codec_additional_info()
+std::string CodecContext::codec_additional_info()
 {
     std::string info;
 
@@ -67,27 +67,22 @@ std::string FFmpegCodecContext::codec_additional_info()
     return info;
 }
 
-int FFmpegCodecContext::width() const
+int CodecContext::width() const
 {
     return codec_context_->width;
 }
 
-int FFmpegCodecContext::height() const
+int CodecContext::height() const
 {
     return codec_context_->height;
 }
 
-AVPixelFormat FFmpegCodecContext::pixel_format() const
+AVPixelFormat CodecContext::pixel_format() const
 {
     return codec_context_->pix_fmt;
 }
 
-float FFmpegCodecContext::fps() const
-{
-    return fps_;
-}
-
-int FFmpegCodecContext::send_packet(Packet* packet)
+int CodecContext::send_packet(Packet* packet)
 {
     int ret = avcodec_send_packet(codec_context_.get(), packet->packet());
 
@@ -97,7 +92,7 @@ int FFmpegCodecContext::send_packet(Packet* packet)
     return 0;
 }
 
-std::unique_ptr<Frame> FFmpegCodecContext::receive_frame(Factory* factory, const double time_base, const int scaled_width, const int scaled_height)
+std::unique_ptr<Frame> CodecContext::receive_frame(Factory* factory, const double time_base, const int scaled_width, const int scaled_height)
 {
     std::unique_ptr<Frame> frame = std::make_unique<Frame>(this, scaled_width, scaled_height);
 
