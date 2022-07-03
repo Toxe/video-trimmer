@@ -9,7 +9,7 @@
 
 namespace video_trimmer::main_window {
 
-MainWindow::MainWindow(const video_trimmer::CommandLine& cli)
+MainWindow::MainWindow(const video_trimmer::command_line::CommandLine& cli)
     : window_video_mode_{cli.default_window_video_mode()}
 {
     // create main_window

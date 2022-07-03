@@ -26,7 +26,7 @@ class MainWindow {
     void adjust_view_to_window_size();
 
 public:
-    explicit MainWindow(const CommandLine& cli);
+    explicit MainWindow(const video_trimmer::command_line::CommandLine& cli);
 
     [[nodiscard]] sf::RenderWindow& window() const { return *window_; };
     [[nodiscard]] VideoView& video_view() const { return *video_view_; };

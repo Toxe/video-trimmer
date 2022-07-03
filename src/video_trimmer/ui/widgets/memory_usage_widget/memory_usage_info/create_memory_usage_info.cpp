@@ -8,6 +8,8 @@
 #include "windows_memory_usage_info.hpp"
 #endif
 
+namespace video_trimmer::ui::widgets::memory_usage_widget::memory_usage_info {
+
 std::unique_ptr<MemoryUsageInfo> create_memory_usage_info()
 {
 #if __linux__
@@ -18,3 +20,5 @@ std::unique_ptr<MemoryUsageInfo> create_memory_usage_info()
     return std::make_unique<WindowsMemoryUsageInfo>();
 #endif
 }
+
+}  // namespace video_trimmer::ui::widgets::memory_usage_widget::memory_usage_info

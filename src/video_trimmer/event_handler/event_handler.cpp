@@ -8,26 +8,28 @@
 #include "events.hpp"
 #include "video_trimmer/logger/logger.hpp"
 
-const video_trimmer::event_handler::Command no_command = [] { video_trimmer::logger::log_debug("NoCommand"); };
+namespace video_trimmer::event_handler {
 
-video_trimmer::event_handler::EventHandler::EventHandler()
+const Command no_command = [] { video_trimmer::logger::log_debug("NoCommand"); };
+
+EventHandler::EventHandler()
 {
     commands_[Event::CloseWindow] = no_command;
     commands_[Event::ResizedWindow] = no_command;
     commands_[Event::ToggleHelp] = no_command;
 }
 
-void video_trimmer::event_handler::EventHandler::set_command(const Event& event, Command command)
+void EventHandler::set_command(const Event& event, Command command)
 {
     commands_[event] = command;
 }
 
-void video_trimmer::event_handler::EventHandler::handle_event(const Event& event)
+void EventHandler::handle_event(const Event& event)
 {
     commands_[event]();
 }
 
-void video_trimmer::event_handler::EventHandler::poll_events(sf::RenderWindow& window)
+void EventHandler::poll_events(sf::RenderWindow& window)
 {
     sf::Event event;
 
@@ -49,3 +51,5 @@ void video_trimmer::event_handler::EventHandler::poll_events(sf::RenderWindow& w
         }
     }
 }
+
+}  // namespace video_trimmer::event_handler

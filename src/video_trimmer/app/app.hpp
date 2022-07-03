@@ -2,7 +2,7 @@
 
 #include "video_trimmer/clock/clock.hpp"
 
-namespace video_trimmer {
+namespace video_trimmer::app {
 
 class App {
     video_trimmer::clock::Clock frame_time_clock_;
@@ -14,4 +14,4 @@ public:
     void next_frame();
 };
 
-}  // namespace video_trimmer
+}  // namespace video_trimmer::app

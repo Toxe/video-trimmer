@@ -5,7 +5,7 @@
 
 namespace video_trimmer::main_window {
 
-video_trimmer::event_handler::Command CloseWindowCommand(video_trimmer::main_window::MainWindow& window)
+video_trimmer::event_handler::Command CloseWindowCommand(MainWindow& window)
 {
     return [&] {
         video_trimmer::logger::log_debug("CloseWindowCommand");
@@ -13,7 +13,7 @@ video_trimmer::event_handler::Command CloseWindowCommand(video_trimmer::main_win
     };
 }
 
-video_trimmer::event_handler::Command ResizedWindowCommand(video_trimmer::main_window::MainWindow& window)
+video_trimmer::event_handler::Command ResizedWindowCommand(MainWindow& window)
 {
     return [&] {
         video_trimmer::logger::log_debug("ResizedWindowCommand");

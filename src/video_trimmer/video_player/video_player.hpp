@@ -3,10 +3,10 @@
 #include <chrono>
 #include <memory>
 
-#include "video_trimmer/threaded_stream_reader/video_content_provider/video_content_provider.hpp"
 #include "types.h"
+#include "video_trimmer/threaded_stream_reader/video_content_provider/video_content_provider.hpp"
 
-namespace video_trimmer {
+namespace video_trimmer::video_player {
 
 class VideoPlayer {
     std::unique_ptr<VideoFile> video_file_;
@@ -48,4 +48,4 @@ public:
     void render();
 };
 
-}  // namespace video_trimmer
+}  // namespace video_trimmer::video_player

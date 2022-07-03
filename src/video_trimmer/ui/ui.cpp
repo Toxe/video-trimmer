@@ -41,11 +41,11 @@ void UI::render_help_window()
         ImGui::SetNextWindowPos(ImVec2(20 + 20 + main_window_size_.x, 20), ImGuiCond_FirstUseEver);
         ImGui::Begin(help_window_title_, &show_help_, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse);
 
-        ImGui::TextColored(video_trimmer::ui::colors::light_blue, "   F1");
+        ImGui::TextColored(colors::light_blue, "   F1");
         ImGui::SameLine();
         ImGui::Text("show/hide help");
 
-        ImGui::TextColored(video_trimmer::ui::colors::light_blue, "  ESC");
+        ImGui::TextColored(colors::light_blue, "  ESC");
         ImGui::SameLine();
         ImGui::Text("quit");
 

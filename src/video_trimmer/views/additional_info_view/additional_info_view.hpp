@@ -14,7 +14,7 @@ class AdditionalInfoView {
     video_trimmer::ui::widgets::video_file_info_widget::VideoFileInfoWidget video_file_info_widget_;
 
 public:
-    AdditionalInfoView(const video_trimmer::CommandLine& cli);
+    AdditionalInfoView(const video_trimmer::command_line::CommandLine& cli);
 
     void render(video_trimmer::clock::Duration elapsed_time, const VideoFile* video_file);
 };

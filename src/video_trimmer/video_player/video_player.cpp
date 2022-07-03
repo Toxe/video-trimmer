@@ -8,7 +8,7 @@
 #include "video_trimmer/threaded_stream_reader/video_frame/video_frame.hpp"
 #include "video_trimmer/ui/colors/colors.hpp"
 
-namespace video_trimmer {
+namespace video_trimmer::video_player {
 
 bool VideoPlayer::open_file(const char* filename)
 {
@@ -197,4 +197,4 @@ void VideoPlayer::render()
     ImGui::End();
 }
 
-}  // namespace video_trimmer
+}  // namespace video_trimmer::video_player

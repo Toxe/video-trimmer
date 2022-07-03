@@ -10,6 +10,8 @@
 
 #include "video_trimmer/logger/logger.hpp"
 
+namespace video_trimmer::command_line {
+
 [[noreturn]] void show_usage_and_exit(const CLI::App& app, const char* error_message = nullptr, const std::optional<CLI::ParseError>& error = {})
 {
     if (error_message)
@@ -18,7 +20,7 @@
     std::exit(error ? app.exit(error.value()) : 0);
 }
 
-video_trimmer::CommandLine::CommandLine(int argc, char* argv[])
+CommandLine::CommandLine(int argc, char* argv[])
 {
     const auto description = "Video Trimmer";
     int log_level_flag = 0;
@@ -53,10 +55,17 @@ video_trimmer::CommandLine::CommandLine(int argc, char* argv[])
     logger::LogLevel log_level = logger::LogLevel::warn;
 
     switch (log_level_flag) {
-        case  1: log_level = logger::LogLevel::info;   break;
-        case  2: log_level = logger::LogLevel::debug;  break;
-        case  3: log_level = logger::LogLevel::trace;  break;
-        default: log_level = logger::LogLevel::warn;
+    case 1:
+        log_level = logger::LogLevel::info;
+        break;
+    case 2:
+        log_level = logger::LogLevel::debug;
+        break;
+    case 3:
+        log_level = logger::LogLevel::trace;
+        break;
+    default:
+        log_level = logger::LogLevel::warn;
     }
 
     logger::log_init(log_level);
@@ -72,7 +81,7 @@ video_trimmer::CommandLine::CommandLine(int argc, char* argv[])
         show_usage_and_exit(app, fmt::format("not a directory: {}", directory_).c_str(), {});
 }
 
-sf::VideoMode video_trimmer::CommandLine::default_video_mode() const
+sf::VideoMode CommandLine::default_video_mode() const
 {
     // init window at 50% desktop height and 16:9 aspect ratio
     const auto desktop = sf::VideoMode::getDesktopMode();
@@ -81,7 +90,9 @@ sf::VideoMode video_trimmer::CommandLine::default_video_mode() const
     return sf::VideoMode{width, height};
 }
 
-int video_trimmer::CommandLine::default_font_size() const
+int CommandLine::default_font_size() const
 {
     return static_cast<int>(sf::VideoMode::getDesktopMode().height) / 96;
 }
+
+}  // namespace video_trimmer::command_line

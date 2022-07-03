@@ -10,7 +10,7 @@ namespace video_trimmer::ui::widgets::memory_usage_widget {
 MemoryUsageWidget::MemoryUsageWidget(const float font_size)
     : font_size_{font_size}
 {
-    memory_usage_ = create_memory_usage_info();
+    memory_usage_ = memory_usage_info::create_memory_usage_info();
 
     mem_.resize(5 * 60, 0.0f);  // 5 seconds worth of values at 60 FPS
 }

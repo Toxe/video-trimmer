@@ -6,6 +6,8 @@
 
 #include <psapi.h>
 
+namespace video_trimmer::ui::widgets::memory_usage_widget::memory_usage_info {
+
 float WindowsMemoryUsageInfo::get_memory_usage()
 {
     PROCESS_MEMORY_COUNTERS_EX pmc;
@@ -13,3 +15,5 @@ float WindowsMemoryUsageInfo::get_memory_usage()
 
     return to_mbyte(static_cast<float>(pmc.WorkingSetSize));
 }
+
+}  // namespace video_trimmer::ui::widgets::memory_usage_widget::memory_usage_info

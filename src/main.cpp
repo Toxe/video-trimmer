@@ -12,9 +12,9 @@
 
 int main(int argc, char* argv[])
 {
-    video_trimmer::CommandLine cli(argc, argv);
+    video_trimmer::command_line::CommandLine cli(argc, argv);
 
-    video_trimmer::App app;
+    video_trimmer::app::App app;
     video_trimmer::ui::UI ui;
     video_trimmer::main_window::MainWindow window(cli);
 
@@ -29,7 +29,7 @@ int main(int argc, char* argv[])
 
     files_view.change_directory(cli.directory());
 
-    video_trimmer::VideoPlayer video_player;
+    video_trimmer::video_player::VideoPlayer video_player;
     video_player.open_file("video1.mp4");
     // video_player.start();
 

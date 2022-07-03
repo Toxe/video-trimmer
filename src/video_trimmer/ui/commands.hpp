@@ -5,6 +5,6 @@
 
 namespace video_trimmer::ui {
 
-extern video_trimmer::event_handler::Command ToggleHelpCommand(video_trimmer::ui::UI& ui);
+extern video_trimmer::event_handler::Command ToggleHelpCommand(UI& ui);
 
 }  // namespace video_trimmer::ui

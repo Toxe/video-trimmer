@@ -15,7 +15,7 @@ public:
     void render(video_trimmer::clock::Duration elapsed_time);
 
 private:
-    std::unique_ptr<MemoryUsageInfo> memory_usage_;
+    std::unique_ptr<memory_usage_info::MemoryUsageInfo> memory_usage_;
 
     float font_size_;
 

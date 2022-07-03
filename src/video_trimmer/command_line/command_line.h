@@ -5,7 +5,7 @@
 
 #include <SFML/Window/VideoMode.hpp>
 
-namespace video_trimmer {
+namespace video_trimmer::command_line {
 
 class CommandLine {
     int font_size_;
@@ -27,4 +27,4 @@ public:
     [[nodiscard]] const std::string& directory() const { return directory_; }
 };
 
-}  // namespace video_trimmer
+}  // namespace video_trimmer::command_line
