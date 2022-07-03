@@ -5,7 +5,7 @@
 #include <queue>
 #include <stop_token>
 
-#include "../adapters/scaling_context/scaling_context.hpp"
+#include "../scaling_context/scaling_context.hpp"
 #include "work_thread.hpp"
 
 class StreamInfo;

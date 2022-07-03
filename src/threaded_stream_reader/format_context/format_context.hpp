@@ -4,9 +4,9 @@
 #include <string>
 #include <string_view>
 
-#include "../../stream_info/stream_info.hpp"
 #include "auto_delete_resource.hpp"
 #include "format_context.hpp"
+#include "threaded_stream_reader/stream_info/stream_info.hpp"
 
 struct AVFormatContext;
 

@@ -1,6 +1,6 @@
 #include "texture.hpp"
 
-#include "../adapters/frame/frame.hpp"
+#include "../frame/frame.hpp"
 
 Texture::Texture(Frame* frame)
 {

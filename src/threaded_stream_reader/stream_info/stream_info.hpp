@@ -3,7 +3,7 @@
 #include <memory>
 #include <string>
 
-#include "../adapters/codec_context/codec_context.hpp"
+#include "../codec_context/codec_context.hpp"
 
 class FormatContext;
 class VideoFrame;

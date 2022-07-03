@@ -4,7 +4,7 @@
 #include <string>
 #include <string_view>
 
-#include "adapters/format_context/format_context.hpp"
+#include "format_context/format_context.hpp"
 #include "stream_info/stream_info.hpp"
 
 class VideoFile {

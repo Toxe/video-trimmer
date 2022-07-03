@@ -1,6 +1,6 @@
 #include "stream_info.hpp"
 
-#include "../adapters/format_context/format_context.hpp"
+#include "../format_context/format_context.hpp"
 #include "../video_frame/video_frame.hpp"
 
 StreamInfo::StreamInfo(FormatContext* format_context, std::unique_ptr<CodecContext> codec_context, int stream_index)

@@ -7,7 +7,7 @@
 #include "auto_delete_resource.hpp"
 
 extern "C" {
-#include <libavutil/pixfmt.h>
+#include "libavutil/pixfmt.h"
 }
 
 struct AVFrame;

@@ -3,7 +3,7 @@
 #include <memory>
 #include <string>
 
-#include "../adapters/frame/frame.hpp"
+#include "../frame/frame.hpp"
 #include "texture.hpp"
 
 class VideoFrame {

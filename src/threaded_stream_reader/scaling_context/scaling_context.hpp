@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../codec_context/codec_context.hpp"
 #include "auto_delete_resource.hpp"
+#include "threaded_stream_reader/codec_context/codec_context.hpp"
 
 extern "C" {
-#include <libavutil/pixfmt.h>
+#include "libavutil/pixfmt.h"
 }
 
 class VideoFrame;

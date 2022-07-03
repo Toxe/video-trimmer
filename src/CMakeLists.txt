@@ -22,16 +22,16 @@ add_executable(video_trimmer
         main_window/main_window.hpp
         register_events.cpp
         register_events.h
-        threaded_stream_reader/adapters/codec_context/codec_context.cpp
-        threaded_stream_reader/adapters/codec_context/codec_context.hpp
-        threaded_stream_reader/adapters/format_context/format_context.cpp
-        threaded_stream_reader/adapters/format_context/format_context.hpp
-        threaded_stream_reader/adapters/frame/frame.cpp
-        threaded_stream_reader/adapters/frame/frame.hpp
-        threaded_stream_reader/adapters/packet/packet.cpp
-        threaded_stream_reader/adapters/packet/packet.hpp
-        threaded_stream_reader/adapters/scaling_context/scaling_context.cpp
-        threaded_stream_reader/adapters/scaling_context/scaling_context.hpp
+        threaded_stream_reader/codec_context/codec_context.cpp
+        threaded_stream_reader/codec_context/codec_context.hpp
+        threaded_stream_reader/format_context/format_context.cpp
+        threaded_stream_reader/format_context/format_context.hpp
+        threaded_stream_reader/frame/frame.cpp
+        threaded_stream_reader/frame/frame.hpp
+        threaded_stream_reader/packet/packet.cpp
+        threaded_stream_reader/packet/packet.hpp
+        threaded_stream_reader/scaling_context/scaling_context.cpp
+        threaded_stream_reader/scaling_context/scaling_context.hpp
         threaded_stream_reader/stream_info/stream_info.cpp
         threaded_stream_reader/stream_info/stream_info.hpp
         threaded_stream_reader/video_content_provider/run_state.hpp
@@ -78,7 +78,7 @@ add_executable(video_trimmer
         views/trim_controls_view/trim_controls_view.hpp
         views/video_view/video_view.cpp
         views/video_view/video_view.h
-        threaded_stream_reader/adapters/scaling_context/scaling_context.cpp threaded_stream_reader/adapters/packet/packet.cpp threaded_stream_reader/adapters/codec_context/codec_context.cpp threaded_stream_reader/adapters/format_context/format_context.cpp)
+        )
 
 set_target_properties(video_trimmer PROPERTIES CXX_EXTENSIONS OFF)
 target_compile_features(video_trimmer PUBLIC cxx_std_20)

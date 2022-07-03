@@ -3,13 +3,13 @@
 #include <stdexcept>
 
 extern "C" {
-#include <libavcodec/avcodec.h>
-#include <libavformat/avformat.h>
-#include <libavutil/avutil.h>
-#include <libavutil/rational.h>
+#include "libavcodec/avcodec.h"
+#include "libavformat/avformat.h"
+#include "libavutil/avutil.h"
+#include "libavutil/rational.h"
 }
 
-#include "../packet/packet.hpp"
+#include "threaded_stream_reader/packet/packet.hpp"
 
 FormatContext::FormatContext(const std::string_view& filename)
 {

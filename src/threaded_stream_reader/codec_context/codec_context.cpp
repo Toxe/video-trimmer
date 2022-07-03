@@ -2,17 +2,17 @@
 
 #include <stdexcept>
 
-#include <fmt/core.h>
+#include "fmt/core.h"
 
 extern "C" {
-#include <libavcodec/avcodec.h>
-#include <libavformat/avformat.h>
-#include <libavutil/avutil.h>
+#include "libavcodec/avcodec.h"
+#include "libavformat/avformat.h"
+#include "libavutil/avutil.h"
 }
 
-#include "../../../error/error.hpp"
-#include "../frame/frame.hpp"
-#include "../packet/packet.hpp"
+#include "error/error.hpp"
+#include "threaded_stream_reader/frame/frame.hpp"
+#include "threaded_stream_reader/packet/packet.hpp"
 
 CodecContext::CodecContext(AVStream* stream)
 {

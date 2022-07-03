@@ -3,7 +3,7 @@
 #include <stdexcept>
 
 extern "C" {
-#include <libavcodec/packet.h>
+#include "libavcodec/packet.h"
 }
 
 Packet::Packet()

@@ -3,12 +3,12 @@
 #include <stdexcept>
 
 extern "C" {
-#include <libavutil/frame.h>
-#include <libavutil/imgutils.h>
-#include <libavutil/mem.h>
+#include "libavutil/frame.h"
+#include "libavutil/imgutils.h"
+#include "libavutil/mem.h"
 }
 
-#include "../codec_context/codec_context.hpp"
+#include "threaded_stream_reader/codec_context/codec_context.hpp"
 
 Frame::Frame(CodecContext* codec_context, const int scaled_width, const int scaled_height)
     : src_width_(codec_context->width()), src_height_(codec_context->height())

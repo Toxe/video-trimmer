@@ -5,7 +5,7 @@
 #include <optional>
 #include <stop_token>
 
-#include "../adapters/packet/packet.hpp"
+#include "../packet/packet.hpp"
 #include "work_thread.hpp"
 
 class StreamInfo;
