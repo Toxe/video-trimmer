@@ -4,10 +4,8 @@
 #include <stdexcept>
 
 #include "error/error.hpp"
-#include "factory/factory.hpp"
 
-VideoFile::VideoFile(const std::string_view& full_filename, Factory* factory)
-    : factory_{factory}
+VideoFile::VideoFile(const std::string_view& full_filename)
 {
     is_open_ = open_file(full_filename) == 0;
 }
@@ -31,8 +29,8 @@ int VideoFile::open_file(const std::string_view& full_filename)
         file_format_ = format_context_->format();
 
         // find best audio and video stream
-        audio_stream_info_ = format_context_->find_best_stream(factory_, FormatContext::StreamType::audio);
-        video_stream_info_ = format_context_->find_best_stream(factory_, FormatContext::StreamType::video);
+        audio_stream_info_ = format_context_->find_best_stream(FormatContext::StreamType::audio);
+        video_stream_info_ = format_context_->find_best_stream(FormatContext::StreamType::video);
 
         // a missing audio stream is fine, but we are looking for at least a video stream
         if (!video_stream_info_)

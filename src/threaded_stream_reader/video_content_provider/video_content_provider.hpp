@@ -21,7 +21,7 @@ class VideoContentProvider {
     bool is_running_ = false;
 
 public:
-    VideoContentProvider(Factory* factory, VideoFile& video_file, int scale_width, int scale_height);
+    VideoContentProvider(VideoFile& video_file, int scale_width, int scale_height);
     ~VideoContentProvider();
 
     void run();

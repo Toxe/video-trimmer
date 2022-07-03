@@ -10,7 +10,6 @@
 
 struct AVFormatContext;
 
-class Factory;
 class Packet;
 
 class FormatContext {
@@ -27,7 +26,7 @@ public:
 
     [[nodiscard]] std::string format() const;
 
-    [[nodiscard]] std::unique_ptr<StreamInfo> find_best_stream(Factory* factory, StreamType type);
+    [[nodiscard]] std::unique_ptr<StreamInfo> find_best_stream(StreamType type);
     [[nodiscard]] int read_frame(Packet* packet);
 
 private:

@@ -8,7 +8,6 @@
 #include "../adapters/packet/packet.hpp"
 #include "work_thread.hpp"
 
-class Factory;
 class StreamInfo;
 class VideoContentProvider;
 class VideoFrame;
@@ -28,7 +27,7 @@ class VideoReader : public WorkThread {
     [[nodiscard]] std::unique_ptr<VideoFrame> decode_video_packet(Packet* packet);
 
 public:
-    VideoReader(Factory* factory, StreamInfo* audio_stream_info, StreamInfo* video_stream_info, int scale_width, int scale_height);
+    VideoReader(StreamInfo* audio_stream_info, StreamInfo* video_stream_info, const int scale_width, const int scale_height);
 
     void change_scaling_dimensions(int scale_width, int scale_height);
 };

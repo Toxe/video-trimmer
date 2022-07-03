@@ -5,7 +5,6 @@
 
 #include "../adapters/codec_context/codec_context.hpp"
 
-class Factory;
 class FormatContext;
 class VideoFrame;
 
@@ -31,5 +30,5 @@ public:
     [[nodiscard]] const std::string& codec_name() const { return codec_name_; }
     [[nodiscard]] const std::string& codec_additional_info() const { return codec_additional_info_; }
 
-    [[nodiscard]] std::unique_ptr<VideoFrame> receive_video_frame(Factory* factory, int scaled_width, int scaled_height);
+    [[nodiscard]] std::unique_ptr<VideoFrame> receive_video_frame(const int scaled_width, const int scaled_height);
 };

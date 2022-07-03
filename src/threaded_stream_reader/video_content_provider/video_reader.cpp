@@ -1,14 +1,13 @@
 #include "video_reader.hpp"
 
 #include "../adapters/format_context/format_context.hpp"
-#include "../factory/factory.hpp"
 #include "../video_frame/video_frame.hpp"
 #include "error/error.hpp"
 #include "logger/logger.hpp"
 #include "video_content_provider.hpp"
 
-VideoReader::VideoReader(Factory* factory, StreamInfo* audio_stream_info, StreamInfo* video_stream_info, const int scale_width, const int scale_height)
-    : WorkThread{factory, "VideoReader"}, audio_stream_info_(audio_stream_info), video_stream_info_(video_stream_info), scale_width_(scale_width), scale_height_(scale_height)
+VideoReader::VideoReader(StreamInfo* audio_stream_info, StreamInfo* video_stream_info, const int scale_width, const int scale_height)
+    : WorkThread{"VideoReader"}, audio_stream_info_(audio_stream_info), video_stream_info_(video_stream_info), scale_width_(scale_width), scale_height_(scale_height)
 {
     packet_ = std::make_unique<Packet>();
 }
@@ -76,7 +75,7 @@ std::unique_ptr<VideoFrame> VideoReader::decode_video_packet(Packet* packet)
         return nullptr;
 
     // get available frame from the decoder
-    return video_stream_info_->receive_video_frame(factory(), scale_width_, scale_height_);
+    return video_stream_info_->receive_video_frame(scale_width_, scale_height_);
 }
 
 void VideoReader::change_scaling_dimensions(const int scale_width, const int scale_height)

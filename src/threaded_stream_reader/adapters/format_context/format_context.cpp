@@ -43,7 +43,7 @@ std::string FormatContext::format() const
     return format_context_->iformat->long_name;
 }
 
-std::unique_ptr<StreamInfo> FormatContext::find_best_stream(Factory* factory, const StreamType type)
+std::unique_ptr<StreamInfo> FormatContext::find_best_stream(StreamType type)
 {
     const AVMediaType media_type = type == StreamType::audio ? AVMEDIA_TYPE_AUDIO : AVMEDIA_TYPE_VIDEO;
     const int stream_index = av_find_best_stream(format_context_.get(), media_type, -1, -1, nullptr, 0);

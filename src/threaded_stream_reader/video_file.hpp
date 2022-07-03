@@ -7,11 +7,7 @@
 #include "adapters/format_context/format_context.hpp"
 #include "stream_info/stream_info.hpp"
 
-class Factory;
-
 class VideoFile {
-    Factory* factory_;
-
     std::unique_ptr<FormatContext> format_context_;
     std::unique_ptr<StreamInfo> audio_stream_info_;
     std::unique_ptr<StreamInfo> video_stream_info_;
@@ -24,7 +20,7 @@ class VideoFile {
     int open_file(const std::string_view& full_filename);
 
 public:
-    VideoFile(const std::string_view& full_filename, Factory* factory);
+    VideoFile(const std::string_view& full_filename);
 
     [[nodiscard]] bool is_open() const { return is_open_; }
     [[nodiscard]] bool is_video() const;

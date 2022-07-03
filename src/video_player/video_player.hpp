@@ -3,7 +3,6 @@
 #include <chrono>
 #include <memory>
 
-#include "threaded_stream_reader/factory/ffmpeg_factory.hpp"
 #include "threaded_stream_reader/video_content_provider/video_content_provider.hpp"
 #include "types.h"
 
@@ -11,7 +10,6 @@ class VideoFile;
 class VideoFrame;
 
 class VideoPlayer {
-    std::unique_ptr<FFmpegFactory> factory_;
     std::unique_ptr<VideoFile> video_file_;
     std::unique_ptr<VideoContentProvider> video_content_provider_;
 
@@ -23,8 +21,6 @@ class VideoPlayer {
     bool received_first_real_frame_;
 
 public:
-    VideoPlayer();
-
     bool open_file(const char* filename);
     void close_file();
 

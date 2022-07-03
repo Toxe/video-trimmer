@@ -12,7 +12,6 @@ extern "C" {
 struct AVCodecContext;
 struct AVStream;
 
-class Factory;
 class Frame;
 class Packet;
 
@@ -30,7 +29,7 @@ public:
     [[nodiscard]] float fps() const { return fps_; };
 
     [[nodiscard]] int send_packet(Packet* packet);
-    [[nodiscard]] std::unique_ptr<Frame> receive_frame(Factory* factory, double time_base, int scaled_width, int scaled_height);
+    [[nodiscard]] std::unique_ptr<Frame> receive_frame(const double time_base, const int scaled_width, const int scaled_height);
 
 private:
     AutoDeleteResource<AVCodecContext> codec_context_;

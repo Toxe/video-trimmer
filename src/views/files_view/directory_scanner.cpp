@@ -5,7 +5,6 @@
 #include "file_entry.hpp"
 #include "files_view.hpp"
 #include "logger/logger.hpp"
-#include "threaded_stream_reader/factory/ffmpeg_factory.hpp"
 #include "threaded_stream_reader/video_file.hpp"
 
 void DirectoryScanner::scan(FilesView* files_view, const std::string directory)
@@ -22,12 +21,11 @@ void DirectoryScanner::scan(FilesView* files_view, const std::string directory)
     thread_ = std::jthread([this, files_view, directory](std::stop_token st) {
         log_trace("(DirectoryScanner) scan started");
 
-        FFmpegFactory factory;
         std::filesystem::path dir{directory};
 
         for (const auto& dir_entry : std::filesystem::directory_iterator{dir}) {
             if (dir_entry.is_regular_file()) {
-                VideoFile video_file{dir_entry.path().string(), &factory};
+                VideoFile video_file{dir_entry.path().string()};
 
                 if (video_file.is_video()) {
                     FileEntry file_entry{dir_entry.path()};

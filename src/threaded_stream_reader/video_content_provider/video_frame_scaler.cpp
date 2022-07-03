@@ -4,14 +4,13 @@
 
 #include <fmt/core.h>
 
-#include "../factory/factory.hpp"
 #include "../video_frame/video_frame.hpp"
 #include "error/error.hpp"
 #include "logger/logger.hpp"
 #include "video_content_provider.hpp"
 
-VideoFrameScaler::VideoFrameScaler(Factory* factory, StreamInfo* video_stream_info, const int width, const int height)
-    : WorkThread(factory, "VideoFrameScaler"), video_stream_info_(video_stream_info), scale_height_(height), scale_width_(width)
+VideoFrameScaler::VideoFrameScaler(StreamInfo* video_stream_info, int width, int height)
+    : WorkThread("VideoFrameScaler"), video_stream_info_(video_stream_info), scale_height_(height), scale_width_(width)
 {
     scaling_context_ = std::make_unique<ScalingContext>(video_stream_info_->codec_context(), width, height);
 

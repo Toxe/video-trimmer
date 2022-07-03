@@ -10,15 +10,12 @@
 #include "run_state.hpp"
 #include "work_thread.hpp"
 
-class Factory;
 class Packet;
 class StreamInfo;
 class VideoContentProvider;
 class VideoFrame;
 
 class WorkThread {
-    Factory* factory_;
-
     std::jthread thread_;
     std::atomic<RunState> state_ = RunState::starting;
 
@@ -30,10 +27,8 @@ protected:
     std::mutex mtx_;
     std::condition_variable_any cv_;
 
-    Factory* factory() const { return factory_; }
-
 public:
-    WorkThread(Factory* factory, const char* log_class_name);
+    WorkThread(const char* log_class_name);
     virtual ~WorkThread();
 
     void run(VideoContentProvider* video_content_provider, std::latch& latch);

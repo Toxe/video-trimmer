@@ -32,9 +32,6 @@ add_executable(video_trimmer
         threaded_stream_reader/adapters/packet/packet.hpp
         threaded_stream_reader/adapters/scaling_context/scaling_context.cpp
         threaded_stream_reader/adapters/scaling_context/scaling_context.hpp
-        threaded_stream_reader/factory/factory.hpp
-        threaded_stream_reader/factory/ffmpeg_factory.cpp
-        threaded_stream_reader/factory/ffmpeg_factory.hpp
         threaded_stream_reader/stream_info/stream_info.cpp
         threaded_stream_reader/stream_info/stream_info.hpp
         threaded_stream_reader/video_content_provider/run_state.hpp

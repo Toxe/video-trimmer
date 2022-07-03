@@ -11,7 +11,6 @@ extern "C" {
 }
 
 #include "../../../error/error.hpp"
-#include "../../factory/factory.hpp"
 #include "../frame/frame.hpp"
 #include "../packet/packet.hpp"
 
@@ -92,7 +91,7 @@ int CodecContext::send_packet(Packet* packet)
     return 0;
 }
 
-std::unique_ptr<Frame> CodecContext::receive_frame(Factory* factory, const double time_base, const int scaled_width, const int scaled_height)
+std::unique_ptr<Frame> CodecContext::receive_frame(const double time_base, const int scaled_width, const int scaled_height)
 {
     std::unique_ptr<Frame> frame = std::make_unique<Frame>(this, scaled_width, scaled_height);
 

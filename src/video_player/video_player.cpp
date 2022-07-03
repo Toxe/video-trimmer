@@ -8,11 +8,6 @@
 #include "threaded_stream_reader/video_frame/video_frame.hpp"
 #include "ui/colors.h"
 
-VideoPlayer::VideoPlayer()
-    : factory_{std::make_unique<FFmpegFactory>()}
-{
-}
-
 bool VideoPlayer::open_file(const char* filename)
 {
     log_debug(fmt::format("(VideoPlayer) open file: {}", filename));
@@ -20,11 +15,11 @@ bool VideoPlayer::open_file(const char* filename)
     if (has_open_file())
         return false;
 
-    video_file_ = std::make_unique<VideoFile>(filename, factory_.get());
+    video_file_ = std::make_unique<VideoFile>(filename);
 
     if (has_open_file()) {
-        video_file_ = std::make_unique<VideoFile>(filename, factory_.get());
-        video_content_provider_ = std::make_unique<VideoContentProvider>(factory_.get(), *video_file_, 640, 480);
+        video_file_ = std::make_unique<VideoFile>(filename);
+        video_content_provider_ = std::make_unique<VideoContentProvider>(*video_file_, 640, 480);
         video_content_provider_->run();
     }
 

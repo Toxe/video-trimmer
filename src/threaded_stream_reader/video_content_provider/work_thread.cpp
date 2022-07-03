@@ -4,8 +4,8 @@
 
 #include "logger/logger.hpp"
 
-WorkThread::WorkThread(Factory* factory, const char* log_class_name)
-    : factory_{factory}, log_class_name_{log_class_name}
+WorkThread::WorkThread(const char* log_class_name)
+    : log_class_name_{log_class_name}
 {
 }
 
