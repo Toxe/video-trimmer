@@ -5,6 +5,8 @@
 #include <string>
 #include <thread>
 
+namespace video_trimmer::views::files_view {
+
 class FilesView;
 
 class DirectoryScanner {
@@ -19,3 +21,5 @@ public:
     void scan(FilesView* files_view, const std::string directory);
     void abort();
 };
+
+}  // namespace video_trimmer::views::files_view

@@ -3,6 +3,8 @@
 #include <fmt/core.h>
 #include <imgui.h>
 
+namespace video_trimmer::views::playback_controls_view {
+
 void PlaybackControlsView::render(double playback_position)
 {
     ImGui::Begin("Video Trimmer");
@@ -16,3 +18,5 @@ void PlaybackControlsView::render(double playback_position)
     ImGui::EndChild();
     ImGui::End();
 }
+
+}  // namespace video_trimmer::views::playback_controls_view

@@ -19,7 +19,7 @@ class MainWindow {
     sf::VideoMode window_video_mode_;
 
     std::unique_ptr<sf::RenderWindow> window_;
-    std::unique_ptr<VideoView> video_view_;
+    std::unique_ptr<video_trimmer::views::video_view::VideoView> video_view_;
 
     std::mutex mtx_;
 
@@ -29,7 +29,7 @@ public:
     explicit MainWindow(const video_trimmer::command_line::CommandLine& cli);
 
     [[nodiscard]] sf::RenderWindow& window() const { return *window_; };
-    [[nodiscard]] VideoView& video_view() const { return *video_view_; };
+    [[nodiscard]] video_trimmer::views::video_view::VideoView& video_view() const { return *video_view_; };
 
     [[nodiscard]] bool is_open() const { return window_->isOpen(); };
 

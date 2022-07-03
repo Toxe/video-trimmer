@@ -7,6 +7,8 @@
 #include "video_trimmer/logger/logger.hpp"
 #include "video_trimmer/threaded_stream_reader/video_file.hpp"
 
+namespace video_trimmer::views::files_view {
+
 void DirectoryScanner::scan(FilesView* files_view, const std::string directory)
 {
     std::lock_guard<std::mutex> lock(mtx_);
@@ -46,3 +48,5 @@ void DirectoryScanner::abort()
 
     thread_.request_stop();
 }
+
+}  // namespace video_trimmer::views::files_view

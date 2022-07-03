@@ -3,6 +3,8 @@
 #include <fmt/core.h>
 #include <imgui.h>
 
+namespace video_trimmer::views::trim_controls_view {
+
 void TrimControlsView::render()
 {
     ImGui::Begin("Video Trimmer");
@@ -15,3 +17,5 @@ void TrimControlsView::render()
     ImGui::EndChild();
     ImGui::End();
 }
+
+}  // namespace video_trimmer::views::trim_controls_view

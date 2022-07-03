@@ -20,7 +20,7 @@ MainWindow::MainWindow(const video_trimmer::command_line::CommandLine& cli)
     window_->requestFocus();
 
     // create the video view
-    video_view_ = std::make_unique<VideoView>();
+    video_view_ = std::make_unique<video_trimmer::views::video_view::VideoView>();
 
     // init ImGui & ImGui-SFML and load a custom font
     ImGui::SFML::Init(*window_, false);

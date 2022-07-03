@@ -6,6 +6,8 @@
 #include "directory_scanner.hpp"
 #include "video_trimmer/logger/logger.hpp"
 
+namespace video_trimmer::views::files_view {
+
 FilesView::FilesView()
 {
     directory_scanner_ = std::make_unique<DirectoryScanner>();
@@ -67,3 +69,5 @@ void FilesView::add_file(FileEntry file_entry)
 
     files_.push_back(std::move(file_entry));
 }
+
+}  // namespace video_trimmer::views::files_view

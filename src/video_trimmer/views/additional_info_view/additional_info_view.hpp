@@ -6,6 +6,8 @@
 #include "video_trimmer/ui/widgets/memory_usage_widget/memory_usage_widget.hpp"
 #include "video_trimmer/ui/widgets/video_file_info_widget/video_file_info_widget.hpp"
 
+namespace video_trimmer::views::additional_info_view {
+
 class AdditionalInfoView {
     float font_size_;
 
@@ -18,3 +20,5 @@ public:
 
     void render(video_trimmer::clock::Duration elapsed_time, const VideoFile* video_file);
 };
+
+}  // namespace video_trimmer::views::additional_info_view

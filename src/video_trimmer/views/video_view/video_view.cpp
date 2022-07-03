@@ -6,6 +6,8 @@
 #include "video_trimmer/ui/colors/colors.hpp"
 #include "video_trimmer/ui/imgui_helpers.hpp"
 
+namespace video_trimmer::views::video_view {
+
 VideoView::VideoView()
 {
     // create render texture and sprite that shows video frames
@@ -62,3 +64,5 @@ void VideoView::render_ui(const VideoFrame* video_frame, const int finished_vide
     ImGui::EndChild();
     ImGui::End();
 }
+
+}  // namespace video_trimmer::views::video_view

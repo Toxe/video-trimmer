@@ -3,6 +3,8 @@
 #include <filesystem>
 #include <string>
 
+namespace video_trimmer::views::files_view {
+
 class FileEntry {
     std::filesystem::path path_;
 
@@ -11,3 +13,5 @@ public:
 
     [[nodiscard]] std::string filename() const;
 };
+
+}  // namespace video_trimmer::views::files_view

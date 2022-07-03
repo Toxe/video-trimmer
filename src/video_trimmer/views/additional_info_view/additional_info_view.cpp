@@ -3,6 +3,8 @@
 #include <fmt/core.h>
 #include <imgui.h>
 
+namespace video_trimmer::views::additional_info_view {
+
 AdditionalInfoView::AdditionalInfoView(const video_trimmer::command_line::CommandLine& cli)
     : font_size_{static_cast<float>(cli.font_size())}, fps_widget_{font_size_}, memory_usage_widget_{font_size_}
 {
@@ -25,3 +27,5 @@ void AdditionalInfoView::render(const video_trimmer::clock::Duration elapsed_tim
     ImGui::EndChild();
     ImGui::End();
 }
+
+}  // namespace video_trimmer::views::additional_info_view

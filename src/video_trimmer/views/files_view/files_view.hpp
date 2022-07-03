@@ -8,6 +8,8 @@
 #include "directory_scanner.hpp"
 #include "file_entry.hpp"
 
+namespace video_trimmer::views::files_view {
+
 class FilesView {
     std::mutex mtx_;
 
@@ -24,3 +26,5 @@ public:
 
     void render();
 };
+
+}  // namespace video_trimmer::views::files_view
