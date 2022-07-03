@@ -2,7 +2,7 @@
 
 #include <vector>
 
-class Duration;
+#include "clock/duration.h"
 
 class FPSWidget {
     float font_size_;

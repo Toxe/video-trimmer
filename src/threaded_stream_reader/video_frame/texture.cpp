@@ -1,7 +1,5 @@
 #include "texture.hpp"
 
-#include "../frame/frame.hpp"
-
 Texture::Texture(Frame* frame)
 {
     const auto rgba = frame->pixels();

@@ -2,7 +2,6 @@
 
 #include <latch>
 
-#include "../video_frame/video_frame.hpp"
 #include "logger/logger.hpp"
 
 VideoContentProvider::VideoContentProvider(VideoFile& video_file, int scale_width, int scale_height)

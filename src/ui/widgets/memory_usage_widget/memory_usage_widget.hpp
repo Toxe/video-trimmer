@@ -3,9 +3,8 @@
 #include <memory>
 #include <vector>
 
+#include "clock/duration.h"
 #include "memory_usage_info/memory_usage_info.hpp"
-
-class Duration;
 
 class MemoryUsageWidget {
 public:

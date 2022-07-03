@@ -5,7 +5,7 @@
 
 #include <imgui.h>
 
-class EventHandler;
+#include "event_handler/event_handler.h"
 
 class UI {
     const char* main_window_title_ = "Video Trimmer";

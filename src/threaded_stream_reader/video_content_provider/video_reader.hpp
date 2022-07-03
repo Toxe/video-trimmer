@@ -6,11 +6,10 @@
 #include <stop_token>
 
 #include "../packet/packet.hpp"
+#include "../stream_info/stream_info.hpp"
 #include "work_thread.hpp"
 
-class StreamInfo;
 class VideoContentProvider;
-class VideoFrame;
 
 class VideoReader : public WorkThread {
     std::unique_ptr<Packet> packet_;

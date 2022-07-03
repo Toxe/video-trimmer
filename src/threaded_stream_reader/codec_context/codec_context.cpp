@@ -1,5 +1,6 @@
 #include "codec_context.hpp"
 
+#include <cassert>
 #include <stdexcept>
 
 #include "fmt/core.h"
@@ -11,11 +12,11 @@ extern "C" {
 }
 
 #include "error/error.hpp"
-#include "threaded_stream_reader/frame/frame.hpp"
-#include "threaded_stream_reader/packet/packet.hpp"
 
 CodecContext::CodecContext(AVStream* stream)
 {
+    assert(stream);
+
     const AVCodec* decoder = avcodec_find_decoder(stream->codecpar->codec_id);
 
     if (!decoder)
@@ -93,7 +94,7 @@ int CodecContext::send_packet(Packet* packet)
 
 std::unique_ptr<Frame> CodecContext::receive_frame(const double time_base, const int scaled_width, const int scaled_height)
 {
-    std::unique_ptr<Frame> frame = std::make_unique<Frame>(this, scaled_width, scaled_height);
+    std::unique_ptr<Frame> frame = std::make_unique<Frame>(width(), height(), scaled_width, scaled_height, pixel_format());
 
     int ret = avcodec_receive_frame(codec_context_.get(), frame->frame());
 

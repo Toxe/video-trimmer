@@ -3,13 +3,9 @@
 #include <stdexcept>
 
 extern "C" {
-#include "libavcodec/avcodec.h"
-#include "libavformat/avformat.h"
 #include "libavutil/avutil.h"
 #include "libavutil/rational.h"
 }
-
-#include "threaded_stream_reader/packet/packet.hpp"
 
 FormatContext::FormatContext(const std::string_view& filename)
 {
@@ -43,24 +39,16 @@ std::string FormatContext::format() const
     return format_context_->iformat->long_name;
 }
 
-std::unique_ptr<StreamInfo> FormatContext::find_best_stream(StreamType type)
+AVStream* FormatContext::find_best_stream(FormatContext::StreamType type)
 {
-    const AVMediaType media_type = type == StreamType::audio ? AVMEDIA_TYPE_AUDIO : AVMEDIA_TYPE_VIDEO;
+    const AVMediaType media_type = type == FormatContext::StreamType::audio ? AVMEDIA_TYPE_AUDIO : AVMEDIA_TYPE_VIDEO;
     const int stream_index = av_find_best_stream(format_context_.get(), media_type, -1, -1, nullptr, 0);
 
     if (stream_index < 0)
         return nullptr;
 
     // find decoder for stream
-    AVStream* stream = format_context_->streams[stream_index];
-
-    // allocate codec context for decoder
-    std::unique_ptr<CodecContext> codec_context = std::make_unique<CodecContext>(stream);
-
-    if (!codec_context)
-        return nullptr;
-
-    return std::make_unique<StreamInfo>(this, std::move(codec_context), stream_index);
+    return format_context_->streams[stream_index];
 }
 
 int FormatContext::read_frame(Packet* packet)

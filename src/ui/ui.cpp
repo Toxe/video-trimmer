@@ -3,7 +3,6 @@
 #include <fmt/core.h>
 
 #include "colors.h"
-#include "event_handler/event_handler.h"
 
 const float left_pane_width = 500.0f;
 const float additional_info_pane_height = 500.0f;

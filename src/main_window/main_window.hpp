@@ -11,8 +11,6 @@
 #include "types.h"
 #include "views/video_view/video_view.h"
 
-class VideoFrame;
-
 class MainWindow {
     const char* title_ = "Video Trimmer";
 

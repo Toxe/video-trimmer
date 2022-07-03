@@ -4,9 +4,8 @@
 #include <string>
 
 #include "../codec_context/codec_context.hpp"
-
-class FormatContext;
-class VideoFrame;
+#include "../format_context/format_context.hpp"
+#include "../video_frame/video_frame.hpp"
 
 class StreamInfo {
     FormatContext* format_context_ = nullptr;
@@ -30,5 +29,7 @@ public:
     [[nodiscard]] const std::string& codec_name() const { return codec_name_; }
     [[nodiscard]] const std::string& codec_additional_info() const { return codec_additional_info_; }
 
-    [[nodiscard]] std::unique_ptr<VideoFrame> receive_video_frame(const int scaled_width, const int scaled_height);
+    [[nodiscard]] std::unique_ptr<VideoFrame> receive_video_frame(int scaled_width, int scaled_height);
+
+    [[nodiscard]] static std::unique_ptr<StreamInfo> find_best_stream(FormatContext* format_context, FormatContext::StreamType type);
 };

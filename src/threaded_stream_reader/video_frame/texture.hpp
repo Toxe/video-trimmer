@@ -4,13 +4,13 @@
 
 #include <SFML/Graphics/Texture.hpp>
 
-class Frame;
+#include "../frame/frame.hpp"
 
 class Texture {
     std::unique_ptr<sf::Texture> texture_;
 
 public:
-    Texture(Frame* frame);
+    explicit Texture(Frame* frame);
 
     [[nodiscard]] std::unique_ptr<sf::Texture> release_texture();
 };

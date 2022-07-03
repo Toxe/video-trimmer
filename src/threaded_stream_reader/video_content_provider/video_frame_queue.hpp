@@ -3,7 +3,7 @@
 #include <memory>
 #include <vector>
 
-class VideoFrame;
+#include "../video_frame/video_frame.hpp"
 
 class VideoFrameQueue {
     const std::size_t max_queue_size_ = 10;

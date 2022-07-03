@@ -3,6 +3,7 @@
 #include <fmt/core.h>
 #include <imgui.h>
 
+#include "directory_scanner.hpp"
 #include "logger/logger.hpp"
 
 FilesView::FilesView()

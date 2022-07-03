@@ -9,8 +9,6 @@
 #include "video_frame_scaler.hpp"
 #include "video_reader.hpp"
 
-class VideoFrame;
-
 class VideoContentProvider {
     std::mutex mtx_;
 

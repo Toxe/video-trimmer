@@ -3,21 +3,16 @@
 #include <memory>
 #include <string>
 
-extern "C" {
-#include "libavutil/pixfmt.h"
-}
-
+#include "../frame/frame.hpp"
+#include "../packet/packet.hpp"
 #include "auto_delete_resource.hpp"
 
 struct AVCodecContext;
 struct AVStream;
 
-class Frame;
-class Packet;
-
 class CodecContext {
 public:
-    CodecContext(AVStream* stream);
+    explicit CodecContext(AVStream* stream);
 
     [[nodiscard]] std::string codec_type();
     [[nodiscard]] std::string codec_name();
@@ -29,7 +24,7 @@ public:
     [[nodiscard]] float fps() const { return fps_; };
 
     [[nodiscard]] int send_packet(Packet* packet);
-    [[nodiscard]] std::unique_ptr<Frame> receive_frame(const double time_base, const int scaled_width, const int scaled_height);
+    [[nodiscard]] std::unique_ptr<Frame> receive_frame(double time_base, int scaled_width, int scaled_height);
 
 private:
     AutoDeleteResource<AVCodecContext> codec_context_;

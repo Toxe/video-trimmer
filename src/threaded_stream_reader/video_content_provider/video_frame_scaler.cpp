@@ -4,7 +4,6 @@
 
 #include <fmt/core.h>
 
-#include "../video_frame/video_frame.hpp"
 #include "error/error.hpp"
 #include "logger/logger.hpp"
 #include "video_content_provider.hpp"

@@ -6,9 +6,6 @@
 #include "threaded_stream_reader/video_content_provider/video_content_provider.hpp"
 #include "types.h"
 
-class VideoFile;
-class VideoFrame;
-
 class VideoPlayer {
     std::unique_ptr<VideoFile> video_file_;
     std::unique_ptr<VideoContentProvider> video_content_provider_;

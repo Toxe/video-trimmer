@@ -4,19 +4,17 @@
 #include <cstdint>
 #include <span>
 
-#include "auto_delete_resource.hpp"
-
 extern "C" {
 #include "libavutil/pixfmt.h"
 }
 
-struct AVFrame;
+#include "auto_delete_resource.hpp"
 
-class CodecContext;
+struct AVFrame;
 
 class Frame {
 public:
-    Frame(CodecContext* codec_context, int scaled_width, int scaled_height);
+    Frame(int width, int height, int scaled_width, int scaled_height, AVPixelFormat pixel_format);
     ~Frame();
 
     [[nodiscard]] double timestamp() const { return timestamp_; };

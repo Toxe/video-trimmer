@@ -1,13 +1,13 @@
 #pragma once
 
-#include "auto_delete_resource.hpp"
-#include "threaded_stream_reader/codec_context/codec_context.hpp"
-
 extern "C" {
 #include "libavutil/pixfmt.h"
 }
 
-class VideoFrame;
+#include "../codec_context/codec_context.hpp"
+#include "../video_frame/video_frame.hpp"
+#include "auto_delete_resource.hpp"
+
 struct SwsContext;
 
 class ScalingContext {

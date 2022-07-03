@@ -6,11 +6,11 @@
 #include <stop_token>
 
 #include "../scaling_context/scaling_context.hpp"
+#include "../stream_info/stream_info.hpp"
+#include "../video_frame/video_frame.hpp"
 #include "work_thread.hpp"
 
-class StreamInfo;
 class VideoContentProvider;
-class VideoFrame;
 
 class VideoFrameScaler : public WorkThread {
     std::unique_ptr<ScalingContext> scaling_context_;

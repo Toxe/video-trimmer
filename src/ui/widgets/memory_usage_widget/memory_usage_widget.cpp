@@ -3,8 +3,6 @@
 #include "fmt/core.h"
 #include "imgui.h"
 
-#include "clock/duration.h"
-
 #include "memory_usage_info/create_memory_usage_info.hpp"
 
 MemoryUsageWidget::MemoryUsageWidget(const float font_size)

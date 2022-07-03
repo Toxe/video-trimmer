@@ -3,7 +3,6 @@
 #include <fmt/core.h>
 #include <imgui.h>
 
-#include "threaded_stream_reader/video_file.hpp"
 #include "ui/colors.h"
 
 void VideoFileInfoWidget::render(const VideoFile* video_file)

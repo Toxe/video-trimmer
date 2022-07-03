@@ -8,10 +8,8 @@ extern "C" {
 #include "libavutil/mem.h"
 }
 
-#include "threaded_stream_reader/codec_context/codec_context.hpp"
-
-Frame::Frame(CodecContext* codec_context, const int scaled_width, const int scaled_height)
-    : src_width_(codec_context->width()), src_height_(codec_context->height())
+Frame::Frame(const int width, const int height, const int scaled_width, const int scaled_height, AVPixelFormat pixel_format)
+    : src_width_(width), src_height_(height), src_pixel_format_(pixel_format)
 {
     // only scale down, never scale frames up to be bigger than the source frame
     if (scaled_width <= src_width_ && scaled_height <= src_height_) {
@@ -21,8 +19,6 @@ Frame::Frame(CodecContext* codec_context, const int scaled_width, const int scal
         dst_width_ = src_width_;
         dst_height_ = src_height_;
     }
-
-    src_pixel_format_ = codec_context->pixel_format();
 
     frame_ = AutoDeleteResource<AVFrame>(av_frame_alloc(), [](AVFrame* p) { av_frame_free(&p); });
 

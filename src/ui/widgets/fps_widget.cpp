@@ -3,8 +3,6 @@
 #include <fmt/core.h>
 #include <imgui.h>
 
-#include "clock/duration.h"
-
 FPSWidget::FPSWidget(const float font_size)
     : font_size_{font_size}
 {

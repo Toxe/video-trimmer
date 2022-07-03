@@ -6,8 +6,6 @@
 #include "ui/widgets/memory_usage_widget/memory_usage_widget.hpp"
 #include "ui/widgets/video_file_info_widget.hpp"
 
-class VideoFile;
-
 class AdditionalInfoView {
     float font_size_;
 
@@ -18,5 +16,5 @@ class AdditionalInfoView {
 public:
     AdditionalInfoView(const video_trimmer::CommandLine& cli);
 
-    void render(const Duration elapsed_time, const VideoFile* video_file);
+    void render(Duration elapsed_time, const VideoFile* video_file);
 };

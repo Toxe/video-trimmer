@@ -4,13 +4,14 @@
 #include <string>
 #include <string_view>
 
+extern "C" {
+#include "libavformat/avformat.h"
+}
+
+#include "../packet/packet.hpp"
 #include "auto_delete_resource.hpp"
-#include "format_context.hpp"
-#include "threaded_stream_reader/stream_info/stream_info.hpp"
 
 struct AVFormatContext;
-
-class Packet;
 
 class FormatContext {
 public:
@@ -26,7 +27,7 @@ public:
 
     [[nodiscard]] std::string format() const;
 
-    [[nodiscard]] std::unique_ptr<StreamInfo> find_best_stream(StreamType type);
+    [[nodiscard]] AVStream* find_best_stream(StreamType type);
     [[nodiscard]] int read_frame(Packet* packet);
 
 private:

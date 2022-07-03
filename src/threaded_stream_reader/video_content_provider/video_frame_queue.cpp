@@ -2,8 +2,6 @@
 
 #include <algorithm>
 
-#include "../video_frame/video_frame.hpp"
-
 void VideoFrameQueue::push(std::unique_ptr<VideoFrame> video_frame)
 {
     queue_.push_back(std::move(video_frame));

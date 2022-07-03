@@ -8,12 +8,8 @@
 #include <thread>
 
 #include "run_state.hpp"
-#include "work_thread.hpp"
 
-class Packet;
-class StreamInfo;
 class VideoContentProvider;
-class VideoFrame;
 
 class WorkThread {
     std::jthread thread_;

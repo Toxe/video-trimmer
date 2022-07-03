@@ -6,9 +6,8 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
 
+#include "threaded_stream_reader/video_frame/video_frame.hpp"
 #include "types.h"
-
-class VideoFrame;
 
 class VideoView {
     std::unique_ptr<sf::Texture> texture_;

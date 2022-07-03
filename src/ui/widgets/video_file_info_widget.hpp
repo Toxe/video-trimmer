@@ -1,6 +1,6 @@
 #pragma once
 
-class VideoFile;
+#include "threaded_stream_reader/video_file.hpp"
 
 class VideoFileInfoWidget {
 public:

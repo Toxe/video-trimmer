@@ -29,8 +29,8 @@ int VideoFile::open_file(const std::string_view& full_filename)
         file_format_ = format_context_->format();
 
         // find best audio and video stream
-        audio_stream_info_ = format_context_->find_best_stream(FormatContext::StreamType::audio);
-        video_stream_info_ = format_context_->find_best_stream(FormatContext::StreamType::video);
+        audio_stream_info_ = StreamInfo::find_best_stream(format_context_.get(), FormatContext::StreamType::audio);
+        video_stream_info_ = StreamInfo::find_best_stream(format_context_.get(), FormatContext::StreamType::video);
 
         // a missing audio stream is fine, but we are looking for at least a video stream
         if (!video_stream_info_)

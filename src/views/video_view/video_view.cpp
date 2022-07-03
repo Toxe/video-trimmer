@@ -3,7 +3,6 @@
 #include <fmt/core.h>
 #include <imgui.h>
 
-#include "threaded_stream_reader/video_frame/video_frame.hpp"
 #include "ui/colors.h"
 #include "ui/imgui_helpers.hpp"
 
