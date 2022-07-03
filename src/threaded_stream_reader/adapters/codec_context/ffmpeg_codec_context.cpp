@@ -99,7 +99,7 @@ int FFmpegCodecContext::send_packet(Packet* packet)
 
 std::unique_ptr<Frame> FFmpegCodecContext::receive_frame(Factory* factory, const double time_base, const int scaled_width, const int scaled_height)
 {
-    std::unique_ptr<Frame> frame = factory->create_frame(this, scaled_width, scaled_height);
+    std::unique_ptr<Frame> frame = std::make_unique<Frame>(this, scaled_width, scaled_height);
 
     int ret = avcodec_receive_frame(codec_context_.get(), frame->frame());
 

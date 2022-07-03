@@ -28,8 +28,6 @@ add_executable(video_trimmer
         threaded_stream_reader/adapters/format_context/ffmpeg_format_context.cpp
         threaded_stream_reader/adapters/format_context/ffmpeg_format_context.hpp
         threaded_stream_reader/adapters/format_context/format_context.hpp
-        threaded_stream_reader/adapters/frame/ffmpeg_frame.cpp
-        threaded_stream_reader/adapters/frame/ffmpeg_frame.hpp
         threaded_stream_reader/adapters/frame/frame.cpp
         threaded_stream_reader/adapters/frame/frame.hpp
         threaded_stream_reader/adapters/packet/packet.cpp

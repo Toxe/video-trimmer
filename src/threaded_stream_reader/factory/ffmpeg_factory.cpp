@@ -2,7 +2,6 @@
 
 #include "../adapters/codec_context/ffmpeg_codec_context.hpp"
 #include "../adapters/format_context/ffmpeg_format_context.hpp"
-#include "../adapters/frame/ffmpeg_frame.hpp"
 
 std::unique_ptr<CodecContext> FFmpegFactory::create_codec_context(AVStream* stream)
 {
@@ -12,9 +11,4 @@ std::unique_ptr<CodecContext> FFmpegFactory::create_codec_context(AVStream* stre
 std::unique_ptr<FormatContext> FFmpegFactory::create_format_context(const std::string_view& filename)
 {
     return std::make_unique<FFmpegFormatContext>(filename);
-}
-
-std::unique_ptr<Frame> FFmpegFactory::create_frame(CodecContext* codec_context, const int scaled_width, const int scaled_height)
-{
-    return std::make_unique<FFmpegFrame>(codec_context, scaled_width, scaled_height);
 }
