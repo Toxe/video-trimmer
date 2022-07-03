@@ -2,6 +2,8 @@
 
 #include "clock/clock.h"
 
+namespace video_trimmer {
+
 class App {
     Clock frame_time_clock_;
     Duration elapsed_time_;
@@ -11,3 +13,5 @@ public:
 
     void next_frame();
 };
+
+}  // namespace video_trimmer

@@ -5,6 +5,8 @@
 
 #include <SFML/Window/VideoMode.hpp>
 
+namespace video_trimmer {
+
 class CommandLine {
     int font_size_;
     int window_width_;
@@ -24,3 +26,5 @@ public:
     [[nodiscard]] sf::VideoMode default_window_video_mode() const { return default_window_video_mode_; };
     [[nodiscard]] const std::string& directory() const { return directory_; }
 };
+
+}  // namespace video_trimmer

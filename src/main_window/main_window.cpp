@@ -7,7 +7,7 @@
 #include "command_line/command_line.h"
 #include "logger/logger.hpp"
 
-MainWindow::MainWindow(const CommandLine& cli)
+MainWindow::MainWindow(const video_trimmer::CommandLine& cli)
     : window_video_mode_{cli.default_window_video_mode()}
 {
     // create main_window

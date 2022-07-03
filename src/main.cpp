@@ -13,9 +13,9 @@
 
 int main(int argc, char* argv[])
 {
-    CommandLine cli(argc, argv);
+    video_trimmer::CommandLine cli(argc, argv);
 
-    App app;
+    video_trimmer::App app;
     UI ui;
     MainWindow window(cli);
 

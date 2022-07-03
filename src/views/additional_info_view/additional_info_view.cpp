@@ -5,7 +5,7 @@
 
 #include "command_line/command_line.h"
 
-AdditionalInfoView::AdditionalInfoView(const CommandLine& cli)
+AdditionalInfoView::AdditionalInfoView(const video_trimmer::CommandLine& cli)
     : font_size_{static_cast<float>(cli.font_size())}, fps_widget_{font_size_}, memory_usage_widget_{font_size_}
 {
 }

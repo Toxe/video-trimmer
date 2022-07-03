@@ -7,10 +7,10 @@
 #include <SFML/Window/VideoMode.hpp>
 
 #include "clock/duration.h"
+#include "command_line/command_line.h"
 #include "types.h"
 #include "views/video_view/video_view.h"
 
-class CommandLine;
 class VideoFrame;
 
 class MainWindow {
@@ -26,7 +26,7 @@ class MainWindow {
     void adjust_view_to_window_size();
 
 public:
-    MainWindow(const CommandLine& cli);
+    MainWindow(const video_trimmer::CommandLine& cli);
 
     [[nodiscard]] sf::RenderWindow& window() const { return *window_; };
     [[nodiscard]] VideoView& video_view() const { return *video_view_; };

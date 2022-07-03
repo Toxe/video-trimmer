@@ -18,7 +18,7 @@
     std::exit(error ? app.exit(error.value()) : 0);
 }
 
-CommandLine::CommandLine(int argc, char* argv[])
+video_trimmer::CommandLine::CommandLine(int argc, char* argv[])
 {
     const auto description = "Video Trimmer";
     int log_level_flag = 0;
@@ -72,7 +72,7 @@ CommandLine::CommandLine(int argc, char* argv[])
         show_usage_and_exit(app, fmt::format("not a directory: {}", directory_).c_str(), {});
 }
 
-sf::VideoMode CommandLine::default_video_mode() const
+sf::VideoMode video_trimmer::CommandLine::default_video_mode() const
 {
     // init window at 50% desktop height and 16:9 aspect ratio
     const auto desktop = sf::VideoMode::getDesktopMode();
@@ -81,7 +81,7 @@ sf::VideoMode CommandLine::default_video_mode() const
     return sf::VideoMode{width, height};
 }
 
-int CommandLine::default_font_size() const
+int video_trimmer::CommandLine::default_font_size() const
 {
     return static_cast<int>(sf::VideoMode::getDesktopMode().height) / 96;
 }
