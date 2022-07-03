@@ -23,7 +23,7 @@ int VideoFile::open_file(const std::string_view& full_filename)
 
     try {
         // allocate format context
-        format_context_ = factory_->create_format_context(full_filename);
+        format_context_ = std::make_unique<FormatContext>(full_filename);
 
         if (!format_context_)
             return -1;

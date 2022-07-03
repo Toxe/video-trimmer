@@ -1,4 +1,4 @@
-#include "ffmpeg_format_context.hpp"
+#include "format_context.hpp"
 
 #include <stdexcept>
 
@@ -9,10 +9,9 @@ extern "C" {
 #include <libavutil/rational.h>
 }
 
-#include "../codec_context/codec_context.hpp"
 #include "../packet/packet.hpp"
 
-FFmpegFormatContext::FFmpegFormatContext(const std::string_view& filename)
+FormatContext::FormatContext(const std::string_view& filename)
 {
     // allocate format context
     format_context_ = AutoDeleteResource<AVFormatContext>(avformat_alloc_context(), [](AVFormatContext* ctx) { avformat_close_input(&ctx); });
@@ -33,18 +32,18 @@ FFmpegFormatContext::FFmpegFormatContext(const std::string_view& filename)
         throw std::runtime_error("avformat_find_stream_info");
 }
 
-double FFmpegFormatContext::stream_time_base(const int stream_index) const
+double FormatContext::stream_time_base(const int stream_index) const
 {
     const AVStream* stream = format_context_->streams[stream_index];
     return av_q2d(stream->time_base);
 }
 
-std::string FFmpegFormatContext::format() const
+std::string FormatContext::format() const
 {
     return format_context_->iformat->long_name;
 }
 
-std::unique_ptr<StreamInfo> FFmpegFormatContext::find_best_stream(Factory* factory, const StreamType type)
+std::unique_ptr<StreamInfo> FormatContext::find_best_stream(Factory* factory, const StreamType type)
 {
     const AVMediaType media_type = type == StreamType::audio ? AVMEDIA_TYPE_AUDIO : AVMEDIA_TYPE_VIDEO;
     const int stream_index = av_find_best_stream(format_context_.get(), media_type, -1, -1, nullptr, 0);
@@ -64,7 +63,7 @@ std::unique_ptr<StreamInfo> FFmpegFormatContext::find_best_stream(Factory* facto
     return std::make_unique<StreamInfo>(this, std::move(codec_context), stream_index);
 }
 
-int FFmpegFormatContext::read_frame(Packet* packet)
+int FormatContext::read_frame(Packet* packet)
 {
     return av_read_frame(format_context_.get(), packet->packet());
 }

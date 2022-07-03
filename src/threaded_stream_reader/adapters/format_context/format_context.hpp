@@ -2,10 +2,13 @@
 
 #include <memory>
 #include <string>
-
-struct AVFormatContext;
+#include <string_view>
 
 #include "../../stream_info/stream_info.hpp"
+#include "auto_delete_resource.hpp"
+#include "format_context.hpp"
+
+struct AVFormatContext;
 
 class Factory;
 class Packet;
@@ -18,12 +21,15 @@ public:
     };
 
 public:
-    virtual ~FormatContext() = default;
+    FormatContext(const std::string_view& filename);
 
-    [[nodiscard]] virtual double stream_time_base(int stream_index) const = 0;
+    [[nodiscard]] double stream_time_base(int stream_index) const;
 
-    [[nodiscard]] virtual std::string format() const = 0;
+    [[nodiscard]] std::string format() const;
 
-    [[nodiscard]] virtual std::unique_ptr<StreamInfo> find_best_stream(Factory* factory, StreamType type) = 0;
-    [[nodiscard]] virtual int read_frame(Packet* packet) = 0;
+    [[nodiscard]] std::unique_ptr<StreamInfo> find_best_stream(Factory* factory, StreamType type);
+    [[nodiscard]] int read_frame(Packet* packet);
+
+private:
+    AutoDeleteResource<AVFormatContext> format_context_;
 };
