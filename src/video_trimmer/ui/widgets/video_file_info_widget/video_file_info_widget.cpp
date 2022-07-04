@@ -7,7 +7,7 @@
 
 namespace video_trimmer::ui::widgets::video_file_info_widget {
 
-void VideoFileInfoWidget::render(const VideoFile* video_file)
+void VideoFileInfoWidget::render(const video_content_provider::video_file::VideoFile* video_file)
 {
     if (!video_file || !video_file->is_open())
         return;

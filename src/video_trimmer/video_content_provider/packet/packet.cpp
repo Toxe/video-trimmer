@@ -6,6 +6,8 @@ extern "C" {
 #include "libavcodec/packet.h"
 }
 
+namespace video_trimmer::video_content_provider::packet {
+
 Packet::Packet()
 {
     packet_ = AutoDeleteResource<AVPacket>(av_packet_alloc(), [](AVPacket* p) { av_packet_free(&p); });
@@ -28,3 +30,5 @@ void Packet::unref()
 {
     av_packet_unref(packet_.get());
 }
+
+}  // namespace video_trimmer::video_content_provider::packet

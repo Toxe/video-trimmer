@@ -21,13 +21,13 @@ VideoView::VideoView()
     sprite_->setTexture(*texture_, true);
 }
 
-void VideoView::render(sf::RenderWindow& window, VideoFrame* video_frame)
+void VideoView::render(sf::RenderWindow& window, video_content_provider::video_frame::VideoFrame* video_frame)
 {
     render_ui(video_frame);
     render_content(window, video_frame);
 }
 
-void VideoView::render_content(sf::RenderWindow& window, VideoFrame* video_frame)
+void VideoView::render_content(sf::RenderWindow& window, video_content_provider::video_frame::VideoFrame* video_frame)
 {
     if (video_frame) {
         // receive a new sprite texture
@@ -41,7 +41,7 @@ void VideoView::render_content(sf::RenderWindow& window, VideoFrame* video_frame
     window.draw(*sprite_);
 }
 
-void VideoView::render_ui(const VideoFrame* video_frame)
+void VideoView::render_ui(const video_content_provider::video_frame::VideoFrame* video_frame)
 {
     ImGui::Begin("Video Trimmer");
     ImGui::BeginChild("right pane");

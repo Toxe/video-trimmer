@@ -13,6 +13,8 @@ extern "C" {
 
 struct AVFormatContext;
 
+namespace video_trimmer::video_content_provider::format_context {
+
 class FormatContext {
 public:
     enum class StreamType {
@@ -28,8 +30,10 @@ public:
     [[nodiscard]] std::string format() const;
 
     [[nodiscard]] AVStream* find_best_stream(StreamType type);
-    [[nodiscard]] int read_frame(Packet* packet);
+    [[nodiscard]] int read_frame(packet::Packet* packet);
 
 private:
     AutoDeleteResource<AVFormatContext> format_context_;
 };
+
+}  // namespace video_trimmer::video_content_provider::format_context

@@ -5,6 +5,8 @@
 
 #include "video_trimmer/error/error.hpp"
 
+namespace video_trimmer::video_content_provider::video_file {
+
 VideoFile::VideoFile(const std::string_view& full_filename)
 {
     is_open_ = open_file(full_filename) == 0;
@@ -21,7 +23,7 @@ int VideoFile::open_file(const std::string_view& full_filename)
 
     try {
         // allocate format context
-        format_context_ = std::make_unique<FormatContext>(full_filename);
+        format_context_ = std::make_unique<format_context::FormatContext>(full_filename);
 
         if (!format_context_)
             return -1;
@@ -29,8 +31,8 @@ int VideoFile::open_file(const std::string_view& full_filename)
         file_format_ = format_context_->format();
 
         // find best audio and video stream
-        audio_stream_info_ = StreamInfo::find_best_stream(format_context_.get(), FormatContext::StreamType::audio);
-        video_stream_info_ = StreamInfo::find_best_stream(format_context_.get(), FormatContext::StreamType::video);
+        audio_stream_info_ = stream_info::StreamInfo::find_best_stream(format_context_.get(), format_context::FormatContext::StreamType::audio);
+        video_stream_info_ = stream_info::StreamInfo::find_best_stream(format_context_.get(), format_context::FormatContext::StreamType::video);
 
         // a missing audio stream is fine, but we are looking for at least a video stream
         if (!video_stream_info_)
@@ -56,3 +58,5 @@ bool VideoFile::has_video_stream() const
 {
     return video_stream_info_ != nullptr;
 }
+
+}  // namespace video_trimmer::video_content_provider::video_file

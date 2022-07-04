@@ -12,6 +12,8 @@ extern "C" {
 
 struct AVFrame;
 
+namespace video_trimmer::video_content_provider::frame {
+
 class Frame {
 public:
     Frame(int width, int height, int scaled_width, int scaled_height, AVPixelFormat pixel_format);
@@ -51,3 +53,5 @@ private:
 
     AVPixelFormat src_pixel_format_;
 };
+
+}  // namespace video_trimmer::video_content_provider::frame

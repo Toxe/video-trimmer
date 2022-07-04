@@ -7,7 +7,9 @@
 #include "video_trimmer/error/error.hpp"
 #include "video_trimmer/logger/logger.hpp"
 
-VideoFrameScaler::VideoFrameScaler(StreamInfo* video_stream_info, int width, int height)
+namespace video_trimmer::video_content_provider::video_frame_scaler {
+
+VideoFrameScaler::VideoFrameScaler(stream_info::StreamInfo* video_stream_info, int width, int height)
     : video_stream_info_(video_stream_info), scale_height_(height), scale_width_(width)
 {
     scaling_context_ = std::make_unique<ScalingContext>(video_stream_info_->codec_context(), width, height);
@@ -16,7 +18,7 @@ VideoFrameScaler::VideoFrameScaler(StreamInfo* video_stream_info, int width, int
         throw std::runtime_error("create_scaling_context");
 }
 
-void VideoFrameScaler::scale_frame(VideoFrame* video_frame)
+void VideoFrameScaler::scale_frame(video_frame::VideoFrame* video_frame)
 {
     // convert to destination format
     if (scale_width_ != video_frame->width() || scale_height_ != video_frame->height())
@@ -40,3 +42,5 @@ int VideoFrameScaler::resize_scaling_context(int width, int height)
 
     return 0;
 }
+
+}  // namespace video_trimmer::video_content_provider::video_frame_scaler

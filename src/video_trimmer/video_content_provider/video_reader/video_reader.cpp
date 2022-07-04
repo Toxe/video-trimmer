@@ -1,12 +1,14 @@
 #include "video_reader.hpp"
 
-VideoReader::VideoReader(StreamInfo* audio_stream_info, StreamInfo* video_stream_info, const int scale_width, const int scale_height)
+namespace video_trimmer::video_content_provider::video_reader {
+
+VideoReader::VideoReader(stream_info::StreamInfo* audio_stream_info, stream_info::StreamInfo* video_stream_info, const int scale_width, const int scale_height)
     : audio_stream_info_(audio_stream_info), video_stream_info_(video_stream_info), scale_width_(scale_width), scale_height_(scale_height)
 {
-    packet_ = std::make_unique<Packet>();
+    packet_ = std::make_unique<packet::Packet>();
 }
 
-std::unique_ptr<VideoFrame> VideoReader::read()
+std::unique_ptr<video_frame::VideoFrame> VideoReader::read()
 {
     // read until we get at least one video frame
     while (true) {
@@ -15,7 +17,7 @@ std::unique_ptr<VideoFrame> VideoReader::read()
 
         // process only interesting packets, drop the rest
         if (packet_->stream_index() == video_stream_info_->stream_index()) {
-            std::unique_ptr<VideoFrame> video_frame = decode_video_packet(packet_.get());
+            std::unique_ptr<video_frame::VideoFrame> video_frame = decode_video_packet(packet_.get());
             packet_->unref();
             return video_frame;
         } else if (packet_->stream_index() == audio_stream_info_->stream_index()) {
@@ -29,7 +31,7 @@ std::unique_ptr<VideoFrame> VideoReader::read()
     return nullptr;
 }
 
-std::unique_ptr<VideoFrame> VideoReader::decode_video_packet(Packet* packet)
+std::unique_ptr<video_frame::VideoFrame> VideoReader::decode_video_packet(packet::Packet* packet)
 {
     // send packet to the decoder
     if (video_stream_info_->codec_context()->send_packet(packet) < 0)
@@ -44,3 +46,5 @@ void VideoReader::change_scaling_dimensions(const int scale_width, const int sca
     scale_width_ = scale_width;
     scale_height_ = scale_height;
 }
+
+}  // namespace video_trimmer::video_content_provider::video_reader

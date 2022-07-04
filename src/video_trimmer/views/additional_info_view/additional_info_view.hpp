@@ -18,7 +18,7 @@ class AdditionalInfoView {
 public:
     AdditionalInfoView(const video_trimmer::command_line::CommandLine& cli);
 
-    void render(video_trimmer::clock::Duration elapsed_time, const VideoFile* video_file);
+    void render(video_trimmer::clock::Duration elapsed_time, const video_content_provider::video_file::VideoFile* video_file);
 };
 
 }  // namespace video_trimmer::views::additional_info_view

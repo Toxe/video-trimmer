@@ -42,7 +42,7 @@ void MainWindow::next_frame(const video_trimmer::clock::Duration elapsed_time)
     ImGui::SFML::Update(*window_, sf::microseconds(elapsed_time.as_microseconds()));
 }
 
-void MainWindow::render(VideoFrame* video_frame)
+void MainWindow::render(video_content_provider::video_frame::VideoFrame* video_frame)
 {
     window_->clear();
 

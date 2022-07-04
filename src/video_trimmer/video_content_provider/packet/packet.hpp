@@ -4,6 +4,8 @@
 
 struct AVPacket;
 
+namespace video_trimmer::video_content_provider::packet {
+
 class Packet {
 public:
     Packet();
@@ -16,3 +18,5 @@ public:
 private:
     AutoDeleteResource<AVPacket> packet_;
 };
+
+}  // namespace video_trimmer::video_content_provider::packet

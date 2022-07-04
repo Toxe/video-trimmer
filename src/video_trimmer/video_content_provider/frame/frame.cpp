@@ -8,6 +8,8 @@ extern "C" {
 #include "libavutil/mem.h"
 }
 
+namespace video_trimmer::video_content_provider::frame {
+
 Frame::Frame(const int width, const int height, const int scaled_width, const int scaled_height, AVPixelFormat pixel_format)
     : src_width_(width), src_height_(height), src_pixel_format_(pixel_format)
 {
@@ -54,3 +56,5 @@ void Frame::image_copy()
     av_image_copy(src_data(), src_linesizes(), const_cast<const uint8_t**>(frame_->data), &frame_->linesize[0], src_pixel_format_, src_width(), src_height());
     av_frame_unref(frame_.get());
 }
+
+}  // namespace video_trimmer::video_content_provider::frame

@@ -4,7 +4,9 @@
 
 #include "video_trimmer/logger/logger.hpp"
 
-VideoFrame::VideoFrame(std::unique_ptr<Frame> frame)
+namespace video_trimmer::video_content_provider::video_frame {
+
+VideoFrame::VideoFrame(std::unique_ptr<frame::Frame> frame)
     : frame_{std::move(frame)}
 {
 }
@@ -18,3 +20,5 @@ void VideoFrame::create_texture()
 {
     texture_ = std::make_unique<Texture>(frame_.get());
 }
+
+}  // namespace video_trimmer::video_content_provider::video_frame

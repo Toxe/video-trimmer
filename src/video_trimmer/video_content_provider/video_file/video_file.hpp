@@ -7,10 +7,12 @@
 #include "../format_context/format_context.hpp"
 #include "../stream_info/stream_info.hpp"
 
+namespace video_trimmer::video_content_provider::video_file {
+
 class VideoFile {
-    std::unique_ptr<FormatContext> format_context_;
-    std::unique_ptr<StreamInfo> audio_stream_info_;
-    std::unique_ptr<StreamInfo> video_stream_info_;
+    std::unique_ptr<format_context::FormatContext> format_context_;
+    std::unique_ptr<stream_info::StreamInfo> audio_stream_info_;
+    std::unique_ptr<stream_info::StreamInfo> video_stream_info_;
 
     bool is_open_ = false;
 
@@ -28,9 +30,11 @@ public:
     [[nodiscard]] const std::string& filename() const { return filename_without_path_; }
     [[nodiscard]] const std::string& file_format() const { return file_format_; }
 
-    [[nodiscard]] StreamInfo* audio_stream_info() const { return audio_stream_info_.get(); }
-    [[nodiscard]] StreamInfo* video_stream_info() const { return video_stream_info_.get(); }
+    [[nodiscard]] stream_info::StreamInfo* audio_stream_info() const { return audio_stream_info_.get(); }
+    [[nodiscard]] stream_info::StreamInfo* video_stream_info() const { return video_stream_info_.get(); }
 
     [[nodiscard]] bool has_audio_stream() const;
     [[nodiscard]] bool has_video_stream() const;
 };
+
+}  // namespace video_trimmer::video_content_provider::video_file

@@ -7,6 +7,8 @@ extern "C" {
 #include "libavutil/rational.h"
 }
 
+namespace video_trimmer::video_content_provider::format_context {
+
 FormatContext::FormatContext(const std::string_view& filename)
 {
     // allocate format context
@@ -51,7 +53,9 @@ AVStream* FormatContext::find_best_stream(FormatContext::StreamType type)
     return format_context_->streams[stream_index];
 }
 
-int FormatContext::read_frame(Packet* packet)
+int FormatContext::read_frame(packet::Packet* packet)
 {
     return av_read_frame(format_context_.get(), packet->packet());
 }
+
+}  // namespace video_trimmer::video_content_provider::format_context

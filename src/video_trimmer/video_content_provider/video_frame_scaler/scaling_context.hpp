@@ -10,11 +10,13 @@ extern "C" {
 
 struct SwsContext;
 
+namespace video_trimmer::video_content_provider::video_frame_scaler {
+
 class ScalingContext {
 public:
-    ScalingContext(CodecContext* codec_context, int width, int height);
+    ScalingContext(codec_context::CodecContext* codec_context, int width, int height);
 
-    int scale(VideoFrame* video_frame);
+    int scale(video_frame::VideoFrame* video_frame);
 
 private:
     AutoDeleteResource<SwsContext> scaling_context_;
@@ -25,3 +27,5 @@ private:
     AVPixelFormat src_pixel_format_;
     AVPixelFormat dst_pixel_format_;
 };
+
+}  // namespace video_trimmer::video_content_provider::video_frame_scaler
