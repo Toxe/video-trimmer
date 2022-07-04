@@ -4,8 +4,8 @@
 #include <string>
 #include <string_view>
 
-#include "format_context/format_context.hpp"
-#include "stream_info/stream_info.hpp"
+#include "../format_context/format_context.hpp"
+#include "../stream_info/stream_info.hpp"
 
 class VideoFile {
     std::unique_ptr<FormatContext> format_context_;

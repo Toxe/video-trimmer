@@ -2,9 +2,9 @@
 
 #include <memory>
 
-#include "../video_file.hpp"
-#include "video_frame_scaler.hpp"
-#include "video_reader.hpp"
+#include "video_file/video_file.hpp"
+#include "video_frame_scaler/video_frame_scaler.hpp"
+#include "video_reader/video_reader.hpp"
 
 class VideoContentProvider {
 public:

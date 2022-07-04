@@ -5,7 +5,7 @@
 
 #include "video_trimmer/logger/logger.hpp"
 #include "video_trimmer/ui/colors/colors.hpp"
-#include "video_trimmer/video_content_provider/video_file.hpp"
+#include "video_trimmer/video_content_provider/video_file/video_file.hpp"
 #include "video_trimmer/video_content_provider/video_frame/video_frame.hpp"
 
 namespace video_trimmer::video_player {

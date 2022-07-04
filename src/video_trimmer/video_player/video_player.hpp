@@ -4,7 +4,7 @@
 #include <memory>
 
 #include "types.h"
-#include "video_trimmer/video_content_provider/video_content_provider/video_content_provider.hpp"
+#include "video_trimmer/video_content_provider/video_content_provider.hpp"
 
 namespace video_trimmer::video_player {
 
