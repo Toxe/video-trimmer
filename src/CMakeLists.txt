@@ -71,8 +71,6 @@ add_executable(video_trimmer
         video_trimmer/video_content_provider/frame/frame.hpp
         video_trimmer/video_content_provider/packet/packet.cpp
         video_trimmer/video_content_provider/packet/packet.hpp
-        video_trimmer/video_content_provider/scaling_context/scaling_context.cpp
-        video_trimmer/video_content_provider/scaling_context/scaling_context.hpp
         video_trimmer/video_content_provider/stream_info/stream_info.cpp
         video_trimmer/video_content_provider/stream_info/stream_info.hpp
         video_trimmer/video_content_provider/video_content_provider.cpp
@@ -83,6 +81,8 @@ add_executable(video_trimmer
         video_trimmer/video_content_provider/video_frame/texture.hpp
         video_trimmer/video_content_provider/video_frame/video_frame.cpp
         video_trimmer/video_content_provider/video_frame/video_frame.hpp
+        video_trimmer/video_content_provider/video_frame_scaler/scaling_context.cpp
+        video_trimmer/video_content_provider/video_frame_scaler/scaling_context.hpp
         video_trimmer/video_content_provider/video_frame_scaler/video_frame_scaler.cpp
         video_trimmer/video_content_provider/video_frame_scaler/video_frame_scaler.hpp
         video_trimmer/video_content_provider/video_reader/video_reader.cpp

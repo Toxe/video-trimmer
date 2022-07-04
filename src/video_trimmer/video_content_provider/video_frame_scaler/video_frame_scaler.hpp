@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../scaling_context/scaling_context.hpp"
 #include "../stream_info/stream_info.hpp"
 #include "../video_frame/video_frame.hpp"
+#include "scaling_context.hpp"
 
 class VideoFrameScaler {
 public:
