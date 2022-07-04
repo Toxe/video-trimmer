@@ -9,16 +9,6 @@
 namespace video_trimmer::video_player {
 
 class VideoPlayer {
-    std::unique_ptr<VideoFile> video_file_;
-    std::unique_ptr<VideoContentProvider> video_content_provider_;
-
-    std::chrono::steady_clock::time_point time_point_playback_start_;
-    std::chrono::duration<double> playback_position_ = std::chrono::duration<double>::zero();
-
-    bool has_started_playing_;
-    bool is_playing_;
-    bool received_first_real_frame_;
-
 public:
     bool open_file(const char* filename);
     void close_file();
@@ -40,12 +30,20 @@ public:
 
     [[nodiscard]] double playback_position();
 
-    [[nodiscard]] int finished_video_frame_queue_size();
-    [[nodiscard]] int video_frame_scaler_queue_size();
-
     [[nodiscard]] const VideoFile* video_file();
 
     void render();
+
+private:
+    std::unique_ptr<VideoFile> video_file_;
+    std::unique_ptr<VideoContentProvider> video_content_provider_;
+
+    std::chrono::steady_clock::time_point time_point_playback_start_;
+    std::chrono::duration<double> playback_position_ = std::chrono::duration<double>::zero();
+
+    bool has_started_playing_;
+    bool is_playing_;
+    bool received_first_real_frame_;
 };
 
 }  // namespace video_trimmer::video_player

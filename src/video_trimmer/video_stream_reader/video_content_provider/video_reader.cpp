@@ -1,49 +1,12 @@
 #include "video_reader.hpp"
 
-#include "video_content_provider.hpp"
-#include "video_trimmer/error/error.hpp"
-#include "video_trimmer/logger/logger.hpp"
-
 VideoReader::VideoReader(StreamInfo* audio_stream_info, StreamInfo* video_stream_info, const int scale_width, const int scale_height)
-    : WorkThread{"VideoReader"}, audio_stream_info_(audio_stream_info), video_stream_info_(video_stream_info), scale_width_(scale_width), scale_height_(scale_height)
+    : audio_stream_info_(audio_stream_info), video_stream_info_(video_stream_info), scale_width_(scale_width), scale_height_(scale_height)
 {
     packet_ = std::make_unique<Packet>();
 }
 
-void VideoReader::main(std::stop_token st, VideoContentProvider* video_content_provider, std::latch& latch)
-{
-    video_trimmer::logger::log_debug("(VideoReader) starting");
-
-    latch.arrive_and_wait();
-
-    set_state(RunState::running);
-
-    const auto queue_not_full = [&] { return video_content_provider->finished_video_frames_queue_is_not_full(); };
-    const auto stop_condition = [&] { return queue_not_full(); };
-
-    while (!st.stop_requested()) {
-        {
-            std::unique_lock<std::mutex> lock(mtx_);
-            cv_.wait(lock, st, stop_condition);
-        }
-
-        if (!st.stop_requested()) {
-            auto video_frame = read();
-
-            if (!video_frame.has_value())
-                break;
-
-            if (video_frame.value())
-                video_content_provider->add_video_frame_for_scaling(std::move(video_frame.value()));
-        }
-    }
-
-    set_state(RunState::fnished);
-
-    video_trimmer::logger::log_debug("(VideoReader) stopping");
-}
-
-std::optional<std::unique_ptr<VideoFrame>> VideoReader::read()
+std::unique_ptr<VideoFrame> VideoReader::read()
 {
     // read until we get at least one video frame
     while (true) {
@@ -63,7 +26,7 @@ std::optional<std::unique_ptr<VideoFrame>> VideoReader::read()
         }
     }
 
-    return std::nullopt;
+    return nullptr;
 }
 
 std::unique_ptr<VideoFrame> VideoReader::decode_video_packet(Packet* packet)

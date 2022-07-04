@@ -52,9 +52,9 @@ int main(int argc, char* argv[])
             if (video_player.is_playing()) {
                 auto video_frame = video_player.next_frame();
 
-                window.render(video_player.finished_video_frame_queue_size(), video_player.video_frame_scaler_queue_size(), video_frame.get());
+                window.render(video_frame.get());
             } else {
-                window.render(video_player.finished_video_frame_queue_size(), video_player.video_frame_scaler_queue_size(), nullptr);
+                window.render(nullptr);
             }
 
             video_player.change_scaling_dimensions(window.video_view().size());

@@ -42,13 +42,13 @@ void MainWindow::next_frame(const video_trimmer::clock::Duration elapsed_time)
     ImGui::SFML::Update(*window_, sf::microseconds(elapsed_time.as_microseconds()));
 }
 
-void MainWindow::render(const int finished_video_frame_queue_size, const int video_frame_scaler_queue_size, VideoFrame* video_frame)
+void MainWindow::render(VideoFrame* video_frame)
 {
     window_->clear();
 
     {
         std::lock_guard<std::mutex> lock(mtx_);
-        video_view_->render(*window_, video_frame, finished_video_frame_queue_size, video_frame_scaler_queue_size);
+        video_view_->render(*window_, video_frame);
     }
 
     ImGui::SFML::Render(*window_);

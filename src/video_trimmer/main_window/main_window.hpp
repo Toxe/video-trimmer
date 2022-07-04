@@ -36,7 +36,7 @@ public:
     [[nodiscard]] ImageSize size() const;
 
     void next_frame(video_trimmer::clock::Duration elapsed_time);
-    void render(int finished_video_frame_queue_size, int video_frame_scaler_queue_size, VideoFrame* video_frame);
+    void render(VideoFrame* video_frame);
 
     void resized_window();
     void close();

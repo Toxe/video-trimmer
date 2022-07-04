@@ -22,7 +22,6 @@ bool VideoPlayer::open_file(const char* filename)
     if (has_open_file()) {
         video_file_ = std::make_unique<VideoFile>(filename);
         video_content_provider_ = std::make_unique<VideoContentProvider>(*video_file_, 640, 480);
-        video_content_provider_->run();
     }
 
     has_started_playing_ = false;
@@ -37,8 +36,6 @@ bool VideoPlayer::open_file(const char* filename)
 void VideoPlayer::close_file()
 {
     video_trimmer::logger::log_debug(fmt::format("(VideoPlayer) close file"));
-
-    video_content_provider_->stop();
 }
 
 void VideoPlayer::start()
@@ -110,7 +107,7 @@ std::unique_ptr<VideoFrame> VideoPlayer::next_frame()
     if (!is_playing())
         return nullptr;
 
-    auto [video_frame, frames_available] = video_content_provider_->next_frame(playback_position_.count());
+    auto video_frame = video_content_provider_->next_frame(playback_position_.count());
 
     if (!video_frame)
         return nullptr;
@@ -120,7 +117,7 @@ std::unique_ptr<VideoFrame> VideoPlayer::next_frame()
         received_first_real_frame_ = true;
     }
 
-    return std::move(video_frame);
+    return video_frame;
 }
 
 void VideoPlayer::change_scaling_dimensions(ImageSize image_size)
@@ -132,16 +129,6 @@ void VideoPlayer::change_scaling_dimensions(ImageSize image_size)
 double VideoPlayer::playback_position()
 {
     return playback_position_.count();
-}
-
-int VideoPlayer::finished_video_frame_queue_size()
-{
-    return video_content_provider_ ? video_content_provider_->finished_video_frame_queue_size() : 0;
-}
-
-int VideoPlayer::video_frame_scaler_queue_size()
-{
-    return video_content_provider_ ? video_content_provider_->video_frame_scaler_queue_size() : 0;
 }
 
 const VideoFile* VideoPlayer::video_file()

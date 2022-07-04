@@ -77,17 +77,12 @@ add_executable(video_trimmer
         video_trimmer/video_stream_reader/scaling_context/scaling_context.hpp
         video_trimmer/video_stream_reader/stream_info/stream_info.cpp
         video_trimmer/video_stream_reader/stream_info/stream_info.hpp
-        video_trimmer/video_stream_reader/video_content_provider/run_state.hpp
         video_trimmer/video_stream_reader/video_content_provider/video_content_provider.cpp
         video_trimmer/video_stream_reader/video_content_provider/video_content_provider.hpp
-        video_trimmer/video_stream_reader/video_content_provider/video_frame_queue.cpp
-        video_trimmer/video_stream_reader/video_content_provider/video_frame_queue.hpp
         video_trimmer/video_stream_reader/video_content_provider/video_frame_scaler.cpp
         video_trimmer/video_stream_reader/video_content_provider/video_frame_scaler.hpp
         video_trimmer/video_stream_reader/video_content_provider/video_reader.cpp
         video_trimmer/video_stream_reader/video_content_provider/video_reader.hpp
-        video_trimmer/video_stream_reader/video_content_provider/work_thread.cpp
-        video_trimmer/video_stream_reader/video_content_provider/work_thread.hpp
         video_trimmer/video_stream_reader/video_file.cpp
         video_trimmer/video_stream_reader/video_file.hpp
         video_trimmer/video_stream_reader/video_frame/texture.cpp
