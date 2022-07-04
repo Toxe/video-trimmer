@@ -9,9 +9,6 @@
 namespace video_trimmer::video_content_provider::video_frame {
 
 class VideoFrame {
-    std::unique_ptr<frame::Frame> frame_;
-    std::unique_ptr<Texture> texture_;
-
 public:
     VideoFrame(std::unique_ptr<frame::Frame> frame);
 
@@ -25,6 +22,10 @@ public:
 
     void create_texture();
     [[nodiscard]] Texture* texture() { return texture_.get(); };
+
+private:
+    std::unique_ptr<frame::Frame> frame_;
+    std::unique_ptr<Texture> texture_;
 };
 
 }  // namespace video_trimmer::video_content_provider::video_frame

@@ -10,17 +10,6 @@
 namespace video_trimmer::video_content_provider::video_file {
 
 class VideoFile {
-    std::unique_ptr<format_context::FormatContext> format_context_;
-    std::unique_ptr<stream_info::StreamInfo> audio_stream_info_;
-    std::unique_ptr<stream_info::StreamInfo> video_stream_info_;
-
-    bool is_open_ = false;
-
-    std::string filename_without_path_;
-    std::string file_format_;
-
-    int open_file(const std::string_view& full_filename);
-
 public:
     VideoFile(const std::string_view& full_filename);
 
@@ -35,6 +24,18 @@ public:
 
     [[nodiscard]] bool has_audio_stream() const;
     [[nodiscard]] bool has_video_stream() const;
+
+private:
+    std::unique_ptr<format_context::FormatContext> format_context_;
+    std::unique_ptr<stream_info::StreamInfo> audio_stream_info_;
+    std::unique_ptr<stream_info::StreamInfo> video_stream_info_;
+
+    bool is_open_ = false;
+
+    std::string filename_without_path_;
+    std::string file_format_;
+
+    int open_file(const std::string_view& full_filename);
 };
 
 }  // namespace video_trimmer::video_content_provider::video_file
