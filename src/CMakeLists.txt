@@ -47,35 +47,6 @@ add_executable(video_trimmer
         video_trimmer/main_window/commands.hpp
         video_trimmer/main_window/main_window.cpp
         video_trimmer/main_window/main_window.hpp
-        video_trimmer/threaded_stream_reader/codec_context/codec_context.cpp
-        video_trimmer/threaded_stream_reader/codec_context/codec_context.hpp
-        video_trimmer/threaded_stream_reader/format_context/format_context.cpp
-        video_trimmer/threaded_stream_reader/format_context/format_context.hpp
-        video_trimmer/threaded_stream_reader/frame/frame.cpp
-        video_trimmer/threaded_stream_reader/frame/frame.hpp
-        video_trimmer/threaded_stream_reader/packet/packet.cpp
-        video_trimmer/threaded_stream_reader/packet/packet.hpp
-        video_trimmer/threaded_stream_reader/scaling_context/scaling_context.cpp
-        video_trimmer/threaded_stream_reader/scaling_context/scaling_context.hpp
-        video_trimmer/threaded_stream_reader/stream_info/stream_info.cpp
-        video_trimmer/threaded_stream_reader/stream_info/stream_info.hpp
-        video_trimmer/threaded_stream_reader/video_content_provider/run_state.hpp
-        video_trimmer/threaded_stream_reader/video_content_provider/video_content_provider.cpp
-        video_trimmer/threaded_stream_reader/video_content_provider/video_content_provider.hpp
-        video_trimmer/threaded_stream_reader/video_content_provider/video_frame_queue.cpp
-        video_trimmer/threaded_stream_reader/video_content_provider/video_frame_queue.hpp
-        video_trimmer/threaded_stream_reader/video_content_provider/video_frame_scaler.cpp
-        video_trimmer/threaded_stream_reader/video_content_provider/video_frame_scaler.hpp
-        video_trimmer/threaded_stream_reader/video_content_provider/video_reader.cpp
-        video_trimmer/threaded_stream_reader/video_content_provider/video_reader.hpp
-        video_trimmer/threaded_stream_reader/video_content_provider/work_thread.cpp
-        video_trimmer/threaded_stream_reader/video_content_provider/work_thread.hpp
-        video_trimmer/threaded_stream_reader/video_file.cpp
-        video_trimmer/threaded_stream_reader/video_file.hpp
-        video_trimmer/threaded_stream_reader/video_frame/texture.cpp
-        video_trimmer/threaded_stream_reader/video_frame/texture.hpp
-        video_trimmer/threaded_stream_reader/video_frame/video_frame.cpp
-        video_trimmer/threaded_stream_reader/video_frame/video_frame.hpp
         video_trimmer/ui/colors/colors.hpp
         video_trimmer/ui/commands.cpp
         video_trimmer/ui/commands.hpp
@@ -94,6 +65,35 @@ add_executable(video_trimmer
         video_trimmer/ui/widgets/video_file_info_widget/video_file_info_widget.hpp
         video_trimmer/video_player/video_player.cpp
         video_trimmer/video_player/video_player.hpp
+        video_trimmer/video_stream_reader/codec_context/codec_context.cpp
+        video_trimmer/video_stream_reader/codec_context/codec_context.hpp
+        video_trimmer/video_stream_reader/format_context/format_context.cpp
+        video_trimmer/video_stream_reader/format_context/format_context.hpp
+        video_trimmer/video_stream_reader/frame/frame.cpp
+        video_trimmer/video_stream_reader/frame/frame.hpp
+        video_trimmer/video_stream_reader/packet/packet.cpp
+        video_trimmer/video_stream_reader/packet/packet.hpp
+        video_trimmer/video_stream_reader/scaling_context/scaling_context.cpp
+        video_trimmer/video_stream_reader/scaling_context/scaling_context.hpp
+        video_trimmer/video_stream_reader/stream_info/stream_info.cpp
+        video_trimmer/video_stream_reader/stream_info/stream_info.hpp
+        video_trimmer/video_stream_reader/video_content_provider/run_state.hpp
+        video_trimmer/video_stream_reader/video_content_provider/video_content_provider.cpp
+        video_trimmer/video_stream_reader/video_content_provider/video_content_provider.hpp
+        video_trimmer/video_stream_reader/video_content_provider/video_frame_queue.cpp
+        video_trimmer/video_stream_reader/video_content_provider/video_frame_queue.hpp
+        video_trimmer/video_stream_reader/video_content_provider/video_frame_scaler.cpp
+        video_trimmer/video_stream_reader/video_content_provider/video_frame_scaler.hpp
+        video_trimmer/video_stream_reader/video_content_provider/video_reader.cpp
+        video_trimmer/video_stream_reader/video_content_provider/video_reader.hpp
+        video_trimmer/video_stream_reader/video_content_provider/work_thread.cpp
+        video_trimmer/video_stream_reader/video_content_provider/work_thread.hpp
+        video_trimmer/video_stream_reader/video_file.cpp
+        video_trimmer/video_stream_reader/video_file.hpp
+        video_trimmer/video_stream_reader/video_frame/texture.cpp
+        video_trimmer/video_stream_reader/video_frame/texture.hpp
+        video_trimmer/video_stream_reader/video_frame/video_frame.cpp
+        video_trimmer/video_stream_reader/video_frame/video_frame.hpp
         video_trimmer/views/additional_info_view/additional_info_view.cpp
         video_trimmer/views/additional_info_view/additional_info_view.hpp
         video_trimmer/views/files_view/directory_scanner.cpp

@@ -5,7 +5,7 @@
 #include "file_entry.hpp"
 #include "files_view.hpp"
 #include "video_trimmer/logger/logger.hpp"
-#include "video_trimmer/threaded_stream_reader/video_file.hpp"
+#include "video_trimmer/video_stream_reader/video_file.hpp"
 
 namespace video_trimmer::views::files_view {
 

@@ -4,9 +4,9 @@
 #include "imgui.h"
 
 #include "video_trimmer/logger/logger.hpp"
-#include "video_trimmer/threaded_stream_reader/video_file.hpp"
-#include "video_trimmer/threaded_stream_reader/video_frame/video_frame.hpp"
 #include "video_trimmer/ui/colors/colors.hpp"
+#include "video_trimmer/video_stream_reader/video_file.hpp"
+#include "video_trimmer/video_stream_reader/video_frame/video_frame.hpp"
 
 namespace video_trimmer::video_player {
 

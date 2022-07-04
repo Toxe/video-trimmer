@@ -7,7 +7,7 @@
 #include "SFML/Graphics/Texture.hpp"
 
 #include "types.h"
-#include "video_trimmer/threaded_stream_reader/video_frame/video_frame.hpp"
+#include "video_trimmer/video_stream_reader/video_frame/video_frame.hpp"
 
 namespace video_trimmer::views::video_view {
 
