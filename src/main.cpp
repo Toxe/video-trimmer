@@ -34,7 +34,7 @@ int main(int argc, char* argv[])
     // video_player.start();
 
     while (window.is_open()) {
-        app.next_frame();
+        app.begin_frame();
         window.next_frame(app.elapsed_time());
 
         event_handler.poll_events(window.window());

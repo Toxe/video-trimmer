@@ -2,7 +2,7 @@
 
 namespace video_trimmer::app {
 
-void App::next_frame()
+void App::begin_frame()
 {
     elapsed_time_ = frame_time_clock_.restart();
 }

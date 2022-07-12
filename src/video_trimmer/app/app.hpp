@@ -11,7 +11,7 @@ class App {
 public:
     [[nodiscard]] video_trimmer::clock::Duration elapsed_time() const { return elapsed_time_; };
 
-    void next_frame();
+    void begin_frame();
 };
 
 }  // namespace video_trimmer::app
