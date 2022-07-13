@@ -5,8 +5,9 @@
 
 namespace video_trimmer::ui::widgets::fps_widget {
 
-FPSWidget::FPSWidget(const float font_size)
-    : font_size_{font_size}
+constexpr float graph_height = 70.0f;
+
+FPSWidget::FPSWidget()
 {
     fps_.resize(5 * 60, 0.0f);  // 5 seconds worth of values at 60 FPS
 }
@@ -20,7 +21,7 @@ void FPSWidget::render(const video_trimmer::clock::Duration elapsed_time)
     fps_[values_offset_] = current_fps;
     values_offset_ = (values_offset_ + 1) % fps_.size();
 
-    ImGui::PlotLines("", fps_.data(), static_cast<int>(fps_.size()), static_cast<int>(values_offset_), fps_label.c_str(), 0.0f, 1.5f * std::max(65.0f, *std::max_element(fps_.begin(), fps_.end())), ImVec2(ImGui::GetContentRegionAvail().x, 4.0f * font_size_));
+    ImGui::PlotLines("", fps_.data(), static_cast<int>(fps_.size()), static_cast<int>(values_offset_), fps_label.c_str(), 0.0f, 1.5f * std::max(65.0f, *std::max_element(fps_.begin(), fps_.end())), ImVec2(ImGui::GetContentRegionAvail().x, graph_height));
 }
 
 }  // namespace video_trimmer::ui::widgets::fps_widget
