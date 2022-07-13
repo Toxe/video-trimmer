@@ -168,15 +168,6 @@ void Graphics::Impl::begin_frame()
 
 void Graphics::Impl::finish_frame()
 {
-    SDL_Surface* surface = SDL_CreateRGBSurface(0, 400, 400, 32, 0, 0, 0, 0);
-    SDL_FillRect(surface, nullptr, SDL_MapRGB(surface->format, 255, 0, 0));
-
-    SDL_Rect dst_rect{600, 100, 400, 400};
-    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer_, surface);
-    SDL_RenderCopy(renderer_, texture, nullptr, &dst_rect);
-    SDL_DestroyTexture(texture);
-    SDL_FreeSurface(surface);
-
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
