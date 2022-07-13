@@ -39,6 +39,10 @@ add_executable(video_trimmer
         video_trimmer/event_handler/events.hpp
         video_trimmer/event_handler/register_events.cpp
         video_trimmer/event_handler/register_events.hpp
+        video_trimmer/graphics/graphics.cpp
+        video_trimmer/graphics/graphics.hpp
+        video_trimmer/graphics/texture.cpp
+        video_trimmer/graphics/texture.hpp
         video_trimmer/include/auto_delete_resource.hpp
         video_trimmer/include/types.h
         video_trimmer/logger/logger.cpp
@@ -77,8 +81,6 @@ add_executable(video_trimmer
         video_trimmer/video_content_provider/video_content_provider.hpp
         video_trimmer/video_content_provider/video_file/video_file.cpp
         video_trimmer/video_content_provider/video_file/video_file.hpp
-        video_trimmer/video_content_provider/video_frame/texture.cpp
-        video_trimmer/video_content_provider/video_frame/texture.hpp
         video_trimmer/video_content_provider/video_frame/video_frame.cpp
         video_trimmer/video_content_provider/video_frame/video_frame.hpp
         video_trimmer/video_content_provider/video_frame_scaler/scaling_context.cpp
@@ -113,4 +115,4 @@ target_compile_features(video_trimmer PUBLIC cxx_std_20)
 target_compile_options(video_trimmer PRIVATE ${SANITIZER_FLAGS} ${DEFAULT_COMPILER_OPTIONS_AND_WARNINGS})
 target_include_directories(video_trimmer PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} video_trimmer/include ${FFMPEG_INCLUDE_DIRS})
 target_link_directories(video_trimmer PRIVATE ${FFMPEG_LIBRARY_DIRS})
-target_link_libraries(video_trimmer PRIVATE ${SANITIZER_FLAGS} CLI11::CLI11 fmt::fmt spdlog::spdlog sfml-system sfml-graphics sfml-window sfml-audio ImGui-SFML::ImGui-SFML ${FFMPEG_LIBRARIES})
+target_link_libraries(video_trimmer PRIVATE ${SANITIZER_FLAGS} CLI11::CLI11 fmt::fmt spdlog::spdlog glad::glad SDL2::SDL2 SDL2::SDL2main imgui::imgui ${FFMPEG_LIBRARIES})

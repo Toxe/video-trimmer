@@ -1,81 +1,57 @@
 #include "main_window.hpp"
 
 #include "fmt/core.h"
-#include "imgui-SFML.h"
-#include "imgui.h"
 
-#include "video_trimmer/command_line/command_line.h"
 #include "video_trimmer/logger/logger.hpp"
 
 namespace video_trimmer::main_window {
 
 MainWindow::MainWindow(const video_trimmer::command_line::CommandLine& cli)
-    : window_video_mode_{cli.default_window_video_mode()}
+    : graphics_(std::make_unique<video_trimmer::graphics::Graphics>())
 {
-    // create main_window
-    video_trimmer::logger::log_info(fmt::format("init main_window mode {}x{}", cli.video_mode().width, cli.video_mode().height));
+    graphics_->init_sdl();
+    graphics_->create_window(title_, {cli.window_width(), cli.window_height()});
+    graphics_->init_imgui(cli.font_size());
 
-    window_ = std::make_unique<sf::RenderWindow>(cli.video_mode(), title_, sf::Style::Default);
-    window_->setVerticalSyncEnabled(true);
-    window_->requestFocus();
-
-    // create the video view
     video_view_ = std::make_unique<video_trimmer::views::video_view::VideoView>();
-
-    // init ImGui & ImGui-SFML and load a custom font
-    ImGui::SFML::Init(*window_, false);
-
-    ImGuiIO& io = ImGui::GetIO();
-    io.Fonts->Clear();
-    io.Fonts->AddFontFromFileTTF("assets/fonts/Inconsolata-SemiBold.ttf", static_cast<float>(cli.font_size()));
-    ImGui::SFML::UpdateFontTexture();
 }
 
-[[nodiscard]] ImageSize MainWindow::size() const
+void MainWindow::begin_frame()
 {
-    const auto window_size = window_->getSize();
-    return {static_cast<int>(window_size.x), static_cast<int>(window_size.y)};
+    graphics_->begin_frame();
 }
 
-void MainWindow::next_frame(const video_trimmer::clock::Duration elapsed_time)
+void MainWindow::render()
 {
-    ImGui::SFML::Update(*window_, sf::microseconds(elapsed_time.as_microseconds()));
+    video_view_->render(graphics_.get());
+    graphics_->finish_frame();
 }
 
-void MainWindow::render(video_content_provider::video_frame::VideoFrame* video_frame)
+void MainWindow::show_video_frame(std::unique_ptr<video_content_provider::video_frame::VideoFrame> video_frame)
 {
-    window_->clear();
-
-    {
-        std::lock_guard<std::mutex> lock(mtx_);
-        video_view_->render(*window_, video_frame);
-    }
-
-    ImGui::SFML::Render(*window_);
-    window_->display();
+    video_view_->show_video_frame(graphics_.get(), std::move(video_frame));
 }
 
 void MainWindow::close()
 {
-    if (window_->isOpen())
-        window_->close();
-
-    ImGui::SFML::Shutdown();
+    graphics_->shutdown_imgui();
+    graphics_->shutdown_sdl();
 }
 
 void MainWindow::resized_window()
 {
-    const auto size = window_->getSize();
+    const auto window_size = size();
     adjust_view_to_window_size();
 
-    video_trimmer::logger::log_info(fmt::format("resized main_window to {}x{}", size.x, size.y));
+    video_trimmer::logger::log_info(fmt::format("resized main_window to {}x{}", window_size.width, window_size.height));
 }
 
 void MainWindow::adjust_view_to_window_size()
 {
-    const auto size = window_->getSize();
-    sf::FloatRect visibleArea(0.0f, 0.0f, static_cast<float>(size.x), static_cast<float>(size.y));
-    window_->setView(sf::View(visibleArea));
+    const auto current_size = size();
+
+    // sf::FloatRect visibleArea(0.0f, 0.0f, static_cast<float>(size.x), static_cast<float>(size.y));
+    // window_->setView(sf::View(visibleArea));
 }
 
 }  // namespace video_trimmer::main_window

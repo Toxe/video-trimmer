@@ -1,9 +1,8 @@
 #include "event_handler.hpp"
 
-#include "SFML/Graphics/RenderWindow.hpp"
-#include "SFML/Window/Event.hpp"
-#include "imgui-SFML.h"
+#include "SDL2/SDL.h"
 #include "imgui.h"
+#include "imgui_impl_sdl.h"
 
 #include "events.hpp"
 #include "video_trimmer/logger/logger.hpp"
@@ -29,24 +28,27 @@ void EventHandler::handle_event(const Event& event)
     commands_[event]();
 }
 
-void EventHandler::poll_events(sf::RenderWindow& window)
+void EventHandler::poll_events()
 {
-    sf::Event event;
+    SDL_Event event;
 
-    while (window.pollEvent(event)) {
-        ImGui::SFML::ProcessEvent(event);
+    while (SDL_PollEvent(&event)) {
+        ImGui_ImplSDL2_ProcessEvent(&event);
 
-        if (event.type == sf::Event::Closed)
+        if (event.type == SDL_QUIT)
             handle_event(Event::CloseWindow);
-        else if (event.type == sf::Event::Resized)
-            handle_event(Event::ResizedWindow);
-        else if (event.type == sf::Event::KeyPressed) {
+        else if (event.type == SDL_WINDOWEVENT) {
+            if (event.window.event == SDL_WINDOWEVENT_RESIZED)
+                handle_event(Event::ResizedWindow);
+            else if (event.window.event == SDL_WINDOWEVENT_CLOSE)
+                handle_event(Event::CloseWindow);
+        } else if (event.type == SDL_KEYDOWN) {
             if (ImGui::GetIO().WantCaptureKeyboard)
                 continue;
 
-            if (event.key.code == sf::Keyboard::Escape)
+            if (event.key.keysym.sym == SDLK_ESCAPE)
                 handle_event(Event::CloseWindow);
-            else if (event.key.code == sf::Keyboard::F1)
+            else if (event.key.keysym.sym == SDLK_F1)
                 handle_event(Event::ToggleHelp);
         }
     }

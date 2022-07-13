@@ -1,45 +1,39 @@
 #pragma once
 
 #include <memory>
-#include <mutex>
 
-#include "SFML/Graphics/RenderWindow.hpp"
-#include "SFML/Window/VideoMode.hpp"
-
-#include "types.h"
-#include "video_trimmer/clock/duration.hpp"
 #include "video_trimmer/command_line/command_line.h"
+#include "video_trimmer/graphics/graphics.hpp"
+#include "video_trimmer/include/types.h"
+#include "video_trimmer/video_content_provider/video_frame/video_frame.hpp"
 #include "video_trimmer/views/video_view/video_view.h"
 
 namespace video_trimmer::main_window {
 
 class MainWindow {
-    const char* title_ = "Video Trimmer";
-
-    sf::VideoMode window_video_mode_;
-
-    std::unique_ptr<sf::RenderWindow> window_;
-    std::unique_ptr<video_trimmer::views::video_view::VideoView> video_view_;
-
-    std::mutex mtx_;
-
-    void adjust_view_to_window_size();
-
 public:
     explicit MainWindow(const video_trimmer::command_line::CommandLine& cli);
 
-    [[nodiscard]] sf::RenderWindow& window() const { return *window_; };
     [[nodiscard]] video_trimmer::views::video_view::VideoView& video_view() const { return *video_view_; };
 
-    [[nodiscard]] bool is_open() const { return window_->isOpen(); };
+    [[nodiscard]] bool is_open() const { return graphics_->window_is_open(); };
+    [[nodiscard]] WindowSize size() const { return graphics_->window_size(); };
 
-    [[nodiscard]] ImageSize size() const;
+    void begin_frame();
+    void render();
 
-    void next_frame(video_trimmer::clock::Duration elapsed_time);
-    void render(video_content_provider::video_frame::VideoFrame* video_frame);
+    void show_video_frame(std::unique_ptr<video_content_provider::video_frame::VideoFrame> video_frame);
 
     void resized_window();
     void close();
+
+private:
+    const char* title_ = "Video Trimmer";
+
+    std::unique_ptr<video_trimmer::graphics::Graphics> graphics_;
+    std::unique_ptr<video_trimmer::views::video_view::VideoView> video_view_;
+
+    void adjust_view_to_window_size();
 };
 
 }  // namespace video_trimmer::main_window

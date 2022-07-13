@@ -7,3 +7,7 @@ struct ImagePosition {
 struct ImageSize {
     int width, height;
 };
+
+struct WindowSize {
+    int width, height;
+};

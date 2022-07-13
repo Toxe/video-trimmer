@@ -35,9 +35,9 @@ int main(int argc, char* argv[])
 
     while (window.is_open()) {
         app.begin_frame();
-        window.next_frame(app.elapsed_time());
+        window.begin_frame();
 
-        event_handler.poll_events(window.window());
+        event_handler.poll_events();
 
         if (window.is_open()) {
             video_player.update();
@@ -49,13 +49,12 @@ int main(int argc, char* argv[])
             trim_controls_view.render();
             video_player.render();
 
-            if (video_player.is_playing()) {
-                auto video_frame = video_player.next_frame();
+            auto video_frame = video_player.next_frame();
 
-                window.render(video_frame.get());
-            } else {
-                window.render(nullptr);
-            }
+            if (video_player.is_playing())
+                window.show_video_frame(std::move(video_frame));
+
+            window.render();
 
             video_player.change_scaling_dimensions(window.video_view().size());
 
@@ -66,4 +65,6 @@ int main(int argc, char* argv[])
 
     video_player.pause();
     video_player.close_file();
+
+    return 0;
 }

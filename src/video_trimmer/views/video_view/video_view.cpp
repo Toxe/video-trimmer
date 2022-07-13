@@ -8,40 +8,26 @@
 
 namespace video_trimmer::views::video_view {
 
-VideoView::VideoView()
-{
-    // create render texture and sprite that shows video frames
-    sf::Image image;
-    image.create(4, 4, sf::Color::Blue);
-
-    texture_ = std::make_unique<sf::Texture>();
-    texture_->loadFromImage(image);
-
-    sprite_ = std::make_unique<sf::Sprite>();
-    sprite_->setTexture(*texture_, true);
-}
-
-void VideoView::render(sf::RenderWindow& window, video_content_provider::video_frame::VideoFrame* video_frame)
-{
-    render_ui(video_frame);
-    render_content(window, video_frame);
-}
-
-void VideoView::render_content(sf::RenderWindow& window, video_content_provider::video_frame::VideoFrame* video_frame)
+void VideoView::show_video_frame(video_trimmer::graphics::Graphics* graphics, std::unique_ptr<video_content_provider::video_frame::VideoFrame> video_frame)
 {
     if (video_frame) {
-        // receive a new sprite texture
-        texture_ = video_frame->texture()->release_texture();
-        sprite_->setTexture(*texture_, true);
+        current_video_frame_ = std::move(video_frame);
+
+        if (!texture_ || texture_->size().width != current_video_frame_->width() || texture_->size().height != current_video_frame_->height())
+            texture_ = graphics->create_texture({current_video_frame_->width(), current_video_frame_->height()});
+
+        if (texture_)
+            graphics->update_texture(texture_.get(), current_video_frame_->frame()->pixels().data());
     }
-
-    sprite_->setPosition(static_cast<float>(view_position_.x), static_cast<float>(view_position_.y));
-    sprite_->setScale(static_cast<float>(view_size_.width) / static_cast<float>(texture_->getSize().x), static_cast<float>(view_size_.height) / static_cast<float>(texture_->getSize().y));
-
-    window.draw(*sprite_);
 }
 
-void VideoView::render_ui(const video_content_provider::video_frame::VideoFrame* video_frame)
+void VideoView::render(video_trimmer::graphics::Graphics* graphics)
+{
+    render_ui();
+    render_content(graphics);
+}
+
+void VideoView::render_ui()
 {
     ImGui::Begin("Video Trimmer");
     ImGui::BeginChild("right pane");
@@ -56,12 +42,18 @@ void VideoView::render_ui(const video_content_provider::video_frame::VideoFrame*
 
     video_trimmer::ui::imgui_text_outlined(video_trimmer::ui::colors::white, video_trimmer::ui::colors::black, fmt::format("video [{}x{}]", view_size_.width, view_size_.height));
 
-    if (video_frame)
-        video_trimmer::ui::imgui_text_outlined(video_trimmer::ui::colors::white, video_trimmer::ui::colors::black, fmt::format("{}", video_frame->print()));
+    if (current_video_frame_)
+        video_trimmer::ui::imgui_text_outlined(video_trimmer::ui::colors::white, video_trimmer::ui::colors::black, fmt::format("{}", current_video_frame_->print()));
 
     ImGui::EndChild();
     ImGui::EndChild();
     ImGui::End();
+}
+
+void VideoView::render_content(video_trimmer::graphics::Graphics* graphics)
+{
+    if (texture_)
+        graphics->draw_texture(texture_.get(), view_position_, view_size_);
 }
 
 }  // namespace video_trimmer::views::video_view

@@ -22,22 +22,17 @@ namespace video_trimmer::command_line {
 
 CommandLine::CommandLine(int argc, char* argv[])
 {
-    const auto description = "Video Trimmer";
+    const char* description = "Video Trimmer";
     int log_level_flag = 0;
 
-    default_window_video_mode_ = default_video_mode();
-
-    font_size_ = default_font_size();
-    window_width_ = default_window_video_mode_.width;
-    window_height_ = default_window_video_mode_.height;
     directory_ = std::filesystem::current_path().string();
 
     CLI::App app{description};
     app.add_flag("-v", log_level_flag, "log level (-v: INFO, -vv: DEBUG, -vvv: TRACE)");
-    app.add_option("--font-size", font_size_, fmt::format("UI font size in pixels (default: {})", font_size_))->check(CLI::PositiveNumber);
     app.add_option("directory", directory_, "video directory (default: current directory)");
-    auto opt_width = app.add_option("--width", window_width_, fmt::format("window width (default: {})", window_width_));
-    auto opt_height = app.add_option("--height", window_height_, fmt::format("window height (default: {})", window_height_));
+    app.add_option("--font-size", font_size_, "UI font size in pixels");
+    auto opt_width = app.add_option("--width", window_width_, "window width");
+    auto opt_height = app.add_option("--height", window_height_, "window height");
 
     opt_width->check(CLI::PositiveNumber)->needs(opt_height);
     opt_height->check(CLI::PositiveNumber)->needs(opt_width);
@@ -47,10 +42,6 @@ CommandLine::CommandLine(int argc, char* argv[])
     } catch (const CLI::ParseError& error) {
         show_usage_and_exit(app, nullptr, error);
     }
-
-    default_window_video_mode_.width = window_width_;
-    default_window_video_mode_.height = window_height_;
-    video_mode_ = default_window_video_mode_;
 
     logger::LogLevel log_level = logger::LogLevel::warn;
 
@@ -79,20 +70,6 @@ CommandLine::CommandLine(int argc, char* argv[])
 
     if (!std::filesystem::is_directory(directory_))
         show_usage_and_exit(app, fmt::format("not a directory: {}", directory_).c_str(), {});
-}
-
-sf::VideoMode CommandLine::default_video_mode() const
-{
-    // init window at 50% desktop height and 16:9 aspect ratio
-    const auto desktop = sf::VideoMode::getDesktopMode();
-    const unsigned int height = desktop.height / 2;
-    const unsigned int width = 16 * height / 9;
-    return sf::VideoMode{width, height};
-}
-
-int CommandLine::default_font_size() const
-{
-    return static_cast<int>(sf::VideoMode::getDesktopMode().height) / 96;
 }
 
 }  // namespace video_trimmer::command_line

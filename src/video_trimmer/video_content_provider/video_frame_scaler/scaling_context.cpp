@@ -27,8 +27,6 @@ int ScalingContext::scale(video_frame::VideoFrame* video_frame)
     if (ret != dst_height_)
         video_trimmer::error::show_error("sws_scale");
 
-    video_frame->create_texture();
-
     return ret;
 }
 

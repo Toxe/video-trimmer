@@ -4,7 +4,6 @@
 #include <string>
 
 #include "../frame/frame.hpp"
-#include "texture.hpp"
 
 namespace video_trimmer::video_content_provider::video_frame {
 
@@ -20,12 +19,8 @@ public:
 
     [[nodiscard]] frame::Frame* frame() { return frame_.get(); }
 
-    void create_texture();
-    [[nodiscard]] Texture* texture() { return texture_.get(); };
-
 private:
     std::unique_ptr<frame::Frame> frame_;
-    std::unique_ptr<Texture> texture_;
 };
 
 }  // namespace video_trimmer::video_content_provider::video_frame

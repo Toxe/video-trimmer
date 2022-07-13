@@ -2,31 +2,30 @@
 
 #include <memory>
 
-#include "SFML/Graphics/RenderWindow.hpp"
-#include "SFML/Graphics/Sprite.hpp"
-#include "SFML/Graphics/Texture.hpp"
-
-#include "types.h"
+#include "video_trimmer/graphics/graphics.hpp"
+#include "video_trimmer/graphics/texture.hpp"
+#include "video_trimmer/include/types.h"
 #include "video_trimmer/video_content_provider/video_frame/video_frame.hpp"
 
 namespace video_trimmer::views::video_view {
 
 class VideoView {
-    std::unique_ptr<sf::Texture> texture_;
-    std::unique_ptr<sf::Sprite> sprite_;
+public:
+    void render(graphics::Graphics* graphics);
+
+    void show_video_frame(video_trimmer::graphics::Graphics* graphics, std::unique_ptr<video_content_provider::video_frame::VideoFrame> video_frame);
+
+    [[nodiscard]] ImageSize size() const { return view_size_; }
+
+private:
+    std::unique_ptr<video_content_provider::video_frame::VideoFrame> current_video_frame_;
+    std::unique_ptr<graphics::Texture> texture_;
 
     ImagePosition view_position_{};
     ImageSize view_size_{};
 
-    void render_ui(const video_content_provider::video_frame::VideoFrame* video_frame);
-    void render_content(sf::RenderWindow& window, video_content_provider::video_frame::VideoFrame* video_frame);
-
-public:
-    VideoView();
-
-    void render(sf::RenderWindow& window, video_content_provider::video_frame::VideoFrame* video_frame);
-
-    [[nodiscard]] ImageSize size() const { return view_size_; }
+    void render_ui();
+    void render_content(graphics::Graphics* graphics);
 };
 
 }  // namespace video_trimmer::views::video_view
