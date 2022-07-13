@@ -211,7 +211,7 @@ SDL_DisplayMode Graphics::Impl::get_current_display_mode() const
 
 int Graphics::Impl::get_default_font_size() const
 {
-    return get_current_display_mode().h / 96;
+    return get_current_display_mode().h / 108;
 }
 
 WindowSize Graphics::Impl::get_default_window_size() const
