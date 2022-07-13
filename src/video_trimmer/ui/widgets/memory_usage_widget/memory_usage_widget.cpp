@@ -1,5 +1,7 @@
 #include "memory_usage_widget.hpp"
 
+#include <algorithm>
+
 #include "fmt/core.h"
 #include "imgui.h"
 
@@ -16,7 +18,7 @@ MemoryUsageWidget::MemoryUsageWidget()
     mem_.resize(5 * 60, 0.0f);  // 5 seconds worth of values at 60 FPS
 }
 
-void MemoryUsageWidget::render(const video_trimmer::clock::Duration elapsed_time)
+void MemoryUsageWidget::render()
 {
     const float current_memory_usage = memory_usage_->get_memory_usage();
     const auto label = fmt::format("Memory Usage: {:.3f} MB", current_memory_usage);

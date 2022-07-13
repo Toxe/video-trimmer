@@ -4,7 +4,6 @@
 #include <vector>
 
 #include "memory_usage_info/memory_usage_info.hpp"
-#include "video_trimmer/clock/duration.hpp"
 
 namespace video_trimmer::ui::widgets::memory_usage_widget {
 
@@ -12,7 +11,7 @@ class MemoryUsageWidget {
 public:
     MemoryUsageWidget();
 
-    void render(video_trimmer::clock::Duration elapsed_time);
+    void render();
 
 private:
     std::unique_ptr<memory_usage_info::MemoryUsageInfo> memory_usage_;

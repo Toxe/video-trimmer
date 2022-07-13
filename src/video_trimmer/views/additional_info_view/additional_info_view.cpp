@@ -5,10 +5,6 @@
 
 namespace video_trimmer::views::additional_info_view {
 
-AdditionalInfoView::AdditionalInfoView(const video_trimmer::command_line::CommandLine& cli)
-{
-}
-
 void AdditionalInfoView::render(const video_trimmer::clock::Duration elapsed_time, const video_content_provider::video_file::VideoFile* video_file)
 {
     ImGui::Begin("Video Trimmer");
@@ -16,7 +12,7 @@ void AdditionalInfoView::render(const video_trimmer::clock::Duration elapsed_tim
     ImGui::BeginChild("additional info");
 
     fps_widget_.render(elapsed_time);
-    memory_usage_widget_.render(elapsed_time);
+    memory_usage_widget_.render();
 
     ImGui::Text(fmt::format("additional info [{}x{}]", ImGui::GetWindowSize().x, ImGui::GetWindowSize().y).c_str());
 

@@ -22,7 +22,7 @@ int main(int argc, char* argv[])
     video_trimmer::event_handler::register_events(event_handler, window, ui);
     ui.set_event_handler(&event_handler);
 
-    video_trimmer::views::additional_info_view::AdditionalInfoView additional_info_view(cli);
+    video_trimmer::views::additional_info_view::AdditionalInfoView additional_info_view;
     video_trimmer::views::playback_controls_view::PlaybackControlsView playback_controls_view;
     video_trimmer::views::trim_controls_view::TrimControlsView trim_controls_view;
     video_trimmer::views::files_view::FilesView files_view;
