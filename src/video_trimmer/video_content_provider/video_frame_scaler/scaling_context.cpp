@@ -20,9 +20,9 @@ ScalingContext::ScalingContext(codec_context::CodecContext* codec_context, const
         throw std::runtime_error("sws_getContext");
 }
 
-int ScalingContext::scale(video_frame::VideoFrame* video_frame)
+int ScalingContext::scale(frame::Frame* frame)
 {
-    int ret = sws_scale(scaling_context_.get(), video_frame->frame()->src_data(), video_frame->frame()->src_linesizes(), 0, src_height_, video_frame->frame()->dst_data(), video_frame->frame()->dst_linesizes());
+    int ret = sws_scale(scaling_context_.get(), frame->src_data(), frame->src_linesizes(), 0, src_height_, frame->dst_data(), frame->dst_linesizes());
 
     if (ret != dst_height_)
         video_trimmer::error::show_error("sws_scale");

@@ -81,8 +81,6 @@ add_executable(video_trimmer
         video_trimmer/video_content_provider/video_content_provider.hpp
         video_trimmer/video_content_provider/video_file/video_file.cpp
         video_trimmer/video_content_provider/video_file/video_file.hpp
-        video_trimmer/video_content_provider/video_frame/video_frame.cpp
-        video_trimmer/video_content_provider/video_frame/video_frame.hpp
         video_trimmer/video_content_provider/video_frame_scaler/scaling_context.cpp
         video_trimmer/video_content_provider/video_frame_scaler/scaling_context.hpp
         video_trimmer/video_content_provider/video_frame_scaler/video_frame_scaler.cpp

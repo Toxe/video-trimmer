@@ -5,7 +5,7 @@ extern "C" {
 }
 
 #include "../codec_context/codec_context.hpp"
-#include "../video_frame/video_frame.hpp"
+#include "../frame/frame.hpp"
 #include "auto_delete_resource.hpp"
 
 struct SwsContext;
@@ -16,7 +16,7 @@ class ScalingContext {
 public:
     ScalingContext(codec_context::CodecContext* codec_context, int width, int height);
 
-    int scale(video_frame::VideoFrame* video_frame);
+    int scale(frame::Frame* frame);
 
 private:
     AutoDeleteResource<SwsContext> scaling_context_;

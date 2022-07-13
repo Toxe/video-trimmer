@@ -6,7 +6,6 @@
 #include "video_trimmer/logger/logger.hpp"
 #include "video_trimmer/ui/colors/colors.hpp"
 #include "video_trimmer/video_content_provider/video_file/video_file.hpp"
-#include "video_trimmer/video_content_provider/video_frame/video_frame.hpp"
 
 namespace video_trimmer::video_player {
 
@@ -102,7 +101,7 @@ void VideoPlayer::update()
     }
 }
 
-std::unique_ptr<video_content_provider::video_frame::VideoFrame> VideoPlayer::next_frame()
+std::unique_ptr<video_content_provider::frame::Frame> VideoPlayer::next_frame()
 {
     if (!is_playing())
         return nullptr;

@@ -8,16 +8,16 @@
 
 namespace video_trimmer::views::video_view {
 
-void VideoView::show_video_frame(video_trimmer::graphics::Graphics* graphics, std::unique_ptr<video_content_provider::video_frame::VideoFrame> video_frame)
+void VideoView::show_video_frame(video_trimmer::graphics::Graphics* graphics, std::unique_ptr<video_content_provider::frame::Frame> video_frame)
 {
     if (video_frame) {
         current_video_frame_ = std::move(video_frame);
 
-        if (!texture_ || texture_->size().width != current_video_frame_->width() || texture_->size().height != current_video_frame_->height())
-            texture_ = graphics->create_texture({current_video_frame_->width(), current_video_frame_->height()});
+        if (!texture_ || texture_->size().width != current_video_frame_->dst_width() || texture_->size().height != current_video_frame_->dst_height())
+            texture_ = graphics->create_texture({current_video_frame_->dst_width(), current_video_frame_->dst_height()});
 
         if (texture_)
-            graphics->update_texture(texture_.get(), current_video_frame_->frame()->pixels().data());
+            graphics->update_texture(texture_.get(), current_video_frame_->pixels().data());
     }
 }
 
@@ -43,7 +43,7 @@ void VideoView::render_ui()
     video_trimmer::ui::imgui_text_outlined(video_trimmer::ui::colors::white, video_trimmer::ui::colors::black, fmt::format("video [{}x{}]", view_size_.width, view_size_.height));
 
     if (current_video_frame_)
-        video_trimmer::ui::imgui_text_outlined(video_trimmer::ui::colors::white, video_trimmer::ui::colors::black, fmt::format("{}", current_video_frame_->print()));
+        video_trimmer::ui::imgui_text_outlined(video_trimmer::ui::colors::white, video_trimmer::ui::colors::black, fmt::format("[VideoFrame {:.4f}, {}x{}]", current_video_frame_->timestamp(), current_video_frame_->dst_width(), current_video_frame_->dst_height()));
 
     ImGui::EndChild();
     ImGui::EndChild();

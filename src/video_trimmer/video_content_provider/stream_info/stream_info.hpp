@@ -5,7 +5,7 @@
 
 #include "../codec_context/codec_context.hpp"
 #include "../format_context/format_context.hpp"
-#include "../video_frame/video_frame.hpp"
+#include "../frame/frame.hpp"
 
 namespace video_trimmer::video_content_provider::stream_info {
 
@@ -23,7 +23,7 @@ public:
     [[nodiscard]] const std::string& codec_name() const { return codec_name_; }
     [[nodiscard]] const std::string& codec_additional_info() const { return codec_additional_info_; }
 
-    [[nodiscard]] std::unique_ptr<video_frame::VideoFrame> receive_video_frame(int scaled_width, int scaled_height);
+    [[nodiscard]] std::unique_ptr<frame::Frame> receive_video_frame(int scaled_width, int scaled_height);
 
     [[nodiscard]] static std::unique_ptr<StreamInfo> find_best_stream(format_context::FormatContext* format_context, format_context::FormatContext::StreamType type);
 

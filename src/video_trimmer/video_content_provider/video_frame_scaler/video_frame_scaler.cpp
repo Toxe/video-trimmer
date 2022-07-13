@@ -18,14 +18,14 @@ VideoFrameScaler::VideoFrameScaler(stream_info::StreamInfo* video_stream_info, i
         throw std::runtime_error("create_scaling_context");
 }
 
-void VideoFrameScaler::scale_frame(video_frame::VideoFrame* video_frame)
+void VideoFrameScaler::scale_frame(frame::Frame* frame)
 {
     // convert to destination format
-    if (scale_width_ != video_frame->width() || scale_height_ != video_frame->height())
-        resize_scaling_context(video_frame->width(), video_frame->height());
+    if (scale_width_ != frame->dst_width() || scale_height_ != frame->dst_height())
+        resize_scaling_context(frame->dst_width(), frame->dst_height());
 
     if (scaling_context_)
-        scaling_context_->scale(video_frame);
+        scaling_context_->scale(frame);
 }
 
 int VideoFrameScaler::resize_scaling_context(int width, int height)

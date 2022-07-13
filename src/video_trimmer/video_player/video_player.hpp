@@ -24,7 +24,7 @@ public:
 
     void update();
 
-    [[nodiscard]] std::unique_ptr<video_content_provider::video_frame::VideoFrame> next_frame();
+    [[nodiscard]] std::unique_ptr<video_content_provider::frame::Frame> next_frame();
 
     void change_scaling_dimensions(ImageSize image_size);
 

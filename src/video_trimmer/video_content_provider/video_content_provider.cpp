@@ -8,7 +8,7 @@ VideoContentProvider::VideoContentProvider(video_file::VideoFile& video_file, in
 {
 }
 
-std::unique_ptr<video_frame::VideoFrame> VideoContentProvider::next_frame(const double playback_position)
+std::unique_ptr<frame::Frame> VideoContentProvider::next_frame(const double playback_position)
 {
     auto video_frame = video_reader_.read();
 

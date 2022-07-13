@@ -15,7 +15,7 @@ double StreamInfo::time_base() const
     return format_context_->stream_time_base(stream_index_);
 }
 
-std::unique_ptr<video_frame::VideoFrame> StreamInfo::receive_video_frame(const int scaled_width, const int scaled_height)
+std::unique_ptr<frame::Frame> StreamInfo::receive_video_frame(const int scaled_width, const int scaled_height)
 {
     std::unique_ptr<frame::Frame> frame = codec_context_->receive_frame(time_base(), scaled_width, scaled_height);
 
@@ -25,7 +25,7 @@ std::unique_ptr<video_frame::VideoFrame> StreamInfo::receive_video_frame(const i
     // copy decoded frame to image buffer
     frame->image_copy();
 
-    return std::make_unique<video_frame::VideoFrame>(std::move(frame));
+    return frame;
 }
 
 std::unique_ptr<StreamInfo> StreamInfo::find_best_stream(format_context::FormatContext* format_context, const format_context::FormatContext::StreamType type)
