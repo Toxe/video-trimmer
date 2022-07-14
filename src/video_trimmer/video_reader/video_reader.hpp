@@ -2,11 +2,11 @@
 
 #include <memory>
 
+#include "frame/frame.hpp"
+#include "packet/packet.hpp"
+#include "scaling_context/scaling_context.hpp"
+#include "stream_info/stream_info.hpp"
 #include "video_file/video_file.hpp"
-#include "video_frame_scaler/video_frame_scaler.hpp"
-#include "video_trimmer/video_reader/frame/frame.hpp"
-#include "video_trimmer/video_reader/packet/packet.hpp"
-#include "video_trimmer/video_reader/stream_info/stream_info.hpp"
 
 namespace video_trimmer::video_reader {
 
@@ -19,9 +19,8 @@ public:
     void change_scaling_dimensions(int scale_width, int scale_height);
 
 private:
-    video_frame_scaler::VideoFrameScaler video_frame_scaler_;
-
     std::unique_ptr<packet::Packet> packet_;
+    std::unique_ptr<scaling_context::ScalingContext> scaling_context_;
 
     stream_info::StreamInfo* audio_stream_info_;
     stream_info::StreamInfo* video_stream_info_;
@@ -30,6 +29,9 @@ private:
     int scale_height_ = 0;
 
     [[nodiscard]] std::unique_ptr<frame::Frame> decode_video_packet(packet::Packet* packet);
+
+    void scale_frame(frame::Frame* frame);
+    void resize_scaling_context(int width, int height);
 };
 
 }  // namespace video_trimmer::video_reader
