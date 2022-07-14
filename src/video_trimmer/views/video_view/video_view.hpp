@@ -4,7 +4,7 @@
 
 #include "video_trimmer/graphics/graphics.hpp"
 #include "video_trimmer/graphics/texture.hpp"
-#include "video_trimmer/include/types.h"
+#include "video_trimmer/include/types.hpp"
 #include "video_trimmer/video_reader/frame/frame.hpp"
 
 namespace video_trimmer::views::video_view {

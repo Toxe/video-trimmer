@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include "types.h"
+#include "types.hpp"
 
 struct SDL_Texture;
 

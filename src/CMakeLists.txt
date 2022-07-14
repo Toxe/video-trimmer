@@ -30,7 +30,7 @@ add_executable(video_trimmer
         video_trimmer/clock/duration.hpp
         video_trimmer/clock/stopwatch.hpp
         video_trimmer/command_line/command_line.cpp
-        video_trimmer/command_line/command_line.h
+        video_trimmer/command_line/command_line.hpp
         video_trimmer/error/error.cpp
         video_trimmer/error/error.hpp
         video_trimmer/event_handler/command.hpp
@@ -44,7 +44,7 @@ add_executable(video_trimmer
         video_trimmer/graphics/texture.cpp
         video_trimmer/graphics/texture.hpp
         video_trimmer/include/auto_delete_resource.hpp
-        video_trimmer/include/types.h
+        video_trimmer/include/types.hpp
         video_trimmer/logger/logger.cpp
         video_trimmer/logger/logger.hpp
         video_trimmer/main_window/commands.cpp
@@ -98,7 +98,7 @@ add_executable(video_trimmer
         video_trimmer/views/trim_controls_view/trim_controls_view.cpp
         video_trimmer/views/trim_controls_view/trim_controls_view.hpp
         video_trimmer/views/video_view/video_view.cpp
-        video_trimmer/views/video_view/video_view.h
+        video_trimmer/views/video_view/video_view.hpp
         ${LINUX_SOURCES}
         ${MAC_SOURCES}
         ${WINDOWS_SOURCES}

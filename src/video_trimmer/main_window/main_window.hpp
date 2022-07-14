@@ -2,11 +2,11 @@
 
 #include <memory>
 
-#include "video_trimmer/command_line/command_line.h"
+#include "video_trimmer/command_line/command_line.hpp"
 #include "video_trimmer/graphics/graphics.hpp"
-#include "video_trimmer/include/types.h"
+#include "video_trimmer/include/types.hpp"
 #include "video_trimmer/video_reader/frame/frame.hpp"
-#include "video_trimmer/views/video_view/video_view.h"
+#include "video_trimmer/views/video_view/video_view.hpp"
 
 namespace video_trimmer::main_window {
 

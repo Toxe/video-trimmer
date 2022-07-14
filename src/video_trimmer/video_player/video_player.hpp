@@ -3,7 +3,7 @@
 #include <chrono>
 #include <memory>
 
-#include "types.h"
+#include "types.hpp"
 #include "video_trimmer/video_reader/video_file/video_file.hpp"
 #include "video_trimmer/video_reader/video_reader.hpp"
 

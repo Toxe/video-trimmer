@@ -1,5 +1,5 @@
 #include "video_trimmer/app/app.hpp"
-#include "video_trimmer/command_line/command_line.h"
+#include "video_trimmer/command_line/command_line.hpp"
 #include "video_trimmer/event_handler/event_handler.hpp"
 #include "video_trimmer/event_handler/register_events.hpp"
 #include "video_trimmer/main_window/main_window.hpp"
