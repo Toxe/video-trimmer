@@ -4,7 +4,8 @@
 #include <memory>
 
 #include "types.h"
-#include "video_trimmer/video_content_provider/video_content_provider.hpp"
+#include "video_trimmer/video_content_provider/video_file/video_file.hpp"
+#include "video_trimmer/video_content_provider/video_reader.hpp"
 
 namespace video_trimmer::video_player {
 
@@ -35,8 +36,8 @@ public:
     void render();
 
 private:
+    std::unique_ptr<video_content_provider::VideoReader> video_reader_;
     std::unique_ptr<video_content_provider::video_file::VideoFile> video_file_;
-    std::unique_ptr<video_content_provider::VideoContentProvider> video_content_provider_;
 
     std::chrono::steady_clock::time_point time_point_playback_start_;
     std::chrono::duration<double> playback_position_ = std::chrono::duration<double>::zero();

@@ -5,7 +5,6 @@
 
 #include "video_trimmer/logger/logger.hpp"
 #include "video_trimmer/ui/colors/colors.hpp"
-#include "video_trimmer/video_content_provider/video_file/video_file.hpp"
 
 namespace video_trimmer::video_player {
 
@@ -20,7 +19,7 @@ bool VideoPlayer::open_file(const char* filename)
 
     if (has_open_file()) {
         video_file_ = std::make_unique<video_content_provider::video_file::VideoFile>(filename);
-        video_content_provider_ = std::make_unique<video_content_provider::VideoContentProvider>(*video_file_, 640, 480);
+        video_reader_ = std::make_unique<video_content_provider::VideoReader>(*video_file_, 640, 480);
     }
 
     has_started_playing_ = false;
@@ -106,7 +105,7 @@ std::unique_ptr<video_content_provider::frame::Frame> VideoPlayer::next_frame()
     if (!is_playing())
         return nullptr;
 
-    auto video_frame = video_content_provider_->next_frame(playback_position_.count());
+    auto video_frame = video_reader_->read_next_frame(playback_position_.count());
 
     if (!video_frame)
         return nullptr;
@@ -122,7 +121,7 @@ std::unique_ptr<video_content_provider::frame::Frame> VideoPlayer::next_frame()
 void VideoPlayer::change_scaling_dimensions(ImageSize image_size)
 {
     if (has_open_file())
-        video_content_provider_->change_scaling_dimensions(image_size.width, image_size.height);
+        video_reader_->change_scaling_dimensions(image_size.width, image_size.height);
 }
 
 double VideoPlayer::playback_position()

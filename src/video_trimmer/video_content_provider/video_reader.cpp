@@ -1,14 +1,18 @@
 #include "video_reader.hpp"
 
-namespace video_trimmer::video_content_provider::video_reader {
+namespace video_trimmer::video_content_provider {
 
-VideoReader::VideoReader(stream_info::StreamInfo* audio_stream_info, stream_info::StreamInfo* video_stream_info, const int scale_width, const int scale_height)
-    : audio_stream_info_(audio_stream_info), video_stream_info_(video_stream_info), scale_width_(scale_width), scale_height_(scale_height)
+VideoReader::VideoReader(video_file::VideoFile& video_file, int scale_width, int scale_height)
+    : video_frame_scaler_{video_file.video_stream_info(), scale_width, scale_height},
+      audio_stream_info_(video_file.audio_stream_info()),
+      video_stream_info_(video_file.video_stream_info()),
+      scale_width_(scale_width),
+      scale_height_(scale_height)
 {
     packet_ = std::make_unique<packet::Packet>();
 }
 
-std::unique_ptr<frame::Frame> VideoReader::read()
+std::unique_ptr<frame::Frame> VideoReader::read_next_frame(const double playback_position)
 {
     // read until we get at least one video frame
     while (true) {
@@ -17,9 +21,13 @@ std::unique_ptr<frame::Frame> VideoReader::read()
 
         // process only interesting packets, drop the rest
         if (packet_->stream_index() == video_stream_info_->stream_index()) {
-            std::unique_ptr<frame::Frame> video_frame = decode_video_packet(packet_.get());
+            std::unique_ptr<frame::Frame> frame = decode_video_packet(packet_.get());
             packet_->unref();
-            return video_frame;
+
+            if (frame)
+                video_frame_scaler_.scale_frame(frame.get());
+
+            return frame;
         } else if (packet_->stream_index() == audio_stream_info_->stream_index()) {
             // TODO: decode audio packet
             packet_->unref();
@@ -47,4 +55,4 @@ void VideoReader::change_scaling_dimensions(const int scale_width, const int sca
     scale_height_ = scale_height;
 }
 
-}  // namespace video_trimmer::video_content_provider::video_reader
+}  // namespace video_trimmer::video_content_provider
