@@ -4,7 +4,7 @@
 #include "../stream_info/stream_info.hpp"
 #include "scaling_context.hpp"
 
-namespace video_trimmer::video_content_provider::video_frame_scaler {
+namespace video_trimmer::video_reader::video_frame_scaler {
 
 class VideoFrameScaler {
 public:
@@ -23,4 +23,4 @@ private:
     int resize_scaling_context(int width, int height);
 };
 
-}  // namespace video_trimmer::video_content_provider::video_frame_scaler
+}  // namespace video_trimmer::video_reader::video_frame_scaler

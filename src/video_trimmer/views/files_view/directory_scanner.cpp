@@ -5,7 +5,7 @@
 #include "file_entry.hpp"
 #include "files_view.hpp"
 #include "video_trimmer/logger/logger.hpp"
-#include "video_trimmer/video_content_provider/video_file/video_file.hpp"
+#include "video_trimmer/video_reader/video_file/video_file.hpp"
 
 namespace video_trimmer::views::files_view {
 
@@ -27,7 +27,7 @@ void DirectoryScanner::scan(FilesView* files_view, const std::string directory)
 
         for (const auto& dir_entry : std::filesystem::directory_iterator{dir}) {
             if (dir_entry.is_regular_file()) {
-                video_content_provider::video_file::VideoFile video_file{dir_entry.path().string()};
+                video_reader::video_file::VideoFile video_file{dir_entry.path().string()};
 
                 if (video_file.is_video()) {
                     FileEntry file_entry{dir_entry.path()};

@@ -15,11 +15,11 @@ bool VideoPlayer::open_file(const char* filename)
     if (has_open_file())
         return false;
 
-    video_file_ = std::make_unique<video_content_provider::video_file::VideoFile>(filename);
+    video_file_ = std::make_unique<video_reader::video_file::VideoFile>(filename);
 
     if (has_open_file()) {
-        video_file_ = std::make_unique<video_content_provider::video_file::VideoFile>(filename);
-        video_reader_ = std::make_unique<video_content_provider::VideoReader>(*video_file_, 640, 480);
+        video_file_ = std::make_unique<video_reader::video_file::VideoFile>(filename);
+        video_reader_ = std::make_unique<video_reader::VideoReader>(*video_file_, 640, 480);
     }
 
     has_started_playing_ = false;
@@ -100,7 +100,7 @@ void VideoPlayer::update()
     }
 }
 
-std::unique_ptr<video_content_provider::frame::Frame> VideoPlayer::next_frame()
+std::unique_ptr<video_reader::frame::Frame> VideoPlayer::next_frame()
 {
     if (!is_playing())
         return nullptr;
@@ -129,7 +129,7 @@ double VideoPlayer::playback_position()
     return playback_position_.count();
 }
 
-const video_content_provider::video_file::VideoFile* VideoPlayer::video_file()
+const video_reader::video_file::VideoFile* VideoPlayer::video_file()
 {
     return video_file_.get();
 }

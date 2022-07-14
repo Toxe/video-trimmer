@@ -6,7 +6,7 @@ extern "C" {
 #include "libavcodec/packet.h"
 }
 
-namespace video_trimmer::video_content_provider::packet {
+namespace video_trimmer::video_reader::packet {
 
 Packet::Packet()
 {
@@ -31,4 +31,4 @@ void Packet::unref()
     av_packet_unref(packet_.get());
 }
 
-}  // namespace video_trimmer::video_content_provider::packet
+}  // namespace video_trimmer::video_reader::packet

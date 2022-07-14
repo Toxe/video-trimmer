@@ -1,6 +1,6 @@
 #include "video_reader.hpp"
 
-namespace video_trimmer::video_content_provider {
+namespace video_trimmer::video_reader {
 
 VideoReader::VideoReader(video_file::VideoFile& video_file, int scale_width, int scale_height)
     : video_frame_scaler_{video_file.video_stream_info(), scale_width, scale_height},
@@ -55,4 +55,4 @@ void VideoReader::change_scaling_dimensions(const int scale_width, const int sca
     scale_height_ = scale_height;
 }
 
-}  // namespace video_trimmer::video_content_provider
+}  // namespace video_trimmer::video_reader

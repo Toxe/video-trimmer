@@ -13,7 +13,7 @@ extern "C" {
 
 struct AVFormatContext;
 
-namespace video_trimmer::video_content_provider::format_context {
+namespace video_trimmer::video_reader::format_context {
 
 class FormatContext {
 public:
@@ -36,4 +36,4 @@ private:
     AutoDeleteResource<AVFormatContext> format_context_;
 };
 
-}  // namespace video_trimmer::video_content_provider::format_context
+}  // namespace video_trimmer::video_reader::format_context

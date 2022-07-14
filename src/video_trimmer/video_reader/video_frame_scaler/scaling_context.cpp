@@ -9,7 +9,7 @@ extern "C" {
 
 #include "video_trimmer/error/error.hpp"
 
-namespace video_trimmer::video_content_provider::video_frame_scaler {
+namespace video_trimmer::video_reader::video_frame_scaler {
 
 ScalingContext::ScalingContext(codec_context::CodecContext* codec_context, const int width, const int height)
     : src_width_(codec_context->width()), src_height_(codec_context->height()), dst_width_(width), dst_height_(height), src_pixel_format_(codec_context->pixel_format()), dst_pixel_format_(AV_PIX_FMT_RGBA)
@@ -30,4 +30,4 @@ int ScalingContext::scale(frame::Frame* frame)
     return ret;
 }
 
-}  // namespace video_trimmer::video_content_provider::video_frame_scaler
+}  // namespace video_trimmer::video_reader::video_frame_scaler

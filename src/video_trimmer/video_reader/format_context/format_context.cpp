@@ -7,7 +7,7 @@ extern "C" {
 #include "libavutil/rational.h"
 }
 
-namespace video_trimmer::video_content_provider::format_context {
+namespace video_trimmer::video_reader::format_context {
 
 FormatContext::FormatContext(const std::string_view& filename)
 {
@@ -58,4 +58,4 @@ int FormatContext::read_frame(packet::Packet* packet)
     return av_read_frame(format_context_.get(), packet->packet());
 }
 
-}  // namespace video_trimmer::video_content_provider::format_context
+}  // namespace video_trimmer::video_reader::format_context

@@ -12,7 +12,7 @@ extern "C" {
 
 struct AVFrame;
 
-namespace video_trimmer::video_content_provider::frame {
+namespace video_trimmer::video_reader::frame {
 
 class Frame {
 public:
@@ -54,4 +54,4 @@ private:
     AVPixelFormat src_pixel_format_;
 };
 
-}  // namespace video_trimmer::video_content_provider::frame
+}  // namespace video_trimmer::video_reader::frame

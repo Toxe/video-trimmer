@@ -8,7 +8,7 @@
 
 namespace video_trimmer::views::video_view {
 
-void VideoView::show_video_frame(video_trimmer::graphics::Graphics* graphics, std::unique_ptr<video_content_provider::frame::Frame> video_frame)
+void VideoView::show_video_frame(video_trimmer::graphics::Graphics* graphics, std::unique_ptr<video_reader::frame::Frame> video_frame)
 {
     if (video_frame) {
         current_video_frame_ = std::move(video_frame);

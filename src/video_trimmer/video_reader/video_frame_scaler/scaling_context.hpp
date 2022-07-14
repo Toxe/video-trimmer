@@ -10,7 +10,7 @@ extern "C" {
 
 struct SwsContext;
 
-namespace video_trimmer::video_content_provider::video_frame_scaler {
+namespace video_trimmer::video_reader::video_frame_scaler {
 
 class ScalingContext {
 public:
@@ -28,4 +28,4 @@ private:
     AVPixelFormat dst_pixel_format_;
 };
 
-}  // namespace video_trimmer::video_content_provider::video_frame_scaler
+}  // namespace video_trimmer::video_reader::video_frame_scaler

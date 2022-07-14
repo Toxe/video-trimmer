@@ -13,7 +13,7 @@ extern "C" {
 
 #include "video_trimmer/error/error.hpp"
 
-namespace video_trimmer::video_content_provider::codec_context {
+namespace video_trimmer::video_reader::codec_context {
 
 CodecContext::CodecContext(AVStream* stream)
 {
@@ -112,4 +112,4 @@ std::unique_ptr<frame::Frame> CodecContext::receive_frame(const double time_base
     return frame;
 }
 
-}  // namespace video_trimmer::video_content_provider::codec_context
+}  // namespace video_trimmer::video_reader::codec_context

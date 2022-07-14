@@ -4,8 +4,8 @@
 #include <memory>
 
 #include "types.h"
-#include "video_trimmer/video_content_provider/video_file/video_file.hpp"
-#include "video_trimmer/video_content_provider/video_reader.hpp"
+#include "video_trimmer/video_reader/video_file/video_file.hpp"
+#include "video_trimmer/video_reader/video_reader.hpp"
 
 namespace video_trimmer::video_player {
 
@@ -25,19 +25,19 @@ public:
 
     void update();
 
-    [[nodiscard]] std::unique_ptr<video_content_provider::frame::Frame> next_frame();
+    [[nodiscard]] std::unique_ptr<video_reader::frame::Frame> next_frame();
 
     void change_scaling_dimensions(ImageSize image_size);
 
     [[nodiscard]] double playback_position();
 
-    [[nodiscard]] const video_content_provider::video_file::VideoFile* video_file();
+    [[nodiscard]] const video_reader::video_file::VideoFile* video_file();
 
     void render();
 
 private:
-    std::unique_ptr<video_content_provider::VideoReader> video_reader_;
-    std::unique_ptr<video_content_provider::video_file::VideoFile> video_file_;
+    std::unique_ptr<video_reader::VideoReader> video_reader_;
+    std::unique_ptr<video_reader::video_file::VideoFile> video_file_;
 
     std::chrono::steady_clock::time_point time_point_playback_start_;
     std::chrono::duration<double> playback_position_ = std::chrono::duration<double>::zero();

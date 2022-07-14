@@ -7,7 +7,7 @@
 #include "../format_context/format_context.hpp"
 #include "../stream_info/stream_info.hpp"
 
-namespace video_trimmer::video_content_provider::video_file {
+namespace video_trimmer::video_reader::video_file {
 
 class VideoFile {
 public:
@@ -38,4 +38,4 @@ private:
     int open_file(const std::string_view& full_filename);
 };
 
-}  // namespace video_trimmer::video_content_provider::video_file
+}  // namespace video_trimmer::video_reader::video_file

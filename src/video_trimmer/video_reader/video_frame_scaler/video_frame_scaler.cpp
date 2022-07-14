@@ -7,7 +7,7 @@
 #include "video_trimmer/error/error.hpp"
 #include "video_trimmer/logger/logger.hpp"
 
-namespace video_trimmer::video_content_provider::video_frame_scaler {
+namespace video_trimmer::video_reader::video_frame_scaler {
 
 VideoFrameScaler::VideoFrameScaler(stream_info::StreamInfo* video_stream_info, int width, int height)
     : video_stream_info_(video_stream_info), scale_height_(height), scale_width_(width)
@@ -43,4 +43,4 @@ int VideoFrameScaler::resize_scaling_context(int width, int height)
     return 0;
 }
 
-}  // namespace video_trimmer::video_content_provider::video_frame_scaler
+}  // namespace video_trimmer::video_reader::video_frame_scaler

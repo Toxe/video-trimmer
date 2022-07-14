@@ -4,11 +4,11 @@
 
 #include "video_file/video_file.hpp"
 #include "video_frame_scaler/video_frame_scaler.hpp"
-#include "video_trimmer/video_content_provider/frame/frame.hpp"
-#include "video_trimmer/video_content_provider/packet/packet.hpp"
-#include "video_trimmer/video_content_provider/stream_info/stream_info.hpp"
+#include "video_trimmer/video_reader/frame/frame.hpp"
+#include "video_trimmer/video_reader/packet/packet.hpp"
+#include "video_trimmer/video_reader/stream_info/stream_info.hpp"
 
-namespace video_trimmer::video_content_provider {
+namespace video_trimmer::video_reader {
 
 class VideoReader {
 public:
@@ -32,4 +32,4 @@ private:
     [[nodiscard]] std::unique_ptr<frame::Frame> decode_video_packet(packet::Packet* packet);
 };
 
-}  // namespace video_trimmer::video_content_provider
+}  // namespace video_trimmer::video_reader

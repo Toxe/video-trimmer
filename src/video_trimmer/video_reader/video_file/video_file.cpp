@@ -5,7 +5,7 @@
 
 #include "video_trimmer/error/error.hpp"
 
-namespace video_trimmer::video_content_provider::video_file {
+namespace video_trimmer::video_reader::video_file {
 
 VideoFile::VideoFile(const std::string_view& full_filename)
 {
@@ -59,4 +59,4 @@ bool VideoFile::has_video_stream() const
     return video_stream_info_ != nullptr;
 }
 
-}  // namespace video_trimmer::video_content_provider::video_file
+}  // namespace video_trimmer::video_reader::video_file

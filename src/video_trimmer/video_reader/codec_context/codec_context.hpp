@@ -10,7 +10,7 @@
 struct AVCodecContext;
 struct AVStream;
 
-namespace video_trimmer::video_content_provider::codec_context {
+namespace video_trimmer::video_reader::codec_context {
 
 class CodecContext {
 public:
@@ -34,4 +34,4 @@ private:
     float fps_;
 };
 
-}  // namespace video_trimmer::video_content_provider::codec_context
+}  // namespace video_trimmer::video_reader::codec_context

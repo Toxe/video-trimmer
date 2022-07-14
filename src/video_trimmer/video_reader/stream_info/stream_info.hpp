@@ -7,7 +7,7 @@
 #include "../format_context/format_context.hpp"
 #include "../frame/frame.hpp"
 
-namespace video_trimmer::video_content_provider::stream_info {
+namespace video_trimmer::video_reader::stream_info {
 
 class StreamInfo {
 public:
@@ -37,4 +37,4 @@ private:
     std::string codec_additional_info_;
 };
 
-}  // namespace video_trimmer::video_content_provider::stream_info
+}  // namespace video_trimmer::video_reader::stream_info

@@ -1,6 +1,6 @@
 #include "stream_info.hpp"
 
-namespace video_trimmer::video_content_provider::stream_info {
+namespace video_trimmer::video_reader::stream_info {
 
 StreamInfo::StreamInfo(format_context::FormatContext* format_context, std::unique_ptr<codec_context::CodecContext> codec_context, int stream_index)
     : format_context_{format_context}, codec_context_{std::move(codec_context)}, stream_index_{stream_index}
@@ -44,4 +44,4 @@ std::unique_ptr<StreamInfo> StreamInfo::find_best_stream(format_context::FormatC
     return std::make_unique<StreamInfo>(format_context, std::move(codec_context), stream->index);
 }
 
-}  // namespace video_trimmer::video_content_provider::stream_info
+}  // namespace video_trimmer::video_reader::stream_info
