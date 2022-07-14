@@ -1,5 +1,9 @@
 #include "stream_info.hpp"
 
+extern "C" {
+#include "libavformat/avformat.h"
+}
+
 namespace video_trimmer::video_reader::stream_info {
 
 StreamInfo::StreamInfo(format_context::FormatContext* format_context, std::unique_ptr<codec_context::CodecContext> codec_context, int stream_index)

@@ -4,14 +4,9 @@
 #include <string>
 #include <string_view>
 
-extern "C" {
-#include "libavformat/avformat.h"
-}
-
 #include "../packet/packet.hpp"
-#include "auto_delete_resource.hpp"
 
-struct AVFormatContext;
+struct AVStream;
 
 namespace video_trimmer::video_reader::format_context {
 
@@ -22,8 +17,8 @@ public:
         video
     };
 
-public:
-    FormatContext(const std::string_view& filename);
+    explicit FormatContext(const std::string_view& filename);
+    ~FormatContext();
 
     [[nodiscard]] double stream_time_base(int stream_index) const;
 
@@ -33,7 +28,8 @@ public:
     [[nodiscard]] int read_frame(packet::Packet* packet);
 
 private:
-    AutoDeleteResource<AVFormatContext> format_context_;
+    class Impl;
+    std::unique_ptr<Impl> impl_;
 };
 
 }  // namespace video_trimmer::video_reader::format_context

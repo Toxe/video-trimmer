@@ -1,31 +1,22 @@
 #pragma once
 
-extern "C" {
-#include "libavutil/pixfmt.h"
-}
+#include <memory>
 
 #include "../codec_context/codec_context.hpp"
 #include "../frame/frame.hpp"
-#include "auto_delete_resource.hpp"
-
-struct SwsContext;
 
 namespace video_trimmer::video_reader::scaling_context {
 
 class ScalingContext {
 public:
     ScalingContext(codec_context::CodecContext* codec_context, int width, int height);
+    ~ScalingContext();
 
     int scale(frame::Frame* frame);
 
 private:
-    AutoDeleteResource<SwsContext> scaling_context_;
-
-    int src_width_, src_height_;
-    int dst_width_, dst_height_;
-
-    AVPixelFormat src_pixel_format_;
-    AVPixelFormat dst_pixel_format_;
+    class Impl;
+    std::unique_ptr<Impl> impl_;
 };
 
 }  // namespace video_trimmer::video_reader::scaling_context
