@@ -11,8 +11,8 @@ void PlaybackControlsView::render(double playback_position)
     ImGui::BeginChild("right pane");
     ImGui::BeginChild("playback controls");
 
-    ImGui::Text(fmt::format("playback controls [{}x{}]", ImGui::GetWindowSize().x, ImGui::GetWindowSize().y).c_str());
-    ImGui::Text(fmt::format("playback position: {:.4f}", playback_position).c_str());
+    ImGui::Text("%s", fmt::format("playback controls [{}x{}]", ImGui::GetWindowSize().x, ImGui::GetWindowSize().y).c_str());
+    ImGui::Text("%s", fmt::format("playback position: {:.4f}", playback_position).c_str());
 
     ImGui::EndChild();
     ImGui::EndChild();
