@@ -27,6 +27,8 @@ public:
     [[nodiscard]] AVStream* find_best_stream(StreamType type);
     [[nodiscard]] int read_frame(packet::Packet* packet);
 
+    [[nodiscard]] std::string_view filename() const;
+
 private:
     class Impl;
     std::unique_ptr<Impl> impl_;

@@ -31,6 +31,10 @@ int main(int argc, char* argv[])
 
     video_trimmer::video_player::VideoPlayer video_player;
     video_player.open_file("video1.mp4");
+
+    if (video_player.has_open_file())
+        video_player.video_file()->video_stream_info()->set_dump_first_frame(cli.dump_first_video_frame());
+
     // video_player.start();
 
     while (window.is_open()) {

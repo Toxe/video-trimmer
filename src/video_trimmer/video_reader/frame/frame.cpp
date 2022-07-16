@@ -2,8 +2,12 @@
 
 #include <array>
 #include <cstdint>
+#include <filesystem>
+#include <fstream>
 #include <span>
 #include <stdexcept>
+
+#include "fmt/core.h"
 
 extern "C" {
 #include "libavutil/frame.h"
@@ -12,6 +16,7 @@ extern "C" {
 }
 
 #include "auto_delete_resource.hpp"
+#include "video_trimmer/logger/logger.hpp"
 
 namespace video_trimmer::video_reader::frame {
 
@@ -38,6 +43,8 @@ public:
     [[nodiscard]] std::span<const uint8_t> pixels();
 
     void image_copy();
+
+    void dump_to_file(const std::string_view& filename);
 
 private:
     int src_width_;
@@ -104,6 +111,30 @@ void Frame::Impl::image_copy()
     av_frame_unref(frame_.get());
 }
 
+void Frame::Impl::dump_to_file(const std::string_view& filename)
+{
+    const char* pix_fmt_desc = av_get_pix_fmt_name(src_pixel_format_);
+
+    std::filesystem::path out_filename{filename};
+    out_filename.replace_filename(fmt::format("{}_{}x{}_{}.raw", out_filename.stem().string(), frame_->width, frame_->height, pix_fmt_desc));
+
+    video_trimmer::logger::log_info(fmt::format("dump first video frame to file: {}", out_filename.string()));
+
+    const int buffer_size = av_image_get_buffer_size(src_pixel_format_, frame_->width, frame_->height, 1);
+    std::unique_ptr<uint8_t[]> buffer = std::make_unique<uint8_t[]>(static_cast<size_t>(buffer_size));
+    const int bytes_copied = av_image_copy_to_buffer(buffer.get(), buffer_size, frame_->data, frame_->linesize, src_pixel_format_, frame_->width, frame_->height, 1);
+
+    if (bytes_copied != buffer_size)
+        throw std::runtime_error("av_image_copy_to_buffer error");
+
+    std::ofstream out{out_filename, std::ofstream::binary};
+
+    if (!out.is_open())
+        throw std::runtime_error(fmt::format("unable to open output file: {}", out_filename.string()));
+
+    out.write(reinterpret_cast<const char*>(buffer.get()), buffer_size);
+}
+
 Frame::Frame(int width, int height, int scaled_width, int scaled_height, AVPixelFormat pixel_format) : impl_(std::make_unique<Frame::Impl>(width, height, scaled_width, scaled_height, pixel_format)) { }
 Frame::~Frame() = default;
 double Frame::timestamp() const { return impl_->timestamp(); }
@@ -119,5 +150,6 @@ int* Frame::src_linesizes() { return impl_->src_linesizes(); }
 int* Frame::dst_linesizes() { return impl_->dst_linesizes(); }
 std::span<const uint8_t> Frame::pixels() { return impl_->pixels(); }
 void Frame::image_copy() { impl_->image_copy(); }
+void Frame::dump_to_file(const std::string_view& filename) { impl_->dump_to_file(filename); }
 
 }  // namespace video_trimmer::video_reader::frame

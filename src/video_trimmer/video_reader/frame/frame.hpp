@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <span>
+#include <string_view>
 
 extern "C" {
 #include "libavutil/pixfmt.h"
@@ -34,6 +35,8 @@ public:
     [[nodiscard]] std::span<const uint8_t> pixels();
 
     void image_copy();
+
+    void dump_to_file(const std::string_view& filename);
 
 private:
     class Impl;

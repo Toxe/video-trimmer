@@ -23,6 +23,8 @@ public:
     [[nodiscard]] AVStream* find_best_stream(StreamType type);
     [[nodiscard]] int read_frame(packet::Packet* packet);
 
+    [[nodiscard]] std::string_view filename() const;
+
 private:
     AutoDeleteResource<AVFormatContext> format_context_;
 };
@@ -76,11 +78,17 @@ int FormatContext::Impl::read_frame(packet::Packet* packet)
     return av_read_frame(format_context_.get(), packet->packet());
 }
 
+std::string_view FormatContext::Impl::filename() const
+{
+    return format_context_->url;
+}
+
 FormatContext::FormatContext(const std::string_view& filename) : impl_(std::make_unique<FormatContext::Impl>(filename)) { }
 FormatContext::~FormatContext() = default;
 double FormatContext::stream_time_base(int stream_index) const { return impl_->stream_time_base(stream_index); }
 std::string FormatContext::format() const { return impl_->format(); }
 AVStream* FormatContext::find_best_stream(FormatContext::StreamType type) { return impl_->find_best_stream(type); }
 int FormatContext::read_frame(packet::Packet* packet) { return impl_->read_frame(packet); }
+std::string_view FormatContext::filename() const { return impl_->filename(); }
 
 }  // namespace video_trimmer::video_reader::format_context

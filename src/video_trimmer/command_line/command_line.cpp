@@ -28,11 +28,12 @@ CommandLine::CommandLine(int argc, char* argv[])
     directory_ = std::filesystem::current_path().string();
 
     CLI::App app{description};
+    app.add_flag("-d", dump_first_video_frame_, "dump first decoded video frame to file (default: false)");
     app.add_flag("-v", log_level_flag, "log level (-v: INFO, -vv: DEBUG, -vvv: TRACE)");
     app.add_option("directory", directory_, "video directory (default: current directory)");
     app.add_option("--font-size", font_size_, "UI font size in pixels");
-    auto opt_width = app.add_option("--width", window_width_, "window width");
-    auto opt_height = app.add_option("--height", window_height_, "window height");
+    auto* opt_width = app.add_option("--width", window_width_, "window width");
+    auto* opt_height = app.add_option("--height", window_height_, "window height");
 
     opt_width->check(CLI::PositiveNumber)->needs(opt_height);
     opt_height->check(CLI::PositiveNumber)->needs(opt_width);
@@ -64,6 +65,7 @@ CommandLine::CommandLine(int argc, char* argv[])
     logger::log_debug(fmt::format("command line option --font-size: {}", font_size_));
     logger::log_debug(fmt::format("command line option --width: {}", window_width_));
     logger::log_debug(fmt::format("command line option --height: {}", window_height_));
+    logger::log_debug(fmt::format("command line option -d: {}", dump_first_video_frame_));
 
     if (!std::filesystem::exists(directory_))
         show_usage_and_exit(app, fmt::format("directory not found: {}", directory_).c_str(), {});

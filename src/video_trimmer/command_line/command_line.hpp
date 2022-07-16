@@ -16,6 +16,8 @@ public:
 
     [[nodiscard]] const std::string& directory() const { return directory_; }
 
+    [[nodiscard]] bool dump_first_video_frame() const { return dump_first_video_frame_; }
+
 private:
     int font_size_ = 0;
 
@@ -23,6 +25,8 @@ private:
     int window_height_ = 0;
 
     std::string directory_;
+
+    bool dump_first_video_frame_ = false;
 };
 
 }  // namespace video_trimmer::command_line

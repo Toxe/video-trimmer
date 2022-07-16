@@ -26,6 +26,11 @@ std::unique_ptr<frame::Frame> StreamInfo::receive_video_frame(const int scaled_w
     if (!frame)
         return nullptr;
 
+    if (dump_first_frame_) {
+        frame->dump_to_file(format_context_->filename());
+        dump_first_frame_ = false;
+    }
+
     // copy decoded frame to image buffer
     frame->image_copy();
 
