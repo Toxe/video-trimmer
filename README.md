@@ -34,14 +34,18 @@ $ cmake --build . --config Release
 
 ```
 Video Trimmer
-Usage: video_trimmer [OPTIONS]
+Usage: video_trimmer [OPTIONS] [directory]
+
+Positionals:
+  directory TEXT              video directory (default: current directory)
 
 Options:
   -h,--help                   Print this help message and exit
-  -v                          log level (-v: INFO, -vv: DEBUG, -vvv: TRACE)
-  --font-size INT:POSITIVE    UI font size in pixels (default: 22)
+  -d                          dump first decoded video frame to file (default: false)
+  -v [0]                      log level (-v: INFO, -vv: DEBUG, -vvv: TRACE)
+  --font-size INT             UI font size in pixels
   --width INT:POSITIVE Needs: --height
-                              window width (default: 2160)
+                              window width
   --height INT:POSITIVE Needs: --width
-                              window height (default: 1620)
+                              window height
 ```
