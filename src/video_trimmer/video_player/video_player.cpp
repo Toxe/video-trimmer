@@ -17,10 +17,8 @@ bool VideoPlayer::open_file(const char* filename)
 
     video_file_ = std::make_unique<video_reader::video_file::VideoFile>(filename);
 
-    if (has_open_file()) {
-        video_file_ = std::make_unique<video_reader::video_file::VideoFile>(filename);
+    if (has_open_file())
         video_reader_ = std::make_unique<video_reader::VideoReader>(*video_file_, 640, 480);
-    }
 
     has_started_playing_ = false;
     is_playing_ = false;
