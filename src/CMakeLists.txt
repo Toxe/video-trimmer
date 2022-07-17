@@ -26,6 +26,8 @@ add_executable(video_trimmer
         main.cpp
         video_trimmer/app/app.cpp
         video_trimmer/app/app.hpp
+        video_trimmer/app/system_info.cpp
+        video_trimmer/app/system_info.hpp
         video_trimmer/clock/clock.hpp
         video_trimmer/clock/duration.hpp
         video_trimmer/clock/stopwatch.hpp

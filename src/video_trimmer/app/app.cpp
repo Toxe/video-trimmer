@@ -1,6 +1,13 @@
 #include "app.hpp"
 
+#include "system_info.hpp"
+
 namespace video_trimmer::app {
+
+App::App()
+{
+    show_system_info();
+}
 
 void App::begin_frame()
 {
