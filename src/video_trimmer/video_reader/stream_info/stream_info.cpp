@@ -9,9 +9,6 @@ namespace video_trimmer::video_reader::stream_info {
 StreamInfo::StreamInfo(format_context::FormatContext* format_context, std::unique_ptr<codec_context::CodecContext> codec_context, int stream_index)
     : format_context_{format_context}, codec_context_{std::move(codec_context)}, stream_index_{stream_index}
 {
-    codec_type_ = codec_context_->codec_type();
-    codec_name_ = codec_context_->codec_name();
-    codec_additional_info_ = codec_context_->codec_additional_info();
 }
 
 double StreamInfo::time_base() const

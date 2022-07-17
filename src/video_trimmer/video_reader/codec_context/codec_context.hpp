@@ -16,9 +16,9 @@ class CodecContext {
 public:
     explicit CodecContext(AVStream* stream);
 
-    [[nodiscard]] std::string codec_type();
-    [[nodiscard]] std::string codec_name();
-    [[nodiscard]] std::string codec_additional_info();
+    [[nodiscard]] const std::string& codec_type() const { return codec_type_; }
+    [[nodiscard]] const std::string& codec_name() const { return codec_name_; }
+    [[nodiscard]] const std::string& codec_additional_info() const { return codec_additional_info_; }
 
     [[nodiscard]] int width() const;
     [[nodiscard]] int height() const;
@@ -30,6 +30,10 @@ public:
 
 private:
     AutoDeleteResource<AVCodecContext> codec_context_;
+
+    std::string codec_type_;
+    std::string codec_name_;
+    std::string codec_additional_info_;
 
     float fps_;
 };

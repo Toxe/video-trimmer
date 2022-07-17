@@ -45,28 +45,14 @@ CodecContext::CodecContext(AVStream* stream)
         throw std::runtime_error("avcodec_open2");
 
     fps_ = codec_context_->codec_type == AVMEDIA_TYPE_VIDEO ? static_cast<float>(av_q2d(stream->avg_frame_rate)) : 0.0f;
-}
 
-std::string CodecContext::codec_type()
-{
-    return av_get_media_type_string(codec_context_->codec_type);
-}
-
-std::string CodecContext::codec_name()
-{
-    return codec_context_->codec->long_name;
-}
-
-std::string CodecContext::codec_additional_info()
-{
-    std::string info;
+    codec_type_ = av_get_media_type_string(codec_context_->codec_type);
+    codec_name_ = codec_context_->codec->long_name;
 
     if (codec_context_->codec_type == AVMEDIA_TYPE_VIDEO)
-        info = fmt::format("{}x{}, {:.1f} fps", codec_context_->width, codec_context_->height, fps_);
+        codec_additional_info_ = fmt::format("{}x{}, {:.1f} fps", codec_context_->width, codec_context_->height, fps_);
     else if (codec_context_->codec_type == AVMEDIA_TYPE_AUDIO)
-        info = fmt::format("{} channels, {} sample rate", codec_context_->channels, codec_context_->sample_rate);
-
-    return info;
+        codec_additional_info_ = fmt::format("{} channels, {} sample rate", codec_context_->channels, codec_context_->sample_rate);
 }
 
 int CodecContext::width() const
