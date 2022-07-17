@@ -9,6 +9,7 @@ extern "C" {
 #include "libavcodec/avcodec.h"
 #include "libavformat/avformat.h"
 #include "libavutil/avutil.h"
+#include "libavutil/pixdesc.h"
 }
 
 #include "video_trimmer/error/error.hpp"
@@ -50,7 +51,7 @@ CodecContext::CodecContext(AVStream* stream)
     codec_name_ = codec_context_->codec->long_name;
 
     if (codec_context_->codec_type == AVMEDIA_TYPE_VIDEO)
-        codec_additional_info_ = fmt::format("{}x{}, {:.1f} fps", codec_context_->width, codec_context_->height, fps_);
+        codec_additional_info_ = fmt::format("{}x{}, {:.1f} fps, {}", width(), height(), fps_, av_get_pix_fmt_name(pixel_format()));
     else if (codec_context_->codec_type == AVMEDIA_TYPE_AUDIO)
         codec_additional_info_ = fmt::format("{} channels, {} sample rate", codec_context_->channels, codec_context_->sample_rate);
 }
