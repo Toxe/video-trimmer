@@ -22,6 +22,7 @@ public:
     void shutdown_imgui();
 
     void create_window(const char* title, WindowSize size);
+    void create_renderer(bool disable_vsync);
 
     void begin_frame();
     void finish_frame();

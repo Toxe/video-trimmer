@@ -30,6 +30,7 @@ CommandLine::CommandLine(int argc, char* argv[])
     CLI::App app{description};
     app.add_flag("-d", dump_first_video_frame_, "dump first decoded video frame to file (default: false)");
     app.add_flag("-v", log_level_flag, "log level (-v: INFO, -vv: DEBUG, -vvv: TRACE)");
+    app.add_flag("--no-vsync", disable_vsync_, "disable vsync (vsync is enabled by default)");
     app.add_option("directory", directory_, "video directory (default: current directory)");
     app.add_option("--font-size", font_size_, "UI font size in pixels");
     auto* opt_width = app.add_option("--width", window_width_, "window width");
@@ -66,6 +67,7 @@ CommandLine::CommandLine(int argc, char* argv[])
     logger::log_debug(fmt::format("command line option --width: {}", window_width_));
     logger::log_debug(fmt::format("command line option --height: {}", window_height_));
     logger::log_debug(fmt::format("command line option -d: {}", dump_first_video_frame_));
+    logger::log_debug(fmt::format("command line option --no-vsync: {}", disable_vsync_));
 
     if (!std::filesystem::exists(directory_))
         show_usage_and_exit(app, fmt::format("directory not found: {}", directory_).c_str(), {});

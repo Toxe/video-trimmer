@@ -11,6 +11,7 @@ MainWindow::MainWindow(const video_trimmer::command_line::CommandLine& cli)
 {
     graphics_->init_sdl();
     graphics_->create_window(title_, {cli.window_width(), cli.window_height()});
+    graphics_->create_renderer(cli.disable_vsync());
     graphics_->init_imgui(cli.font_size());
 
     video_view_ = std::make_unique<video_trimmer::views::video_view::VideoView>();

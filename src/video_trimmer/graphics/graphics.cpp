@@ -26,6 +26,7 @@ public:
     void shutdown_imgui();
 
     void create_window(const char* title, WindowSize size);
+    void create_renderer(bool disable_vsync);
 
     void begin_frame();
     void finish_frame();
@@ -139,10 +140,18 @@ void Graphics::Impl::create_window(const char* title, WindowSize size)
     gl_context_ = SDL_GL_CreateContext(window_);
     SDL_GL_MakeCurrent(window_, gl_context_);
     SDL_GL_SetSwapInterval(1);
+}
 
-    // create renderer
+void Graphics::Impl::create_renderer(bool disable_vsync)
+{
     SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengl");
-    renderer_ = SDL_CreateRenderer(window_, -1, SDL_RENDERER_ACCELERATED);
+
+    Uint32 renderer_flags = SDL_RENDERER_ACCELERATED;
+
+    if (!disable_vsync)
+        renderer_flags |= SDL_RENDERER_PRESENTVSYNC;
+
+    renderer_ = SDL_CreateRenderer(window_, -1, renderer_flags);
 
     if (!renderer_)
         video_trimmer::error::die(fmt::format("unable to create renderer: {}", SDL_GetError()));
@@ -263,6 +272,7 @@ void Graphics::init_imgui(int font_size) { impl_->init_imgui(font_size); }
 void Graphics::shutdown_sdl() { impl_->shutdown_sdl(); }
 void Graphics::shutdown_imgui() { impl_->shutdown_imgui(); }
 void Graphics::create_window(const char* title, WindowSize size) { impl_->create_window(title, size); }
+void Graphics::create_renderer(bool disable_vsync) { impl_->create_renderer(disable_vsync); }
 void Graphics::begin_frame() { impl_->begin_frame(); }
 void Graphics::finish_frame() { impl_->finish_frame(); }
 bool Graphics::window_is_open() const { return impl_->window_is_open(); }
