@@ -47,7 +47,7 @@ int main(int argc, char* argv[])
             video_player.update();
 
             ui.render();
-            additional_info_view.render(app.elapsed_time(), video_player.video_file());
+            additional_info_view.render(app.previous_frame_time(), video_player.video_file());
             files_view.render();
             playback_controls_view.render(video_player.playback_position());
             trim_controls_view.render();
