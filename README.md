@@ -43,6 +43,7 @@ Options:
   -h,--help                   Print this help message and exit
   -d                          dump first decoded video frame to file (default: false)
   -v [0]                      log level (-v: INFO, -vv: DEBUG, -vvv: TRACE)
+  --no-vsync                  disable vsync (vsync is enabled by default)
   --font-size INT             UI font size in pixels
   --width INT:POSITIVE Needs: --height
                               window width
