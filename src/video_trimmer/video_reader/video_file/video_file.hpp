@@ -4,8 +4,8 @@
 #include <string>
 #include <string_view>
 
+#include "../codec_context/codec_context.hpp"
 #include "../frame/frame.hpp"
-#include "../stream_info/stream_info.hpp"
 
 namespace video_trimmer::video_reader::video_file {
 
@@ -20,8 +20,8 @@ public:
     [[nodiscard]] const std::string& filename() const;
     [[nodiscard]] const std::string& file_format() const;
 
-    [[nodiscard]] stream_info::StreamInfo* audio_stream_info() const;
-    [[nodiscard]] stream_info::StreamInfo* video_stream_info() const;
+    [[nodiscard]] codec_context::CodecContext* audio_codec_context() const;
+    [[nodiscard]] codec_context::CodecContext* video_codec_context() const;
 
     [[nodiscard]] bool has_audio_stream() const;
     [[nodiscard]] bool has_video_stream() const;

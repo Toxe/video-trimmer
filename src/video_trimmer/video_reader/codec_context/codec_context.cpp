@@ -45,6 +45,8 @@ CodecContext::CodecContext(AVStream* stream)
     if (ret < 0)
         throw std::runtime_error("avcodec_open2");
 
+    stream_index_ = stream->index;
+    stream_time_base_ = av_q2d(stream->time_base);
     fps_ = codec_context_->codec_type == AVMEDIA_TYPE_VIDEO ? static_cast<float>(av_q2d(stream->avg_frame_rate)) : 0.0f;
 
     codec_type_ = av_get_media_type_string(codec_context_->codec_type);

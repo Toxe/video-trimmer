@@ -79,8 +79,6 @@ add_executable(video_trimmer
         video_trimmer/video_reader/packet/packet.hpp
         video_trimmer/video_reader/scaling_context/scaling_context.cpp
         video_trimmer/video_reader/scaling_context/scaling_context.hpp
-        video_trimmer/video_reader/stream_info/stream_info.cpp
-        video_trimmer/video_reader/stream_info/stream_info.hpp
         video_trimmer/video_reader/video_file/video_file.cpp
         video_trimmer/video_reader/video_file/video_file.hpp
         video_trimmer/video_reader/video_reader.cpp

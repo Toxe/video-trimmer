@@ -2,7 +2,6 @@
 
 #include "fmt/core.h"
 
-#include "stream_info/stream_info.hpp"
 #include "video_trimmer/logger/logger.hpp"
 
 namespace video_trimmer::video_reader {
@@ -12,7 +11,7 @@ VideoReader::VideoReader(video_file::VideoFile& video_file, int scale_width, int
       scale_width_(scale_width),
       scale_height_(scale_height)
 {
-    scaling_context_ = std::make_unique<scaling_context::ScalingContext>(video_file_.video_stream_info()->codec_context(), scale_width, scale_height);
+    scaling_context_ = std::make_unique<scaling_context::ScalingContext>(video_file_.video_codec_context(), scale_width, scale_height);
 }
 
 std::unique_ptr<frame::Frame> VideoReader::read_next_frame(const double playback_position)
@@ -43,7 +42,7 @@ void VideoReader::resize_scaling_context(int width, int height)
         scale_width_ = width;
         scale_height_ = height;
 
-        scaling_context_ = std::make_unique<scaling_context::ScalingContext>(video_file_.video_stream_info()->codec_context(), width, height);
+        scaling_context_ = std::make_unique<scaling_context::ScalingContext>(video_file_.video_codec_context(), width, height);
     }
 }
 
