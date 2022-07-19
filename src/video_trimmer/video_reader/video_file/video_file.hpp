@@ -4,7 +4,7 @@
 #include <string>
 #include <string_view>
 
-#include "../format_context/format_context.hpp"
+#include "../frame/frame.hpp"
 #include "../stream_info/stream_info.hpp"
 
 namespace video_trimmer::video_reader::video_file {
@@ -25,6 +25,10 @@ public:
 
     [[nodiscard]] bool has_audio_stream() const;
     [[nodiscard]] bool has_video_stream() const;
+
+    [[nodiscard]] std::unique_ptr<frame::Frame> read_next_frame(double playback_position, int scale_width, int scale_height);
+
+    void set_dump_first_frame(bool dump_frame);
 
 private:
     class Impl;

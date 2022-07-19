@@ -71,7 +71,7 @@ AVPixelFormat CodecContext::pixel_format() const
     return codec_context_->pix_fmt;
 }
 
-int CodecContext::send_packet(packet::Packet* packet)
+int CodecContext::send_packet_to_decoder(packet::Packet* packet)
 {
     int ret = avcodec_send_packet(codec_context_.get(), packet->packet());
 
@@ -81,7 +81,7 @@ int CodecContext::send_packet(packet::Packet* packet)
     return 0;
 }
 
-std::unique_ptr<frame::Frame> CodecContext::receive_frame(const double time_base, const int scaled_width, const int scaled_height)
+std::unique_ptr<frame::Frame> CodecContext::receive_frame_from_decoder(const double time_base, const int scaled_width, const int scaled_height)
 {
     std::unique_ptr<frame::Frame> frame = std::make_unique<frame::Frame>(width(), height(), scaled_width, scaled_height, pixel_format());
 

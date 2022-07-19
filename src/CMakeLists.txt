@@ -73,8 +73,6 @@ add_executable(video_trimmer
         video_trimmer/video_player/video_player.hpp
         video_trimmer/video_reader/codec_context/codec_context.cpp
         video_trimmer/video_reader/codec_context/codec_context.hpp
-        video_trimmer/video_reader/format_context/format_context.cpp
-        video_trimmer/video_reader/format_context/format_context.hpp
         video_trimmer/video_reader/frame/frame.cpp
         video_trimmer/video_reader/frame/frame.hpp
         video_trimmer/video_reader/packet/packet.cpp

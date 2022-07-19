@@ -25,8 +25,11 @@ public:
     Impl(int width, int height, int scaled_width, int scaled_height, AVPixelFormat pixel_format);
     ~Impl();
 
-    [[nodiscard]] double timestamp() const { return timestamp_; };
-    void set_timestamp(double timestamp) { timestamp_ = timestamp; };
+    [[nodiscard]] bool is_audio_frame() const { return frame_type_ == FrameType::audio; }
+    [[nodiscard]] bool is_video_frame() const { return frame_type_ == FrameType::video; }
+
+    [[nodiscard]] double timestamp() const { return timestamp_; }
+    void set_timestamp(double timestamp) { timestamp_ = timestamp; }
 
     [[nodiscard]] int src_width() const { return src_width_; }
     [[nodiscard]] int src_height() const { return src_height_; }
@@ -44,9 +47,16 @@ public:
 
     void image_copy();
 
-    void dump_to_file(const std::string_view& filename);
+    void dump_to_file(const std::string& filename);
 
 private:
+    enum class FrameType {
+        audio,
+        video
+    };
+
+    FrameType frame_type_;
+
     int src_width_;
     int src_height_;
     int dst_width_;
@@ -65,7 +75,7 @@ private:
 };
 
 Frame::Impl::Impl(const int width, const int height, const int scaled_width, const int scaled_height, AVPixelFormat pixel_format)
-    : src_width_(width), src_height_(height), src_pixel_format_(pixel_format)
+    : frame_type_(FrameType::video), src_width_(width), src_height_(height), src_pixel_format_(pixel_format)
 {
     // only scale down, never scale frames up to be bigger than the source frame
     if (scaled_width <= src_width_ && scaled_height <= src_height_) {
@@ -111,7 +121,7 @@ void Frame::Impl::image_copy()
     av_frame_unref(frame_.get());
 }
 
-void Frame::Impl::dump_to_file(const std::string_view& filename)
+void Frame::Impl::dump_to_file(const std::string& filename)
 {
     const char* pix_fmt_desc = av_get_pix_fmt_name(src_pixel_format_);
 
@@ -150,6 +160,8 @@ int* Frame::src_linesizes() { return impl_->src_linesizes(); }
 int* Frame::dst_linesizes() { return impl_->dst_linesizes(); }
 std::span<const uint8_t> Frame::pixels() { return impl_->pixels(); }
 void Frame::image_copy() { impl_->image_copy(); }
-void Frame::dump_to_file(const std::string_view& filename) { impl_->dump_to_file(filename); }
+void Frame::dump_to_file(const std::string& filename) { impl_->dump_to_file(filename); }
+bool Frame::is_audio_frame() const { return impl_->is_audio_frame(); }
+bool Frame::is_video_frame() const { return impl_->is_video_frame(); }
 
 }  // namespace video_trimmer::video_reader::frame

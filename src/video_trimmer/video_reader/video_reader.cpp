@@ -2,55 +2,27 @@
 
 #include "fmt/core.h"
 
+#include "stream_info/stream_info.hpp"
 #include "video_trimmer/logger/logger.hpp"
 
 namespace video_trimmer::video_reader {
 
 VideoReader::VideoReader(video_file::VideoFile& video_file, int scale_width, int scale_height)
-    : audio_stream_info_(video_file.audio_stream_info()),
-      video_stream_info_(video_file.video_stream_info()),
+    : video_file_(video_file),
       scale_width_(scale_width),
       scale_height_(scale_height)
 {
-    packet_ = std::make_unique<packet::Packet>();
-    scaling_context_ = std::make_unique<scaling_context::ScalingContext>(video_stream_info_->codec_context(), scale_width, scale_height);
+    scaling_context_ = std::make_unique<scaling_context::ScalingContext>(video_file_.video_stream_info()->codec_context(), scale_width, scale_height);
 }
 
 std::unique_ptr<frame::Frame> VideoReader::read_next_frame(const double playback_position)
 {
-    // read until we get at least one video frame
-    while (true) {
-        if (video_stream_info_->format_context()->read_frame(packet_.get()) < 0)
-            break;
+    std::unique_ptr<frame::Frame> frame = video_file_.read_next_frame(playback_position, scale_width_, scale_height_);
 
-        // process only interesting packets, drop the rest
-        if (packet_->stream_index() == video_stream_info_->stream_index()) {
-            std::unique_ptr<frame::Frame> frame = decode_video_packet(packet_.get());
-            packet_->unref();
+    if (frame && frame->is_video_frame())
+        scale_frame(frame.get());
 
-            if (frame)
-                scale_frame(frame.get());
-
-            return frame;
-        } else if (packet_->stream_index() == audio_stream_info_->stream_index()) {
-            // TODO: decode audio packet
-            packet_->unref();
-        } else {
-            packet_->unref();
-        }
-    }
-
-    return nullptr;
-}
-
-std::unique_ptr<frame::Frame> VideoReader::decode_video_packet(packet::Packet* packet)
-{
-    // send packet to the decoder
-    if (video_stream_info_->codec_context()->send_packet(packet) < 0)
-        return nullptr;
-
-    // get available frame from the decoder
-    return video_stream_info_->receive_video_frame(scale_width_, scale_height_);
+    return frame;
 }
 
 void VideoReader::scale_frame(frame::Frame* frame)
@@ -71,7 +43,7 @@ void VideoReader::resize_scaling_context(int width, int height)
         scale_width_ = width;
         scale_height_ = height;
 
-        scaling_context_ = std::make_unique<scaling_context::ScalingContext>(video_stream_info_->codec_context(), width, height);
+        scaling_context_ = std::make_unique<scaling_context::ScalingContext>(video_file_.video_stream_info()->codec_context(), width, height);
     }
 }
 

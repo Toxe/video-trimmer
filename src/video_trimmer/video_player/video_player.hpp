@@ -29,9 +29,9 @@ public:
 
     void change_scaling_dimensions(ImageSize image_size);
 
-    [[nodiscard]] double playback_position();
+    [[nodiscard]] double playback_position() { return playback_position_.count(); };
 
-    [[nodiscard]] const video_reader::video_file::VideoFile* video_file();
+    [[nodiscard]] video_reader::video_file::VideoFile* video_file() { return video_file_.get(); }
 
     void render();
 

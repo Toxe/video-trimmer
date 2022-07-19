@@ -2,7 +2,7 @@
 
 #include <memory>
 #include <span>
-#include <string_view>
+#include <string>
 
 extern "C" {
 #include "libavutil/pixfmt.h"
@@ -16,6 +16,9 @@ class Frame {
 public:
     Frame(int width, int height, int scaled_width, int scaled_height, AVPixelFormat pixel_format);
     ~Frame();
+
+    [[nodiscard]] bool is_audio_frame() const;
+    [[nodiscard]] bool is_video_frame() const;
 
     [[nodiscard]] double timestamp() const;
     void set_timestamp(double timestamp);
@@ -36,7 +39,7 @@ public:
 
     void image_copy();
 
-    void dump_to_file(const std::string_view& filename);
+    void dump_to_file(const std::string& filename);
 
 private:
     class Impl;

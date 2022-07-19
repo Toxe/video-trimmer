@@ -122,16 +122,6 @@ void VideoPlayer::change_scaling_dimensions(ImageSize image_size)
         video_reader_->change_scaling_dimensions(image_size.width, image_size.height);
 }
 
-double VideoPlayer::playback_position()
-{
-    return playback_position_.count();
-}
-
-const video_reader::video_file::VideoFile* VideoPlayer::video_file()
-{
-    return video_file_.get();
-}
-
 void VideoPlayer::render()
 {
     ImGui::Begin("Video Trimmer");

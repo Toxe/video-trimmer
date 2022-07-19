@@ -25,8 +25,8 @@ public:
     [[nodiscard]] AVPixelFormat pixel_format() const;
     [[nodiscard]] float fps() const { return fps_; };
 
-    [[nodiscard]] int send_packet(packet::Packet* packet);
-    [[nodiscard]] std::unique_ptr<frame::Frame> receive_frame(double time_base, int scaled_width, int scaled_height);
+    [[nodiscard]] int send_packet_to_decoder(packet::Packet* packet);
+    [[nodiscard]] std::unique_ptr<frame::Frame> receive_frame_from_decoder(double time_base, int scaled_width, int scaled_height);
 
 private:
     AutoDeleteResource<AVCodecContext> codec_context_;
