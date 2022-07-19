@@ -12,16 +12,15 @@ class Clock {
 public:
     Clock() : start_{std::chrono::steady_clock::now()} { }
 
-    Duration elapsed_time()
+    Duration elapsed_time() const
     {
-        auto now = std::chrono::steady_clock::now();
-        return Duration{now - start_};
+        return Duration{std::chrono::steady_clock::now() - start_};
     }
 
     Duration restart()
     {
-        auto now = std::chrono::steady_clock::now();
-        auto dur = now - start_;
+        const auto now = std::chrono::steady_clock::now();
+        const auto dur = now - start_;
         start_ = now;
         return Duration{dur};
     }
