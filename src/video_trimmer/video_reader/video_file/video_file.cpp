@@ -77,13 +77,13 @@ int VideoFile::Impl::open_file(const std::string_view& full_filename)
     format_context_ = AutoDeleteResource<AVFormatContext>(avformat_alloc_context(), [](AVFormatContext* ctx) { avformat_close_input(&ctx); });
 
     if (!format_context_)
-        return error::show_error("avformat_find_stream_info");
+        return error::show_error("avformat_alloc_context");
 
     // open input file
     int ret = avformat_open_input(format_context_.get_ptr(), full_filename.data(), nullptr, nullptr);
 
     if (ret < 0)
-        return error::show_error("avformat_open_input", ret);
+        return ret;
 
     // load stream info
     ret = avformat_find_stream_info(format_context_.get(), nullptr);
