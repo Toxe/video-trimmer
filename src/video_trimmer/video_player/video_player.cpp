@@ -118,7 +118,7 @@ std::unique_ptr<video_reader::frame::Frame> VideoPlayer::next_frame()
 
 void VideoPlayer::change_scaling_dimensions(ImageSize image_size)
 {
-    if (has_open_file())
+    if (has_open_file() && image_size.width > 0 && image_size.height > 0)
         video_reader_->change_scaling_dimensions(image_size.width, image_size.height);
 }
 
