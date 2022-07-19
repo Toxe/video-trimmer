@@ -16,7 +16,7 @@ namespace video_trimmer::video_reader::video_file {
 
 class VideoFile::Impl {
 public:
-    explicit Impl(const std::string_view& full_filename);
+    explicit Impl(const std::string& full_filename);
 
     [[nodiscard]] bool is_open() const { return is_open_; }
     [[nodiscard]] bool is_video() const;
@@ -46,7 +46,7 @@ private:
 
     bool is_open_ = false;
 
-    [[nodiscard]] int open_file(const std::string_view& full_filename);
+    [[nodiscard]] int open_file(const std::string& full_filename);
 
     [[nodiscard]] std::unique_ptr<codec_context::CodecContext> find_best_stream(codec_context::CodecContext::StreamType type);
 
@@ -55,7 +55,7 @@ private:
     bool dump_first_frame_ = false;
 };
 
-VideoFile::Impl::Impl(const std::string_view& full_filename)
+VideoFile::Impl::Impl(const std::string& full_filename)
 {
     packet_ = AutoDeleteResource<AVPacket>(av_packet_alloc(), [](AVPacket* p) { av_packet_free(&p); });
 
@@ -65,7 +65,7 @@ VideoFile::Impl::Impl(const std::string_view& full_filename)
     is_open_ = open_file(full_filename) == 0;
 }
 
-int VideoFile::Impl::open_file(const std::string_view& full_filename)
+int VideoFile::Impl::open_file(const std::string& full_filename)
 {
     std::filesystem::path path{full_filename};
 
@@ -182,7 +182,7 @@ std::unique_ptr<frame::Frame> VideoFile::Impl::decode_video_packet(AVPacket* pac
     return frame;
 }
 
-VideoFile::VideoFile(const std::string_view& full_filename) : impl_(std::make_unique<VideoFile::Impl>(full_filename)) { }
+VideoFile::VideoFile(const std::string& full_filename) : impl_(std::make_unique<VideoFile::Impl>(full_filename)) { }
 VideoFile::~VideoFile() = default;
 bool VideoFile::is_open() const { return impl_->is_open(); }
 bool VideoFile::is_video() const { return impl_->is_video(); }

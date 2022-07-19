@@ -2,7 +2,6 @@
 
 #include <memory>
 #include <string>
-#include <string_view>
 
 #include "../codec_context/codec_context.hpp"
 #include "../frame/frame.hpp"
@@ -11,7 +10,7 @@ namespace video_trimmer::video_reader::video_file {
 
 class VideoFile {
 public:
-    explicit VideoFile(const std::string_view& full_filename);
+    explicit VideoFile(const std::string& full_filename);
     ~VideoFile();
 
     [[nodiscard]] bool is_open() const;
