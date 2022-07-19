@@ -4,6 +4,7 @@
 #include <stdexcept>
 
 extern "C" {
+#include "libavcodec/packet.h"
 #include "libavformat/avformat.h"
 #include "libavutil/rational.h"
 }
@@ -35,11 +36,10 @@ public:
 
 private:
     AutoDeleteResource<AVFormatContext> format_context_;
+    AutoDeleteResource<AVPacket> packet_;
 
     std::unique_ptr<codec_context::CodecContext> audio_codec_context_;
     std::unique_ptr<codec_context::CodecContext> video_codec_context_;
-
-    std::unique_ptr<packet::Packet> packet_;
 
     std::string filename_without_path_;
     std::string file_format_;
@@ -50,15 +50,18 @@ private:
 
     [[nodiscard]] std::unique_ptr<codec_context::CodecContext> find_best_stream(codec_context::CodecContext::StreamType type);
 
-    [[nodiscard]] std::unique_ptr<frame::Frame> decode_video_packet(packet::Packet* packet, int scale_width, int scale_height);
+    [[nodiscard]] std::unique_ptr<frame::Frame> decode_video_packet(AVPacket* packet, int scale_width, int scale_height);
 
     bool dump_first_frame_ = false;
 };
 
 VideoFile::Impl::Impl(const std::string_view& full_filename)
-    : packet_(std::make_unique<packet::Packet>())
-
 {
+    packet_ = AutoDeleteResource<AVPacket>(av_packet_alloc(), [](AVPacket* p) { av_packet_free(&p); });
+
+    if (!packet_)
+        throw std::runtime_error("av_packet_alloc");
+
     is_open_ = open_file(full_filename) == 0;
 }
 
@@ -137,26 +140,26 @@ std::unique_ptr<frame::Frame> VideoFile::Impl::read_next_frame(const double play
 {
     // read until we get at least one video frame
     while (true) {
-        if (av_read_frame(format_context_.get(), packet_->packet()) < 0)
+        if (av_read_frame(format_context_.get(), packet_.get()) < 0)
             break;
 
         // process only interesting packets, drop the rest
-        if (packet_->stream_index() == video_codec_context_->stream_index()) {
+        if (packet_->stream_index == video_codec_context_->stream_index()) {
             std::unique_ptr<frame::Frame> frame = decode_video_packet(packet_.get(), scale_width, scale_height);
-            packet_->unref();
+            av_packet_unref(packet_.get());
             return frame;
-        } else if (packet_->stream_index() == audio_codec_context_->stream_index()) {
+        } else if (packet_->stream_index == audio_codec_context_->stream_index()) {
             // TODO: decode audio packet
-            packet_->unref();
+            av_packet_unref(packet_.get());
         } else {
-            packet_->unref();
+            av_packet_unref(packet_.get());
         }
     }
 
     return nullptr;
 }
 
-std::unique_ptr<frame::Frame> VideoFile::Impl::decode_video_packet(packet::Packet* packet, const int scale_width, const int scale_height)
+std::unique_ptr<frame::Frame> VideoFile::Impl::decode_video_packet(AVPacket* packet, const int scale_width, const int scale_height)
 {
     // send packet to the decoder
     if (video_codec_context_->send_packet_to_decoder(packet) < 0)

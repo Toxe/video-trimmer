@@ -8,7 +8,6 @@
 extern "C" {
 #include "libavcodec/avcodec.h"
 #include "libavformat/avformat.h"
-#include "libavutil/avutil.h"
 #include "libavutil/pixdesc.h"
 }
 
@@ -73,9 +72,9 @@ AVPixelFormat CodecContext::pixel_format() const
     return codec_context_->pix_fmt;
 }
 
-int CodecContext::send_packet_to_decoder(packet::Packet* packet)
+int CodecContext::send_packet_to_decoder(AVPacket* packet)
 {
-    int ret = avcodec_send_packet(codec_context_.get(), packet->packet());
+    int ret = avcodec_send_packet(codec_context_.get(), packet);
 
     if (ret < 0)
         return video_trimmer::error::show_error("avcodec_send_packet", ret);
