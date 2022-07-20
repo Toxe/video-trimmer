@@ -144,6 +144,8 @@ void Graphics::Impl::create_window(const char* title, WindowSize size)
 
 void Graphics::Impl::create_renderer(bool disable_vsync)
 {
+    assert(window_);
+
     SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengl");
 
     Uint32 renderer_flags = SDL_RENDERER_ACCELERATED;
@@ -184,6 +186,8 @@ void Graphics::Impl::begin_frame()
 
 void Graphics::Impl::finish_frame()
 {
+    assert(window_);
+
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
@@ -197,6 +201,8 @@ bool Graphics::Impl::window_is_open() const
 
 WindowSize Graphics::Impl::window_size() const
 {
+    assert(window_);
+
     WindowSize size{};
     SDL_GetWindowSize(window_, &size.width, &size.height);
 
