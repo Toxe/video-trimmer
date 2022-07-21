@@ -1,10 +1,8 @@
 #include "video_player.hpp"
 
 #include "fmt/core.h"
-#include "imgui.h"
 
 #include "video_trimmer/logger/logger.hpp"
-#include "video_trimmer/ui/colors/colors.hpp"
 
 namespace video_trimmer::video_player {
 
@@ -114,54 +112,6 @@ std::unique_ptr<video_reader::frame::Frame> VideoPlayer::next_frame()
     }
 
     return video_frame;
-}
-
-void VideoPlayer::render()
-{
-    ImGui::Begin("Video Trimmer");
-    ImGui::BeginChild("right pane");
-    ImGui::BeginChild("playback controls");
-
-    ImGui::TextColored(has_open_file() ? video_trimmer::ui::colors::green : video_trimmer::ui::colors::red, "%s", "has_open_file");
-    ImGui::SameLine();
-    ImGui::Text("|");
-    ImGui::SameLine();
-    ImGui::TextColored(has_started_playing() ? video_trimmer::ui::colors::green : video_trimmer::ui::colors::red, "%s", "has_started_playing");
-    ImGui::SameLine();
-    ImGui::Text("|");
-    ImGui::SameLine();
-    ImGui::TextColored(is_playing() ? video_trimmer::ui::colors::green : video_trimmer::ui::colors::red, "%s", "is_playing");
-    ImGui::SameLine();
-    ImGui::Text("|");
-    ImGui::SameLine();
-    ImGui::TextColored(is_paused() ? video_trimmer::ui::colors::green : video_trimmer::ui::colors::red, "%s", "is_paused");
-    ImGui::SameLine();
-
-    if (has_open_file()) {
-        if (!has_started_playing()) {
-            if (ImGui::Button("start")) {
-                start();
-            }
-        }
-
-        if (is_playing()) {
-            if (ImGui::Button("pause")) {
-                pause();
-            }
-        }
-
-        if (is_paused()) {
-            if (ImGui::Button("resume")) {
-                resume();
-            }
-        }
-
-        ImGui::SameLine();
-    }
-
-    ImGui::EndChild();
-    ImGui::EndChild();
-    ImGui::End();
 }
 
 }  // namespace video_trimmer::video_player

@@ -31,8 +31,6 @@ public:
 
     [[nodiscard]] video_reader::video_file::VideoFile* video_file() { return video_file_.get(); }
 
-    void render();
-
 private:
     std::unique_ptr<video_reader::VideoReader> video_reader_;
     std::unique_ptr<video_reader::video_file::VideoFile> video_file_;

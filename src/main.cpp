@@ -54,9 +54,8 @@ int main(int argc, char* argv[])
             ui.render();
             additional_info_view.render(app.previous_frame_time(), video_player.video_file());
             files_view.render();
-            playback_controls_view.render(video_player.playback_position());
+            playback_controls_view.render(video_player);
             trim_controls_view.render();
-            video_player.render();
 
             window.render();
 
