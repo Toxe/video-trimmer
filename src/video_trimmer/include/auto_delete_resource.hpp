@@ -2,6 +2,8 @@
 
 #include <utility>
 
+namespace video_trimmer {
+
 template <typename T>
 class AutoDeleteResource {
     T* ptr_;
@@ -40,3 +42,5 @@ public:
     [[nodiscard]] bool operator!() const { return !ptr_; }
     [[nodiscard]] T* operator->() const { return ptr_; }
 };
+
+}  // namespace video_trimmer
