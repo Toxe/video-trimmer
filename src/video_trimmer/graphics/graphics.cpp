@@ -24,17 +24,17 @@ public:
     void shutdown_sdl();
     void shutdown_imgui();
 
-    void create_window(const char* title, WindowSize size);
+    void create_window(const char* title, Size size);
     void create_renderer(bool disable_vsync);
 
     void begin_frame();
     void finish_frame();
 
     [[nodiscard]] bool window_is_open() const;
-    [[nodiscard]] WindowSize window_size() const;
+    [[nodiscard]] Size window_size() const;
 
-    [[nodiscard]] SDL_Texture* create_texture(uint32_t format, ImageSize size);
-    void render_texture(SDL_Texture* texture, ImagePosition dst_position, ImageSize dst_size);
+    [[nodiscard]] SDL_Texture* create_texture(uint32_t format, Size size);
+    void render_texture(SDL_Texture* texture, Position dst_position, Size dst_size);
 
 private:
     std::string glsl_version_;
@@ -45,7 +45,7 @@ private:
 
     [[nodiscard]] SDL_DisplayMode get_current_display_mode() const;
     [[nodiscard]] int get_default_font_size() const;
-    [[nodiscard]] WindowSize get_default_window_size() const;
+    [[nodiscard]] Size get_default_window_size() const;
 };
 
 void Graphics::Impl::init_sdl()
@@ -116,7 +116,7 @@ void Graphics::Impl::shutdown_imgui()
     ImGui::DestroyContext();
 }
 
-void Graphics::Impl::create_window(const char* title, WindowSize size)
+void Graphics::Impl::create_window(const char* title, Size size)
 {
     if (size.width <= 0 || size.height <= 0)
         size = get_default_window_size();
@@ -199,11 +199,11 @@ bool Graphics::Impl::window_is_open() const
     return SDL_GetWindowFlags(window_) & SDL_WINDOW_SHOWN;
 }
 
-WindowSize Graphics::Impl::window_size() const
+Size Graphics::Impl::window_size() const
 {
     assert(window_);
 
-    WindowSize size{};
+    Size size{};
     SDL_GetWindowSize(window_, &size.width, &size.height);
 
     return size;
@@ -227,7 +227,7 @@ int Graphics::Impl::get_default_font_size() const
     return get_current_display_mode().h / 108;
 }
 
-WindowSize Graphics::Impl::get_default_window_size() const
+Size Graphics::Impl::get_default_window_size() const
 {
     // 50% desktop height and 16:9 aspect ratio
     const int height = get_current_display_mode().h / 2;
@@ -236,7 +236,7 @@ WindowSize Graphics::Impl::get_default_window_size() const
     return {width, height};
 }
 
-SDL_Texture* Graphics::Impl::create_texture(uint32_t format, ImageSize size)
+SDL_Texture* Graphics::Impl::create_texture(uint32_t format, Size size)
 {
     SDL_Texture* texture = SDL_CreateTexture(renderer_, format, SDL_TEXTUREACCESS_STREAMING, size.width, size.height);
 
@@ -248,7 +248,7 @@ SDL_Texture* Graphics::Impl::create_texture(uint32_t format, ImageSize size)
     return texture;
 }
 
-void Graphics::Impl::render_texture(SDL_Texture* texture, ImagePosition dst_position, ImageSize dst_size)
+void Graphics::Impl::render_texture(SDL_Texture* texture, Position dst_position, Size dst_size)
 {
     assert(texture);
 
@@ -262,13 +262,13 @@ void Graphics::init_sdl() { impl_->init_sdl(); }
 void Graphics::init_imgui(int font_size) { impl_->init_imgui(font_size); }
 void Graphics::shutdown_sdl() { impl_->shutdown_sdl(); }
 void Graphics::shutdown_imgui() { impl_->shutdown_imgui(); }
-void Graphics::create_window(const char* title, WindowSize size) { impl_->create_window(title, size); }
+void Graphics::create_window(const char* title, Size size) { impl_->create_window(title, size); }
 void Graphics::create_renderer(bool disable_vsync) { impl_->create_renderer(disable_vsync); }
 void Graphics::begin_frame() { impl_->begin_frame(); }
 void Graphics::finish_frame() { impl_->finish_frame(); }
 bool Graphics::window_is_open() const { return impl_->window_is_open(); }
-WindowSize Graphics::window_size() const { return impl_->window_size(); }
-SDL_Texture* Graphics::create_texture(uint32_t format, ImageSize size) { return impl_->create_texture(format, size); }
-void Graphics::render_texture(SDL_Texture* texture, ImagePosition dst_position, ImageSize dst_size) { impl_->render_texture(texture, dst_position, dst_size); }
+Size Graphics::window_size() const { return impl_->window_size(); }
+SDL_Texture* Graphics::create_texture(uint32_t format, Size size) { return impl_->create_texture(format, size); }
+void Graphics::render_texture(SDL_Texture* texture, Position dst_position, Size dst_size) { impl_->render_texture(texture, dst_position, dst_size); }
 
 }  // namespace video_trimmer::graphics

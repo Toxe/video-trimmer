@@ -25,7 +25,7 @@ public:
     [[nodiscard]] bool is_audio_frame() const { return frame_type_ == FrameType::audio; }
     [[nodiscard]] bool is_video_frame() const { return frame_type_ == FrameType::video; }
 
-    [[nodiscard]] ImageSize size() const { return size_; }
+    [[nodiscard]] Size size() const { return size_; }
 
     [[nodiscard]] double timestamp() const { return timestamp_; }
     void set_timestamp(double timestamp) { timestamp_ = timestamp; }
@@ -46,7 +46,7 @@ private:
 
     FrameType frame_type_;
     AVPixelFormat pixel_format_;
-    ImageSize size_;
+    Size size_;
 
     double timestamp_ = 0.0;
 
@@ -90,7 +90,7 @@ Frame::Frame(int width, int height, AVPixelFormat pixel_format) : impl_(std::mak
 Frame::~Frame() = default;
 bool Frame::is_audio_frame() const { return impl_->is_audio_frame(); }
 bool Frame::is_video_frame() const { return impl_->is_video_frame(); }
-ImageSize Frame::size() const { return impl_->size(); }
+Size Frame::size() const { return impl_->size(); }
 double Frame::timestamp() const { return impl_->timestamp(); }
 void Frame::set_timestamp(double timestamp) { impl_->set_timestamp(timestamp); }
 uint8_t** Frame::data() { return impl_->data(); }

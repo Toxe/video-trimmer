@@ -17,7 +17,7 @@ public:
     [[nodiscard]] video_trimmer::views::video_view::VideoView& video_view() const { return *video_view_; };
 
     [[nodiscard]] bool is_open() const { return graphics_->window_is_open(); };
-    [[nodiscard]] WindowSize size() const { return graphics_->window_size(); };
+    [[nodiscard]] Size size() const { return graphics_->window_size(); };
 
     void begin_frame();
     void render();

@@ -15,14 +15,14 @@ public:
 
     void show_video_frame(video_trimmer::graphics::Graphics* graphics, std::unique_ptr<video_reader::frame::Frame> video_frame);
 
-    [[nodiscard]] ImageSize size() const { return view_size_; }
+    [[nodiscard]] Size size() const { return view_size_; }
 
 private:
     std::unique_ptr<video_reader::frame::Frame> current_video_frame_;
     std::unique_ptr<graphics::Texture> texture_;
 
-    ImagePosition view_position_{};
-    ImageSize view_size_{};
+    Position view_position_{};
+    Size view_size_{};
 
     void render_ui();
     void render_content(graphics::Graphics* graphics);

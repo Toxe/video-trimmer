@@ -14,12 +14,12 @@ public:
     Texture(Graphics* graphics, const video_reader::frame::Frame* video_frame);
     ~Texture();
 
-    [[nodiscard]] ImageSize size() const;
+    [[nodiscard]] Size size() const;
 
     [[nodiscard]] bool is_compatible_with_video_frame(const video_reader::frame::Frame* video_frame) const;
 
     void update(video_reader::frame::Frame* video_frame);
-    void draw(Graphics* graphics, ImagePosition dst_position, ImageSize dst_size);
+    void draw(Graphics* graphics, Position dst_position, Size dst_size);
 
 private:
     class Impl;

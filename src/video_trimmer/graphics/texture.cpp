@@ -21,17 +21,17 @@ class Texture::Impl {
 public:
     Impl(Graphics* graphics, const video_reader::frame::Frame* video_frame);
 
-    [[nodiscard]] ImageSize size() const { return size_; }
+    [[nodiscard]] Size size() const { return size_; }
 
     [[nodiscard]] bool is_compatible_with_video_frame(const video_reader::frame::Frame* video_frame) const;
 
     void update(video_reader::frame::Frame* video_frame);
-    void draw(Graphics* graphics, ImagePosition dst_position, ImageSize dst_size);
+    void draw(Graphics* graphics, Position dst_position, Size dst_size);
 
 private:
     AutoDeleteResource<SDL_Texture> sdl_texture_;
 
-    ImageSize size_{};
+    Size size_{};
 
     SDL_PixelFormatEnum sdl_pixel_format_ = SDL_PIXELFORMAT_UNKNOWN;
     AVPixelFormat av_pixel_format_ = AV_PIX_FMT_NONE;
@@ -57,7 +57,7 @@ Texture::Impl::Impl(Graphics* graphics, const video_reader::frame::Frame* video_
 
 bool Texture::Impl::is_compatible_with_video_frame(const video_reader::frame::Frame* video_frame) const
 {
-    const ImageSize frame_size = video_frame->size();
+    const Size frame_size = video_frame->size();
 
     if (!sdl_texture_)
         return false;
@@ -80,7 +80,7 @@ void Texture::Impl::update(video_reader::frame::Frame* video_frame)
         video_trimmer::logger::log_error(fmt::format("unable to update texture: {}", SDL_GetError()));
 }
 
-void Texture::Impl::draw(Graphics* graphics, ImagePosition dst_position, ImageSize dst_size)
+void Texture::Impl::draw(Graphics* graphics, Position dst_position, Size dst_size)
 {
     assert(sdl_texture_);
     assert(graphics);
@@ -104,9 +104,9 @@ SDL_PixelFormatEnum Texture::Impl::get_sdl_pixel_format(AVPixelFormat av_pixel_f
 
 Texture::Texture(Graphics* graphics, const video_reader::frame::Frame* video_frame) : impl_(std::make_unique<Texture::Impl>(graphics, video_frame)) { }
 Texture::~Texture() = default;
-ImageSize Texture::size() const { return impl_->size(); }
+Size Texture::size() const { return impl_->size(); }
 bool Texture::is_compatible_with_video_frame(const video_reader::frame::Frame* video_frame) const { return impl_->is_compatible_with_video_frame(video_frame); }
 void Texture::update(video_reader::frame::Frame* video_frame) { impl_->update(video_frame); }
-void Texture::draw(Graphics* graphics, ImagePosition dst_position, ImageSize dst_size) { impl_->draw(graphics, dst_position, dst_size); }
+void Texture::draw(Graphics* graphics, Position dst_position, Size dst_size) { impl_->draw(graphics, dst_position, dst_size); }
 
 }  // namespace video_trimmer::graphics

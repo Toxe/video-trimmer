@@ -41,8 +41,8 @@ void VideoView::render_ui()
     const ImVec2 imgui_cursor_screen_pos = ImGui::GetCursorScreenPos();
     const ImVec2 imgui_window_size = ImGui::GetWindowSize();
 
-    view_position_ = ImagePosition{static_cast<int>(imgui_cursor_screen_pos.x), static_cast<int>(imgui_cursor_screen_pos.y)};
-    view_size_ = ImageSize{static_cast<int>(imgui_window_size.x), static_cast<int>(imgui_window_size.y)};
+    view_position_ = Position{static_cast<int>(imgui_cursor_screen_pos.x), static_cast<int>(imgui_cursor_screen_pos.y)};
+    view_size_ = Size{static_cast<int>(imgui_window_size.x), static_cast<int>(imgui_window_size.y)};
 
     video_trimmer::ui::imgui_text_outlined(video_trimmer::ui::colors::white, video_trimmer::ui::colors::black, fmt::format("video [{}x{}]", view_size_.width, view_size_.height));
 

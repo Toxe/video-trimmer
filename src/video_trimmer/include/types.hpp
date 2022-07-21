@@ -1,13 +1,9 @@
 #pragma once
 
-struct ImagePosition {
+struct Position {
     int x, y;
 };
 
-struct ImageSize {
-    int width, height;
-};
-
-struct WindowSize {
+struct Size {
     int width, height;
 };

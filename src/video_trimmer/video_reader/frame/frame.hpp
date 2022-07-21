@@ -22,7 +22,7 @@ public:
     [[nodiscard]] bool is_audio_frame() const;
     [[nodiscard]] bool is_video_frame() const;
 
-    [[nodiscard]] ImageSize size() const;
+    [[nodiscard]] Size size() const;
 
     [[nodiscard]] double timestamp() const;
     void set_timestamp(double timestamp);

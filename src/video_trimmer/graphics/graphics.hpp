@@ -19,17 +19,17 @@ public:
     void shutdown_sdl();
     void shutdown_imgui();
 
-    void create_window(const char* title, WindowSize size);
+    void create_window(const char* title, Size size);
     void create_renderer(bool disable_vsync);
 
     void begin_frame();
     void finish_frame();
 
     [[nodiscard]] bool window_is_open() const;
-    [[nodiscard]] WindowSize window_size() const;
+    [[nodiscard]] Size window_size() const;
 
-    [[nodiscard]] SDL_Texture* create_texture(uint32_t format, ImageSize size);
-    void render_texture(SDL_Texture* texture, ImagePosition dst_position, ImageSize dst_size);
+    [[nodiscard]] SDL_Texture* create_texture(uint32_t format, Size size);
+    void render_texture(SDL_Texture* texture, Position dst_position, Size dst_size);
 
 private:
     class Impl;
