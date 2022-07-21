@@ -57,12 +57,10 @@ Texture::Impl::Impl(Graphics* graphics, const video_reader::frame::Frame* video_
 
 bool Texture::Impl::is_compatible_with_video_frame(const video_reader::frame::Frame* video_frame) const
 {
-    const Size frame_size = video_frame->size();
-
     if (!sdl_texture_)
         return false;
 
-    if (frame_size.width != size_.width || frame_size.height != size_.height)
+    if (video_frame->size() != size_)
         return false;
 
     return av_pixel_format_ == video_frame->pixel_format();
