@@ -9,6 +9,11 @@
 
 namespace video_trimmer::views::playback_controls_view {
 
+PlaybackControlsView::PlaybackControlsView(event_handler::EventHandler& event_handler)
+    : event_handler_(event_handler)
+{
+}
+
 void PlaybackControlsView::render(video_player::VideoPlayer& video_player)
 {
     ImGui::Begin("Video Trimmer");
@@ -36,15 +41,15 @@ void PlaybackControlsView::render(video_player::VideoPlayer& video_player)
     if (video_player.has_open_file()) {
         if (!video_player.has_started_playing())
             if (ImGui::Button("start"))
-                event_handler_->handle_event(event_handler::Event::PlaybackStart);
+                event_handler_.handle_event(event_handler::Event::PlaybackStart);
 
         if (video_player.is_playing())
             if (ImGui::Button("pause"))
-                event_handler_->handle_event(event_handler::Event::PlaybackTogglePause);
+                event_handler_.handle_event(event_handler::Event::PlaybackTogglePause);
 
         if (video_player.is_paused())
             if (ImGui::Button("resume"))
-                event_handler_->handle_event(event_handler::Event::PlaybackTogglePause);
+                event_handler_.handle_event(event_handler::Event::PlaybackTogglePause);
     }
 
     ImGui::EndChild();

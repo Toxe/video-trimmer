@@ -14,12 +14,14 @@ int main(int argc, char* argv[])
 {
     video_trimmer::command_line::CommandLine cli(argc, argv);
 
+    video_trimmer::event_handler::EventHandler event_handler;
+
     video_trimmer::app::App app;
-    video_trimmer::ui::UI ui;
+    video_trimmer::ui::UI ui(event_handler);
     video_trimmer::main_window::MainWindow window(cli);
 
     video_trimmer::views::additional_info_view::AdditionalInfoView additional_info_view;
-    video_trimmer::views::playback_controls_view::PlaybackControlsView playback_controls_view;
+    video_trimmer::views::playback_controls_view::PlaybackControlsView playback_controls_view(event_handler);
     video_trimmer::views::trim_controls_view::TrimControlsView trim_controls_view;
     video_trimmer::views::files_view::FilesView files_view;
 
@@ -28,11 +30,7 @@ int main(int argc, char* argv[])
     video_trimmer::video_player::VideoPlayer video_player;
     video_player.open_file("video1.mp4");
 
-    video_trimmer::event_handler::EventHandler event_handler;
     video_trimmer::event_handler::register_events(event_handler, window, ui, video_player);
-
-    ui.set_event_handler(&event_handler);
-    playback_controls_view.set_event_handler(&event_handler);
 
     if (video_player.has_open_file())
         video_player.video_file()->set_dump_first_frame(cli.dump_first_video_frame());
@@ -66,7 +64,7 @@ int main(int argc, char* argv[])
         }
     }
 
-    video_player.pause();
+    video_player.toggle_pause();
     video_player.close_file();
 
     return 0;

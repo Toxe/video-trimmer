@@ -12,12 +12,12 @@ namespace video_trimmer::views::playback_controls_view {
 
 class PlaybackControlsView {
 public:
+    explicit PlaybackControlsView(event_handler::EventHandler& event_handler);
+
     void render(video_player::VideoPlayer& video_player);
 
-    void set_event_handler(event_handler::EventHandler* event_handler) { event_handler_ = event_handler; };
-
 private:
-    event_handler::EventHandler* event_handler_ = nullptr;
+    event_handler::EventHandler& event_handler_;
 };
 
 }  // namespace video_trimmer::views::playback_controls_view

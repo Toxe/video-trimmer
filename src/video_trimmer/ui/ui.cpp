@@ -3,7 +3,7 @@
 #include "fmt/core.h"
 
 #include "colors/colors.hpp"
-#include "video_trimmer/event_handler/events.hpp"
+#include "video_trimmer/event_handler/event_handler.hpp"
 
 namespace video_trimmer::ui {
 
@@ -12,6 +12,10 @@ const float additional_info_pane_height = 500.0f;
 const float playback_controls_pane_height = 100.0f;
 const float trim_controls_pane_height = 150.0f;
 
+UI::UI(event_handler::EventHandler& event_handler)
+    : event_handler_(event_handler)
+{
+}
 void UI::render()
 {
     render_main_window();
@@ -54,7 +58,7 @@ void UI::render_help_window()
         ImGui::Text("pause/resume playback");
 
         if (ImGui::Button("Close"))
-            event_handler_->handle_event(video_trimmer::event_handler::Event::ToggleHelp);
+            event_handler_.handle_event(video_trimmer::event_handler::Event::ToggleHelp);
 
         ImGui::End();
     }

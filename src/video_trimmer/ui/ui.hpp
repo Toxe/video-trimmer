@@ -1,19 +1,28 @@
 #pragma once
 
 #include <string>
-#include <vector>
 
 #include "imgui.h"
 
-#include "video_trimmer/event_handler/event_handler.hpp"
+namespace video_trimmer::event_handler {
+class EventHandler;
+}
 
 namespace video_trimmer::ui {
 
 class UI {
+public:
+    explicit UI(event_handler::EventHandler& event_handler);
+
+    void render();
+
+    void toggle_help() { show_help_ = !show_help_; };
+
+private:
     const char* main_window_title_ = "Video Trimmer";
     const char* help_window_title_ = "Help";
 
-    video_trimmer::event_handler::EventHandler* event_handler_ = nullptr;
+    event_handler::EventHandler& event_handler_;
 
     ImVec2 main_window_size_;
 
@@ -32,13 +41,6 @@ class UI {
     void setup_video_view(float pane_height);
     void setup_playback_controls_pane(float pane_height);
     void setup_trim_controls_pane(float pane_height);
-
-public:
-    void render();
-
-    void toggle_help() { show_help_ = !show_help_; };
-
-    void set_event_handler(video_trimmer::event_handler::EventHandler* event_handler) { event_handler_ = event_handler; };
 };
 
 }  // namespace video_trimmer::ui
