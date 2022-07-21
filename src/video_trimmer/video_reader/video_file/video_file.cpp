@@ -125,11 +125,6 @@ std::unique_ptr<codec_context::CodecContext> VideoFile::Impl::find_best_stream(c
         return nullptr;
 
     try {
-        std::unique_ptr<codec_context::CodecContext> codec_context = std::make_unique<codec_context::CodecContext>(stream);
-
-        if (!codec_context)
-            return nullptr;
-
         return std::make_unique<codec_context::CodecContext>(stream);
     } catch (const std::exception&) {
         return nullptr;
@@ -168,16 +163,10 @@ std::unique_ptr<frame::Frame> VideoFile::Impl::decode_video_packet(AVPacket* pac
     // get available frame from the decoder
     std::unique_ptr<frame::Frame> frame = video_codec_context_->receive_frame_from_decoder(video_codec_context_->stream_time_base());
 
-    if (!frame)
-        return nullptr;
-
-    if (dump_first_frame_) {
+    if (dump_first_frame_ && frame) {
         frame->dump_to_file(filename_without_path_);
         dump_first_frame_ = false;
     }
-
-    // copy decoded frame to image buffer
-    // frame->image_copy();
 
     return frame;
 }
