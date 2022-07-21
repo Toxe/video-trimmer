@@ -20,7 +20,7 @@ namespace video_trimmer::video_reader::frame {
 
 class Frame::Impl {
 public:
-    Impl(int width, int height, AVPixelFormat pixel_format);
+    Impl(Size size, AVPixelFormat pixel_format);
 
     [[nodiscard]] bool is_audio_frame() const { return frame_type_ == FrameType::audio; }
     [[nodiscard]] bool is_video_frame() const { return frame_type_ == FrameType::video; }
@@ -53,8 +53,8 @@ private:
     AutoDeleteResource<AVFrame> frame_;
 };
 
-Frame::Impl::Impl(const int width, const int height, AVPixelFormat pixel_format)
-    : frame_type_{FrameType::video}, pixel_format_{pixel_format}, size_{width, height}
+Frame::Impl::Impl(Size size, AVPixelFormat pixel_format)
+    : frame_type_{FrameType::video}, pixel_format_{pixel_format}, size_{size}
 {
     frame_ = AutoDeleteResource<AVFrame>(av_frame_alloc(), [](AVFrame* p) { av_frame_free(&p); });
 
@@ -86,7 +86,7 @@ void Frame::Impl::dump_to_file(const std::string& filename)
     out.write(reinterpret_cast<const char*>(buffer.get()), buffer_size);
 }
 
-Frame::Frame(int width, int height, AVPixelFormat pixel_format) : impl_(std::make_unique<Frame::Impl>(width, height, pixel_format)) { }
+Frame::Frame(Size size, AVPixelFormat pixel_format) : impl_(std::make_unique<Frame::Impl>(size, pixel_format)) { }
 Frame::~Frame() = default;
 bool Frame::is_audio_frame() const { return impl_->is_audio_frame(); }
 bool Frame::is_video_frame() const { return impl_->is_video_frame(); }

@@ -5,6 +5,7 @@
 
 #include "../frame/frame.hpp"
 #include "auto_delete_resource.hpp"
+#include "types.hpp"
 
 struct AVCodecContext;
 struct AVPacket;
@@ -27,8 +28,7 @@ public:
 
     [[nodiscard]] int stream_index() const { return stream_index_; }
 
-    [[nodiscard]] int width() const;
-    [[nodiscard]] int height() const;
+    [[nodiscard]] Size size() const;
     [[nodiscard]] AVPixelFormat pixel_format() const;
 
     [[nodiscard]] float fps() const { return fps_; };

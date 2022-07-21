@@ -33,8 +33,8 @@ CommandLine::CommandLine(int argc, char* argv[])
     app.add_flag("--no-vsync", disable_vsync_, "disable vsync (vsync is enabled by default)");
     app.add_option("directory", directory_, "video directory (default: current directory)");
     app.add_option("--font-size", font_size_, "UI font size in pixels");
-    auto* opt_width = app.add_option("--width", window_width_, "window width");
-    auto* opt_height = app.add_option("--height", window_height_, "window height");
+    auto* opt_width = app.add_option("--width", window_size_.width, "window width");
+    auto* opt_height = app.add_option("--height", window_size_.height, "window height");
 
     opt_width->check(CLI::PositiveNumber)->needs(opt_height);
     opt_height->check(CLI::PositiveNumber)->needs(opt_width);
@@ -64,8 +64,8 @@ CommandLine::CommandLine(int argc, char* argv[])
     logger::log_init(log_level);
     logger::log_debug(fmt::format("command line option directory: {}", directory_));
     logger::log_debug(fmt::format("command line option --font-size: {}", font_size_));
-    logger::log_debug(fmt::format("command line option --width: {}", window_width_));
-    logger::log_debug(fmt::format("command line option --height: {}", window_height_));
+    logger::log_debug(fmt::format("command line option --width: {}", window_size_.width));
+    logger::log_debug(fmt::format("command line option --height: {}", window_size_.height));
     logger::log_debug(fmt::format("command line option -d: {}", dump_first_video_frame_));
     logger::log_debug(fmt::format("command line option --no-vsync: {}", disable_vsync_));
 

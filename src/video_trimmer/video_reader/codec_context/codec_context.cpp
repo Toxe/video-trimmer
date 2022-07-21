@@ -52,19 +52,14 @@ CodecContext::CodecContext(AVStream* stream)
     codec_name_ = codec_context_->codec->long_name;
 
     if (codec_context_->codec_type == AVMEDIA_TYPE_VIDEO)
-        codec_additional_info_ = fmt::format("{}x{}, {:.1f} fps, {}", width(), height(), fps_, av_get_pix_fmt_name(pixel_format()));
+        codec_additional_info_ = fmt::format("{}x{}, {:.1f} fps, {}", codec_context_->width, codec_context_->height, fps_, av_get_pix_fmt_name(pixel_format()));
     else if (codec_context_->codec_type == AVMEDIA_TYPE_AUDIO)
         codec_additional_info_ = fmt::format("{} channels, {} sample rate", codec_context_->channels, codec_context_->sample_rate);
 }
 
-int CodecContext::width() const
+Size CodecContext::size() const
 {
-    return codec_context_->width;
-}
-
-int CodecContext::height() const
-{
-    return codec_context_->height;
+    return {codec_context_->width, codec_context_->height};
 }
 
 AVPixelFormat CodecContext::pixel_format() const
@@ -84,7 +79,7 @@ int CodecContext::send_packet_to_decoder(AVPacket* packet)
 
 std::unique_ptr<frame::Frame> CodecContext::receive_frame_from_decoder(const double time_base)
 {
-    std::unique_ptr<frame::Frame> frame = std::make_unique<frame::Frame>(width(), height(), pixel_format());
+    std::unique_ptr<frame::Frame> frame = std::make_unique<frame::Frame>(size(), pixel_format());
 
     int ret = avcodec_receive_frame(codec_context_.get(), frame->frame());
 

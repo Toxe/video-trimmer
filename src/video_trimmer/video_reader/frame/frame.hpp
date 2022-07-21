@@ -16,7 +16,7 @@ namespace video_trimmer::video_reader::frame {
 
 class Frame {
 public:
-    Frame(int width, int height, AVPixelFormat pixel_format);
+    Frame(Size size, AVPixelFormat pixel_format);
     ~Frame();
 
     [[nodiscard]] bool is_audio_frame() const;
