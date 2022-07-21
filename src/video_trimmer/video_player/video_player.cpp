@@ -6,7 +6,7 @@
 
 namespace video_trimmer::video_player {
 
-bool VideoPlayer::open_file(const char* filename)
+bool VideoPlayer::open_file(const std::string& filename)
 {
     video_trimmer::logger::log_debug(fmt::format("(VideoPlayer) open file: {}", filename));
 
@@ -29,7 +29,10 @@ bool VideoPlayer::open_file(const char* filename)
 
 void VideoPlayer::close_file()
 {
-    video_trimmer::logger::log_debug("(VideoPlayer) close file");
+    if (is_playing())
+        stop();
+
+    video_file_ = nullptr;
 }
 
 void VideoPlayer::start()
@@ -41,6 +44,12 @@ void VideoPlayer::start()
         time_point_playback_start_ = std::chrono::steady_clock::now();
         playback_position_ = std::chrono::duration<double>::zero();
     }
+}
+
+void VideoPlayer::stop()
+{
+    if (is_playing())
+        is_playing_ = false;
 }
 
 void VideoPlayer::toggle_pause()

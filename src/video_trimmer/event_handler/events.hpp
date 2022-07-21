@@ -8,6 +8,7 @@ enum class Event {
     ToggleHelp,
     PlaybackStart,
     PlaybackTogglePause,
+    OpenFile,
 };
 
 }  // namespace video_trimmer::event_handler

@@ -14,8 +14,12 @@ namespace video_trimmer::video_player {
 class VideoPlayer;
 }  // namespace video_trimmer::video_player
 
+namespace video_trimmer::views::files_view {
+class FilesView;
+}  // namespace video_trimmer::views::files_view
+
 namespace video_trimmer::event_handler {
 
-void register_events(EventHandler& event_handler, main_window::MainWindow& window, ui::UI& ui, video_player::VideoPlayer& video_player);
+void register_events(EventHandler& event_handler, main_window::MainWindow& window, ui::UI& ui, video_player::VideoPlayer& video_player, views::files_view::FilesView& files_view);
 
 }  // namespace video_trimmer::event_handler

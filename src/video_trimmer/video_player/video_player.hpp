@@ -2,6 +2,7 @@
 
 #include <chrono>
 #include <memory>
+#include <string>
 
 #include "types.hpp"
 #include "video_trimmer/video_reader/video_file/video_file.hpp"
@@ -11,10 +12,11 @@ namespace video_trimmer::video_player {
 
 class VideoPlayer {
 public:
-    bool open_file(const char* filename);
+    bool open_file(const std::string& filename);
     void close_file();
 
     void start();
+    void stop();
     void toggle_pause();
 
     [[nodiscard]] bool has_open_file();

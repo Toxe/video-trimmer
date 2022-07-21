@@ -4,11 +4,13 @@
 #include "imgui.h"
 
 #include "directory_scanner.hpp"
+#include "video_trimmer/event_handler/event_handler.hpp"
 #include "video_trimmer/logger/logger.hpp"
 
 namespace video_trimmer::views::files_view {
 
-FilesView::FilesView()
+FilesView::FilesView(event_handler::EventHandler& event_handler)
+    : event_handler_(event_handler)
 {
     directory_scanner_ = std::make_unique<DirectoryScanner>();
 }
@@ -25,8 +27,9 @@ void FilesView::change_directory(const std::string& directory)
     std::lock_guard<std::mutex> lock(mtx_);
 
     directory_ = directory;
-
     files_.clear();
+    selected_index_ = -1;
+
     directory_scanner_->scan(this, directory);
 }
 
@@ -39,7 +42,7 @@ void FilesView::render()
     ImGui::BeginListBox("##file list", ImVec2(-FLT_MIN, -FLT_MIN));
 
     if (directory_scanner_->is_scanning()) {
-        ImGui::Text("loading files...");
+        ImGui::Text("scanning directory...");
         ImGui::SameLine();
 
         if (ImGui::Button("cancel"))
@@ -51,9 +54,16 @@ void FilesView::render()
 
     {
         std::lock_guard<std::mutex> lock(mtx_);
+        int index = 0;
 
-        for (const auto& file : files_)
-            ImGui::Selectable(file.filename().c_str(), false);
+        for (auto& file : files_) {
+            if (ImGui::Selectable(file.filename().c_str(), selected_index_ == index)) {
+                selected_index_ = index;
+                event_handler_.handle_event(event_handler::Event::OpenFile);
+            }
+
+            ++index;
+        }
     }
 
     ImGui::EndListBox();
@@ -68,6 +78,11 @@ void FilesView::add_file(FileEntry file_entry)
     std::lock_guard<std::mutex> lock(mtx_);
 
     files_.push_back(std::move(file_entry));
+}
+
+std::string FilesView::selected_filename() const
+{
+    return files_.at(selected_index_).filename();
 }
 
 }  // namespace video_trimmer::views::files_view

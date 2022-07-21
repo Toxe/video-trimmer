@@ -20,4 +20,15 @@ event_handler::Command PlaybackTogglePauseCommand(VideoPlayer& video_player)
     };
 }
 
+event_handler::Command OpenFileCommand(VideoPlayer& video_player, views::files_view::FilesView& files_view)
+{
+    return [&] {
+        logger::log_debug("OpenFileCommand");
+
+        video_player.close_file();
+        video_player.open_file(files_view.selected_filename());
+        video_player.start();
+    };
+}
+
 }  // namespace video_trimmer::video_player

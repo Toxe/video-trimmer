@@ -36,6 +36,7 @@ EventHandler::Impl::Impl()
     commands_[Event::ToggleHelp] = no_command;
     commands_[Event::PlaybackStart] = no_command;
     commands_[Event::PlaybackTogglePause] = no_command;
+    commands_[Event::OpenFile] = no_command;
 }
 
 void EventHandler::Impl::set_command(const Event& event, Command command)

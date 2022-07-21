@@ -23,14 +23,14 @@ int main(int argc, char* argv[])
     video_trimmer::views::additional_info_view::AdditionalInfoView additional_info_view;
     video_trimmer::views::playback_controls_view::PlaybackControlsView playback_controls_view(event_handler);
     video_trimmer::views::trim_controls_view::TrimControlsView trim_controls_view;
-    video_trimmer::views::files_view::FilesView files_view;
+    video_trimmer::views::files_view::FilesView files_view(event_handler);
 
     files_view.change_directory(cli.directory());
 
     video_trimmer::video_player::VideoPlayer video_player;
     video_player.open_file("video1.mp4");
 
-    video_trimmer::event_handler::register_events(event_handler, window, ui, video_player);
+    video_trimmer::event_handler::register_events(event_handler, window, ui, video_player, files_view);
 
     if (video_player.has_open_file())
         video_player.video_file()->set_dump_first_frame(cli.dump_first_video_frame());
@@ -64,7 +64,6 @@ int main(int argc, char* argv[])
         }
     }
 
-    video_player.toggle_pause();
     video_player.close_file();
 
     return 0;
