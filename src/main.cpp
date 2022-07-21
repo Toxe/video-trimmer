@@ -19,6 +19,7 @@ int main(int argc, char* argv[])
     video_trimmer::app::App app;
     video_trimmer::ui::UI ui(event_handler);
     video_trimmer::main_window::MainWindow window(cli);
+    video_trimmer::video_player::VideoPlayer video_player(cli);
 
     video_trimmer::views::additional_info_view::AdditionalInfoView additional_info_view;
     video_trimmer::views::playback_controls_view::PlaybackControlsView playback_controls_view(event_handler);
@@ -27,15 +28,7 @@ int main(int argc, char* argv[])
 
     files_view.change_directory(cli.directory());
 
-    video_trimmer::video_player::VideoPlayer video_player;
-    video_player.open_file("video1.mp4");
-
     video_trimmer::event_handler::register_events(event_handler, window, ui, video_player, files_view);
-
-    if (video_player.has_open_file())
-        video_player.video_file()->set_dump_first_frame(cli.dump_first_video_frame());
-
-    // video_player.start();
 
     while (window.is_open()) {
         app.begin_frame();

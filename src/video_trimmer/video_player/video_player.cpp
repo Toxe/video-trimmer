@@ -6,6 +6,11 @@
 
 namespace video_trimmer::video_player {
 
+VideoPlayer::VideoPlayer(const command_line::CommandLine& cli)
+    : dump_first_frame_(cli.dump_first_video_frame())
+{
+}
+
 bool VideoPlayer::open_file(const std::string& filename)
 {
     video_trimmer::logger::log_debug(fmt::format("(VideoPlayer) open file: {}", filename));
@@ -23,6 +28,8 @@ bool VideoPlayer::open_file(const std::string& filename)
     received_first_real_frame_ = false;
     time_point_playback_start_ = std::chrono::steady_clock::now();
     playback_position_ = std::chrono::duration<double>::zero();
+
+    video_file_->set_dump_first_frame(dump_first_frame_);
 
     return has_open_file();
 }

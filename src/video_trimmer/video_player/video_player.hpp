@@ -5,6 +5,7 @@
 #include <string>
 
 #include "types.hpp"
+#include "video_trimmer/command_line/command_line.hpp"
 #include "video_trimmer/video_reader/video_file/video_file.hpp"
 #include "video_trimmer/video_reader/video_reader.hpp"
 
@@ -12,6 +13,8 @@ namespace video_trimmer::video_player {
 
 class VideoPlayer {
 public:
+    explicit VideoPlayer(const video_trimmer::command_line::CommandLine& cli);
+
     bool open_file(const std::string& filename);
     void close_file();
 
@@ -42,6 +45,8 @@ private:
     bool has_started_playing_;
     bool is_playing_;
     bool received_first_real_frame_;
+
+    bool dump_first_frame_ = false;
 };
 
 }  // namespace video_trimmer::video_player
