@@ -7,7 +7,12 @@ FileEntry::FileEntry(const std::filesystem::path& path)
 {
 }
 
-std::string FileEntry::filename() const
+std::string FileEntry::full_filename() const
+{
+    return path_.string();
+}
+
+std::string FileEntry::basename() const
 {
     return path_.filename().string();
 }

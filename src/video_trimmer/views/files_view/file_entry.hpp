@@ -9,7 +9,8 @@ class FileEntry {
 public:
     FileEntry(const std::filesystem::path& path);
 
-    [[nodiscard]] std::string filename() const;
+    [[nodiscard]] std::string full_filename() const;
+    [[nodiscard]] std::string basename() const;
 
 private:
     std::filesystem::path path_;

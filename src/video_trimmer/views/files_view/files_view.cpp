@@ -57,7 +57,7 @@ void FilesView::render()
         int index = 0;
 
         for (auto& file : files_) {
-            if (ImGui::Selectable(file.filename().c_str(), selected_index_ == index)) {
+            if (ImGui::Selectable(file.basename().c_str(), selected_index_ == index)) {
                 selected_index_ = index;
                 event_handler_.handle_event(event_handler::Event::OpenFile);
             }
@@ -82,7 +82,7 @@ void FilesView::add_file(FileEntry file_entry)
 
 std::string FilesView::selected_filename() const
 {
-    return files_.at(selected_index_).filename();
+    return files_.at(selected_index_).full_filename();
 }
 
 }  // namespace video_trimmer::views::files_view
