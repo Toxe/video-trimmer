@@ -11,13 +11,6 @@
 namespace video_trimmer::views::files_view {
 
 class FilesView {
-    std::mutex mtx_;
-
-    std::vector<FileEntry> files_;
-    std::unique_ptr<DirectoryScanner> directory_scanner_;
-
-    std::string directory_;
-
 public:
     FilesView();
 
@@ -25,6 +18,14 @@ public:
     void add_file(FileEntry file_entry);
 
     void render();
+
+private:
+    std::mutex mtx_;
+
+    std::vector<FileEntry> files_;
+    std::unique_ptr<DirectoryScanner> directory_scanner_;
+
+    std::string directory_;
 };
 
 }  // namespace video_trimmer::views::files_view
