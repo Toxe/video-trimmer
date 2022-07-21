@@ -28,6 +28,8 @@ void handle_keyboard_events(EventHandler& event_handler, const SDL_Event& event)
         event_handler.handle_event(Event::CloseWindow);
     else if (event.key.keysym.sym == SDLK_F1)
         event_handler.handle_event(Event::ToggleHelp);
+    else if (event.key.keysym.sym == SDLK_SPACE)
+        event_handler.handle_event(Event::PlaybackTogglePause);
 }
 
 EventHandler::EventHandler()

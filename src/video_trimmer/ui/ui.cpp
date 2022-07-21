@@ -49,6 +49,10 @@ void UI::render_help_window()
         ImGui::SameLine();
         ImGui::Text("quit");
 
+        ImGui::TextColored(colors::light_blue, "Space");
+        ImGui::SameLine();
+        ImGui::Text("pause/resume playback");
+
         if (ImGui::Button("Close"))
             event_handler_->handle_event(video_trimmer::event_handler::Event::ToggleHelp);
 
