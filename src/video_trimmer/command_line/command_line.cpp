@@ -28,7 +28,7 @@ CommandLine::CommandLine(int argc, char* argv[])
     directory_ = std::filesystem::current_path().string();
 
     CLI::App app{description};
-    app.add_flag("-d", dump_first_video_frame_, "dump first decoded video frame to file (default: false)");
+    app.add_flag("-d,--dump", dump_first_video_frame_, "dump first decoded video frame to file (default: false)");
     app.add_flag("-v", log_level_flag, "log level (-v: INFO, -vv: DEBUG, -vvv: TRACE)");
     app.add_flag("--no-vsync", disable_vsync_, "disable vsync (vsync is enabled by default)");
     app.add_option("directory", directory_, "video directory (default: current directory)");
