@@ -58,8 +58,6 @@ int main(int argc, char* argv[])
             trim_controls_view.render();
             video_player.render();
 
-            video_player.change_scaling_dimensions(window.video_view().size());
-
             window.render();
 
             // if (received_first_real_frame && frames_available == 0 && video_reader.has_finished())

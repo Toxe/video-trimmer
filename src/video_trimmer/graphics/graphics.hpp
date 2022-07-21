@@ -8,8 +8,6 @@ struct SDL_Texture;
 
 namespace video_trimmer::graphics {
 
-class Texture;
-
 class Graphics {
 public:
     Graphics();
@@ -27,13 +25,11 @@ public:
     void begin_frame();
     void finish_frame();
 
-    [[nodiscard]] std::unique_ptr<Texture> create_texture(ImageSize size);
-    static void destroy_texture(Texture* texture);
-    void update_texture(Texture* texture, const void* pixels);
-    void draw_texture(Texture* texture, ImagePosition dst_position, ImageSize dst_size);
-
     [[nodiscard]] bool window_is_open() const;
     [[nodiscard]] WindowSize window_size() const;
+
+    [[nodiscard]] SDL_Texture* create_texture(uint32_t format, ImageSize size);
+    void render_texture(SDL_Texture* texture, ImagePosition dst_position, ImageSize dst_size);
 
 private:
     class Impl;

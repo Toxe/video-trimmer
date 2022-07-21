@@ -25,7 +25,7 @@ public:
     [[nodiscard]] bool has_audio_stream() const;
     [[nodiscard]] bool has_video_stream() const;
 
-    [[nodiscard]] std::unique_ptr<frame::Frame> read_next_frame(double playback_position, int scale_width, int scale_height);
+    [[nodiscard]] std::unique_ptr<frame::Frame> read_next_frame(double playback_position);
 
     void set_dump_first_frame(bool dump_frame);
 

@@ -3,6 +3,10 @@
 #include "fmt/core.h"
 #include "imgui.h"
 
+extern "C" {
+#include "libavutil/frame.h"
+}
+
 #include "video_trimmer/ui/colors/colors.hpp"
 #include "video_trimmer/ui/imgui_helpers.hpp"
 
@@ -13,11 +17,11 @@ void VideoView::show_video_frame(video_trimmer::graphics::Graphics* graphics, st
     if (video_frame) {
         current_video_frame_ = std::move(video_frame);
 
-        if (!texture_ || texture_->size().width != current_video_frame_->dst_width() || texture_->size().height != current_video_frame_->dst_height())
-            texture_ = graphics->create_texture({current_video_frame_->dst_width(), current_video_frame_->dst_height()});
+        if (!texture_ || !texture_->is_compatible_with_video_frame(current_video_frame_.get()))
+            texture_ = std::make_unique<graphics::Texture>(graphics, current_video_frame_.get());
 
         if (texture_)
-            graphics->update_texture(texture_.get(), current_video_frame_->pixels().data());
+            texture_->update(current_video_frame_.get());
     }
 }
 
@@ -43,7 +47,7 @@ void VideoView::render_ui()
     video_trimmer::ui::imgui_text_outlined(video_trimmer::ui::colors::white, video_trimmer::ui::colors::black, fmt::format("video [{}x{}]", view_size_.width, view_size_.height));
 
     if (current_video_frame_)
-        video_trimmer::ui::imgui_text_outlined(video_trimmer::ui::colors::white, video_trimmer::ui::colors::black, fmt::format("[VideoFrame {:.4f}, {}x{}]", current_video_frame_->timestamp(), current_video_frame_->dst_width(), current_video_frame_->dst_height()));
+        video_trimmer::ui::imgui_text_outlined(video_trimmer::ui::colors::white, video_trimmer::ui::colors::black, fmt::format("[VideoFrame {:.4f}, {}x{}]", current_video_frame_->timestamp(), current_video_frame_->size().width, current_video_frame_->size().height));
 
     ImGui::EndChild();
     ImGui::EndChild();
@@ -53,7 +57,7 @@ void VideoView::render_ui()
 void VideoView::render_content(video_trimmer::graphics::Graphics* graphics)
 {
     if (texture_)
-        graphics->draw_texture(texture_.get(), view_position_, view_size_);
+        texture_->draw(graphics, view_position_, view_size_);
 }
 
 }  // namespace video_trimmer::views::video_view

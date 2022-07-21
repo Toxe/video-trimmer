@@ -42,12 +42,13 @@ ScalingContext::Impl::Impl(codec_context::CodecContext* codec_context, int width
 
 int ScalingContext::Impl::scale(frame::Frame* frame)
 {
-    int ret = sws_scale(scaling_context_.get(), frame->src_data(), frame->src_linesizes(), 0, src_height_, frame->dst_data(), frame->dst_linesizes());
-
-    if (ret != dst_height_)
-        video_trimmer::error::show_error("sws_scale");
-
-    return ret;
+    // int ret = sws_scale(scaling_context_.get(), frame->src_data(), frame->src_linesizes(), 0, src_height_, frame->dst_data(), frame->dst_linesizes());
+    //
+    // if (ret != dst_height_)
+    //     video_trimmer::error::show_error("sws_scale");
+    //
+    // return ret;
+    return 0;
 }
 
 ScalingContext::ScalingContext(codec_context::CodecContext* codec_context, int width, int height) : impl_(std::make_unique<ScalingContext::Impl>(codec_context, width, height)) { }

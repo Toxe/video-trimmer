@@ -18,7 +18,7 @@ bool VideoPlayer::open_file(const char* filename)
     video_file_ = std::make_unique<video_reader::video_file::VideoFile>(filename);
 
     if (has_open_file())
-        video_reader_ = std::make_unique<video_reader::VideoReader>(*video_file_, 640, 480);
+        video_reader_ = std::make_unique<video_reader::VideoReader>(*video_file_);
 
     has_started_playing_ = false;
     is_playing_ = false;
@@ -114,12 +114,6 @@ std::unique_ptr<video_reader::frame::Frame> VideoPlayer::next_frame()
     }
 
     return video_frame;
-}
-
-void VideoPlayer::change_scaling_dimensions(ImageSize image_size)
-{
-    if (has_open_file() && image_size.width > 0 && image_size.height > 0)
-        video_reader_->change_scaling_dimensions(image_size.width, image_size.height);
 }
 
 void VideoPlayer::render()

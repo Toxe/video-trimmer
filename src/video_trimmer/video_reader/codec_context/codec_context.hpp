@@ -35,7 +35,7 @@ public:
     [[nodiscard]] double stream_time_base() const { return stream_time_base_; };
 
     [[nodiscard]] int send_packet_to_decoder(AVPacket* packet);
-    [[nodiscard]] std::unique_ptr<frame::Frame> receive_frame_from_decoder(double time_base, int scaled_width, int scaled_height);
+    [[nodiscard]] std::unique_ptr<frame::Frame> receive_frame_from_decoder(double time_base);
 
 private:
     AutoDeleteResource<AVCodecContext> codec_context_;

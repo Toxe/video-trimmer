@@ -30,7 +30,7 @@ public:
     [[nodiscard]] bool has_audio_stream() const { return audio_codec_context_ != nullptr; };
     [[nodiscard]] bool has_video_stream() const { return video_codec_context_ != nullptr; };
 
-    [[nodiscard]] std::unique_ptr<frame::Frame> read_next_frame(double playback_position, int scale_width, int scale_height);
+    [[nodiscard]] std::unique_ptr<frame::Frame> read_next_frame(double playback_position);
 
     void set_dump_first_frame(bool dump_frame) { dump_first_frame_ = dump_frame; }
 
@@ -50,7 +50,7 @@ private:
 
     [[nodiscard]] std::unique_ptr<codec_context::CodecContext> find_best_stream(codec_context::CodecContext::StreamType type);
 
-    [[nodiscard]] std::unique_ptr<frame::Frame> decode_video_packet(AVPacket* packet, int scale_width, int scale_height);
+    [[nodiscard]] std::unique_ptr<frame::Frame> decode_video_packet(AVPacket* packet);
 
     bool dump_first_frame_ = false;
 };
@@ -136,7 +136,7 @@ std::unique_ptr<codec_context::CodecContext> VideoFile::Impl::find_best_stream(c
     }
 }
 
-std::unique_ptr<frame::Frame> VideoFile::Impl::read_next_frame(const double playback_position, const int scale_width, const int scale_height)
+std::unique_ptr<frame::Frame> VideoFile::Impl::read_next_frame(const double playback_position)
 {
     // read until we get at least one video frame
     while (true) {
@@ -145,7 +145,7 @@ std::unique_ptr<frame::Frame> VideoFile::Impl::read_next_frame(const double play
 
         // process only interesting packets, drop the rest
         if (packet_->stream_index == video_codec_context_->stream_index()) {
-            std::unique_ptr<frame::Frame> frame = decode_video_packet(packet_.get(), scale_width, scale_height);
+            std::unique_ptr<frame::Frame> frame = decode_video_packet(packet_.get());
             av_packet_unref(packet_.get());
             return frame;
         } else if (packet_->stream_index == audio_codec_context_->stream_index()) {
@@ -159,14 +159,14 @@ std::unique_ptr<frame::Frame> VideoFile::Impl::read_next_frame(const double play
     return nullptr;
 }
 
-std::unique_ptr<frame::Frame> VideoFile::Impl::decode_video_packet(AVPacket* packet, const int scale_width, const int scale_height)
+std::unique_ptr<frame::Frame> VideoFile::Impl::decode_video_packet(AVPacket* packet)
 {
     // send packet to the decoder
     if (video_codec_context_->send_packet_to_decoder(packet) < 0)
         return nullptr;
 
     // get available frame from the decoder
-    std::unique_ptr<frame::Frame> frame = video_codec_context_->receive_frame_from_decoder(video_codec_context_->stream_time_base(), scale_width, scale_height);
+    std::unique_ptr<frame::Frame> frame = video_codec_context_->receive_frame_from_decoder(video_codec_context_->stream_time_base());
 
     if (!frame)
         return nullptr;
@@ -177,7 +177,7 @@ std::unique_ptr<frame::Frame> VideoFile::Impl::decode_video_packet(AVPacket* pac
     }
 
     // copy decoded frame to image buffer
-    frame->image_copy();
+    // frame->image_copy();
 
     return frame;
 }
@@ -193,6 +193,6 @@ codec_context::CodecContext* VideoFile::video_codec_context() const { return imp
 bool VideoFile::has_audio_stream() const { return impl_->has_audio_stream(); }
 bool VideoFile::has_video_stream() const { return impl_->has_video_stream(); }
 void VideoFile::set_dump_first_frame(bool dump_frame) { impl_->set_dump_first_frame(dump_frame); }
-std::unique_ptr<frame::Frame> VideoFile::read_next_frame(double playback_position, const int scale_width, const int scale_height) { return impl_->read_next_frame(playback_position, scale_width, scale_height); }
+std::unique_ptr<frame::Frame> VideoFile::read_next_frame(double playback_position) { return impl_->read_next_frame(playback_position); }
 
 }  // namespace video_trimmer::video_reader::video_file

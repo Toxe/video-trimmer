@@ -27,8 +27,6 @@ public:
 
     [[nodiscard]] std::unique_ptr<video_reader::frame::Frame> next_frame();
 
-    void change_scaling_dimensions(ImageSize image_size);
-
     [[nodiscard]] double playback_position() { return playback_position_.count(); };
 
     [[nodiscard]] video_reader::video_file::VideoFile* video_file() { return video_file_.get(); }

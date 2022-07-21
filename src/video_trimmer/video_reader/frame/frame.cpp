@@ -4,7 +4,6 @@
 #include <cstdint>
 #include <filesystem>
 #include <fstream>
-#include <span>
 #include <stdexcept>
 
 #include "fmt/core.h"
@@ -12,7 +11,6 @@
 extern "C" {
 #include "libavutil/frame.h"
 #include "libavutil/imgutils.h"
-#include "libavutil/mem.h"
 }
 
 #include "auto_delete_resource.hpp"
@@ -22,30 +20,21 @@ namespace video_trimmer::video_reader::frame {
 
 class Frame::Impl {
 public:
-    Impl(int width, int height, int scaled_width, int scaled_height, AVPixelFormat pixel_format);
-    ~Impl();
+    Impl(int width, int height, AVPixelFormat pixel_format);
 
     [[nodiscard]] bool is_audio_frame() const { return frame_type_ == FrameType::audio; }
     [[nodiscard]] bool is_video_frame() const { return frame_type_ == FrameType::video; }
 
+    [[nodiscard]] ImageSize size() const { return size_; }
+
     [[nodiscard]] double timestamp() const { return timestamp_; }
     void set_timestamp(double timestamp) { timestamp_ = timestamp; }
 
-    [[nodiscard]] int src_width() const { return src_width_; }
-    [[nodiscard]] int src_height() const { return src_height_; }
-    [[nodiscard]] int dst_width() const { return dst_width_; }
-    [[nodiscard]] int dst_height() const { return dst_height_; }
+    [[nodiscard]] uint8_t** data() { return frame_->data; }
+    [[nodiscard]] int* linesizes() { return frame_->linesize; }
 
     [[nodiscard]] AVFrame* frame() { return frame_.get(); }
-
-    [[nodiscard]] uint8_t** src_data() { return img_buf_data_.data(); }
-    [[nodiscard]] uint8_t** dst_data() { return dst_buf_data_.data(); }
-    [[nodiscard]] int* src_linesizes() { return img_buf_linesize_.data(); }
-    [[nodiscard]] int* dst_linesizes() { return dst_buf_linesize_.data(); }
-
-    [[nodiscard]] std::span<const uint8_t> pixels();
-
-    void image_copy();
+    [[nodiscard]] AVPixelFormat pixel_format() const { return pixel_format_; };
 
     void dump_to_file(const std::string& filename);
 
@@ -56,83 +45,35 @@ private:
     };
 
     FrameType frame_type_;
-
-    int src_width_;
-    int src_height_;
-    int dst_width_;
-    int dst_height_;
+    AVPixelFormat pixel_format_;
+    ImageSize size_;
 
     double timestamp_ = 0.0;
 
     AutoDeleteResource<AVFrame> frame_;
-
-    std::array<uint8_t*, 4> img_buf_data_ = {nullptr};
-    std::array<uint8_t*, 4> dst_buf_data_ = {nullptr};
-    std::array<int, 4> img_buf_linesize_ = {0};
-    std::array<int, 4> dst_buf_linesize_ = {0};
-
-    AVPixelFormat src_pixel_format_;
 };
 
-Frame::Impl::Impl(const int width, const int height, const int scaled_width, const int scaled_height, AVPixelFormat pixel_format)
-    : frame_type_(FrameType::video), src_width_(width), src_height_(height), src_pixel_format_(pixel_format)
+Frame::Impl::Impl(const int width, const int height, AVPixelFormat pixel_format)
+    : frame_type_{FrameType::video}, pixel_format_{pixel_format}, size_{width, height}
 {
-    // only scale down, never scale frames up to be bigger than the source frame
-    if (scaled_width <= src_width_ && scaled_height <= src_height_) {
-        dst_width_ = scaled_width;
-        dst_height_ = scaled_height;
-    } else {
-        dst_width_ = src_width_;
-        dst_height_ = src_height_;
-    }
-
     frame_ = AutoDeleteResource<AVFrame>(av_frame_alloc(), [](AVFrame* p) { av_frame_free(&p); });
 
     if (!frame_)
         throw std::runtime_error("av_frame_alloc");
-
-    // allocate buffer for decoded source images
-    int buf_size = av_image_alloc(img_buf_data_.data(), img_buf_linesize_.data(), src_width(), src_height(), src_pixel_format_, 1);
-
-    if (buf_size < 0)
-        throw std::runtime_error("av_image_alloc");
-
-    // allocate buffer for scaled output images
-    buf_size = av_image_alloc(dst_buf_data_.data(), dst_buf_linesize_.data(), dst_width(), dst_height(), AV_PIX_FMT_RGBA, 1);
-
-    if (buf_size < 0)
-        throw std::runtime_error("av_image_alloc");
-}
-
-Frame::Impl::~Impl()
-{
-    av_freep(dst_buf_data_.data());
-    av_freep(img_buf_data_.data());
-}
-
-std::span<const uint8_t> Frame::Impl::pixels()
-{
-    return std::span<const uint8_t>{dst_buf_data_[0], static_cast<std::size_t>(4 * dst_width() * dst_height())};
-}
-
-void Frame::Impl::image_copy()
-{
-    av_image_copy(src_data(), src_linesizes(), const_cast<const uint8_t**>(frame_->data), &frame_->linesize[0], src_pixel_format_, src_width(), src_height());
-    av_frame_unref(frame_.get());
 }
 
 void Frame::Impl::dump_to_file(const std::string& filename)
 {
-    const char* pix_fmt_desc = av_get_pix_fmt_name(src_pixel_format_);
+    const char* pix_fmt_desc = av_get_pix_fmt_name(pixel_format_);
 
     std::filesystem::path out_filename{filename};
     out_filename.replace_filename(fmt::format("{}_{}x{}_{}.raw", out_filename.stem().string(), frame_->width, frame_->height, pix_fmt_desc));
 
     video_trimmer::logger::log_info(fmt::format("dump first video frame to file: {}", out_filename.string()));
 
-    const int buffer_size = av_image_get_buffer_size(src_pixel_format_, frame_->width, frame_->height, 1);
+    const int buffer_size = av_image_get_buffer_size(pixel_format_, frame_->width, frame_->height, 1);
     std::unique_ptr<uint8_t[]> buffer = std::make_unique<uint8_t[]>(static_cast<size_t>(buffer_size));
-    const int bytes_copied = av_image_copy_to_buffer(buffer.get(), buffer_size, frame_->data, frame_->linesize, src_pixel_format_, frame_->width, frame_->height, 1);
+    const int bytes_copied = av_image_copy_to_buffer(buffer.get(), buffer_size, frame_->data, frame_->linesize, pixel_format_, frame_->width, frame_->height, 1);
 
     if (bytes_copied != buffer_size)
         throw std::runtime_error("av_image_copy_to_buffer error");
@@ -145,23 +86,17 @@ void Frame::Impl::dump_to_file(const std::string& filename)
     out.write(reinterpret_cast<const char*>(buffer.get()), buffer_size);
 }
 
-Frame::Frame(int width, int height, int scaled_width, int scaled_height, AVPixelFormat pixel_format) : impl_(std::make_unique<Frame::Impl>(width, height, scaled_width, scaled_height, pixel_format)) { }
+Frame::Frame(int width, int height, AVPixelFormat pixel_format) : impl_(std::make_unique<Frame::Impl>(width, height, pixel_format)) { }
 Frame::~Frame() = default;
-double Frame::timestamp() const { return impl_->timestamp(); }
-void Frame::set_timestamp(double timestamp) { impl_->set_timestamp(timestamp); }
-int Frame::src_width() const { return impl_->src_width(); }
-int Frame::src_height() const { return impl_->src_height(); }
-int Frame::dst_width() const { return impl_->dst_width(); }
-int Frame::dst_height() const { return impl_->dst_height(); }
-AVFrame* Frame::frame() { return impl_->frame(); }
-uint8_t** Frame::src_data() { return impl_->src_data(); }
-uint8_t** Frame::dst_data() { return impl_->dst_data(); }
-int* Frame::src_linesizes() { return impl_->src_linesizes(); }
-int* Frame::dst_linesizes() { return impl_->dst_linesizes(); }
-std::span<const uint8_t> Frame::pixels() { return impl_->pixels(); }
-void Frame::image_copy() { impl_->image_copy(); }
-void Frame::dump_to_file(const std::string& filename) { impl_->dump_to_file(filename); }
 bool Frame::is_audio_frame() const { return impl_->is_audio_frame(); }
 bool Frame::is_video_frame() const { return impl_->is_video_frame(); }
+ImageSize Frame::size() const { return impl_->size(); }
+double Frame::timestamp() const { return impl_->timestamp(); }
+void Frame::set_timestamp(double timestamp) { impl_->set_timestamp(timestamp); }
+uint8_t** Frame::data() { return impl_->data(); }
+int* Frame::linesizes() { return impl_->linesizes(); }
+AVFrame* Frame::frame() { return impl_->frame(); }
+AVPixelFormat Frame::pixel_format() const { return impl_->pixel_format(); }
+void Frame::dump_to_file(const std::string& filename) { impl_->dump_to_file(filename); }
 
 }  // namespace video_trimmer::video_reader::frame

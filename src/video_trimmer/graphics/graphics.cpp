@@ -11,7 +11,6 @@
 #include "imgui_impl_opengl3.h"
 #include "imgui_impl_sdl.h"
 
-#include "texture.hpp"
 #include "video_trimmer/error/error.hpp"
 #include "video_trimmer/logger/logger.hpp"
 
@@ -34,10 +33,8 @@ public:
     [[nodiscard]] bool window_is_open() const;
     [[nodiscard]] WindowSize window_size() const;
 
-    [[nodiscard]] std::unique_ptr<Texture> create_texture(ImageSize size);
-    static void destroy_texture(Texture* texture);
-    void update_texture(Texture* texture, const void* pixels);
-    void draw_texture(Texture* texture, ImagePosition dst_position, ImageSize dst_size);
+    [[nodiscard]] SDL_Texture* create_texture(uint32_t format, ImageSize size);
+    void render_texture(SDL_Texture* texture, ImagePosition dst_position, ImageSize dst_size);
 
 private:
     std::string glsl_version_;
@@ -196,6 +193,9 @@ void Graphics::Impl::finish_frame()
 
 bool Graphics::Impl::window_is_open() const
 {
+    if (!window_)
+        return false;
+
     return SDL_GetWindowFlags(window_) & SDL_WINDOW_SHOWN;
 }
 
@@ -236,39 +236,24 @@ WindowSize Graphics::Impl::get_default_window_size() const
     return {width, height};
 }
 
-std::unique_ptr<Texture> Graphics::Impl::create_texture(ImageSize size)
+SDL_Texture* Graphics::Impl::create_texture(uint32_t format, ImageSize size)
 {
-    SDL_Texture* texture = SDL_CreateTexture(renderer_, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STREAMING, size.width, size.height);
+    SDL_Texture* texture = SDL_CreateTexture(renderer_, format, SDL_TEXTUREACCESS_STREAMING, size.width, size.height);
 
     if (!texture) {
         video_trimmer::logger::log_error(fmt::format("unable to create texture: {}", SDL_GetError()));
         return nullptr;
     }
 
-    return std::make_unique<Texture>(texture, size);
+    return texture;
 }
 
-void Graphics::Impl::destroy_texture(Texture* texture)
-{
-    assert(texture && texture->sdl_texture());
-
-    SDL_DestroyTexture(texture->sdl_texture());
-}
-
-void Graphics::Impl::update_texture(Texture* texture, const void* pixels)
-{
-    assert(texture && pixels);
-
-    if (SDL_UpdateTexture(texture->sdl_texture(), nullptr, pixels, 4 * texture->size().width) < 0)
-        video_trimmer::logger::log_error(fmt::format("unable to update texture: {}", SDL_GetError()));
-}
-
-void Graphics::Impl::draw_texture(Texture* texture, ImagePosition dst_position, ImageSize dst_size)
+void Graphics::Impl::render_texture(SDL_Texture* texture, ImagePosition dst_position, ImageSize dst_size)
 {
     assert(texture);
 
     SDL_Rect dst_rect{dst_position.x, dst_position.y, dst_size.width, dst_size.height};
-    SDL_RenderCopy(renderer_, texture->sdl_texture(), nullptr, &dst_rect);
+    SDL_RenderCopy(renderer_, texture, nullptr, &dst_rect);
 }
 
 Graphics::Graphics() : impl_(std::make_unique<Graphics::Impl>()) { }
@@ -283,9 +268,7 @@ void Graphics::begin_frame() { impl_->begin_frame(); }
 void Graphics::finish_frame() { impl_->finish_frame(); }
 bool Graphics::window_is_open() const { return impl_->window_is_open(); }
 WindowSize Graphics::window_size() const { return impl_->window_size(); }
-std::unique_ptr<Texture> Graphics::create_texture(ImageSize size) { return impl_->create_texture(size); }
-void Graphics::destroy_texture(Texture* texture) { Graphics::Impl::destroy_texture(texture); }
-void Graphics::update_texture(Texture* texture, const void* pixels) { impl_->update_texture(texture, pixels); }
-void Graphics::draw_texture(Texture* texture, ImagePosition dst_position, ImageSize dst_size) { impl_->draw_texture(texture, dst_position, dst_size); }
+SDL_Texture* Graphics::create_texture(uint32_t format, ImageSize size) { return impl_->create_texture(format, size); }
+void Graphics::render_texture(SDL_Texture* texture, ImagePosition dst_position, ImageSize dst_size) { impl_->render_texture(texture, dst_position, dst_size); }
 
 }  // namespace video_trimmer::graphics
