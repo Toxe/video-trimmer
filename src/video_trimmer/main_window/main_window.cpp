@@ -42,17 +42,8 @@ void MainWindow::close()
 void MainWindow::resized_window()
 {
     const auto window_size = size();
-    adjust_view_to_window_size();
 
     video_trimmer::logger::log_info(fmt::format("resized main_window to {}x{}", window_size.width, window_size.height));
-}
-
-void MainWindow::adjust_view_to_window_size()
-{
-    const auto current_size = size();
-
-    // sf::FloatRect visibleArea(0.0f, 0.0f, static_cast<float>(size.x), static_cast<float>(size.y));
-    // window_->setView(sf::View(visibleArea));
 }
 
 }  // namespace video_trimmer::main_window

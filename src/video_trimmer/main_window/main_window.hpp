@@ -32,8 +32,6 @@ private:
 
     std::unique_ptr<video_trimmer::graphics::Graphics> graphics_;
     std::unique_ptr<video_trimmer::views::video_view::VideoView> video_view_;
-
-    void adjust_view_to_window_size();
 };
 
 }  // namespace video_trimmer::main_window
