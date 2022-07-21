@@ -31,12 +31,12 @@ bool VideoPlayer::open_file(const char* filename)
 
 void VideoPlayer::close_file()
 {
-    video_trimmer::logger::log_debug(fmt::format("(VideoPlayer) close file"));
+    video_trimmer::logger::log_debug("(VideoPlayer) close file");
 }
 
 void VideoPlayer::start()
 {
-    video_trimmer::logger::log_debug(fmt::format("(VideoPlayer) start"));
+    video_trimmer::logger::log_debug("(VideoPlayer) start");
 
     if (has_open_file() && !has_started_playing()) {
         has_started_playing_ = true;
@@ -49,7 +49,7 @@ void VideoPlayer::start()
 
 void VideoPlayer::resume()
 {
-    video_trimmer::logger::log_debug(fmt::format("(VideoPlayer) resume"));
+    video_trimmer::logger::log_debug("(VideoPlayer) resume");
 
     if (has_started_playing() && is_paused()) {
         is_playing_ = true;
@@ -58,7 +58,7 @@ void VideoPlayer::resume()
 
 void VideoPlayer::pause()
 {
-    video_trimmer::logger::log_debug(fmt::format("(VideoPlayer) pause"));
+    video_trimmer::logger::log_debug("(VideoPlayer) pause");
 
     if (has_started_playing() && is_playing()) {
         is_playing_ = false;
@@ -122,19 +122,19 @@ void VideoPlayer::render()
     ImGui::BeginChild("right pane");
     ImGui::BeginChild("playback controls");
 
-    ImGui::TextColored(has_open_file() ? video_trimmer::ui::colors::green : video_trimmer::ui::colors::red, "%s", fmt::format("has_open_file").c_str());
+    ImGui::TextColored(has_open_file() ? video_trimmer::ui::colors::green : video_trimmer::ui::colors::red, "%s", "has_open_file");
     ImGui::SameLine();
     ImGui::Text("|");
     ImGui::SameLine();
-    ImGui::TextColored(has_started_playing() ? video_trimmer::ui::colors::green : video_trimmer::ui::colors::red, "%s", fmt::format("has_started_playing").c_str());
+    ImGui::TextColored(has_started_playing() ? video_trimmer::ui::colors::green : video_trimmer::ui::colors::red, "%s", "has_started_playing");
     ImGui::SameLine();
     ImGui::Text("|");
     ImGui::SameLine();
-    ImGui::TextColored(is_playing() ? video_trimmer::ui::colors::green : video_trimmer::ui::colors::red, "%s", fmt::format("is_playing").c_str());
+    ImGui::TextColored(is_playing() ? video_trimmer::ui::colors::green : video_trimmer::ui::colors::red, "%s", "is_playing");
     ImGui::SameLine();
     ImGui::Text("|");
     ImGui::SameLine();
-    ImGui::TextColored(is_paused() ? video_trimmer::ui::colors::green : video_trimmer::ui::colors::red, "%s", fmt::format("is_paused").c_str());
+    ImGui::TextColored(is_paused() ? video_trimmer::ui::colors::green : video_trimmer::ui::colors::red, "%s", "is_paused");
     ImGui::SameLine();
 
     if (has_open_file()) {
