@@ -53,6 +53,9 @@ Texture::Impl::Impl(Graphics* graphics, const video_reader::frame::Frame* video_
         throw std::runtime_error(fmt::format("pixel format {} is not supported", av_get_pix_fmt_name(av_pixel_format_)));
 
     sdl_texture_ = AutoDeleteResource<SDL_Texture>(graphics->create_texture(sdl_pixel_format_, video_frame->size()), [](SDL_Texture* tex) { SDL_DestroyTexture(tex); });
+
+    if (sdl_texture_.get())
+        video_trimmer::logger::log_debug(fmt::format("created new {}x{} {} render texture", size_.width, size_.height, av_get_pix_fmt_name(av_pixel_format_)));
 }
 
 bool Texture::Impl::is_compatible_with_video_frame(const video_reader::frame::Frame* video_frame) const
