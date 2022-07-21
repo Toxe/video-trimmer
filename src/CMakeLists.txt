@@ -69,6 +69,8 @@ add_executable(video_trimmer
         video_trimmer/ui/widgets/memory_usage_widget/memory_usage_widget.hpp
         video_trimmer/ui/widgets/video_file_info_widget/video_file_info_widget.cpp
         video_trimmer/ui/widgets/video_file_info_widget/video_file_info_widget.hpp
+        video_trimmer/video_player/commands.cpp
+        video_trimmer/video_player/commands.hpp
         video_trimmer/video_player/video_player.cpp
         video_trimmer/video_player/video_player.hpp
         video_trimmer/video_reader/codec_context/codec_context.cpp

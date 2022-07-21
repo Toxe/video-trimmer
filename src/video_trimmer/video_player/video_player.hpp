@@ -15,8 +15,7 @@ public:
     void close_file();
 
     void start();
-    void resume();
-    void pause();
+    void toggle_pause();
 
     [[nodiscard]] bool has_open_file();
     [[nodiscard]] bool has_started_playing();

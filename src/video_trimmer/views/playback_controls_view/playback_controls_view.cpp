@@ -3,6 +3,7 @@
 #include "fmt/core.h"
 #include "imgui.h"
 
+#include "video_trimmer/event_handler/event_handler.hpp"
 #include "video_trimmer/ui/colors/colors.hpp"
 #include "video_trimmer/video_player/video_player.hpp"
 
@@ -35,15 +36,15 @@ void PlaybackControlsView::render(video_player::VideoPlayer& video_player)
     if (video_player.has_open_file()) {
         if (!video_player.has_started_playing())
             if (ImGui::Button("start"))
-                video_player.start();
+                event_handler_->handle_event(event_handler::Event::PlaybackStart);
 
         if (video_player.is_playing())
             if (ImGui::Button("pause"))
-                video_player.pause();
+                event_handler_->handle_event(event_handler::Event::PlaybackTogglePause);
 
         if (video_player.is_paused())
             if (ImGui::Button("resume"))
-                video_player.resume();
+                event_handler_->handle_event(event_handler::Event::PlaybackTogglePause);
     }
 
     ImGui::EndChild();

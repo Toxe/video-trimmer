@@ -34,8 +34,6 @@ void VideoPlayer::close_file()
 
 void VideoPlayer::start()
 {
-    video_trimmer::logger::log_debug("(VideoPlayer) start");
-
     if (has_open_file() && !has_started_playing()) {
         has_started_playing_ = true;
         is_playing_ = true;
@@ -45,22 +43,12 @@ void VideoPlayer::start()
     }
 }
 
-void VideoPlayer::resume()
+void VideoPlayer::toggle_pause()
 {
-    video_trimmer::logger::log_debug("(VideoPlayer) resume");
-
-    if (has_started_playing() && is_paused()) {
-        is_playing_ = true;
-    }
-}
-
-void VideoPlayer::pause()
-{
-    video_trimmer::logger::log_debug("(VideoPlayer) pause");
-
-    if (has_started_playing() && is_playing()) {
+    if (is_playing())
         is_playing_ = false;
-    }
+    else if (is_paused())
+        is_playing_ = true;
 }
 
 bool VideoPlayer::has_open_file()
