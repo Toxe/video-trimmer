@@ -14,7 +14,10 @@ void VideoFileInfoWidget::render(const video_reader::video_file::VideoFile* vide
         return;
 
     ImGui::NewLine();
-    ImGui::TextColored(colors::light_blue, "%s", fmt::format("{} ({})", video_file->filename(), video_file->file_format()).c_str());
+    ImGui::TextColored(colors::light_blue, "%s", video_file->filename().c_str());
+    ImGui::TextColored(colors::light_blue, "%s", video_file->file_format().c_str());
+
+    ImGui::NewLine();
 
     if (video_file->has_video_stream()) {
         const video_reader::codec_context::CodecContext* codec_content = video_file->video_codec_context();
