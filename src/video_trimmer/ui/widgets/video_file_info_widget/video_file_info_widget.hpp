@@ -1,6 +1,8 @@
 #pragma once
 
-#include "video_trimmer/video_reader/video_file/video_file.hpp"
+namespace video_trimmer::video_reader::video_file {
+class VideoFile;
+}  // namespace video_trimmer::video_reader::video_file
 
 namespace video_trimmer::ui::widgets::video_file_info_widget {
 
