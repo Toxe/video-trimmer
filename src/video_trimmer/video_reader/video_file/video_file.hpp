@@ -18,6 +18,7 @@ public:
 
     [[nodiscard]] const std::string& filename() const;
     [[nodiscard]] const std::string& file_format() const;
+    [[nodiscard]] std::string format_duration() const;
 
     [[nodiscard]] codec_context::CodecContext* audio_codec_context() const;
     [[nodiscard]] codec_context::CodecContext* video_codec_context() const;

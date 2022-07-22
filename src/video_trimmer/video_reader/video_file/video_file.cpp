@@ -3,6 +3,8 @@
 #include <filesystem>
 #include <stdexcept>
 
+#include "fmt/core.h"
+
 extern "C" {
 #include "libavcodec/packet.h"
 #include "libavformat/avformat.h"
@@ -23,6 +25,7 @@ public:
 
     [[nodiscard]] const std::string& filename() const { return filename_without_path_; }
     [[nodiscard]] const std::string& file_format() const { return file_format_; }
+    [[nodiscard]] std::string format_duration() const;
 
     [[nodiscard]] codec_context::CodecContext* audio_codec_context() const { return audio_codec_context_.get(); }
     [[nodiscard]] codec_context::CodecContext* video_codec_context() const { return video_codec_context_.get(); }
@@ -171,6 +174,23 @@ std::unique_ptr<frame::Frame> VideoFile::Impl::decode_video_packet(AVPacket* pac
     return frame;
 }
 
+std::string VideoFile::Impl::format_duration() const
+{
+    // based on av_dump_format (https://ffmpeg.org/doxygen/trunk/dump_8c_source.html#l00630)
+    if (format_context_->duration == AV_NOPTS_VALUE)
+        return "N/A";
+
+    // int64_t hours, mins, secs, us;
+    int64_t duration = format_context_->duration + (format_context_->duration <= INT64_MAX - 5000 ? 5000 : 0);
+    int64_t secs = duration / AV_TIME_BASE;
+    int64_t mins = secs / 60;
+    secs %= 60;
+    int64_t hours = mins / 60;
+    mins %= 60;
+
+    return fmt::format("{:02}:{:02}:{:02}", hours, mins, secs);
+}
+
 VideoFile::VideoFile(const std::string& full_filename) : impl_(std::make_unique<VideoFile::Impl>(full_filename)) { }
 VideoFile::~VideoFile() = default;
 bool VideoFile::is_open() const { return impl_->is_open(); }
@@ -183,5 +203,6 @@ bool VideoFile::has_audio_stream() const { return impl_->has_audio_stream(); }
 bool VideoFile::has_video_stream() const { return impl_->has_video_stream(); }
 void VideoFile::set_dump_first_frame(bool dump_frame) { impl_->set_dump_first_frame(dump_frame); }
 std::unique_ptr<frame::Frame> VideoFile::read_next_frame(double playback_position) { return impl_->read_next_frame(playback_position); }
+std::string VideoFile::format_duration() const { return impl_->format_duration(); }
 
 }  // namespace video_trimmer::video_reader::video_file
