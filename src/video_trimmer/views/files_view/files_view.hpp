@@ -36,6 +36,10 @@ private:
     std::string directory_;
 
     int selected_index_ = -1;
+
+    void show_controls();
+    void show_file_table();
+    void show_tooltip(const FileEntry& file);
 };
 
 }  // namespace video_trimmer::views::files_view

@@ -1,20 +1,33 @@
 #include "file_entry.hpp"
 
+#include <cmath>
+#include <utility>
+
+#include "fmt/core.h"
+
+#include "video_trimmer/video_reader/video_file/video_file.hpp"
+
 namespace video_trimmer::views::files_view {
 
-FileEntry::FileEntry(const std::filesystem::path& path)
-    : path_(path)
+FileEntry::FileEntry(const video_reader::video_file::VideoFile& video_file, std::filesystem::path path)
+    : path_(std::move(path))
 {
-}
+    basename_ = path_.filename().string();
+    full_filename_ = path_.string();
 
-std::string FileEntry::full_filename() const
-{
-    return path_.string();
-}
+    video_duration_ = video_file.format_duration();
+    video_format_ = video_file.file_format();
+    video_codec_name_ = video_file.video_codec_context()->codec_name();
+    video_codec_additional_info_ = video_file.video_codec_context()->codec_additional_info();
 
-std::string FileEntry::basename() const
-{
-    return path_.filename().string();
+    const auto filesize = std::filesystem::file_size(path_);
+
+    if (filesize < 1024)
+        file_size_ = "<1 KB";
+    else if (filesize < (1024 * 1024))
+        file_size_ = fmt::format("{} KB", std::round(filesize / 1024.0));
+    else
+        file_size_ = fmt::format("{} MB", std::round(filesize / (1024.0 * 1024.0)));
 }
 
 }  // namespace video_trimmer::views::files_view

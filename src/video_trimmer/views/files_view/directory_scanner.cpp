@@ -30,7 +30,7 @@ void DirectoryScanner::scan(FilesView* files_view, const std::string directory)
                 video_reader::video_file::VideoFile video_file{dir_entry.path().string()};
 
                 if (video_file.is_video()) {
-                    FileEntry file_entry{dir_entry.path()};
+                    FileEntry file_entry{video_file, dir_entry.path()};
                     files_view->add_file(std::move(file_entry));
                 }
             }
