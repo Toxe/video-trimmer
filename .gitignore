@@ -13,7 +13,9 @@
 # CMake
 /build*
 
-/*.raw
-/*.png
-/*.mp4
 imgui.ini
+/*.png
+/*.avi
+/*.mkv
+/*.mp[2-4]
+/*.raw
