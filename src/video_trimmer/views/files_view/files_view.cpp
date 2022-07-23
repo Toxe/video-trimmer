@@ -85,8 +85,8 @@ void FilesView::show_file_table()
 
     if (ImGui::BeginTable("files_view_table", 3, ImGuiTableFlags_Resizable | ImGuiTableFlags_NoSavedSettings | ImGuiTableFlags_NoBordersInBodyUntilResize)) {
         ImGui::TableSetupColumn("File", ImGuiTableColumnFlags_WidthStretch);
-        ImGui::TableSetupColumn("Size", ImGuiTableColumnFlags_WidthFixed);
-        ImGui::TableSetupColumn("Duration", ImGuiTableColumnFlags_WidthFixed);
+        ImGui::TableSetupColumn("Size", ImGuiTableColumnFlags_WidthFixed, 95);  // TODO: column width is depending on font size
+        ImGui::TableSetupColumn("Duration", ImGuiTableColumnFlags_WidthFixed, 77);
         ImGui::TableHeadersRow();
 
         for (auto& file : files_) {
@@ -106,7 +106,7 @@ void FilesView::show_file_table()
                 show_tooltip(file);
 
             ImGui::TableNextColumn();
-            ImGui::TextUnformatted(fmt::format("{:>8} ", file.file_size()).c_str());
+            ImGui::TextUnformatted(fmt::format("{:>9}", file.file_size()).c_str());
 
             ImGui::TableNextColumn();
             ImGui::TextUnformatted(file.video_duration().c_str());
