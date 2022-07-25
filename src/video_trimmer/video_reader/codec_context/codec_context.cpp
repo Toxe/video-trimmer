@@ -52,7 +52,7 @@ CodecContext::CodecContext(AVStream* stream)
     codec_name_ = codec_context_->codec->long_name;
 
     if (codec_context_->codec_type == AVMEDIA_TYPE_VIDEO)
-        codec_additional_info_ = fmt::format("{}x{}, {:.1f} fps, {}", codec_context_->width, codec_context_->height, fps_, av_get_pix_fmt_name(pixel_format()));
+        codec_additional_info_ = fmt::format("{}x{}, {:.1f} fps, {}", codec_context_->width, codec_context_->height, fps_, pixel_format_name());
     else if (codec_context_->codec_type == AVMEDIA_TYPE_AUDIO)
         codec_additional_info_ = fmt::format("{} channels, {} sample rate", codec_context_->channels, codec_context_->sample_rate);
 }
@@ -65,6 +65,11 @@ Size CodecContext::size() const
 AVPixelFormat CodecContext::pixel_format() const
 {
     return codec_context_->pix_fmt;
+}
+
+std::string CodecContext::pixel_format_name() const
+{
+    return av_get_pix_fmt_name(codec_context_->pix_fmt);
 }
 
 int CodecContext::send_packet_to_decoder(AVPacket* packet)

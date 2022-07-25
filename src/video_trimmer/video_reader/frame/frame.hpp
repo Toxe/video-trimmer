@@ -31,7 +31,9 @@ public:
     [[nodiscard]] int* linesizes();
 
     [[nodiscard]] AVFrame* frame();
+
     [[nodiscard]] AVPixelFormat pixel_format() const;
+    [[nodiscard]] std::string pixel_format_name() const;
 
     void dump_to_file(const std::string& filename);
 

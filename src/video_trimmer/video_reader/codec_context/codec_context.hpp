@@ -30,6 +30,7 @@ public:
 
     [[nodiscard]] Size size() const;
     [[nodiscard]] AVPixelFormat pixel_format() const;
+    [[nodiscard]] std::string pixel_format_name() const;
 
     [[nodiscard]] float fps() const { return fps_; };
     [[nodiscard]] double stream_time_base() const { return stream_time_base_; };
