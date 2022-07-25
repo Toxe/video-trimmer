@@ -137,7 +137,7 @@ void FilesView::show_tooltip(const FileEntry& file)
 {
     ImGui::BeginTooltip();
 
-    ImGui::TextUnformatted(file.basename().c_str());
+    ImGui::TextColored(ui::colors::light_blue, file.basename().c_str());
     ImGui::Separator();
 
     ImGui::TextUnformatted(file.video_format().c_str());
