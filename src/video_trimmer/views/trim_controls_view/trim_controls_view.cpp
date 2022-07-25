@@ -11,7 +11,7 @@ void TrimControlsView::render()
     ImGui::BeginChild("right pane");
     ImGui::BeginChild("trim controls");
 
-    ImGui::Text("%s", fmt::format("trim controls [{}x{}]", ImGui::GetWindowSize().x, ImGui::GetWindowSize().y).c_str());
+    ImGui::TextUnformatted(fmt::format("trim controls [{}x{}]", ImGui::GetWindowSize().x, ImGui::GetWindowSize().y).c_str());
 
     ImGui::EndChild();
     ImGui::EndChild();

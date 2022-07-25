@@ -14,7 +14,7 @@ void AdditionalInfoView::render(const video_trimmer::clock::Duration elapsed_tim
     fps_widget_.render(elapsed_time);
     memory_usage_widget_.render();
 
-    ImGui::Text("%s", fmt::format("additional info [{}x{}]", ImGui::GetWindowSize().x, ImGui::GetWindowSize().y).c_str());
+    ImGui::TextUnformatted(fmt::format("additional info [{}x{}]", ImGui::GetWindowSize().x, ImGui::GetWindowSize().y).c_str());
 
     video_file_info_widget_.render(video_file);
 

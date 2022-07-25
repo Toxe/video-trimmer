@@ -20,20 +20,20 @@ void PlaybackControlsView::render(video_player::VideoPlayer& video_player)
     ImGui::BeginChild("right pane");
     ImGui::BeginChild("playback controls");
 
-    ImGui::Text("%s", fmt::format("playback controls [{}x{}]", ImGui::GetWindowSize().x, ImGui::GetWindowSize().y).c_str());
-    ImGui::Text("%s", fmt::format("playback position: {:.4f}", video_player.playback_position()).c_str());
+    ImGui::TextUnformatted(fmt::format("playback controls [{}x{}]", ImGui::GetWindowSize().x, ImGui::GetWindowSize().y).c_str());
+    ImGui::TextUnformatted(fmt::format("playback position: {:.4f}", video_player.playback_position()).c_str());
 
     ImGui::TextColored(video_player.has_open_file() ? ui::colors::green : ui::colors::red, "%s", "has_open_file");
     ImGui::SameLine();
-    ImGui::Text("|");
+    ImGui::TextUnformatted("|");
     ImGui::SameLine();
     ImGui::TextColored(video_player.has_started_playing() ? ui::colors::green : ui::colors::red, "%s", "has_started_playing");
     ImGui::SameLine();
-    ImGui::Text("|");
+    ImGui::TextUnformatted("|");
     ImGui::SameLine();
     ImGui::TextColored(video_player.is_playing() ? ui::colors::green : ui::colors::red, "%s", "is_playing");
     ImGui::SameLine();
-    ImGui::Text("|");
+    ImGui::TextUnformatted("|");
     ImGui::SameLine();
     ImGui::TextColored(video_player.is_paused() ? ui::colors::green : ui::colors::red, "%s", "is_paused");
     ImGui::SameLine();

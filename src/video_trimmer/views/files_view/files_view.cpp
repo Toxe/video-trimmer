@@ -64,7 +64,7 @@ std::string FilesView::selected_filename() const
 void FilesView::show_controls()
 {
     if (directory_scanner_->is_scanning()) {
-        ImGui::Text("scanning directory...");
+        ImGui::TextUnformatted("scanning directory...");
         ImGui::SameLine();
 
         if (ImGui::Button("cancel"))
