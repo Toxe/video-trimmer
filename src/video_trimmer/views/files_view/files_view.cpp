@@ -64,11 +64,16 @@ std::string FilesView::selected_filename() const
 void FilesView::show_controls()
 {
     if (directory_scanner_->is_scanning()) {
+        const ImGuiStyle& style = ImGui::GetStyle();
+
         ImGui::TextUnformatted("scanning directory...");
         ImGui::SameLine();
 
         if (ImGui::Button("cancel"))
             directory_scanner_->abort();
+
+        ImGui::SameLine(0.0f, 3.0f * style.ItemSpacing.x);
+        ImGui::ProgressBar(directory_scanner_->scan_progress(), ImVec2(-1.0f, 0.f), nullptr);
     } else {
         if (ImGui::Button("rescan directory"))
             change_directory(directory_);

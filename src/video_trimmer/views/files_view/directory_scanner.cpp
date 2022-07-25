@@ -20,6 +20,7 @@ void DirectoryScanner::scan(FilesView* files_view, const std::string directory)
         return;
     }
 
+    scan_progress_ = 0.0f;
     is_scanning_ = true;
 
     thread_ = std::jthread([this, files_view, directory](std::stop_token st) {
@@ -36,6 +37,8 @@ void DirectoryScanner::scan(FilesView* files_view, const std::string directory)
         std::sort(files.begin(), files.end());
 
         // analyze files and return all videos
+        int scanned_files = 0;
+
         for (const auto& file : files) {
             if (st.stop_requested())
                 break;
@@ -46,6 +49,8 @@ void DirectoryScanner::scan(FilesView* files_view, const std::string directory)
                 FileEntry file_entry{video_file, file};
                 files_view->add_file(std::move(file_entry));
             }
+
+            scan_progress_ = static_cast<float>(++scanned_files) / static_cast<float>(files.size());
         }
 
         video_trimmer::logger::log_trace("(DirectoryScanner) scan finished");

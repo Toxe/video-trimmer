@@ -11,16 +11,19 @@ class FilesView;
 
 class DirectoryScanner {
 public:
-    [[nodiscard]] bool is_scanning() const { return is_scanning_; }
-
-    void scan(FilesView* files_view, const std::string directory);
+    void scan(FilesView* files_view, std::string directory);
     void abort();
+
+    [[nodiscard]] bool is_scanning() const { return is_scanning_; }
+    [[nodiscard]] float scan_progress() const { return scan_progress_; }
 
 private:
     std::mutex mtx_;
     std::jthread thread_;
 
     std::atomic<bool> is_scanning_ = false;
+
+    float scan_progress_;
 };
 
 }  // namespace video_trimmer::views::files_view
