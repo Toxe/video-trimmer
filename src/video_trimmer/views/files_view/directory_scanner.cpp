@@ -37,6 +37,9 @@ void DirectoryScanner::scan(FilesView* files_view, const std::string directory)
 
         // analyze files and return all videos
         for (const auto& file : files) {
+            if (st.stop_requested())
+                break;
+
             video_reader::video_file::VideoFile video_file{file.string()};
 
             if (video_file.is_video()) {
