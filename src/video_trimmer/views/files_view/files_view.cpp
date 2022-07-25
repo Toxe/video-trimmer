@@ -102,7 +102,9 @@ void FilesView::show_file_table()
 
             if (ImGui::Selectable(file.basename().c_str(), selected_index_ == index, ImGuiSelectableFlags_SpanAllColumns)) {
                 selected_index_ = index;
-                event_handler_.handle_event(event_handler::Event::OpenFile);
+
+                if (file.is_supported())
+                    event_handler_.handle_event(event_handler::Event::OpenFile);
             }
 
             ImGui::PopStyleColor();
