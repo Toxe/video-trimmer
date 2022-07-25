@@ -1,6 +1,6 @@
 #include "ui.hpp"
 
-#include "fmt/core.h"
+#include "imgui.h"
 
 #include "colors/colors.hpp"
 #include "video_trimmer/event_handler/event_handler.hpp"
@@ -42,7 +42,7 @@ void UI::render_main_window()
 void UI::render_help_window()
 {
     if (show_help_) {
-        ImGui::SetNextWindowPos(ImVec2(20 + 20 + main_window_size_.x, 20), ImGuiCond_FirstUseEver);
+        ImGui::SetNextWindowPos(ImVec2{20.0f + 20.0f + static_cast<float>(main_window_size_.width), 20.0f}, ImGuiCond_FirstUseEver);
         ImGui::Begin(help_window_title_, &show_help_, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse);
 
         ImGui::TextColored(colors::light_blue, "   F1");

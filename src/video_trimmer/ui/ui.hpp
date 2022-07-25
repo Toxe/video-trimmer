@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "imgui.h"
+#include "types.hpp"
 
 namespace video_trimmer::event_handler {
 class EventHandler;
@@ -24,7 +24,7 @@ private:
 
     event_handler::EventHandler& event_handler_;
 
-    ImVec2 main_window_size_;
+    Size main_window_size_;
 
     bool show_help_ = false;
 
