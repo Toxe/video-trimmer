@@ -85,6 +85,11 @@ void FilesView::show_file_table()
 
     int index = 0;
 
+    if (files_.empty() && !directory_scanner_->is_scanning()) {
+        ImGui::TextUnformatted("no videos found");
+        return;
+    }
+
     // little less horizontal and vertical padding
     ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, {2.0f, 2.0f});
 
