@@ -1,6 +1,8 @@
 #include "directory_scanner.hpp"
 
+#include <algorithm>
 #include <filesystem>
+#include <vector>
 
 #include "file_entry.hpp"
 #include "files_view.hpp"
@@ -23,16 +25,23 @@ void DirectoryScanner::scan(FilesView* files_view, const std::string directory)
     thread_ = std::jthread([this, files_view, directory](std::stop_token st) {
         video_trimmer::logger::log_trace("(DirectoryScanner) scan started");
 
+        // list and sort all files
         std::filesystem::path dir{directory};
+        std::vector<std::filesystem::path> files;
 
-        for (const auto& dir_entry : std::filesystem::directory_iterator{dir}) {
-            if (dir_entry.is_regular_file()) {
-                video_reader::video_file::VideoFile video_file{dir_entry.path().string()};
+        for (const auto& dir_entry : std::filesystem::directory_iterator{dir})
+            if (dir_entry.is_regular_file())
+                files.push_back(dir_entry.path());
 
-                if (video_file.is_video()) {
-                    FileEntry file_entry{video_file, dir_entry.path()};
-                    files_view->add_file(std::move(file_entry));
-                }
+        std::sort(files.begin(), files.end());
+
+        // analyze files and return all videos
+        for (const auto& file : files) {
+            video_reader::video_file::VideoFile video_file{file.string()};
+
+            if (video_file.is_video()) {
+                FileEntry file_entry{video_file, file};
+                files_view->add_file(std::move(file_entry));
             }
         }
 
