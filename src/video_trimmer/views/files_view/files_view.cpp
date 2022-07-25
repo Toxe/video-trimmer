@@ -4,6 +4,7 @@
 #include "imgui.h"
 
 #include "directory_scanner.hpp"
+#include "lib/ImGuiFileDialog/ImGuiFileDialog.h"
 #include "video_trimmer/event_handler/event_handler.hpp"
 #include "video_trimmer/logger/logger.hpp"
 #include "video_trimmer/ui/colors/colors.hpp"
@@ -71,6 +72,10 @@ void FilesView::show_controls()
     } else {
         if (ImGui::Button("rescan directory"))
             change_directory(directory_);
+
+        ImGui::SameLine();
+
+        show_change_directory_dialog();
     }
 }
 
@@ -136,6 +141,28 @@ void FilesView::show_tooltip(const FileEntry& file)
     ImGui::TextUnformatted(fmt::format("Duration: {}", file.video_duration()).c_str());
 
     ImGui::EndTooltip();
+}
+
+void FilesView::show_change_directory_dialog()
+{
+    const ImGuiViewport* viewport = ImGui::GetMainViewport();
+    const ImVec2 min_size{viewport->WorkSize.x / 2.0f, viewport->WorkSize.y / 2.0f};
+    const ImVec2 max_size{viewport->WorkSize.x * 0.8f, viewport->WorkSize.y * 0.8f};
+
+    // open "change directory" dialog
+    if (ImGui::Button("change directory"))
+        ImGuiFileDialog::Instance()->OpenDialog("ChooseDirDlgKey", "Choose a Directory", nullptr, directory_ + "/", 1, nullptr, ImGuiFileDialogFlags_Modal | ImGuiFileDialogFlags_DontShowHiddenFiles | ImGuiFileDialogFlags_DisableCreateDirectoryButton);
+
+    // display dialog
+    if (ImGuiFileDialog::Instance()->Display("ChooseDirDlgKey", ImGuiWindowFlags_NoCollapse, min_size, max_size)) {
+        if (ImGuiFileDialog::Instance()->IsOk()) {
+            const std::string directory = ImGuiFileDialog::Instance()->GetCurrentPath();
+            video_trimmer::logger::log_debug(fmt::format("(FilesView) seleted directory: {}", directory));
+            change_directory(directory);
+        }
+
+        ImGuiFileDialog::Instance()->Close();
+    }
 }
 
 }  // namespace video_trimmer::views::files_view

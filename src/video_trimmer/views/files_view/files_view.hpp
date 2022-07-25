@@ -40,6 +40,7 @@ private:
     void show_controls();
     void show_file_table();
     void show_tooltip(const FileEntry& file);
+    void show_change_directory_dialog();
 };
 
 }  // namespace video_trimmer::views::files_view

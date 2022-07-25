@@ -22,6 +22,16 @@ if (CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
     )
 endif ()
 
+set(
+        IMGUIFILEDIALOG_SOURCES
+        lib/ImGuiFileDialog/ImGuiFileDialog.cpp
+        lib/ImGuiFileDialog/ImGuiFileDialog.h
+        lib/ImGuiFileDialog/ImGuiFileDialogConfig.h
+        lib/ImGuiFileDialog/dirent/dirent.h
+        lib/ImGuiFileDialog/stb/stb_image.h
+        lib/ImGuiFileDialog/stb/stb_image_resize.h
+)
+
 add_executable(video_trimmer
         main.cpp
         video_trimmer/app/app.cpp
@@ -98,6 +108,7 @@ add_executable(video_trimmer
         ${LINUX_SOURCES}
         ${MAC_SOURCES}
         ${WINDOWS_SOURCES}
+        ${IMGUIFILEDIALOG_SOURCES}
         )
 
 set_target_properties(video_trimmer PROPERTIES CXX_EXTENSIONS OFF)
