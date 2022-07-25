@@ -31,6 +31,7 @@ private:
     AutoDeleteResource<SDL_Texture> sdl_texture_;
 
     Size size_{};
+    float aspect_ratio_;
 
     SDL_PixelFormatEnum sdl_pixel_format_ = SDL_PIXELFORMAT_UNKNOWN;
     AVPixelFormat av_pixel_format_ = AV_PIX_FMT_NONE;
@@ -44,6 +45,7 @@ Texture::Impl::Impl(Graphics* graphics, const video_reader::frame::Frame* video_
     assert(video_frame);
 
     size_ = video_frame->size();
+    aspect_ratio_ = static_cast<float>(size_.width) / static_cast<float>(size_.height);
 
     av_pixel_format_ = video_frame->pixel_format();
     sdl_pixel_format_ = Texture::Impl::get_sdl_pixel_format(av_pixel_format_);
@@ -84,6 +86,19 @@ void Texture::Impl::draw(Graphics* graphics, Position dst_position, Size dst_siz
 {
     assert(sdl_texture_);
     assert(graphics);
+
+    // scale texture to fit into the destination rect (keeping its aspect ratio) and center it
+    const float dst_aspect_ratio = static_cast<float>(dst_size.width) / static_cast<float>(dst_size.height);
+
+    if (dst_aspect_ratio < aspect_ratio_) {
+        const int old_height = dst_size.height;
+        dst_size.height = static_cast<int>(static_cast<float>(dst_size.width) / aspect_ratio_);
+        dst_position.y += (old_height - dst_size.height) / 2;
+    } else {
+        const int old_width = dst_size.width;
+        dst_size.width = static_cast<int>(static_cast<float>(dst_size.height) * aspect_ratio_);
+        dst_position.x += (old_width - dst_size.width) / 2;
+    }
 
     graphics->render_texture(sdl_texture_.get(), dst_position, dst_size);
 }
