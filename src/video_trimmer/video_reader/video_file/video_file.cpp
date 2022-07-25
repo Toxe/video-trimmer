@@ -62,6 +62,8 @@ private:
 
 VideoFile::Impl::Impl(const std::string& full_filename)
 {
+    av_log_set_level(AV_LOG_FATAL);
+
     packet_ = AutoDeleteResource<AVPacket>(av_packet_alloc(), [](AVPacket* p) { av_packet_free(&p); });
 
     if (!packet_)
