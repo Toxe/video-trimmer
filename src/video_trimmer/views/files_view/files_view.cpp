@@ -98,7 +98,7 @@ void FilesView::show_file_table()
             ImGui::TableNextRow();
             ImGui::TableNextColumn();
 
-            ImGui::PushStyleColor(ImGuiCol_Text, ui::colors::light_blue);
+            ImGui::PushStyleColor(ImGuiCol_Text, file.is_supported() ? ui::colors::light_blue : ui::colors::dark_grey);
 
             if (ImGui::Selectable(file.basename().c_str(), selected_index_ == index, ImGuiSelectableFlags_SpanAllColumns)) {
                 selected_index_ = index;
@@ -110,11 +110,17 @@ void FilesView::show_file_table()
             if (ImGui::IsItemHovered())
                 show_tooltip(file);
 
+            if (!file.is_supported())
+                ImGui::PushStyleColor(ImGuiCol_Text, ui::colors::dark_grey);
+
             ImGui::TableNextColumn();
             ImGui::TextUnformatted(fmt::format("{:>9}", file.file_size()).c_str());
 
             ImGui::TableNextColumn();
             ImGui::TextUnformatted(file.video_duration().c_str());
+
+            if (!file.is_supported())
+                ImGui::PopStyleColor();
 
             ++index;
         }
@@ -139,6 +145,11 @@ void FilesView::show_tooltip(const FileEntry& file)
 
     ImGui::TextUnformatted(fmt::format("Size: {}", file.file_size()).c_str());
     ImGui::TextUnformatted(fmt::format("Duration: {}", file.video_duration()).c_str());
+
+    if (!file.is_supported()) {
+        ImGui::NewLine();
+        ImGui::TextColored(ui::colors::red, file.not_supported_note().c_str());
+    }
 
     ImGui::EndTooltip();
 }

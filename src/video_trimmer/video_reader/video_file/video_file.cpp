@@ -35,6 +35,8 @@ public:
 
     [[nodiscard]] std::unique_ptr<frame::Frame> read_next_frame(double playback_position);
 
+    [[nodiscard]] bool is_supported_pixel_format() const;
+
     void set_dump_first_frame(bool dump_frame) { dump_first_frame_ = dump_frame; }
 
 private:
@@ -191,6 +193,16 @@ std::string VideoFile::Impl::format_duration() const
     return fmt::format("{:02}:{:02}:{:02}", hours, mins, secs);
 }
 
+bool VideoFile::Impl::is_supported_pixel_format() const
+{
+    switch (video_codec_context_->pixel_format()) {
+    case AV_PIX_FMT_YUV420P:
+        return true;
+    default:
+        return false;
+    }
+}
+
 VideoFile::VideoFile(const std::string& full_filename) : impl_(std::make_unique<VideoFile::Impl>(full_filename)) { }
 VideoFile::~VideoFile() = default;
 bool VideoFile::is_open() const { return impl_->is_open(); }
@@ -204,5 +216,6 @@ bool VideoFile::has_video_stream() const { return impl_->has_video_stream(); }
 void VideoFile::set_dump_first_frame(bool dump_frame) { impl_->set_dump_first_frame(dump_frame); }
 std::unique_ptr<frame::Frame> VideoFile::read_next_frame(double playback_position) { return impl_->read_next_frame(playback_position); }
 std::string VideoFile::format_duration() const { return impl_->format_duration(); }
+bool VideoFile::is_supported_pixel_format() const { return impl_->is_supported_pixel_format(); }
 
 }  // namespace video_trimmer::video_reader::video_file

@@ -28,6 +28,11 @@ FileEntry::FileEntry(const video_reader::video_file::VideoFile& video_file, std:
         file_size_ = fmt::format("{} KB", std::round(filesize / 1024.0));
     else
         file_size_ = fmt::format("{} MB", std::round(filesize / (1024.0 * 1024.0)));
+
+    is_supported_ = video_file.is_supported_pixel_format();
+
+    if (!is_supported_)
+        not_supported_note_ = fmt::format("Pixel format {} is not supported.", video_file.video_codec_context()->pixel_format_name());
 }
 
 }  // namespace video_trimmer::views::files_view

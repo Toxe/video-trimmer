@@ -28,6 +28,8 @@ public:
 
     [[nodiscard]] std::unique_ptr<frame::Frame> read_next_frame(double playback_position);
 
+    [[nodiscard]] bool is_supported_pixel_format() const;
+
     void set_dump_first_frame(bool dump_frame);
 
 private:

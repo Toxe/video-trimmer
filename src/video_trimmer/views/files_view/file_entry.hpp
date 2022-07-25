@@ -23,6 +23,9 @@ public:
 
     [[nodiscard]] const std::string& file_size() const { return file_size_; }
 
+    [[nodiscard]] bool is_supported() const { return is_supported_; }
+    [[nodiscard]] const std::string& not_supported_note() const { return not_supported_note_; }
+
 private:
     std::filesystem::path path_;
 
@@ -35,6 +38,9 @@ private:
     std::string video_codec_additional_info_;
 
     std::string file_size_;
+
+    bool is_supported_;
+    std::string not_supported_note_;
 };
 
 }  // namespace video_trimmer::views::files_view
