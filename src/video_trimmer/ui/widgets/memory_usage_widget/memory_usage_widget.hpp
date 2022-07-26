@@ -1,5 +1,6 @@
 #pragma once
 
+#include <chrono>
 #include <memory>
 #include <vector>
 
@@ -18,6 +19,10 @@ private:
 
     std::vector<float> mem_;
     std::size_t values_offset_ = 0;
+
+    float current_memory_usage_ = 0.0;
+
+    std::chrono::steady_clock::time_point last_update_time_;
 };
 
 }  // namespace video_trimmer::ui::widgets::memory_usage_widget
