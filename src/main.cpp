@@ -38,10 +38,9 @@ int main(int argc, char* argv[])
 
         if (window.is_open()) {
             video_player.update();
-
             auto video_frame = video_player.next_frame();
 
-            if (video_player.is_playing())
+            if (video_frame && video_player.is_playing())
                 window.show_video_frame(std::move(video_frame));
 
             ui.render();
@@ -51,9 +50,6 @@ int main(int argc, char* argv[])
             trim_controls_view.render();
 
             window.render();
-
-            // if (received_first_real_frame && frames_available == 0 && video_reader.has_finished())
-            //     break;
         }
     }
 
