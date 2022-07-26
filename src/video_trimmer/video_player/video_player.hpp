@@ -46,11 +46,11 @@ private:
 
     std::chrono::steady_clock::time_point previous_frame_start_;
     std::chrono::steady_clock::time_point current_frame_start_;
-    double playback_position_;
+    double playback_position_ = 0.0;
 
-    bool has_started_playing_;
-    bool is_playing_;
-    bool received_first_real_frame_;
+    bool has_started_playing_ = false;
+    bool is_playing_ = false;
+    bool received_first_real_frame_ = false;
 
     bool dump_first_frame_ = false;
 
