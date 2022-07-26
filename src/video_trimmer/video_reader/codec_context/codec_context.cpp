@@ -69,6 +69,9 @@ AVPixelFormat CodecContext::pixel_format() const
 
 std::string CodecContext::pixel_format_name() const
 {
+    if (codec_context_->pix_fmt == AV_PIX_FMT_NONE)
+        return "N/A";
+
     return av_get_pix_fmt_name(codec_context_->pix_fmt);
 }
 
