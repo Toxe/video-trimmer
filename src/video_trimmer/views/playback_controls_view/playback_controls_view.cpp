@@ -21,7 +21,7 @@ void PlaybackControlsView::render(video_player::VideoPlayer& video_player)
     ImGui::BeginChild("playback controls");
 
     ImGui::TextUnformatted(fmt::format("playback controls [{}x{}]", ImGui::GetWindowSize().x, ImGui::GetWindowSize().y).c_str());
-    ImGui::TextUnformatted(fmt::format("playback position: {:.4f}", video_player.playback_position()).c_str());
+    ImGui::TextUnformatted(fmt::format("playback position: {:.4f}, frames received: {}, dropped: {}", video_player.playback_position(), video_player.received_frames(), video_player.dropped_frames()).c_str());
 
     ImGui::TextColored(video_player.has_open_file() ? ui::colors::green : ui::colors::red, "%s", "has_open_file");
     ImGui::SameLine();
