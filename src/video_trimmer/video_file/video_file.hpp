@@ -26,7 +26,7 @@ public:
     [[nodiscard]] bool has_audio_stream() const;
     [[nodiscard]] bool has_video_stream() const;
 
-    [[nodiscard]] std::unique_ptr<Frame> read_next_frame(double playback_position);
+    [[nodiscard]] std::unique_ptr<Frame> read_next_frame();
 
     [[nodiscard]] bool is_supported_pixel_format() const;
 

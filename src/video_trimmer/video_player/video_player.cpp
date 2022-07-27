@@ -126,7 +126,7 @@ std::unique_ptr<video_file::Frame> VideoPlayer::next_frame()
         while (true) {
             logger::log_trace(fmt::format("[next_frame C] {:.3f} request new frame", playback_position_));
 
-            available_frame_ = video_file_->read_next_frame(playback_position_);
+            available_frame_ = video_file_->read_next_frame();
 
             if (!available_frame_) {
                 logger::log_trace(fmt::format("[next_frame D] {:.3f} no new frame available", playback_position_));

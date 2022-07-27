@@ -33,7 +33,7 @@ public:
     [[nodiscard]] bool has_audio_stream() const { return audio_codec_context_ != nullptr; };
     [[nodiscard]] bool has_video_stream() const { return video_codec_context_ != nullptr; };
 
-    [[nodiscard]] std::unique_ptr<Frame> read_next_frame(double playback_position);
+    [[nodiscard]] std::unique_ptr<Frame> read_next_frame();
 
     [[nodiscard]] bool is_supported_pixel_format() const;
 
@@ -138,7 +138,7 @@ std::unique_ptr<CodecContext> VideoFile::Impl::find_best_stream(CodecContext::St
     }
 }
 
-std::unique_ptr<Frame> VideoFile::Impl::read_next_frame(const double playback_position)
+std::unique_ptr<Frame> VideoFile::Impl::read_next_frame()
 {
     // read until we get at least one video frame
     while (true) {
@@ -216,7 +216,7 @@ CodecContext* VideoFile::video_codec_context() const { return impl_->video_codec
 bool VideoFile::has_audio_stream() const { return impl_->has_audio_stream(); }
 bool VideoFile::has_video_stream() const { return impl_->has_video_stream(); }
 void VideoFile::set_dump_first_frame(bool dump_frame) { impl_->set_dump_first_frame(dump_frame); }
-std::unique_ptr<Frame> VideoFile::read_next_frame(double playback_position) { return impl_->read_next_frame(playback_position); }
+std::unique_ptr<Frame> VideoFile::read_next_frame() { return impl_->read_next_frame(); }
 std::string VideoFile::format_duration() const { return impl_->format_duration(); }
 bool VideoFile::is_supported_pixel_format() const { return impl_->is_supported_pixel_format(); }
 
