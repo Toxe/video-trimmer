@@ -24,13 +24,13 @@ void MainWindow::begin_frame()
 
 void MainWindow::render()
 {
-    video_view_->render(graphics_.get());
+    video_view_->render(*graphics_);
     graphics_->finish_frame();
 }
 
 void MainWindow::show_video_frame(std::unique_ptr<video_file::Frame> video_frame)
 {
-    video_view_->show_video_frame(graphics_.get(), std::move(video_frame));
+    video_view_->show_video_frame(*graphics_, std::move(video_frame));
 }
 
 void MainWindow::close()

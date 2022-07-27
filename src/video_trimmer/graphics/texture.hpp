@@ -11,15 +11,15 @@ class Graphics;
 
 class Texture {
 public:
-    Texture(Graphics* graphics, const video_file::Frame* video_frame);
+    Texture(Graphics& graphics, Size size, AVPixelFormat pixel_format);
     ~Texture();
 
     [[nodiscard]] Size size() const;
 
-    [[nodiscard]] bool is_compatible_with_video_frame(const video_file::Frame* video_frame) const;
+    [[nodiscard]] bool is_compatible(Size size, AVPixelFormat pixel_format) const;
 
     void update(video_file::Frame* video_frame);
-    void draw(Graphics* graphics, Position dst_position, Size dst_size);
+    void draw(Graphics& graphics, Position dst_position, Size dst_size);
 
 private:
     class Impl;

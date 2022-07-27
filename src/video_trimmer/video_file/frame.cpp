@@ -36,7 +36,7 @@ public:
     [[nodiscard]] AVFrame* frame() { return frame_.get(); }
 
     [[nodiscard]] AVPixelFormat pixel_format() const { return pixel_format_; };
-    [[nodiscard]] std::string pixel_format_name() const;
+    [[nodiscard]] static std::string pixel_format_name(AVPixelFormat pixel_format);
 
     void dump_to_file(const std::string& filename);
 
@@ -67,7 +67,7 @@ Frame::Impl::Impl(Size size, AVPixelFormat pixel_format)
 void Frame::Impl::dump_to_file(const std::string& filename)
 {
     std::filesystem::path out_filename{filename};
-    out_filename.replace_filename(fmt::format("{}_{}x{}_{}.raw", out_filename.stem().string(), frame_->width, frame_->height, pixel_format_name()));
+    out_filename.replace_filename(fmt::format("{}_{}x{}_{}.raw", out_filename.stem().string(), frame_->width, frame_->height, pixel_format_name(pixel_format_)));
 
     video_trimmer::logger::log_info(fmt::format("dump first video frame to file: {}", out_filename.string()));
 
@@ -86,9 +86,9 @@ void Frame::Impl::dump_to_file(const std::string& filename)
     out.write(reinterpret_cast<const char*>(buffer.get()), buffer_size);
 }
 
-std::string Frame::Impl::pixel_format_name() const
+std::string Frame::Impl::pixel_format_name(AVPixelFormat pixel_format)
 {
-    return av_get_pix_fmt_name(pixel_format_);
+    return av_get_pix_fmt_name(pixel_format);
 }
 
 Frame::Frame(Size size, AVPixelFormat pixel_format) : impl_(std::make_unique<Frame::Impl>(size, pixel_format)) { }
@@ -103,6 +103,6 @@ int* Frame::linesizes() { return impl_->linesizes(); }
 AVFrame* Frame::frame() { return impl_->frame(); }
 AVPixelFormat Frame::pixel_format() const { return impl_->pixel_format(); }
 void Frame::dump_to_file(const std::string& filename) { impl_->dump_to_file(filename); }
-std::string Frame::pixel_format_name() const { return impl_->pixel_format_name(); }
+std::string Frame::pixel_format_name(AVPixelFormat pixel_format) { return Frame::Impl::pixel_format_name(pixel_format); }
 
 }  // namespace video_trimmer::video_file
