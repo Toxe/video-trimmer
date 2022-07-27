@@ -25,9 +25,9 @@ FileEntry::FileEntry(const video_file::VideoFile& video_file, std::filesystem::p
     if (filesize < 1024)
         file_size_ = "<1 KB";
     else if (filesize < (1024 * 1024))
-        file_size_ = fmt::format("{} KB", std::round(filesize / 1024.0));
+        file_size_ = fmt::format("{} KB", std::round(static_cast<double>(filesize) / 1024.0));
     else
-        file_size_ = fmt::format("{} MB", std::round(filesize / (1024.0 * 1024.0)));
+        file_size_ = fmt::format("{} MB", std::round(static_cast<double>(filesize) / (1024.0 * 1024.0)));
 
     is_supported_ = video_file.is_supported_pixel_format();
 

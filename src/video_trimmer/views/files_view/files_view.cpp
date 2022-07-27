@@ -58,7 +58,9 @@ void FilesView::add_file(FileEntry file_entry)
 
 std::string FilesView::selected_filename() const
 {
-    return files_.at(selected_index_).full_filename();
+    assert(selected_index_ >= 0);
+
+    return files_.at(static_cast<std::size_t>(selected_index_)).full_filename();
 }
 
 void FilesView::show_controls()
@@ -147,7 +149,7 @@ void FilesView::show_tooltip(const FileEntry& file)
 {
     ImGui::BeginTooltip();
 
-    ImGui::TextColored(ui::colors::light_blue, file.basename().c_str());
+    ImGui::TextColored(ui::colors::light_blue, "%s", file.basename().c_str());
     ImGui::Separator();
 
     ImGui::TextUnformatted(file.video_format().c_str());
@@ -160,7 +162,7 @@ void FilesView::show_tooltip(const FileEntry& file)
 
     if (!file.is_supported()) {
         ImGui::NewLine();
-        ImGui::TextColored(ui::colors::red, file.not_supported_note().c_str());
+        ImGui::TextColored(ui::colors::red, "%s", file.not_supported_note().c_str());
     }
 
     ImGui::EndTooltip();
