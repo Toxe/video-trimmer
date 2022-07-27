@@ -3,15 +3,15 @@
 #include <filesystem>
 #include <string>
 
-namespace video_trimmer::video_reader::video_file {
+namespace video_trimmer::video_file {
 class VideoFile;
-}  // namespace video_trimmer::video_reader::video_file
+}  // namespace video_trimmer::video_file
 
 namespace video_trimmer::views::files_view {
 
 class FileEntry {
 public:
-    FileEntry(const video_reader::video_file::VideoFile& video_file, std::filesystem::path path);
+    FileEntry(const video_file::VideoFile& video_file, std::filesystem::path path);
 
     [[nodiscard]] const std::string& basename() const { return basename_; }
     [[nodiscard]] const std::string& full_filename() const { return full_filename_; }

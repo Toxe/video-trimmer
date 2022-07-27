@@ -12,7 +12,7 @@ extern "C" {
 
 struct AVFrame;
 
-namespace video_trimmer::video_reader::frame {
+namespace video_trimmer::video_file {
 
 class Frame {
 public:
@@ -42,4 +42,4 @@ private:
     std::unique_ptr<Impl> impl_;
 };
 
-}  // namespace video_trimmer::video_reader::frame
+}  // namespace video_trimmer::video_file

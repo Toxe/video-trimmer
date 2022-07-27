@@ -14,7 +14,7 @@ extern "C" {
 #include "auto_delete_resource.hpp"
 #include "video_trimmer/error/error.hpp"
 
-namespace video_trimmer::video_reader::video_file {
+namespace video_trimmer::video_file {
 
 class VideoFile::Impl {
 public:
@@ -27,13 +27,13 @@ public:
     [[nodiscard]] const std::string& file_format() const { return file_format_; }
     [[nodiscard]] std::string format_duration() const;
 
-    [[nodiscard]] codec_context::CodecContext* audio_codec_context() const { return audio_codec_context_.get(); }
-    [[nodiscard]] codec_context::CodecContext* video_codec_context() const { return video_codec_context_.get(); }
+    [[nodiscard]] CodecContext* audio_codec_context() const { return audio_codec_context_.get(); }
+    [[nodiscard]] CodecContext* video_codec_context() const { return video_codec_context_.get(); }
 
     [[nodiscard]] bool has_audio_stream() const { return audio_codec_context_ != nullptr; };
     [[nodiscard]] bool has_video_stream() const { return video_codec_context_ != nullptr; };
 
-    [[nodiscard]] std::unique_ptr<frame::Frame> read_next_frame(double playback_position);
+    [[nodiscard]] std::unique_ptr<Frame> read_next_frame(double playback_position);
 
     [[nodiscard]] bool is_supported_pixel_format() const;
 
@@ -43,8 +43,8 @@ private:
     AutoDeleteResource<AVFormatContext> format_context_;
     AutoDeleteResource<AVPacket> packet_;
 
-    std::unique_ptr<codec_context::CodecContext> audio_codec_context_;
-    std::unique_ptr<codec_context::CodecContext> video_codec_context_;
+    std::unique_ptr<CodecContext> audio_codec_context_;
+    std::unique_ptr<CodecContext> video_codec_context_;
 
     std::string filename_without_path_;
     std::string file_format_;
@@ -53,9 +53,9 @@ private:
 
     [[nodiscard]] int open_file(const std::string& full_filename);
 
-    [[nodiscard]] std::unique_ptr<codec_context::CodecContext> find_best_stream(codec_context::CodecContext::StreamType type);
+    [[nodiscard]] std::unique_ptr<CodecContext> find_best_stream(CodecContext::StreamType type);
 
-    [[nodiscard]] std::unique_ptr<frame::Frame> decode_video_packet(AVPacket* packet);
+    [[nodiscard]] std::unique_ptr<Frame> decode_video_packet(AVPacket* packet);
 
     bool dump_first_frame_ = false;
 };
@@ -102,8 +102,8 @@ int VideoFile::Impl::open_file(const std::string& full_filename)
     file_format_ = format_context_->iformat->long_name;
 
     // find best audio and video stream
-    audio_codec_context_ = find_best_stream(codec_context::CodecContext::StreamType::audio);
-    video_codec_context_ = find_best_stream(codec_context::CodecContext::StreamType::video);
+    audio_codec_context_ = find_best_stream(CodecContext::StreamType::audio);
+    video_codec_context_ = find_best_stream(CodecContext::StreamType::video);
 
     // a missing audio stream is fine, but we are looking for at least a video stream
     if (!video_codec_context_)
@@ -117,10 +117,10 @@ bool VideoFile::Impl::is_video() const
     return is_open() && has_video_stream() && video_codec_context_->fps() > 0.0f;
 }
 
-std::unique_ptr<codec_context::CodecContext> VideoFile::Impl::find_best_stream(codec_context::CodecContext::StreamType type)
+std::unique_ptr<CodecContext> VideoFile::Impl::find_best_stream(CodecContext::StreamType type)
 {
     // find decoder for stream and allocate codec context for decoder
-    const AVMediaType media_type = type == codec_context::CodecContext::StreamType::audio ? AVMEDIA_TYPE_AUDIO : AVMEDIA_TYPE_VIDEO;
+    const AVMediaType media_type = type == CodecContext::StreamType::audio ? AVMEDIA_TYPE_AUDIO : AVMEDIA_TYPE_VIDEO;
     const int stream_index = av_find_best_stream(format_context_.get(), media_type, -1, -1, nullptr, 0);
 
     if (stream_index < 0)
@@ -132,13 +132,13 @@ std::unique_ptr<codec_context::CodecContext> VideoFile::Impl::find_best_stream(c
         return nullptr;
 
     try {
-        return std::make_unique<codec_context::CodecContext>(stream);
+        return std::make_unique<CodecContext>(stream);
     } catch (const std::exception&) {
         return nullptr;
     }
 }
 
-std::unique_ptr<frame::Frame> VideoFile::Impl::read_next_frame(const double playback_position)
+std::unique_ptr<Frame> VideoFile::Impl::read_next_frame(const double playback_position)
 {
     // read until we get at least one video frame
     while (true) {
@@ -147,7 +147,7 @@ std::unique_ptr<frame::Frame> VideoFile::Impl::read_next_frame(const double play
 
         // process only interesting packets, drop the rest
         if (packet_->stream_index == video_codec_context_->stream_index()) {
-            std::unique_ptr<frame::Frame> frame = decode_video_packet(packet_.get());
+            std::unique_ptr<Frame> frame = decode_video_packet(packet_.get());
             av_packet_unref(packet_.get());
             return frame;
         } else if (packet_->stream_index == audio_codec_context_->stream_index()) {
@@ -161,14 +161,14 @@ std::unique_ptr<frame::Frame> VideoFile::Impl::read_next_frame(const double play
     return nullptr;
 }
 
-std::unique_ptr<frame::Frame> VideoFile::Impl::decode_video_packet(AVPacket* packet)
+std::unique_ptr<Frame> VideoFile::Impl::decode_video_packet(AVPacket* packet)
 {
     // send packet to the decoder
     if (video_codec_context_->send_packet_to_decoder(packet) < 0)
         return nullptr;
 
     // get available frame from the decoder
-    std::unique_ptr<frame::Frame> frame = video_codec_context_->receive_frame_from_decoder(video_codec_context_->stream_time_base());
+    std::unique_ptr<Frame> frame = video_codec_context_->receive_frame_from_decoder(video_codec_context_->stream_time_base());
 
     if (dump_first_frame_ && frame) {
         frame->dump_to_file(filename_without_path_);
@@ -211,13 +211,13 @@ bool VideoFile::is_open() const { return impl_->is_open(); }
 bool VideoFile::is_video() const { return impl_->is_video(); }
 const std::string& VideoFile::filename() const { return impl_->filename(); }
 const std::string& VideoFile::file_format() const { return impl_->file_format(); }
-codec_context::CodecContext* VideoFile::audio_codec_context() const { return impl_->audio_codec_context(); }
-codec_context::CodecContext* VideoFile::video_codec_context() const { return impl_->video_codec_context(); }
+CodecContext* VideoFile::audio_codec_context() const { return impl_->audio_codec_context(); }
+CodecContext* VideoFile::video_codec_context() const { return impl_->video_codec_context(); }
 bool VideoFile::has_audio_stream() const { return impl_->has_audio_stream(); }
 bool VideoFile::has_video_stream() const { return impl_->has_video_stream(); }
 void VideoFile::set_dump_first_frame(bool dump_frame) { impl_->set_dump_first_frame(dump_frame); }
-std::unique_ptr<frame::Frame> VideoFile::read_next_frame(double playback_position) { return impl_->read_next_frame(playback_position); }
+std::unique_ptr<Frame> VideoFile::read_next_frame(double playback_position) { return impl_->read_next_frame(playback_position); }
 std::string VideoFile::format_duration() const { return impl_->format_duration(); }
 bool VideoFile::is_supported_pixel_format() const { return impl_->is_supported_pixel_format(); }
 
-}  // namespace video_trimmer::video_reader::video_file
+}  // namespace video_trimmer::video_file

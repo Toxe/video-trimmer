@@ -9,7 +9,7 @@ namespace video_trimmer::views::additional_info_view {
 
 class AdditionalInfoView {
 public:
-    void render(video_trimmer::clock::Duration elapsed_time, const video_reader::video_file::VideoFile* video_file);
+    void render(video_trimmer::clock::Duration elapsed_time, const video_file::VideoFile* video_file);
 
 private:
     video_trimmer::ui::widgets::fps_widget::FPSWidget fps_widget_;

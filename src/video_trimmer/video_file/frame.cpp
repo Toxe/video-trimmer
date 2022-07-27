@@ -16,7 +16,7 @@ extern "C" {
 #include "auto_delete_resource.hpp"
 #include "video_trimmer/logger/logger.hpp"
 
-namespace video_trimmer::video_reader::frame {
+namespace video_trimmer::video_file {
 
 class Frame::Impl {
 public:
@@ -105,4 +105,4 @@ AVPixelFormat Frame::pixel_format() const { return impl_->pixel_format(); }
 void Frame::dump_to_file(const std::string& filename) { impl_->dump_to_file(filename); }
 std::string Frame::pixel_format_name() const { return impl_->pixel_format_name(); }
 
-}  // namespace video_trimmer::video_reader::frame
+}  // namespace video_trimmer::video_file

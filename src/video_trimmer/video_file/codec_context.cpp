@@ -13,7 +13,7 @@ extern "C" {
 
 #include "video_trimmer/error/error.hpp"
 
-namespace video_trimmer::video_reader::codec_context {
+namespace video_trimmer::video_file {
 
 CodecContext::CodecContext(AVStream* stream)
 {
@@ -85,9 +85,9 @@ int CodecContext::send_packet_to_decoder(AVPacket* packet)
     return 0;
 }
 
-std::unique_ptr<frame::Frame> CodecContext::receive_frame_from_decoder(const double time_base)
+std::unique_ptr<Frame> CodecContext::receive_frame_from_decoder(const double time_base)
 {
-    std::unique_ptr<frame::Frame> frame = std::make_unique<frame::Frame>(size(), pixel_format());
+    std::unique_ptr<Frame> frame = std::make_unique<Frame>(size(), pixel_format());
 
     int ret = avcodec_receive_frame(codec_context_.get(), frame->frame());
 
@@ -103,4 +103,4 @@ std::unique_ptr<frame::Frame> CodecContext::receive_frame_from_decoder(const dou
     return frame;
 }
 
-}  // namespace video_trimmer::video_reader::codec_context
+}  // namespace video_trimmer::video_file

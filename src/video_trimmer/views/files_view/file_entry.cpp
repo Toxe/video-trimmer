@@ -5,11 +5,11 @@
 
 #include "fmt/core.h"
 
-#include "video_trimmer/video_reader/video_file/video_file.hpp"
+#include "video_trimmer/video_file/video_file.hpp"
 
 namespace video_trimmer::views::files_view {
 
-FileEntry::FileEntry(const video_reader::video_file::VideoFile& video_file, std::filesystem::path path)
+FileEntry::FileEntry(const video_file::VideoFile& video_file, std::filesystem::path path)
     : path_(std::move(path))
 {
     basename_ = path_.filename().string();

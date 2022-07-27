@@ -18,13 +18,13 @@ namespace video_trimmer::graphics {
 
 class Texture::Impl {
 public:
-    Impl(Graphics* graphics, const video_reader::frame::Frame* video_frame);
+    Impl(Graphics* graphics, const video_file::Frame* video_frame);
 
     [[nodiscard]] Size size() const { return size_; }
 
-    [[nodiscard]] bool is_compatible_with_video_frame(const video_reader::frame::Frame* video_frame) const;
+    [[nodiscard]] bool is_compatible_with_video_frame(const video_file::Frame* video_frame) const;
 
-    void update(video_reader::frame::Frame* video_frame);
+    void update(video_file::Frame* video_frame);
     void draw(Graphics* graphics, Position dst_position, Size dst_size);
 
 private:
@@ -39,7 +39,7 @@ private:
     [[nodiscard]] static SDL_PixelFormatEnum get_sdl_pixel_format(AVPixelFormat av_pixel_format);
 };
 
-Texture::Impl::Impl(Graphics* graphics, const video_reader::frame::Frame* video_frame)
+Texture::Impl::Impl(Graphics* graphics, const video_file::Frame* video_frame)
 {
     assert(graphics);
     assert(video_frame);
@@ -59,7 +59,7 @@ Texture::Impl::Impl(Graphics* graphics, const video_reader::frame::Frame* video_
         video_trimmer::logger::log_debug(fmt::format("created new {}x{} {} render texture", size_.width, size_.height, video_frame->pixel_format_name()));
 }
 
-bool Texture::Impl::is_compatible_with_video_frame(const video_reader::frame::Frame* video_frame) const
+bool Texture::Impl::is_compatible_with_video_frame(const video_file::Frame* video_frame) const
 {
     if (!sdl_texture_)
         return false;
@@ -70,7 +70,7 @@ bool Texture::Impl::is_compatible_with_video_frame(const video_reader::frame::Fr
     return av_pixel_format_ == video_frame->pixel_format();
 }
 
-void Texture::Impl::update(video_reader::frame::Frame* video_frame)
+void Texture::Impl::update(video_file::Frame* video_frame)
 {
     assert(sdl_texture_);
     assert(video_frame);
@@ -117,11 +117,11 @@ SDL_PixelFormatEnum Texture::Impl::get_sdl_pixel_format(AVPixelFormat av_pixel_f
     }
 }
 
-Texture::Texture(Graphics* graphics, const video_reader::frame::Frame* video_frame) : impl_(std::make_unique<Texture::Impl>(graphics, video_frame)) { }
+Texture::Texture(Graphics* graphics, const video_file::Frame* video_frame) : impl_(std::make_unique<Texture::Impl>(graphics, video_frame)) { }
 Texture::~Texture() = default;
 Size Texture::size() const { return impl_->size(); }
-bool Texture::is_compatible_with_video_frame(const video_reader::frame::Frame* video_frame) const { return impl_->is_compatible_with_video_frame(video_frame); }
-void Texture::update(video_reader::frame::Frame* video_frame) { impl_->update(video_frame); }
+bool Texture::is_compatible_with_video_frame(const video_file::Frame* video_frame) const { return impl_->is_compatible_with_video_frame(video_frame); }
+void Texture::update(video_file::Frame* video_frame) { impl_->update(video_frame); }
 void Texture::draw(Graphics* graphics, Position dst_position, Size dst_size) { impl_->draw(graphics, dst_position, dst_size); }
 
 }  // namespace video_trimmer::graphics

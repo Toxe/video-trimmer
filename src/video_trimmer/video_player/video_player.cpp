@@ -19,10 +19,7 @@ bool VideoPlayer::open_file(const std::string& filename)
     if (has_open_file())
         return false;
 
-    video_file_ = std::make_unique<video_reader::video_file::VideoFile>(filename);
-
-    if (has_open_file())
-        video_reader_ = std::make_unique<video_reader::VideoReader>(*video_file_);
+    video_file_ = std::make_unique<video_file::VideoFile>(filename);
 
     has_started_playing_ = false;
     is_playing_ = false;
@@ -113,7 +110,7 @@ void VideoPlayer::update()
     }
 }
 
-std::unique_ptr<video_reader::frame::Frame> VideoPlayer::next_frame()
+std::unique_ptr<video_file::Frame> VideoPlayer::next_frame()
 {
     if (!is_playing())
         return nullptr;
@@ -129,7 +126,7 @@ std::unique_ptr<video_reader::frame::Frame> VideoPlayer::next_frame()
         while (true) {
             logger::log_trace(fmt::format("[next_frame C] {:.3f} request new frame", playback_position_));
 
-            available_frame_ = video_reader_->read_next_frame(playback_position_);
+            available_frame_ = video_file_->read_next_frame(playback_position_);
 
             if (!available_frame_) {
                 logger::log_trace(fmt::format("[next_frame D] {:.3f} no new frame available", playback_position_));

@@ -28,7 +28,7 @@ void MainWindow::render()
     graphics_->finish_frame();
 }
 
-void MainWindow::show_video_frame(std::unique_ptr<video_reader::frame::Frame> video_frame)
+void MainWindow::show_video_frame(std::unique_ptr<video_file::Frame> video_frame)
 {
     video_view_->show_video_frame(graphics_.get(), std::move(video_frame));
 }

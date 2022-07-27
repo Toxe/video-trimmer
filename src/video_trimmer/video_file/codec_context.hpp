@@ -3,15 +3,15 @@
 #include <memory>
 #include <string>
 
-#include "../frame/frame.hpp"
 #include "auto_delete_resource.hpp"
+#include "frame.hpp"
 #include "types.hpp"
 
 struct AVCodecContext;
 struct AVPacket;
 struct AVStream;
 
-namespace video_trimmer::video_reader::codec_context {
+namespace video_trimmer::video_file {
 
 class CodecContext {
 public:
@@ -36,7 +36,7 @@ public:
     [[nodiscard]] double stream_time_base() const { return stream_time_base_; };
 
     [[nodiscard]] int send_packet_to_decoder(AVPacket* packet);
-    [[nodiscard]] std::unique_ptr<frame::Frame> receive_frame_from_decoder(double time_base);
+    [[nodiscard]] std::unique_ptr<Frame> receive_frame_from_decoder(double time_base);
 
 private:
     AutoDeleteResource<AVCodecContext> codec_context_;
@@ -51,4 +51,4 @@ private:
     double stream_time_base_;
 };
 
-}  // namespace video_trimmer::video_reader::codec_context
+}  // namespace video_trimmer::video_file

@@ -5,7 +5,7 @@
 
 namespace video_trimmer::views::additional_info_view {
 
-void AdditionalInfoView::render(const video_trimmer::clock::Duration elapsed_time, const video_reader::video_file::VideoFile* video_file)
+void AdditionalInfoView::render(const video_trimmer::clock::Duration elapsed_time, const video_file::VideoFile* video_file)
 {
     ImGui::Begin("Video Trimmer");
     ImGui::BeginChild("left pane");

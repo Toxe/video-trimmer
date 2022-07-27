@@ -5,7 +5,7 @@
 #include "video_trimmer/command_line/command_line.hpp"
 #include "video_trimmer/graphics/graphics.hpp"
 #include "video_trimmer/include/types.hpp"
-#include "video_trimmer/video_reader/frame/frame.hpp"
+#include "video_trimmer/video_file/frame.hpp"
 #include "video_trimmer/views/video_view/video_view.hpp"
 
 namespace video_trimmer::main_window {
@@ -22,7 +22,7 @@ public:
     void begin_frame();
     void render();
 
-    void show_video_frame(std::unique_ptr<video_reader::frame::Frame> video_frame);
+    void show_video_frame(std::unique_ptr<video_file::Frame> video_frame);
 
     void resized_window();
     void close();

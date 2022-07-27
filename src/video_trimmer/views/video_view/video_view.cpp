@@ -12,10 +12,13 @@ extern "C" {
 
 namespace video_trimmer::views::video_view {
 
-void VideoView::show_video_frame(video_trimmer::graphics::Graphics* graphics, std::unique_ptr<video_reader::frame::Frame> video_frame)
+void VideoView::show_video_frame(video_trimmer::graphics::Graphics* graphics, std::unique_ptr<video_file::Frame> video_frame)
 {
     if (video_frame) {
         current_video_frame_ = std::move(video_frame);
+
+        // if (needs_to_create_new_texture())
+        //    create_new_texture(video_frame);
 
         if (!texture_ || !texture_->is_compatible_with_video_frame(current_video_frame_.get()))
             texture_ = std::make_unique<graphics::Texture>(graphics, current_video_frame_.get());

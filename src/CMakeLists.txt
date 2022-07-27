@@ -79,18 +79,16 @@ add_executable(video_trimmer
         video_trimmer/ui/widgets/memory_usage_widget/memory_usage_widget.hpp
         video_trimmer/ui/widgets/video_file_info_widget/video_file_info_widget.cpp
         video_trimmer/ui/widgets/video_file_info_widget/video_file_info_widget.hpp
+        video_trimmer/video_file/codec_context.cpp
+        video_trimmer/video_file/codec_context.hpp
+        video_trimmer/video_file/frame.cpp
+        video_trimmer/video_file/frame.hpp
+        video_trimmer/video_file/video_file.cpp
+        video_trimmer/video_file/video_file.hpp
         video_trimmer/video_player/commands.cpp
         video_trimmer/video_player/commands.hpp
         video_trimmer/video_player/video_player.cpp
         video_trimmer/video_player/video_player.hpp
-        video_trimmer/video_reader/codec_context/codec_context.cpp
-        video_trimmer/video_reader/codec_context/codec_context.hpp
-        video_trimmer/video_reader/frame/frame.cpp
-        video_trimmer/video_reader/frame/frame.hpp
-        video_trimmer/video_reader/video_file/video_file.cpp
-        video_trimmer/video_reader/video_file/video_file.hpp
-        video_trimmer/video_reader/video_reader.cpp
-        video_trimmer/video_reader/video_reader.hpp
         video_trimmer/views/additional_info_view/additional_info_view.cpp
         video_trimmer/views/additional_info_view/additional_info_view.hpp
         video_trimmer/views/files_view/directory_scanner.cpp
