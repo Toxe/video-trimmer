@@ -36,6 +36,8 @@ private:
     SDL_PixelFormatEnum sdl_pixel_format_ = SDL_PIXELFORMAT_UNKNOWN;
     AVPixelFormat av_pixel_format_ = AV_PIX_FMT_NONE;
 
+    bool is_empty_ = true;
+
     [[nodiscard]] static SDL_PixelFormatEnum get_sdl_pixel_format(AVPixelFormat av_pixel_format);
 };
 
@@ -77,11 +79,17 @@ void Texture::Impl::update(video_file::Frame* video_frame)
 
     if (SDL_UpdateYUVTexture(sdl_texture_.get(), nullptr, data[0], linesizes[0], data[1], linesizes[1], data[2], linesizes[2]) < 0)
         logger::log_error(fmt::format("unable to update texture: {}", SDL_GetError()));
+    else
+        is_empty_ = false;
 }
 
 void Texture::Impl::draw(Graphics& graphics, Position dst_position, Size dst_size)
 {
     assert(sdl_texture_);
+
+    // only draw the texture if it has image data
+    if (is_empty_)
+        return;
 
     // scale texture to fit into the destination rect (keeping its aspect ratio) and center it
     const float dst_aspect_ratio = static_cast<float>(dst_size.width) / static_cast<float>(dst_size.height);
