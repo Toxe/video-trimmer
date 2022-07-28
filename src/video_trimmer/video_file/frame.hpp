@@ -4,10 +4,7 @@
 #include <span>
 #include <string>
 
-extern "C" {
-#include "libavutil/pixfmt.h"
-}
-
+#include "pixel_format.hpp"
 #include "types.hpp"
 
 struct AVFrame;
@@ -16,7 +13,7 @@ namespace video_trimmer::video_file {
 
 class Frame {
 public:
-    Frame(Size size, AVPixelFormat pixel_format);
+    Frame(Size size, PixelFormat pixel_format);
     ~Frame();
 
     [[nodiscard]] bool is_audio_frame() const;
@@ -31,9 +28,7 @@ public:
     [[nodiscard]] int* linesizes();
 
     [[nodiscard]] AVFrame* frame();
-
-    [[nodiscard]] AVPixelFormat pixel_format() const;
-    [[nodiscard]] static std::string pixel_format_name(AVPixelFormat pixel_format);
+    [[nodiscard]] PixelFormat pixel_format() const;
 
     void dump_to_file(const std::string& filename);
 

@@ -11,12 +11,12 @@ class Graphics;
 
 class Texture {
 public:
-    Texture(Graphics& graphics, Size size, AVPixelFormat pixel_format);
+    Texture(Graphics& graphics, Size size, video_file::PixelFormat pixel_format);
     ~Texture();
 
     [[nodiscard]] Size size() const;
 
-    [[nodiscard]] bool is_compatible(Size size, AVPixelFormat pixel_format) const;
+    [[nodiscard]] bool is_compatible(Size size, video_file::PixelFormat pixel_format) const;
 
     void update(video_file::Frame* video_frame);
     void draw(Graphics& graphics, Position dst_position, Size dst_size);

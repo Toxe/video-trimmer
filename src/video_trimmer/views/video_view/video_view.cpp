@@ -24,7 +24,7 @@ void VideoView::show_video_frame(graphics::Graphics& graphics, std::unique_ptr<v
     }
 }
 
-void VideoView::create_compatible_render_texture_if_necessary(graphics::Graphics& graphics, Size size, AVPixelFormat pixel_format)
+void VideoView::create_compatible_render_texture_if_necessary(graphics::Graphics& graphics, Size size, video_file::PixelFormat pixel_format)
 {
     if (!texture_ || !texture_->is_compatible(size, pixel_format))
         texture_ = std::make_unique<graphics::Texture>(graphics, size, pixel_format);

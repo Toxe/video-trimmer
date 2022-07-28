@@ -8,7 +8,6 @@
 extern "C" {
 #include "libavcodec/avcodec.h"
 #include "libavformat/avformat.h"
-#include "libavutil/pixdesc.h"
 }
 
 #include "video_trimmer/error/error.hpp"
@@ -52,7 +51,7 @@ CodecContext::CodecContext(AVStream* stream)
     codec_name_ = codec_context_->codec->long_name;
 
     if (codec_context_->codec_type == AVMEDIA_TYPE_VIDEO)
-        codec_additional_info_ = fmt::format("{}x{}, {:.1f} fps, {}", codec_context_->width, codec_context_->height, fps_, pixel_format_name());
+        codec_additional_info_ = fmt::format("{}x{}, {:.1f} fps, {}", codec_context_->width, codec_context_->height, fps_, pixel_format().name());
     else if (codec_context_->codec_type == AVMEDIA_TYPE_AUDIO)
         codec_additional_info_ = fmt::format("{} channels, {} sample rate", codec_context_->channels, codec_context_->sample_rate);
 }
@@ -62,17 +61,9 @@ Size CodecContext::size() const
     return {codec_context_->width, codec_context_->height};
 }
 
-AVPixelFormat CodecContext::pixel_format() const
+PixelFormat CodecContext::pixel_format() const
 {
-    return codec_context_->pix_fmt;
-}
-
-std::string CodecContext::pixel_format_name() const
-{
-    if (codec_context_->pix_fmt == AV_PIX_FMT_NONE)
-        return "N/A";
-
-    return av_get_pix_fmt_name(codec_context_->pix_fmt);
+    return PixelFormat(codec_context_->pix_fmt);
 }
 
 int CodecContext::send_packet_to_decoder(AVPacket* packet)

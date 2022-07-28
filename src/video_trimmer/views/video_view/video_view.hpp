@@ -14,7 +14,7 @@ public:
     void render(graphics::Graphics& graphics);
 
     void show_video_frame(graphics::Graphics& graphics, std::unique_ptr<video_file::Frame> video_frame);
-    void create_compatible_render_texture_if_necessary(graphics::Graphics& graphics, Size size, AVPixelFormat pixel_format);
+    void create_compatible_render_texture_if_necessary(graphics::Graphics& graphics, Size size, video_file::PixelFormat pixel_format);
 
     [[nodiscard]] Size size() const { return view_size_; }
 

@@ -83,6 +83,8 @@ add_executable(video_trimmer
         video_trimmer/video_file/codec_context.hpp
         video_trimmer/video_file/frame.cpp
         video_trimmer/video_file/frame.hpp
+        video_trimmer/video_file/pixel_format.cpp
+        video_trimmer/video_file/pixel_format.hpp
         video_trimmer/video_file/video_file.cpp
         video_trimmer/video_file/video_file.hpp
         video_trimmer/video_player/commands.cpp

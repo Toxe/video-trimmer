@@ -6,10 +6,6 @@
 #include "SDL2/SDL_render.h"
 #include "fmt/core.h"
 
-extern "C" {
-#include "libavutil/pixfmt.h"
-}
-
 #include "auto_delete_resource.hpp"
 #include "graphics.hpp"
 #include "video_trimmer/logger/logger.hpp"
@@ -18,11 +14,11 @@ namespace video_trimmer::graphics {
 
 class Texture::Impl {
 public:
-    Impl(Graphics& graphics, Size size, AVPixelFormat pixel_format);
+    Impl(Graphics& graphics, Size size, video_file::PixelFormat pixel_format);
 
     [[nodiscard]] Size size() const { return size_; }
 
-    [[nodiscard]] bool is_compatible(Size size, AVPixelFormat pixel_format) const;
+    [[nodiscard]] bool is_compatible(Size size, video_file::PixelFormat pixel_format) const;
 
     void update(video_file::Frame* video_frame);
     void draw(Graphics& graphics, Position dst_position, Size dst_size);
@@ -33,32 +29,28 @@ private:
     Size size_{};
     float aspect_ratio_;
 
+    video_file::PixelFormat pixel_format_;
     SDL_PixelFormatEnum sdl_pixel_format_ = SDL_PIXELFORMAT_UNKNOWN;
-    AVPixelFormat av_pixel_format_ = AV_PIX_FMT_NONE;
 
     bool is_empty_ = true;
-
-    [[nodiscard]] static SDL_PixelFormatEnum get_sdl_pixel_format(AVPixelFormat av_pixel_format);
 };
 
-Texture::Impl::Impl(Graphics& graphics, Size size, AVPixelFormat pixel_format)
+Texture::Impl::Impl(Graphics& graphics, Size size, video_file::PixelFormat pixel_format)
+    : size_(size),
+      aspect_ratio_(static_cast<float>(size_.width) / static_cast<float>(size_.height)),
+      pixel_format_(pixel_format),
+      sdl_pixel_format_(static_cast<SDL_PixelFormatEnum>(pixel_format_.get_compatible_sdl_pixel_format()))
 {
-    size_ = size;
-    aspect_ratio_ = static_cast<float>(size_.width) / static_cast<float>(size_.height);
-
-    av_pixel_format_ = pixel_format;
-    sdl_pixel_format_ = Texture::Impl::get_sdl_pixel_format(av_pixel_format_);
-
     if (sdl_pixel_format_ == SDL_PIXELFORMAT_UNKNOWN)
-        throw std::runtime_error(fmt::format("pixel format {} is not supported", video_file::Frame::pixel_format_name(pixel_format)));
+        throw std::runtime_error(fmt::format("pixel format {} is not supported", pixel_format.name()));
 
     sdl_texture_ = AutoDeleteResource<SDL_Texture>(graphics.create_texture(sdl_pixel_format_, size_), [](SDL_Texture* tex) { SDL_DestroyTexture(tex); });
 
     if (sdl_texture_.get())
-        logger::log_debug(fmt::format("created new {}x{} {} render texture", size_.width, size_.height, video_file::Frame::pixel_format_name(pixel_format)));
+        logger::log_debug(fmt::format("created new {}x{} {} render texture", size_.width, size_.height, pixel_format.name()));
 }
 
-bool Texture::Impl::is_compatible(Size size, AVPixelFormat pixel_format) const
+bool Texture::Impl::is_compatible(Size size, video_file::PixelFormat pixel_format) const
 {
     if (!sdl_texture_)
         return false;
@@ -66,7 +58,7 @@ bool Texture::Impl::is_compatible(Size size, AVPixelFormat pixel_format) const
     if (size_ != size)
         return false;
 
-    return av_pixel_format_ == pixel_format;
+    return pixel_format_ == pixel_format;
 }
 
 void Texture::Impl::update(video_file::Frame* video_frame)
@@ -107,24 +99,10 @@ void Texture::Impl::draw(Graphics& graphics, Position dst_position, Size dst_siz
     graphics.render_texture(sdl_texture_.get(), dst_position, dst_size);
 }
 
-SDL_PixelFormatEnum Texture::Impl::get_sdl_pixel_format(AVPixelFormat av_pixel_format)
-{
-    switch (av_pixel_format) {
-    case AV_PIX_FMT_YUV420P:
-        return SDL_PIXELFORMAT_IYUV;
-    case AV_PIX_FMT_YUYV422:
-        return SDL_PIXELFORMAT_YUY2;
-    case AV_PIX_FMT_UYVY422:
-        return SDL_PIXELFORMAT_UYVY;
-    default:
-        return SDL_PIXELFORMAT_UNKNOWN;
-    }
-}
-
-Texture::Texture(Graphics& graphics, Size size, AVPixelFormat pixel_format) : impl_(std::make_unique<Texture::Impl>(graphics, size, pixel_format)) { }
+Texture::Texture(Graphics& graphics, Size size, video_file::PixelFormat pixel_format) : impl_(std::make_unique<Texture::Impl>(graphics, size, pixel_format)) { }
 Texture::~Texture() = default;
 Size Texture::size() const { return impl_->size(); }
-bool Texture::is_compatible(Size size, AVPixelFormat pixel_format) const { return impl_->is_compatible(size, pixel_format); }
+bool Texture::is_compatible(Size size, video_file::PixelFormat pixel_format) const { return impl_->is_compatible(size, pixel_format); }
 void Texture::update(video_file::Frame* video_frame) { impl_->update(video_frame); }
 void Texture::draw(Graphics& graphics, Position dst_position, Size dst_size) { impl_->draw(graphics, dst_position, dst_size); }
 
