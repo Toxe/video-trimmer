@@ -48,17 +48,11 @@ CommandLine::CommandLine(int argc, char* argv[])
     logger::LogLevel log_level = logger::LogLevel::warn;
 
     switch (log_level_flag) {
-    case 1:
-        log_level = logger::LogLevel::info;
-        break;
-    case 2:
-        log_level = logger::LogLevel::debug;
-        break;
-    case 3:
-        log_level = logger::LogLevel::trace;
-        break;
-    default:
-        log_level = logger::LogLevel::warn;
+        case 1: log_level = logger::LogLevel::info; break;
+        case 2: log_level = logger::LogLevel::debug; break;
+        case 3: log_level = logger::LogLevel::trace; break;
+        default:
+            log_level = logger::LogLevel::warn;
     }
 
     logger::log_init(log_level);

@@ -9,24 +9,12 @@ void log_init(LogLevel log_level)
     spdlog::level::level_enum spdlog_log_level = spdlog::level::warn;
 
     switch (log_level) {
-    case LogLevel::trace:
-        spdlog_log_level = spdlog::level::trace;
-        break;
-    case LogLevel::debug:
-        spdlog_log_level = spdlog::level::debug;
-        break;
-    case LogLevel::info:
-        spdlog_log_level = spdlog::level::info;
-        break;
-    case LogLevel::warn:
-        spdlog_log_level = spdlog::level::warn;
-        break;
-    case LogLevel::error:
-        spdlog_log_level = spdlog::level::err;
-        break;
-    case LogLevel::critical:
-        spdlog_log_level = spdlog::level::critical;
-        break;
+        case LogLevel::trace: spdlog_log_level = spdlog::level::trace; break;
+        case LogLevel::debug: spdlog_log_level = spdlog::level::debug; break;
+        case LogLevel::info: spdlog_log_level = spdlog::level::info; break;
+        case LogLevel::warn: spdlog_log_level = spdlog::level::warn; break;
+        case LogLevel::error: spdlog_log_level = spdlog::level::err; break;
+        case LogLevel::critical: spdlog_log_level = spdlog::level::critical; break;
     }
 
     spdlog::set_level(spdlog_log_level);
