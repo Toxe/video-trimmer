@@ -22,16 +22,6 @@ if (CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
     )
 endif ()
 
-set(
-        IMGUIFILEDIALOG_SOURCES
-        lib/ImGuiFileDialog/ImGuiFileDialog.cpp
-        lib/ImGuiFileDialog/ImGuiFileDialog.h
-        lib/ImGuiFileDialog/ImGuiFileDialogConfig.h
-        lib/ImGuiFileDialog/dirent/dirent.h
-        lib/ImGuiFileDialog/stb/stb_image.h
-        lib/ImGuiFileDialog/stb/stb_image_resize.h
-)
-
 add_executable(video_trimmer
         main.cpp
         video_trimmer/app/app.cpp
@@ -108,12 +98,27 @@ add_executable(video_trimmer
         ${LINUX_SOURCES}
         ${MAC_SOURCES}
         ${WINDOWS_SOURCES}
-        ${IMGUIFILEDIALOG_SOURCES}
         )
 
+# build ImGuiFileDialog as a library and deactivate all warnings
+add_library(ImGuiFileDialog
+        lib/ImGuiFileDialog/ImGuiFileDialog.cpp
+        lib/ImGuiFileDialog/ImGuiFileDialog.h
+        lib/ImGuiFileDialog/ImGuiFileDialogConfig.h
+        lib/ImGuiFileDialog/dirent/dirent.h
+        lib/ImGuiFileDialog/stb/stb_image.h
+        lib/ImGuiFileDialog/stb/stb_image_resize.h
+        )
+
+set_target_properties(ImGuiFileDialog PROPERTIES CXX_EXTENSIONS OFF)
+target_compile_features(ImGuiFileDialog PUBLIC cxx_std_20)
+target_compile_options(ImGuiFileDialog PRIVATE ${SANITIZER_FLAGS} ${DEFAULT_COMPILER_OPTIONS} ${DEFAULT_COMPILER_WARNINGS_DISABLED})
+target_link_libraries(ImGuiFileDialog PRIVATE ${SANITIZER_FLAGS} imgui::imgui)
+
+# VideoTrimmer
 set_target_properties(video_trimmer PROPERTIES CXX_EXTENSIONS OFF)
 target_compile_features(video_trimmer PUBLIC cxx_std_20)
 target_compile_options(video_trimmer PRIVATE ${SANITIZER_FLAGS} ${DEFAULT_COMPILER_OPTIONS} ${DEFAULT_COMPILER_WARNINGS})
 target_include_directories(video_trimmer PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} video_trimmer/include ${FFMPEG_INCLUDE_DIRS})
 target_link_directories(video_trimmer PRIVATE ${FFMPEG_LIBRARY_DIRS})
-target_link_libraries(video_trimmer PRIVATE ${SANITIZER_FLAGS} CLI11::CLI11 fmt::fmt spdlog::spdlog glad::glad SDL2::SDL2 SDL2::SDL2main imgui::imgui ${FFMPEG_LIBRARIES})
+target_link_libraries(video_trimmer PRIVATE ${SANITIZER_FLAGS} CLI11::CLI11 fmt::fmt spdlog::spdlog glad::glad SDL2::SDL2 SDL2::SDL2main imgui::imgui ${FFMPEG_LIBRARIES} ImGuiFileDialog)
