@@ -25,6 +25,8 @@ public:
 
     [[nodiscard]] const std::string& filename() const { return filename_without_path_; }
     [[nodiscard]] const std::string& file_format() const { return file_format_; }
+
+    [[nodiscard]] float duration() const;
     [[nodiscard]] std::string format_duration() const;
 
     [[nodiscard]] CodecContext* audio_codec_context() const { return audio_codec_context_.get(); }
@@ -176,13 +178,22 @@ std::unique_ptr<Frame> VideoFile::Impl::decode_video_packet(AVPacket* packet)
     return frame;
 }
 
+float VideoFile::Impl::duration() const
+{
+    if (format_context_->duration == AV_NOPTS_VALUE)
+        return -1.0f;
+
+    const int64_t duration = format_context_->duration + (format_context_->duration <= INT64_MAX - 5000 ? 5000 : 0);
+
+    return static_cast<float>(duration) / AV_TIME_BASE;
+}
+
 std::string VideoFile::Impl::format_duration() const
 {
     // based on av_dump_format (https://ffmpeg.org/doxygen/trunk/dump_8c_source.html#l00630)
     if (format_context_->duration == AV_NOPTS_VALUE)
         return "N/A";
 
-    // int64_t hours, mins, secs, us;
     int64_t duration = format_context_->duration + (format_context_->duration <= INT64_MAX - 5000 ? 5000 : 0);
     int64_t secs = duration / AV_TIME_BASE;
     int64_t mins = secs / 60;
@@ -205,6 +216,7 @@ bool VideoFile::has_audio_stream() const { return impl_->has_audio_stream(); }
 bool VideoFile::has_video_stream() const { return impl_->has_video_stream(); }
 void VideoFile::set_dump_first_frame(bool dump_frame) { impl_->set_dump_first_frame(dump_frame); }
 std::unique_ptr<Frame> VideoFile::read_next_frame() { return impl_->read_next_frame(); }
+float VideoFile::duration() const { return impl_->duration(); }
 std::string VideoFile::format_duration() const { return impl_->format_duration(); }
 
 }  // namespace video_trimmer::video_file

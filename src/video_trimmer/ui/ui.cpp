@@ -9,7 +9,7 @@ namespace video_trimmer::ui {
 
 const float left_pane_width = 500.0f;
 const float additional_info_pane_height = 500.0f;
-const float playback_controls_pane_height = 100.0f;
+const float playback_controls_pane_height = 120.0f;
 const float trim_controls_pane_height = 150.0f;
 
 UI::UI(event_handler::EventHandler& event_handler)
