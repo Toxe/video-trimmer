@@ -42,7 +42,9 @@ void UI::render_main_window()
 void UI::render_help_window()
 {
     if (show_help_) {
-        ImGui::SetNextWindowPos(ImVec2{20.0f + 20.0f + static_cast<float>(main_window_size_.width), 20.0f}, ImGuiCond_FirstUseEver);
+        const auto* viewport = ImGui::GetMainViewport();
+        ImGui::SetNextWindowPos({viewport->Size.x / 2.0f, 100.0f}, ImGuiCond_Once, {0.5f, 0.0f});
+
         ImGui::Begin(help_window_title_, &show_help_, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse);
 
         ImGui::TextColored(colors::light_blue, "   F1");

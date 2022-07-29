@@ -24,8 +24,6 @@ private:
 
     event_handler::EventHandler& event_handler_;
 
-    Size main_window_size_;
-
     bool show_help_ = false;
 
     void help(const std::string& text);
