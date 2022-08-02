@@ -50,7 +50,7 @@ private:
 
 void Graphics::Impl::init_sdl()
 {
-    video_trimmer::logger::log_info(fmt::format("SDL v{}.{}.{}", SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL));
+    video_trimmer::logger::log_info(fmt::format("SDL version: {}.{}.{}", SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL));
 
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
         video_trimmer::error::die(fmt::format("unable to initialize SDL: {}", SDL_GetError()));
@@ -125,7 +125,7 @@ void Graphics::Impl::create_window(const char* title, Size size)
     const auto current_display_mode = get_current_display_mode();
 
     video_trimmer::logger::log_info(fmt::format("current display mode: {}x{}", current_display_mode.w, current_display_mode.h));
-    video_trimmer::logger::log_info(fmt::format("SDL init main window {}x{}", size.width, size.height));
+    video_trimmer::logger::log_info(fmt::format("open main window: {}x{}", size.width, size.height));
 
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
     SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
@@ -161,7 +161,7 @@ void Graphics::Impl::create_renderer(bool disable_vsync)
     SDL_RendererInfo info;
     SDL_GetRendererInfo(renderer_, &info);
 
-    video_trimmer::logger::log_info(fmt::format("SDL renderer: {}", info.name));
+    video_trimmer::logger::log_info(fmt::format("renderer: {}", info.name));
 
     // load GL extensions using glad
     if (!gladLoadGLLoader(static_cast<GLADloadproc>(SDL_GL_GetProcAddress)))

@@ -16,7 +16,7 @@ void show_system_info()
     const char* endian = "big";
 #endif
 
-    logger::log_info(fmt::format("System info: {}, {}-endian", SDL_GetPlatform(), endian));
+    logger::log_info(fmt::format("{}, {}-endian", SDL_GetPlatform(), endian));
 
 #if defined(_MSC_VER) && !defined(__clang_version__)
     logger::log_info(fmt::format("MSVC {}, C++ {}", _MSC_VER, _MSVC_LANG));
