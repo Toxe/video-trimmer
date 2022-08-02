@@ -122,6 +122,9 @@ void Graphics::Impl::create_window(const char* title, Size size)
         size = get_default_window_size();
 
     // create main window with graphics context
+    const auto current_display_mode = get_current_display_mode();
+
+    video_trimmer::logger::log_info(fmt::format("current display mode: {}x{}", current_display_mode.w, current_display_mode.h));
     video_trimmer::logger::log_info(fmt::format("SDL init main window {}x{}", size.width, size.height));
 
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
