@@ -1,5 +1,7 @@
 #include "fps_widget.hpp"
 
+#include <algorithm>
+
 #include "fmt/core.h"
 #include "imgui.h"
 
