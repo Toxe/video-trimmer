@@ -62,6 +62,8 @@ add_executable(video_trimmer
         video_trimmer/ui/ui.hpp
         video_trimmer/ui/widgets/fps_widget/fps_widget.cpp
         video_trimmer/ui/widgets/fps_widget/fps_widget.hpp
+        video_trimmer/ui/widgets/frame_time_widget/frame_time_widget.cpp
+        video_trimmer/ui/widgets/frame_time_widget/frame_time_widget.hpp
         video_trimmer/ui/widgets/memory_usage_widget/memory_usage_info/create_memory_usage_info.cpp
         video_trimmer/ui/widgets/memory_usage_widget/memory_usage_info/create_memory_usage_info.hpp
         video_trimmer/ui/widgets/memory_usage_widget/memory_usage_info/memory_usage_info.hpp

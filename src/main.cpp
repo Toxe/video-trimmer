@@ -49,7 +49,8 @@ int main(int argc, char* argv[])
             playback_controls_view.render(video_player);
             trim_controls_view.render();
 
-            window.render();
+            const video_trimmer::clock::Duration frame_time = window.render(app.frame_time_clock());
+            app.set_previous_frame_time(frame_time);
         }
     }
 

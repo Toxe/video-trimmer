@@ -11,7 +11,12 @@ App::App()
 
 void App::begin_frame()
 {
-    previous_frame_time_ = frame_time_clock_.restart();
+    frame_time_clock_.restart();
+}
+
+void App::set_previous_frame_time(clock::Duration frame_time)
+{
+    previous_frame_time_ = frame_time;
 }
 
 }  // namespace video_trimmer::app

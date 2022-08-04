@@ -28,7 +28,7 @@ public:
     void create_renderer(bool disable_vsync);
 
     void begin_frame();
-    void finish_frame();
+    clock::Duration finish_frame(const clock::Clock& frame_time_clock);
 
     [[nodiscard]] bool window_is_open() const;
     [[nodiscard]] Size window_size() const;
@@ -184,14 +184,19 @@ void Graphics::Impl::begin_frame()
     glClear(GL_COLOR_BUFFER_BIT);
 }
 
-void Graphics::Impl::finish_frame()
+clock::Duration Graphics::Impl::finish_frame(const clock::Clock& frame_time_clock)
 {
     assert(window_);
 
     ImGui::Render();
-    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
+    // measure frame time right before VSync
+    const clock::Duration frame_time = frame_time_clock.elapsed_time();
+
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     SDL_GL_SwapWindow(window_);
+
+    return frame_time;
 }
 
 bool Graphics::Impl::window_is_open() const
@@ -268,7 +273,7 @@ void Graphics::shutdown_imgui() { impl_->shutdown_imgui(); }
 void Graphics::create_window(const char* title, Size size) { impl_->create_window(title, size); }
 void Graphics::create_renderer(bool disable_vsync) { impl_->create_renderer(disable_vsync); }
 void Graphics::begin_frame() { impl_->begin_frame(); }
-void Graphics::finish_frame() { impl_->finish_frame(); }
+clock::Duration Graphics::finish_frame(const clock::Clock& frame_time_clock) { return impl_->finish_frame(frame_time_clock); }
 bool Graphics::window_is_open() const { return impl_->window_is_open(); }
 Size Graphics::window_size() const { return impl_->window_size(); }
 SDL_Texture* Graphics::create_texture(uint32_t format, Size size) { return impl_->create_texture(format, size); }

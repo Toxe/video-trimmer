@@ -5,13 +5,14 @@
 
 namespace video_trimmer::views::additional_info_view {
 
-void AdditionalInfoView::render(const video_trimmer::clock::Duration elapsed_time, const video_file::VideoFile* video_file)
+void AdditionalInfoView::render(const clock::Duration previous_frame_time, const video_file::VideoFile* video_file)
 {
     ImGui::Begin("Video Trimmer");
     ImGui::BeginChild("left pane");
     ImGui::BeginChild("additional info");
 
-    fps_widget_.render(elapsed_time);
+    fps_widget_.render();
+    frame_time_widget_.render(previous_frame_time);
     memory_usage_widget_.render();
 
     ImGui::TextUnformatted(fmt::format("additional info [{}x{}]", ImGui::GetWindowSize().x, ImGui::GetWindowSize().y).c_str());

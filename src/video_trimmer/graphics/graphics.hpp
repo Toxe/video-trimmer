@@ -4,6 +4,8 @@
 
 #include "types.hpp"
 
+#include "video_trimmer/clock/clock.hpp"
+
 struct SDL_Texture;
 
 namespace video_trimmer::graphics {
@@ -23,7 +25,7 @@ public:
     void create_renderer(bool disable_vsync);
 
     void begin_frame();
-    void finish_frame();
+    clock::Duration finish_frame(const clock::Clock& frame_time_clock);
 
     [[nodiscard]] bool window_is_open() const;
     [[nodiscard]] Size window_size() const;

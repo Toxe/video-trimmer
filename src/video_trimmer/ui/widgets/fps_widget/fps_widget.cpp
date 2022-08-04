@@ -8,22 +8,36 @@
 namespace video_trimmer::ui::widgets::fps_widget {
 
 constexpr float graph_height = 70.0f;
+constexpr float time_between_avg_fps_updates = 1.0f / 5.0f;
 
 FPSWidget::FPSWidget()
 {
-    fps_.resize(5 * 60, 0.0f);  // 5 seconds worth of values at 60 FPS
+    fps_values_.resize(5 * 60, 0.0f);  // 5 seconds worth of values at 60 FPS
+    last_avg_fps_update_time_ = std::chrono::steady_clock::now();
 }
 
-void FPSWidget::render(const video_trimmer::clock::Duration elapsed_time)
+void FPSWidget::render()
 {
-    const float elapsed_time_in_seconds = elapsed_time.as_seconds();
-    const float current_fps = elapsed_time.fps();
-    const auto fps_label = fmt::format("{:.1f} FPS ({:.3f} ms/frame)", current_fps, 1000.0f * elapsed_time_in_seconds);
+    const float current_fps = 1.0f / ImGui::GetIO().DeltaTime;
 
-    fps_[values_offset_] = current_fps;
-    values_offset_ = (values_offset_ + 1) % fps_.size();
+    fps_values_[fps_values_offset_] = current_fps;
+    fps_values_offset_ = (fps_values_offset_ + 1) % fps_values_.size();
 
-    ImGui::PlotLines("", fps_.data(), static_cast<int>(fps_.size()), static_cast<int>(values_offset_), fps_label.c_str(), 0.0f, 1.5f * std::max(65.0f, *std::max_element(fps_.begin(), fps_.end())), ImVec2(ImGui::GetContentRegionAvail().x, graph_height));
+    avg_fps_accum_ += current_fps;
+    ++avg_fps_count_;
+
+    const std::chrono::duration<float> time_since_last_update = std::chrono::steady_clock::now() - last_avg_fps_update_time_;
+
+    if (time_since_last_update.count() >= time_between_avg_fps_updates) {
+        avg_fps_ = (avg_fps_count_ > 0) ? avg_fps_accum_ / static_cast<float>(avg_fps_count_) : 0.0f;
+        avg_fps_accum_ = 0.0f;
+        avg_fps_count_ = 0;
+
+        last_avg_fps_update_time_ = std::chrono::steady_clock::now();
+    }
+
+    const auto fps_label = fmt::format("{:6.1f} FPS ({:.1f} avg.)", current_fps, avg_fps_);
+    ImGui::PlotLines("", fps_values_.data(), static_cast<int>(fps_values_.size()), static_cast<int>(fps_values_offset_), fps_label.c_str(), 0.0f, 1.5f * *std::max_element(fps_values_.begin(), fps_values_.end()), ImVec2(ImGui::GetContentRegionAvail().x, graph_height));
 }
 
 }  // namespace video_trimmer::ui::widgets::fps_widget

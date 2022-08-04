@@ -6,15 +6,15 @@
 
 namespace video_trimmer::main_window {
 
-MainWindow::MainWindow(const video_trimmer::command_line::CommandLine& cli)
-    : graphics_(std::make_unique<video_trimmer::graphics::Graphics>())
+MainWindow::MainWindow(const command_line::CommandLine& cli)
+    : graphics_(std::make_unique<graphics::Graphics>())
 {
     graphics_->init_sdl();
     graphics_->create_window(title_, cli.window_size());
     graphics_->create_renderer(cli.disable_vsync());
     graphics_->init_imgui(cli.font_size());
 
-    video_view_ = std::make_unique<video_trimmer::views::video_view::VideoView>();
+    video_view_ = std::make_unique<views::video_view::VideoView>();
 }
 
 void MainWindow::begin_frame()
@@ -22,10 +22,10 @@ void MainWindow::begin_frame()
     graphics_->begin_frame();
 }
 
-void MainWindow::render()
+clock::Duration MainWindow::render(const clock::Clock& frame_time_clock)
 {
     video_view_->render(*graphics_);
-    graphics_->finish_frame();
+    return graphics_->finish_frame(frame_time_clock);
 }
 
 void MainWindow::show_video_frame(std::unique_ptr<video_file::Frame> video_frame)
@@ -43,7 +43,7 @@ void MainWindow::resized_window()
 {
     const auto window_size = size();
 
-    video_trimmer::logger::log_info(fmt::format("resized main_window to {}x{}", window_size.width, window_size.height));
+    logger::log_info(fmt::format("resized main_window to {}x{}", window_size.width, window_size.height));
 }
 
 }  // namespace video_trimmer::main_window
