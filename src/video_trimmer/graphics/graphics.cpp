@@ -85,6 +85,8 @@ void Graphics::Impl::init_imgui(int font_size)
     if (font_size <= 0)
         font_size = get_default_font_size();
 
+    video_trimmer::logger::log_info(fmt::format("font size: {} pixels", font_size));
+
     // setup Dear ImGui context
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
