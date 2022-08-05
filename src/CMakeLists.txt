@@ -69,6 +69,8 @@ add_executable(video_trimmer
         video_trimmer/ui/widgets/memory_usage_widget/memory_usage_info/memory_usage_info.hpp
         video_trimmer/ui/widgets/memory_usage_widget/memory_usage_widget.cpp
         video_trimmer/ui/widgets/memory_usage_widget/memory_usage_widget.hpp
+        video_trimmer/ui/widgets/ring_buffer.cpp
+        video_trimmer/ui/widgets/ring_buffer.hpp
         video_trimmer/ui/widgets/video_file_info_widget/video_file_info_widget.cpp
         video_trimmer/ui/widgets/video_file_info_widget/video_file_info_widget.hpp
         video_trimmer/video_file/codec_context.cpp
@@ -124,3 +126,21 @@ target_compile_options(video_trimmer PRIVATE ${SANITIZER_FLAGS} ${DEFAULT_COMPIL
 target_include_directories(video_trimmer PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} video_trimmer/include ${FFMPEG_INCLUDE_DIRS})
 target_link_directories(video_trimmer PRIVATE ${FFMPEG_LIBRARY_DIRS})
 target_link_libraries(video_trimmer PRIVATE ${SANITIZER_FLAGS} CLI11::CLI11 fmt::fmt spdlog::spdlog glad::glad SDL2::SDL2 SDL2::SDL2main imgui::imgui ${FFMPEG_LIBRARIES} ImGuiFileDialog)
+
+# Tests
+if (BUILD_TESTING)
+    add_executable(
+            video_trimmer_tests
+            video_trimmer/ui/widgets/ring_buffer.cpp
+            video_trimmer/ui/widgets/ring_buffer.hpp
+            video_trimmer/ui/widgets/ring_buffer.test.cpp
+    )
+
+    set_target_properties(video_trimmer_tests PROPERTIES CXX_EXTENSIONS OFF)
+    target_compile_features(video_trimmer_tests PUBLIC cxx_std_20)
+    target_compile_options(video_trimmer_tests PRIVATE ${SANITIZER_FLAGS} ${DEFAULT_COMPILER_OPTIONS} ${DEFAULT_COMPILER_WARNINGS})
+    target_include_directories(video_trimmer_tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} video_trimmer/include ${FFMPEG_INCLUDE_DIRS})
+    target_link_libraries(video_trimmer_tests PRIVATE ${SANITIZER_FLAGS} Catch2::Catch2WithMain)
+
+    catch_discover_tests(video_trimmer_tests)
+endif ()

@@ -1,7 +1,8 @@
 #pragma once
 
 #include <chrono>
-#include <vector>
+
+#include "../ring_buffer.hpp"
 
 namespace video_trimmer::ui::widgets::fps_widget {
 
@@ -12,8 +13,7 @@ public:
     void render();
 
 private:
-    std::vector<float> fps_values_;
-    std::size_t fps_values_offset_ = 0;
+    widgets::RingBuffer fps_values_;
 
     float avg_fps_ = 0.0f;
     float avg_fps_accum_ = 0.0f;

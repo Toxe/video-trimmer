@@ -1,7 +1,6 @@
 #pragma once
 
-#include <vector>
-
+#include "../ring_buffer.hpp"
 #include "video_trimmer/clock/duration.hpp"
 
 namespace video_trimmer::ui::widgets::frame_time_widget {
@@ -13,8 +12,7 @@ public:
     void render(clock::Duration frame_time);
 
 private:
-    std::vector<float> values_;
-    std::size_t values_offset_ = 0;
+    widgets::RingBuffer values_;
 };
 
 }  // namespace video_trimmer::ui::widgets::frame_time_widget

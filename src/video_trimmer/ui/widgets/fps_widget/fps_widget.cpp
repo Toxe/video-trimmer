@@ -1,7 +1,5 @@
 #include "fps_widget.hpp"
 
-#include <algorithm>
-
 #include "fmt/core.h"
 #include "imgui.h"
 
@@ -11,8 +9,8 @@ constexpr float graph_height = 70.0f;
 constexpr float time_between_avg_fps_updates = 1.0f / 5.0f;
 
 FPSWidget::FPSWidget()
+    : fps_values_(5 * 60)  // 5 seconds worth of values at 60 FPS
 {
-    fps_values_.resize(5 * 60, 0.0f);  // 5 seconds worth of values at 60 FPS
     last_avg_fps_update_time_ = std::chrono::steady_clock::now();
 }
 
@@ -20,8 +18,7 @@ void FPSWidget::render()
 {
     const float current_fps = 1.0f / ImGui::GetIO().DeltaTime;
 
-    fps_values_[fps_values_offset_] = current_fps;
-    fps_values_offset_ = (fps_values_offset_ + 1) % fps_values_.size();
+    fps_values_.push(current_fps);
 
     avg_fps_accum_ += current_fps;
     ++avg_fps_count_;
@@ -37,7 +34,7 @@ void FPSWidget::render()
     }
 
     const auto fps_label = fmt::format("{:6.1f} FPS ({:.1f} avg.)", current_fps, avg_fps_);
-    ImGui::PlotLines("", fps_values_.data(), static_cast<int>(fps_values_.size()), static_cast<int>(fps_values_offset_), fps_label.c_str(), 0.0f, 1.5f * *std::max_element(fps_values_.begin(), fps_values_.end()), ImVec2(ImGui::GetContentRegionAvail().x, graph_height));
+    ImGui::PlotLines("", fps_values_.data(), fps_values_.size(), fps_values_.offset(), fps_label.c_str(), 0.0f, 1.5f * fps_values_.max(), ImVec2(ImGui::GetContentRegionAvail().x, graph_height));
 }
 
 }  // namespace video_trimmer::ui::widgets::fps_widget
