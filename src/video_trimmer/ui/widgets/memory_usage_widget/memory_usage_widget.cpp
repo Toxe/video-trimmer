@@ -10,7 +10,7 @@
 namespace video_trimmer::ui::widgets::memory_usage_widget {
 
 constexpr float graph_height = 70.0f;
-constexpr float time_between_updates = 1.0f / 30.0f;
+constexpr float time_between_updates = 1.0f / 15.0f;
 
 MemoryUsageWidget::MemoryUsageWidget()
 {
