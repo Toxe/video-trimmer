@@ -1,7 +1,9 @@
 #include "graphics.hpp"
 
 #include <cassert>
+#include <cmath>
 #include <string>
+#include <tuple>
 
 #include "glad/glad.h"
 
@@ -43,17 +45,17 @@ private:
     SDL_Renderer* renderer_ = nullptr;
     SDL_GLContext gl_context_ = nullptr;
 
-    [[nodiscard]] SDL_DisplayMode get_current_display_mode() const;
+    [[nodiscard]] std::tuple<Size, bool, float> get_display_size() const;
     [[nodiscard]] int get_default_font_size() const;
     [[nodiscard]] Size get_default_window_size() const;
 };
 
 void Graphics::Impl::init_sdl()
 {
-    video_trimmer::logger::log_info(fmt::format("SDL version: {}.{}.{}", SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL));
+    logger::log_info(fmt::format("SDL version: {}.{}.{}", SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL));
 
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
-        video_trimmer::error::die(fmt::format("unable to initialize SDL: {}", SDL_GetError()));
+        error::die(fmt::format("unable to initialize SDL: {}", SDL_GetError()));
 
 // decide GL+GLSL versions
 #if defined(IMGUI_IMPL_OPENGL_ES2)
@@ -85,7 +87,7 @@ void Graphics::Impl::init_imgui(int font_size)
     if (font_size <= 0)
         font_size = get_default_font_size();
 
-    video_trimmer::logger::log_info(fmt::format("font size: {} pixels", font_size));
+    logger::log_info(fmt::format("font size: {} pixels", font_size));
 
     // setup Dear ImGui context
     IMGUI_CHECKVERSION();
@@ -124,10 +126,7 @@ void Graphics::Impl::create_window(const char* title, Size size)
         size = get_default_window_size();
 
     // create main window with graphics context
-    const auto current_display_mode = get_current_display_mode();
-
-    video_trimmer::logger::log_info(fmt::format("current display mode: {}x{}", current_display_mode.w, current_display_mode.h));
-    video_trimmer::logger::log_info(fmt::format("open main window: {}x{}", size.width, size.height));
+    logger::log_info(fmt::format("open main window: {}x{}", size.width, size.height));
 
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
     SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
@@ -137,7 +136,7 @@ void Graphics::Impl::create_window(const char* title, Size size)
     window_ = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, size.width, size.height, window_flags);
 
     if (!window_)
-        video_trimmer::error::die(fmt::format("unable to create window: {}", SDL_GetError()));
+        error::die(fmt::format("unable to create window: {}", SDL_GetError()));
 
     gl_context_ = SDL_GL_CreateContext(window_);
     SDL_GL_MakeCurrent(window_, gl_context_);
@@ -158,19 +157,19 @@ void Graphics::Impl::create_renderer(bool disable_vsync)
     renderer_ = SDL_CreateRenderer(window_, -1, renderer_flags);
 
     if (!renderer_)
-        video_trimmer::error::die(fmt::format("unable to create renderer: {}", SDL_GetError()));
+        error::die(fmt::format("unable to create renderer: {}", SDL_GetError()));
 
     SDL_RendererInfo info;
     SDL_GetRendererInfo(renderer_, &info);
 
-    video_trimmer::logger::log_info(fmt::format("renderer: {}", info.name));
+    logger::log_info(fmt::format("renderer: {}", info.name));
 
     // load GL extensions using glad
     if (!gladLoadGLLoader(static_cast<GLADloadproc>(SDL_GL_GetProcAddress)))
-        video_trimmer::error::die("Failed to initialize the OpenGL context");
+        error::die("Failed to initialize the OpenGL context");
 
     // loaded OpenGL successfully
-    video_trimmer::logger::log_info(fmt::format("OpenGL version loaded: {}.{}", GLVersion.major, GLVersion.minor));
+    logger::log_info(fmt::format("OpenGL version loaded: {}.{}", GLVersion.major, GLVersion.minor));
 }
 
 void Graphics::Impl::begin_frame()
@@ -219,31 +218,47 @@ Size Graphics::Impl::window_size() const
     return size;
 }
 
-SDL_DisplayMode Graphics::Impl::get_current_display_mode() const
+std::tuple<Size, bool, float> Graphics::Impl::get_display_size() const
 {
-    SDL_DisplayMode mode;
+    SDL_DisplayMode current_display_mode;
+    SDL_DisplayMode desktop_display_mode;
 
-    // if (SDL_GetDesktopDisplayMode(0, &mode) < 0)
-    //     video_trimmer::error::die(fmt::format("unable to get desktop display mode: {}", SDL_GetError()));
+    if (SDL_GetDisplayMode(0, 0, &current_display_mode) < 0)
+        error::die(fmt::format("unable to get display mode: {}", SDL_GetError()));
 
-    if (SDL_GetDisplayMode(0, 0, &mode) < 0)
-        video_trimmer::error::die(fmt::format("unable to get display mode: {}", SDL_GetError()));
+    if (SDL_GetDesktopDisplayMode(0, &desktop_display_mode) < 0)
+        error::die(fmt::format("unable to get desktop display mode: {}", SDL_GetError()));
 
-    return mode;
+    const bool display_is_scaled = current_display_mode.h != desktop_display_mode.h;
+    const float scale_factor = static_cast<float>(current_display_mode.h) / static_cast<float>(desktop_display_mode.h);
+
+    return {Size{current_display_mode.w, current_display_mode.h}, display_is_scaled, scale_factor};
 }
 
 int Graphics::Impl::get_default_font_size() const
 {
-    return get_current_display_mode().h / 108;
+    const auto [display_size, display_is_scaled, scale_factor] = get_display_size();
+
+    return display_size.height / 108;
 }
 
 Size Graphics::Impl::get_default_window_size() const
 {
-    // 50% desktop height and 16:9 aspect ratio
-    const int height = get_current_display_mode().h / 2;
-    const int width = 16 * height / 9;
+    const auto [display_size, display_is_scaled, scale_factor] = get_display_size();
 
-    return {width, height};
+    logger::log_info(fmt::format("current display size: {}x{} (scale factor: {})", display_size.width, display_size.height, scale_factor));
+
+    // 80% desktop height and 16:9 aspect ratio
+    if (display_is_scaled) {
+        // need to compensate desktop scale factor
+        const float height = std::round(static_cast<float>(display_size.height) * 0.8f / scale_factor);
+        const float width = std::round(16.0f * height / 9.0f);
+        return {static_cast<int>(width), static_cast<int>(height)};
+    }
+
+    const float height = std::round(static_cast<float>(display_size.height) * 0.8f);
+    const float width = std::round(16.0f * height / 9.0f);
+    return {static_cast<int>(width), static_cast<int>(height)};
 }
 
 SDL_Texture* Graphics::Impl::create_texture(uint32_t format, Size size)
@@ -251,7 +266,7 @@ SDL_Texture* Graphics::Impl::create_texture(uint32_t format, Size size)
     SDL_Texture* texture = SDL_CreateTexture(renderer_, format, SDL_TEXTUREACCESS_STREAMING, size.width, size.height);
 
     if (!texture) {
-        video_trimmer::logger::log_error(fmt::format("unable to create texture: {}", SDL_GetError()));
+        logger::log_error(fmt::format("unable to create texture: {}", SDL_GetError()));
         return nullptr;
     }
 
