@@ -63,7 +63,7 @@ bool Texture::Impl::is_compatible(Size size, video_file::PixelFormat pixel_forma
 
 void Texture::Impl::update(video_file::Frame* video_frame)
 {
-    assert(sdl_texture_);
+    assert(sdl_texture_.get() != nullptr);
     assert(video_frame);
 
     uint8_t** data = video_frame->data();
@@ -77,7 +77,7 @@ void Texture::Impl::update(video_file::Frame* video_frame)
 
 void Texture::Impl::draw(Graphics& graphics, Position dst_position, Size dst_size)
 {
-    assert(sdl_texture_);
+    assert(sdl_texture_.get() != nullptr);
 
     // only draw the texture if it has image data
     if (is_empty_)
