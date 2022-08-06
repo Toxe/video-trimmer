@@ -20,7 +20,7 @@ public:
     [[nodiscard]] bool dump_first_video_frame() const { return dump_first_video_frame_; }
 
 private:
-    int font_size_ = 0;
+    int font_size_ = 20;
     Size window_size_{0, 0};
 
     std::string directory_;

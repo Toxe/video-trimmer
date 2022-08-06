@@ -46,7 +46,6 @@ private:
     SDL_GLContext gl_context_ = nullptr;
 
     [[nodiscard]] std::tuple<Size, bool, float> get_display_size() const;
-    [[nodiscard]] int get_default_font_size() const;
     [[nodiscard]] Size get_default_window_size() const;
 };
 
@@ -84,9 +83,6 @@ void Graphics::Impl::init_sdl()
 
 void Graphics::Impl::init_imgui(int font_size)
 {
-    if (font_size <= 0)
-        font_size = get_default_font_size();
-
     logger::log_info(fmt::format("font size: {} pixels", font_size));
 
     // setup Dear ImGui context
@@ -233,13 +229,6 @@ std::tuple<Size, bool, float> Graphics::Impl::get_display_size() const
     const float scale_factor = static_cast<float>(current_display_mode.h) / static_cast<float>(desktop_display_mode.h);
 
     return {Size{current_display_mode.w, current_display_mode.h}, display_is_scaled, scale_factor};
-}
-
-int Graphics::Impl::get_default_font_size() const
-{
-    const auto [display_size, display_is_scaled, scale_factor] = get_display_size();
-
-    return display_size.height / 108;
 }
 
 Size Graphics::Impl::get_default_window_size() const
