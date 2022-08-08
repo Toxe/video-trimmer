@@ -22,8 +22,7 @@ private:
     std::jthread thread_;
 
     std::atomic<bool> is_scanning_ = false;
-
-    float scan_progress_;
+    std::atomic<float> scan_progress_ = 0.0f;
 };
 
 }  // namespace video_trimmer::views::files_view
