@@ -1,7 +1,6 @@
 #pragma once
 
 #include <atomic>
-#include <mutex>
 #include <string>
 #include <thread>
 
@@ -18,7 +17,6 @@ public:
     [[nodiscard]] float scan_progress() const { return scan_progress_; }
 
 private:
-    std::mutex mtx_;
     std::jthread thread_;
 
     std::atomic<bool> is_scanning_ = false;

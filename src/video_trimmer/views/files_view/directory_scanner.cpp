@@ -13,8 +13,6 @@ namespace video_trimmer::views::files_view {
 
 void DirectoryScanner::scan(FilesView* files_view, const std::string directory)
 {
-    std::lock_guard<std::mutex> lock(mtx_);
-
     if (is_scanning_) {
         video_trimmer::logger::log_warn("(DirectoryScanner) already scanning");
         return;
