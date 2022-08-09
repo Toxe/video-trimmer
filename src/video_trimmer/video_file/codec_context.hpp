@@ -37,6 +37,8 @@ public:
     [[nodiscard]] int send_packet_to_decoder(AVPacket* packet);
     [[nodiscard]] std::unique_ptr<Frame> receive_frame_from_decoder(double time_base);
 
+    void flush_buffers();
+
 private:
     AutoDeleteResource<AVCodecContext> codec_context_;
 

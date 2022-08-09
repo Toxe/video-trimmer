@@ -30,6 +30,8 @@ public:
 
     [[nodiscard]] std::unique_ptr<Frame> read_next_frame();
 
+    [[nodiscard]] bool seek_position(double position, int direction);
+
     void set_dump_first_frame(bool dump_frame);
 
 private:

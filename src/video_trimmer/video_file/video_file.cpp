@@ -1,5 +1,6 @@
 #include "video_file.hpp"
 
+#include <cassert>
 #include <filesystem>
 #include <stdexcept>
 
@@ -36,6 +37,8 @@ public:
     [[nodiscard]] bool has_video_stream() const { return video_codec_context_ != nullptr; };
 
     [[nodiscard]] std::unique_ptr<Frame> read_next_frame();
+
+    [[nodiscard]] bool seek_position(double position, int direction);
 
     void set_dump_first_frame(bool dump_frame) { dump_first_frame_ = dump_frame; }
 
@@ -204,6 +207,29 @@ std::string VideoFile::Impl::format_duration() const
     return fmt::format("{:02}:{:02}:{:02}", hours, mins, secs);
 }
 
+bool VideoFile::Impl::seek_position(double position, int direction)
+{
+    assert(direction != 0);
+
+    const int64_t timestamp = static_cast<int64_t>(position * AV_TIME_BASE);
+    const int flags = (direction < 0) ? AVSEEK_FLAG_BACKWARD : 0;
+
+    const int ret = av_seek_frame(format_context_.get(), -1, timestamp, flags);
+
+    if (ret < 0) {
+        error::show_error("av_seek_frame", ret);
+        return false;
+    }
+
+    if (audio_codec_context_)
+        audio_codec_context_->flush_buffers();
+
+    if (video_codec_context_)
+        video_codec_context_->flush_buffers();
+
+    return true;
+}
+
 VideoFile::VideoFile(const std::string& full_filename) : impl_(std::make_unique<VideoFile::Impl>(full_filename)) { }
 VideoFile::~VideoFile() = default;
 bool VideoFile::is_open() const { return impl_->is_open(); }
@@ -218,5 +244,6 @@ void VideoFile::set_dump_first_frame(bool dump_frame) { impl_->set_dump_first_fr
 std::unique_ptr<Frame> VideoFile::read_next_frame() { return impl_->read_next_frame(); }
 float VideoFile::duration() const { return impl_->duration(); }
 std::string VideoFile::format_duration() const { return impl_->format_duration(); }
+bool VideoFile::seek_position(double position, int direction) { return impl_->seek_position(position, direction); }
 
 }  // namespace video_trimmer::video_file

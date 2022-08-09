@@ -37,7 +37,6 @@ int main(int argc, char* argv[])
         event_handler.poll_events();
 
         if (window.is_open()) {
-            video_player.update();
             auto video_frame = video_player.next_frame();
 
             if (video_frame && video_player.is_playing())

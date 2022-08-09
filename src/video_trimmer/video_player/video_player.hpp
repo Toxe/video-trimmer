@@ -21,12 +21,13 @@ public:
     void stop();
     void toggle_pause();
 
+    void jump_backward();
+    void jump_forward();
+
     [[nodiscard]] bool has_open_file();
     [[nodiscard]] bool has_started_playing();
     [[nodiscard]] bool is_playing();
     [[nodiscard]] bool is_paused();
-
-    void update();
 
     [[nodiscard]] std::unique_ptr<video_file::Frame> next_frame();
 

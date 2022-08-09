@@ -94,4 +94,9 @@ std::unique_ptr<Frame> CodecContext::receive_frame_from_decoder(const double tim
     return frame;
 }
 
+void CodecContext::flush_buffers()
+{
+    avcodec_flush_buffers(codec_context_.get());
+}
+
 }  // namespace video_trimmer::video_file
