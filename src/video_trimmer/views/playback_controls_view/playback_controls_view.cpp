@@ -51,6 +51,16 @@ void PlaybackControlsView::render(video_player::VideoPlayer& video_player)
         if (video_player.is_paused())
             if (ImGui::Button("resume"))
                 event_handler_.handle_event(event_handler::Event::PlaybackTogglePause);
+
+        ImGui::SameLine();
+
+        if (ImGui::Button("<<"))
+            event_handler_.handle_event(event_handler::Event::JumpBackward);
+
+        ImGui::SameLine();
+
+        if (ImGui::Button(">>"))
+            event_handler_.handle_event(event_handler::Event::JumpForward);
     }
 
     if (video_player.has_open_file()) {

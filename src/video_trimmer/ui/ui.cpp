@@ -47,17 +47,21 @@ void UI::render_help_window()
 
         ImGui::Begin(help_window_title_, &show_help_, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse);
 
-        ImGui::TextColored(colors::light_blue, "   F1");
+        ImGui::TextColored(colors::light_blue, "        F1");
         ImGui::SameLine();
         ImGui::TextUnformatted("show/hide help");
 
-        ImGui::TextColored(colors::light_blue, "  ESC");
+        ImGui::TextColored(colors::light_blue, "       ESC");
         ImGui::SameLine();
         ImGui::TextUnformatted("quit");
 
-        ImGui::TextColored(colors::light_blue, "Space");
+        ImGui::TextColored(colors::light_blue, "     Space");
         ImGui::SameLine();
         ImGui::TextUnformatted("pause/resume playback");
+
+        ImGui::TextColored(colors::light_blue, "Left/Right");
+        ImGui::SameLine();
+        ImGui::TextUnformatted("jump backward/forward");
 
         if (ImGui::Button("Close"))
             event_handler_.handle_event(video_trimmer::event_handler::Event::ToggleHelp);

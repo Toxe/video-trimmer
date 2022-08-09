@@ -6,9 +6,11 @@ enum class Event {
     CloseWindow,
     ResizedWindow,
     ToggleHelp,
+    OpenFile,
     PlaybackStart,
     PlaybackTogglePause,
-    OpenFile,
+    JumpBackward,
+    JumpForward,
 };
 
 }  // namespace video_trimmer::event_handler

@@ -34,9 +34,11 @@ EventHandler::Impl::Impl()
     commands_[Event::CloseWindow] = no_command;
     commands_[Event::ResizedWindow] = no_command;
     commands_[Event::ToggleHelp] = no_command;
+    commands_[Event::OpenFile] = no_command;
     commands_[Event::PlaybackStart] = no_command;
     commands_[Event::PlaybackTogglePause] = no_command;
-    commands_[Event::OpenFile] = no_command;
+    commands_[Event::JumpBackward] = no_command;
+    commands_[Event::JumpForward] = no_command;
 }
 
 void EventHandler::Impl::set_command(const Event& event, Command command)
@@ -84,6 +86,10 @@ void EventHandler::Impl::handle_keyboard_events(const SDL_Event& event)
         handle_event(Event::ToggleHelp);
     else if (event.key.keysym.sym == SDLK_SPACE)
         handle_event(Event::PlaybackTogglePause);
+    else if (event.key.keysym.sym == SDLK_LEFT)
+        handle_event(Event::JumpBackward);
+    else if (event.key.keysym.sym == SDLK_RIGHT)
+        handle_event(Event::JumpForward);
 }
 
 EventHandler::EventHandler() : impl_(std::make_unique<EventHandler::Impl>()) { }
