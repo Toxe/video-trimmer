@@ -13,7 +13,7 @@ class VideoPlayer {
 public:
     explicit VideoPlayer(bool dump_first_video_frame);
 
-    bool open_file(const std::string& filename);
+    void play_file(std::unique_ptr<video_file::VideoFile> video_file);
     void close_file();
 
     void start();

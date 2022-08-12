@@ -1,5 +1,6 @@
 #include "video_player.hpp"
 
+#include <cassert>
 #include <cmath>
 
 #include "fmt/chrono.h"
@@ -14,14 +15,14 @@ VideoPlayer::VideoPlayer(bool dump_first_video_frame)
 {
 }
 
-bool VideoPlayer::open_file(const std::string& filename)
+void VideoPlayer::play_file(std::unique_ptr<video_file::VideoFile> video_file)
 {
-    video_trimmer::logger::log_debug(fmt::format("(VideoPlayer) open file: {}", filename));
+    assert(video_file != nullptr);
 
-    if (has_open_file())
-        return false;
+    video_trimmer::logger::log_debug(fmt::format("(VideoPlayer) play file: {}", video_file->filename()));
 
-    video_file_ = std::make_unique<video_file::VideoFile>(filename);
+    video_file_ = std::move(video_file);
+    video_file_->set_dump_first_frame(dump_first_frame_);
 
     has_started_playing_ = false;
     is_playing_ = false;
@@ -35,10 +36,6 @@ bool VideoPlayer::open_file(const std::string& filename)
     dropped_frames_ = 0;
 
     available_frame_ = nullptr;
-
-    video_file_->set_dump_first_frame(dump_first_frame_);
-
-    return has_open_file();
 }
 
 void VideoPlayer::close_file()

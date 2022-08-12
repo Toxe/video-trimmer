@@ -10,10 +10,10 @@ event_handler::Command OpenFileCommand(VideoPlayer& video_player, main_window::M
         logger::log_debug("OpenFileCommand");
 
         video_player.close_file();
+        video_player.play_file(std::make_unique<video_file::VideoFile>(files_view.selected_filename()));
 
         // immediately create a compatible render texture instead of waiting for the first frame
-        if (video_player.open_file(files_view.selected_filename()))
-            window.video_view().create_compatible_render_texture_if_necessary(window.graphics(), video_player.video_file()->video_codec_context()->size(), video_player.video_file()->video_codec_context()->pixel_format());
+        window.video_view().create_compatible_render_texture_if_necessary(window.graphics(), video_player.video_file()->video_codec_context()->size(), video_player.video_file()->video_codec_context()->pixel_format());
 
         video_player.start();
     };
