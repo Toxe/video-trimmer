@@ -3,11 +3,11 @@
 #include "fmt/core.h"
 #include "imgui.h"
 
+#include "../../../lib/ImGuiFileDialog/ImGuiFileDialog.h"
+#include "../../event_handler/event_handler.hpp"
+#include "../../logger/logger.hpp"
+#include "../../ui/colors/colors.hpp"
 #include "directory_scanner.hpp"
-#include "lib/ImGuiFileDialog/ImGuiFileDialog.h"
-#include "video_trimmer/event_handler/event_handler.hpp"
-#include "video_trimmer/logger/logger.hpp"
-#include "video_trimmer/ui/colors/colors.hpp"
 
 namespace video_trimmer::views::files_view {
 

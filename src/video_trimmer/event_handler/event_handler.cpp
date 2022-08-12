@@ -6,8 +6,8 @@
 #include "imgui.h"
 #include "imgui_impl_sdl.h"
 
+#include "../logger/logger.hpp"
 #include "events.hpp"
-#include "video_trimmer/logger/logger.hpp"
 
 namespace video_trimmer::event_handler {
 

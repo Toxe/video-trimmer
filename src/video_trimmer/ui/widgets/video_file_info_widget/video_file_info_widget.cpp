@@ -3,8 +3,8 @@
 #include "fmt/core.h"
 #include "imgui.h"
 
+#include "../../../video_file/video_file.hpp"
 #include "../../colors/colors.hpp"
-#include "video_trimmer/video_file/video_file.hpp"
 
 namespace video_trimmer::ui::widgets::video_file_info_widget {
 

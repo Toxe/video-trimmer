@@ -2,7 +2,7 @@
 
 #include "fmt/core.h"
 
-#include "video_trimmer/logger/logger.hpp"
+#include "../logger/logger.hpp"
 
 namespace video_trimmer::main_window {
 

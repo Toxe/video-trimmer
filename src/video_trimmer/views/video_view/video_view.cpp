@@ -7,8 +7,8 @@ extern "C" {
 #include "libavutil/frame.h"
 }
 
-#include "video_trimmer/ui/colors/colors.hpp"
-#include "video_trimmer/ui/imgui_helpers.hpp"
+#include "../../ui/colors/colors.hpp"
+#include "../../ui/imgui_helpers.hpp"
 
 namespace video_trimmer::views::video_view {
 

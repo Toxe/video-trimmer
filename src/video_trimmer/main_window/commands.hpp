@@ -1,7 +1,7 @@
 #pragma once
 
+#include "../event_handler/command.hpp"
 #include "main_window.hpp"
-#include "video_trimmer/event_handler/command.hpp"
 
 namespace video_trimmer::main_window {
 

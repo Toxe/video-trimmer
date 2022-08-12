@@ -3,9 +3,9 @@
 #include "fmt/core.h"
 #include "imgui.h"
 
-#include "video_trimmer/event_handler/event_handler.hpp"
-#include "video_trimmer/ui/colors/colors.hpp"
-#include "video_trimmer/video_player/video_player.hpp"
+#include "../../event_handler/event_handler.hpp"
+#include "../../ui/colors/colors.hpp"
+#include "../../video_player/video_player.hpp"
 
 namespace video_trimmer::views::playback_controls_view {
 

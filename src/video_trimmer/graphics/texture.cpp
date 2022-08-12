@@ -6,9 +6,9 @@
 #include "SDL2/SDL_render.h"
 #include "fmt/core.h"
 
+#include "../logger/logger.hpp"
 #include "auto_delete_resource.hpp"
 #include "graphics.hpp"
-#include "video_trimmer/logger/logger.hpp"
 
 namespace video_trimmer::graphics {
 

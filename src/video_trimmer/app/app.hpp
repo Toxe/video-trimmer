@@ -1,6 +1,6 @@
 #pragma once
 
-#include "video_trimmer/clock/clock.hpp"
+#include "../clock/clock.hpp"
 
 namespace video_trimmer::app {
 

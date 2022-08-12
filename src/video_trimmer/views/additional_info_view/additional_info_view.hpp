@@ -1,10 +1,10 @@
 #pragma once
 
-#include "video_trimmer/clock/duration.hpp"
-#include "video_trimmer/ui/widgets/fps_widget/fps_widget.hpp"
-#include "video_trimmer/ui/widgets/frame_time_widget/frame_time_widget.hpp"
-#include "video_trimmer/ui/widgets/memory_usage_widget/memory_usage_widget.hpp"
-#include "video_trimmer/ui/widgets/video_file_info_widget/video_file_info_widget.hpp"
+#include "../../clock/duration.hpp"
+#include "../../ui/widgets/fps_widget/fps_widget.hpp"
+#include "../../ui/widgets/frame_time_widget/frame_time_widget.hpp"
+#include "../../ui/widgets/memory_usage_widget/memory_usage_widget.hpp"
+#include "../../ui/widgets/video_file_info_widget/video_file_info_widget.hpp"
 
 namespace video_trimmer::views::additional_info_view {
 

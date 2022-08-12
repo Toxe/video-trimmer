@@ -2,10 +2,10 @@
 
 #include <memory>
 
-#include "video_trimmer/graphics/graphics.hpp"
-#include "video_trimmer/graphics/texture.hpp"
-#include "video_trimmer/include/types.hpp"
-#include "video_trimmer/video_file/frame.hpp"
+#include "../../graphics/graphics.hpp"
+#include "../../graphics/texture.hpp"
+#include "../../video_file/frame.hpp"
+#include "types.hpp"
 
 namespace video_trimmer::views::video_view {
 

@@ -1,7 +1,7 @@
 #pragma once
 
+#include "../../../clock/clock.hpp"
 #include "../ring_buffer.hpp"
-#include "video_trimmer/clock/duration.hpp"
 
 namespace video_trimmer::ui::widgets::frame_time_widget {
 

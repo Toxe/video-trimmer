@@ -1,6 +1,6 @@
 #pragma once
 
-#include "video_trimmer/event_handler/command.hpp"
+#include "../event_handler/command.hpp"
 #include "ui.hpp"
 
 namespace video_trimmer::ui {

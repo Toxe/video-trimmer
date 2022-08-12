@@ -1,7 +1,7 @@
 #include "commands.hpp"
 
+#include "../logger/logger.hpp"
 #include "main_window.hpp"
-#include "video_trimmer/logger/logger.hpp"
 
 namespace video_trimmer::main_window {
 

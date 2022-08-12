@@ -1,13 +1,13 @@
 #include "register_events.hpp"
 
+#include "../main_window/commands.hpp"
+#include "../main_window/main_window.hpp"
+#include "../ui/commands.hpp"
+#include "../ui/ui.hpp"
+#include "../video_player/commands.hpp"
+#include "../video_player/video_player.hpp"
+#include "../views/files_view/files_view.hpp"
 #include "events.hpp"
-#include "video_trimmer/main_window/commands.hpp"
-#include "video_trimmer/main_window/main_window.hpp"
-#include "video_trimmer/ui/commands.hpp"
-#include "video_trimmer/ui/ui.hpp"
-#include "video_trimmer/video_player/commands.hpp"
-#include "video_trimmer/video_player/video_player.hpp"
-#include "video_trimmer/views/files_view/files_view.hpp"
 
 namespace video_trimmer::event_handler {
 

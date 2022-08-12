@@ -5,7 +5,7 @@
 #include "fmt/chrono.h"
 #include "fmt/core.h"
 
-#include "video_trimmer/logger/logger.hpp"
+#include "../logger/logger.hpp"
 
 namespace video_trimmer::video_player {
 

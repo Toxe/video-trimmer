@@ -13,8 +13,8 @@
 #include "imgui_impl_opengl3.h"
 #include "imgui_impl_sdl.h"
 
-#include "video_trimmer/error/error.hpp"
-#include "video_trimmer/logger/logger.hpp"
+#include "../error/error.hpp"
+#include "../logger/logger.hpp"
 
 namespace video_trimmer::graphics {
 

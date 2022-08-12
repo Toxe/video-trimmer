@@ -2,8 +2,8 @@
 
 #include "imgui.h"
 
+#include "../event_handler/event_handler.hpp"
 #include "colors/colors.hpp"
-#include "video_trimmer/event_handler/event_handler.hpp"
 
 namespace video_trimmer::ui {
 

@@ -1,9 +1,9 @@
 #pragma once
 
+#include "../event_handler/command.hpp"
+#include "../main_window/main_window.hpp"
+#include "../views/files_view/files_view.hpp"
 #include "video_player.hpp"
-#include "video_trimmer/event_handler/command.hpp"
-#include "video_trimmer/main_window/main_window.hpp"
-#include "video_trimmer/views/files_view/files_view.hpp"
 
 namespace video_trimmer::video_player {
 

@@ -4,7 +4,7 @@
 #include "SDL2/SDL_platform.h"
 #include "fmt/core.h"
 
-#include "video_trimmer/logger/logger.hpp"
+#include "../logger/logger.hpp"
 
 namespace video_trimmer::app {
 

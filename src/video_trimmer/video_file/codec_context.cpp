@@ -10,7 +10,7 @@ extern "C" {
 #include "libavformat/avformat.h"
 }
 
-#include "video_trimmer/error/error.hpp"
+#include "../error/error.hpp"
 
 namespace video_trimmer::video_file {
 

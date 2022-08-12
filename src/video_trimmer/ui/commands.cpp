@@ -1,6 +1,6 @@
 #include "commands.hpp"
 
-#include "video_trimmer/logger/logger.hpp"
+#include "../logger/logger.hpp"
 
 namespace video_trimmer::ui {
 

@@ -4,7 +4,7 @@
 
 #include <unistd.h>
 
-#include "video_trimmer/error/error.hpp"
+#include "../../../../error/error.hpp"
 
 namespace video_trimmer::ui::widgets::memory_usage_widget::memory_usage_info {
 

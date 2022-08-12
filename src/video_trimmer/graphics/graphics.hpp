@@ -2,9 +2,8 @@
 
 #include <memory>
 
+#include "../clock/clock.hpp"
 #include "types.hpp"
-
-#include "video_trimmer/clock/clock.hpp"
 
 struct SDL_Texture;
 

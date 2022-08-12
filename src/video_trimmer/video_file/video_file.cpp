@@ -12,8 +12,8 @@ extern "C" {
 #include "libavutil/rational.h"
 }
 
+#include "../error/error.hpp"
 #include "auto_delete_resource.hpp"
-#include "video_trimmer/error/error.hpp"
 
 namespace video_trimmer::video_file {
 

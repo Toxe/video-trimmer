@@ -5,7 +5,7 @@
 
 #include "fmt/core.h"
 
-#include "video_trimmer/video_file/video_file.hpp"
+#include "../../video_file/video_file.hpp"
 
 namespace video_trimmer::views::files_view {
 

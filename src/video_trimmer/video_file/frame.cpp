@@ -13,8 +13,8 @@ extern "C" {
 #include "libavutil/imgutils.h"
 }
 
+#include "../logger/logger.hpp"
 #include "auto_delete_resource.hpp"
-#include "video_trimmer/logger/logger.hpp"
 
 namespace video_trimmer::video_file {
 

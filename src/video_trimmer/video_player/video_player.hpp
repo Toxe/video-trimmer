@@ -4,9 +4,9 @@
 #include <memory>
 #include <string>
 
+#include "../command_line/command_line.hpp"
+#include "../video_file/video_file.hpp"
 #include "types.hpp"
-#include "video_trimmer/command_line/command_line.hpp"
-#include "video_trimmer/video_file/video_file.hpp"
 
 namespace video_trimmer::video_player {
 

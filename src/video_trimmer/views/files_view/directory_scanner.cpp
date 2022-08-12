@@ -4,10 +4,10 @@
 #include <filesystem>
 #include <vector>
 
+#include "../../logger/logger.hpp"
+#include "../../video_file/video_file.hpp"
 #include "file_entry.hpp"
 #include "files_view.hpp"
-#include "video_trimmer/logger/logger.hpp"
-#include "video_trimmer/video_file/video_file.hpp"
 
 namespace video_trimmer::views::files_view {
 

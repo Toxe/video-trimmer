@@ -2,8 +2,8 @@
 
 #include <memory>
 
+#include "../video_file/frame.hpp"
 #include "types.hpp"
-#include "video_trimmer/video_file/frame.hpp"
 
 namespace video_trimmer::graphics {
 
