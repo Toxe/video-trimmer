@@ -36,6 +36,8 @@ public:
     [[nodiscard]] AVFrame* frame() { return frame_.get(); }
     [[nodiscard]] const PixelFormat& pixel_format() const { return pixel_format_; };
 
+    [[nodiscard]] std::string info() const;
+
     void dump_to_file(const std::string& filename);
 
 private:
@@ -84,6 +86,16 @@ void Frame::Impl::dump_to_file(const std::string& filename)
     out.write(reinterpret_cast<const char*>(buffer.get()), buffer_size);
 }
 
+std::string Frame::Impl::info() const
+{
+    const char frame_type_char = av_get_picture_type_char(frame_->pict_type);
+
+    if (is_video_frame())
+        return fmt::format("[Frame V{} {:.3f}, {}x{}, pts={}, pkt_duration={}]", frame_type_char, timestamp_, size_.width, size_.height, frame_->pts, frame_->pkt_duration);
+    else
+        return fmt::format("[Frame A{} {:.3f}]", frame_type_char, timestamp_);
+}
+
 Frame::Frame(Size size, PixelFormat pixel_format) : impl_(std::make_unique<Frame::Impl>(size, std::move(pixel_format))) { }
 Frame::~Frame() = default;
 bool Frame::is_audio_frame() const { return impl_->is_audio_frame(); }
@@ -95,6 +107,7 @@ uint8_t** Frame::data() { return impl_->data(); }
 int* Frame::linesizes() { return impl_->linesizes(); }
 AVFrame* Frame::frame() { return impl_->frame(); }
 PixelFormat Frame::pixel_format() const { return impl_->pixel_format(); }
+std::string Frame::info() const { return impl_->info(); }
 void Frame::dump_to_file(const std::string& filename) { impl_->dump_to_file(filename); }
 
 }  // namespace video_trimmer::video_file

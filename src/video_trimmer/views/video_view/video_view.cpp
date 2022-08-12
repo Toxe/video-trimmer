@@ -52,7 +52,7 @@ void VideoView::render_ui()
     ui::imgui_text_outlined(ui::colors::white, ui::colors::black, fmt::format("video [{}x{}]", view_size_.width, view_size_.height));
 
     if (current_video_frame_)
-        ui::imgui_text_outlined(ui::colors::white, ui::colors::black, fmt::format("[VideoFrame {:.4f}, {}x{}]", current_video_frame_->timestamp(), current_video_frame_->size().width, current_video_frame_->size().height));
+        ui::imgui_text_outlined(ui::colors::white, ui::colors::black, current_video_frame_->info());
 
     ImGui::EndChild();
     ImGui::EndChild();
