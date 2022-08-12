@@ -4,7 +4,6 @@
 #include <memory>
 #include <string>
 
-#include "../command_line/command_line.hpp"
 #include "../video_file/video_file.hpp"
 #include "types.hpp"
 
@@ -12,7 +11,7 @@ namespace video_trimmer::video_player {
 
 class VideoPlayer {
 public:
-    explicit VideoPlayer(const video_trimmer::command_line::CommandLine& cli);
+    explicit VideoPlayer(bool dump_first_video_frame);
 
     bool open_file(const std::string& filename);
     void close_file();

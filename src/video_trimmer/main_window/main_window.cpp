@@ -6,13 +6,13 @@
 
 namespace video_trimmer::main_window {
 
-MainWindow::MainWindow(const command_line::CommandLine& cli)
+MainWindow::MainWindow(Size window_size, int font_size, bool disable_vsync)
     : graphics_(std::make_unique<graphics::Graphics>())
 {
     graphics_->init_sdl();
-    graphics_->create_window(title_, cli.window_size());
-    graphics_->create_renderer(cli.disable_vsync());
-    graphics_->init_imgui(cli.font_size());
+    graphics_->create_window(title_, window_size);
+    graphics_->create_renderer(disable_vsync);
+    graphics_->init_imgui(font_size);
 
     video_view_ = std::make_unique<views::video_view::VideoView>();
 }

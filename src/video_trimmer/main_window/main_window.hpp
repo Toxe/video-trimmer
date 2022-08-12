@@ -2,7 +2,6 @@
 
 #include <memory>
 
-#include "../command_line/command_line.hpp"
 #include "../graphics/graphics.hpp"
 #include "../video_file/frame.hpp"
 #include "../views/video_view/video_view.hpp"
@@ -12,7 +11,7 @@ namespace video_trimmer::main_window {
 
 class MainWindow {
 public:
-    explicit MainWindow(const command_line::CommandLine& cli);
+    MainWindow(Size window_size, int font_size, bool disable_vsync);
 
     [[nodiscard]] graphics::Graphics& graphics() const { return *graphics_; };
     [[nodiscard]] views::video_view::VideoView& video_view() const { return *video_view_; };

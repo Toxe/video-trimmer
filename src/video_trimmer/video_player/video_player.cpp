@@ -9,8 +9,8 @@
 
 namespace video_trimmer::video_player {
 
-VideoPlayer::VideoPlayer(const command_line::CommandLine& cli)
-    : dump_first_frame_(cli.dump_first_video_frame())
+VideoPlayer::VideoPlayer(bool dump_first_video_frame)
+    : dump_first_frame_(dump_first_video_frame)
 {
 }
 
