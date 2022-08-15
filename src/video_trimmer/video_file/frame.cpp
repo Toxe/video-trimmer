@@ -36,7 +36,7 @@ public:
     [[nodiscard]] AVFrame* frame() { return frame_.get(); }
     [[nodiscard]] const PixelFormat& pixel_format() const { return pixel_format_; };
 
-    [[nodiscard]] std::string info() const;
+    [[nodiscard]] std::string description() const;
 
     void dump_to_file(const std::string& filename);
 
@@ -86,7 +86,7 @@ void Frame::Impl::dump_to_file(const std::string& filename)
     out.write(reinterpret_cast<const char*>(buffer.get()), buffer_size);
 }
 
-std::string Frame::Impl::info() const
+std::string Frame::Impl::description() const
 {
     const char frame_type_char = av_get_picture_type_char(frame_->pict_type);
 
@@ -107,7 +107,7 @@ uint8_t** Frame::data() { return impl_->data(); }
 int* Frame::linesizes() { return impl_->linesizes(); }
 AVFrame* Frame::frame() { return impl_->frame(); }
 PixelFormat Frame::pixel_format() const { return impl_->pixel_format(); }
-std::string Frame::info() const { return impl_->info(); }
+std::string Frame::description() const { return impl_->description(); }
 void Frame::dump_to_file(const std::string& filename) { impl_->dump_to_file(filename); }
 
 }  // namespace video_trimmer::video_file

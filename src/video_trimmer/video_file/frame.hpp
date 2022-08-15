@@ -30,7 +30,7 @@ public:
     [[nodiscard]] AVFrame* frame();
     [[nodiscard]] PixelFormat pixel_format() const;
 
-    [[nodiscard]] std::string info() const;
+    [[nodiscard]] std::string description() const;
 
     void dump_to_file(const std::string& filename);
 
