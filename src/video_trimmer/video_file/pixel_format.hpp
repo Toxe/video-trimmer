@@ -11,7 +11,9 @@ public:
     [[nodiscard]] int get_compatible_sdl_pixel_format() const;
 
     [[nodiscard]] const char* name() const;
+
     [[nodiscard]] bool is_supported() const;
+    [[nodiscard]] bool is_valid() const;
 
 private:
     int av_pixel_format_;

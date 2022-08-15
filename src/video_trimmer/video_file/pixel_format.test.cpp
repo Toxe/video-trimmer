@@ -48,6 +48,14 @@ TEST_CASE("video_file::PixelFormat")
                 CHECK(pixel_format.is_supported() == false);
             }
         }
+
+        WHEN("checking if it is a valid pixel format")
+        {
+            THEN("it returns false")
+            {
+                CHECK(pixel_format.is_valid() == false);
+            }
+        }
     }
 
     GIVEN("a PixelFormat representing AV_PIX_FMT_YUV420P")
@@ -83,6 +91,14 @@ TEST_CASE("video_file::PixelFormat")
             THEN("it returns true")
             {
                 CHECK(pixel_format.is_supported() == true);
+            }
+        }
+
+        WHEN("checking if it is a valid pixel format")
+        {
+            THEN("it returns true")
+            {
+                CHECK(pixel_format.is_valid() == true);
             }
         }
     }

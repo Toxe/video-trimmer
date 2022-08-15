@@ -32,6 +32,11 @@ bool PixelFormat::is_supported() const
     return av_pixel_format_ == AV_PIX_FMT_YUV420P;
 }
 
+bool PixelFormat::is_valid() const
+{
+    return av_pixel_format_ != AV_PIX_FMT_NONE;
+}
+
 int PixelFormat::get_compatible_sdl_pixel_format() const
 {
     switch (av_pixel_format_) {
