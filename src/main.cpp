@@ -37,7 +37,7 @@ int main(int argc, char* argv[])
         event_handler.poll_events();
 
         if (window.is_open()) {
-            auto video_frame = video_player.next_frame();
+            auto video_frame = video_player.next_frame(std::chrono::steady_clock::now());
 
             if (video_frame && video_player.is_playing())
                 window.show_video_frame(std::move(video_frame));

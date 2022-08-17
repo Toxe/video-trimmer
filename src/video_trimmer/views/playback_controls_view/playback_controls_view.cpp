@@ -36,6 +36,10 @@ void PlaybackControlsView::render(video_player::VideoPlayer& video_player)
     ImGui::TextUnformatted("|");
     ImGui::SameLine();
     ImGui::TextColored(video_player.is_paused() ? ui::colors::green : ui::colors::red, "%s", "is_paused");
+    ImGui::SameLine();
+    ImGui::TextUnformatted("|");
+    ImGui::SameLine();
+    ImGui::TextColored(video_player.is_seeking() ? ui::colors::green : ui::colors::red, "%s", "is_seeking");
 
     if (video_player.has_open_file()) {
         ImGui::SameLine();

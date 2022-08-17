@@ -13,7 +13,9 @@ target_link_libraries(video_trimmer PRIVATE ${SANITIZER_FLAGS} LIB_video_trimmer
 if (BUILD_TESTING)
     add_executable(video_trimmer_tests
             video_trimmer/ui/widgets/ring_buffer.test.cpp
+            video_trimmer/video_file/frame.test.cpp
             video_trimmer/video_file/pixel_format.test.cpp
+            video_trimmer/video_player/video_player.test.cpp
             )
 
     set_target_properties(video_trimmer_tests PROPERTIES CXX_EXTENSIONS OFF)

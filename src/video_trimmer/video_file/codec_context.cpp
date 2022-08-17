@@ -50,10 +50,24 @@ CodecContext::CodecContext(AVStream* stream)
     codec_type_ = av_get_media_type_string(codec_context_->codec_type);
     codec_name_ = codec_context_->codec->long_name;
 
-    if (codec_context_->codec_type == AVMEDIA_TYPE_VIDEO)
+    if (is_video_stream())
         codec_additional_info_ = fmt::format("{}x{}, {:.1f} fps, {}", codec_context_->width, codec_context_->height, fps_, pixel_format().name());
-    else if (codec_context_->codec_type == AVMEDIA_TYPE_AUDIO)
+    else if (is_audio_stream())
         codec_additional_info_ = fmt::format("{} channels, {} sample rate", codec_context_->channels, codec_context_->sample_rate);
+}
+
+bool CodecContext::is_audio_stream() const
+{
+    assert(codec_context_.get() != nullptr);
+
+    return codec_context_->codec_type == AVMEDIA_TYPE_AUDIO;
+}
+
+bool CodecContext::is_video_stream() const
+{
+    assert(codec_context_.get() != nullptr);
+
+    return codec_context_->codec_type == AVMEDIA_TYPE_VIDEO;
 }
 
 Size CodecContext::size() const
@@ -76,20 +90,25 @@ int CodecContext::send_packet_to_decoder(AVPacket* packet)
     return 0;
 }
 
-std::unique_ptr<Frame> CodecContext::receive_frame_from_decoder(const double time_base)
+std::unique_ptr<Frame> CodecContext::receive_frame_from_decoder()
 {
-    std::unique_ptr<Frame> frame = std::make_unique<Frame>(size(), pixel_format());
+    std::unique_ptr<Frame> frame;
+
+    if (is_audio_stream())
+        frame = Frame::create_audio_frame();
+    else if (is_video_stream())
+        frame = Frame::create_video_frame(size(), pixel_format());
 
     int ret = avcodec_receive_frame(codec_context_.get(), frame->frame());
 
     if (ret < 0) {
-        if (!(ret == AVERROR_EOF || ret == AVERROR(EAGAIN)))
+        if (ret != AVERROR_EOF && ret != AVERROR(EAGAIN))
             video_trimmer::error::show_error("avcodec_receive_frame");
 
         return nullptr;
     }
 
-    frame->set_timestamp(static_cast<double>(frame->frame()->best_effort_timestamp) * time_base);
+    frame->update_from_frame(stream_time_base_);
 
     return frame;
 }

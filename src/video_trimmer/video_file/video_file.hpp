@@ -11,28 +11,28 @@ namespace video_trimmer::video_file {
 class VideoFile {
 public:
     explicit VideoFile(const std::string& full_filename);
-    ~VideoFile();
+    virtual ~VideoFile();
 
-    [[nodiscard]] bool is_open() const;
-    [[nodiscard]] bool is_video() const;
+    [[nodiscard]] virtual bool is_open() const;
+    [[nodiscard]] virtual bool is_video() const;
 
-    [[nodiscard]] const std::string& filename() const;
-    [[nodiscard]] const std::string& file_format() const;
+    [[nodiscard]] virtual const std::string& filename() const;
+    [[nodiscard]] virtual const std::string& file_format() const;
 
-    [[nodiscard]] float duration() const;
-    [[nodiscard]] std::string format_duration() const;
+    [[nodiscard]] virtual float duration() const;
+    [[nodiscard]] virtual std::string format_duration() const;
 
-    [[nodiscard]] CodecContext* audio_codec_context() const;
-    [[nodiscard]] CodecContext* video_codec_context() const;
+    [[nodiscard]] virtual CodecContext* audio_codec_context() const;
+    [[nodiscard]] virtual CodecContext* video_codec_context() const;
 
-    [[nodiscard]] bool has_audio_stream() const;
-    [[nodiscard]] bool has_video_stream() const;
+    [[nodiscard]] virtual bool has_audio_stream() const;
+    [[nodiscard]] virtual bool has_video_stream() const;
 
-    [[nodiscard]] std::unique_ptr<Frame> read_next_frame();
+    [[nodiscard]] virtual std::unique_ptr<Frame> read_next_frame();
 
-    [[nodiscard]] bool seek_position(double position, int direction);
+    [[nodiscard]] virtual bool seek_position(double position, int direction);
 
-    void set_dump_first_frame(bool dump_frame);
+    virtual void set_dump_first_frame(bool dump_frame);
 
 private:
     class Impl;

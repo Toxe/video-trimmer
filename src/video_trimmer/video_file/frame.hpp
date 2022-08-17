@@ -12,9 +12,18 @@ struct AVFrame;
 namespace video_trimmer::video_file {
 
 class Frame {
+private:
+    class Impl;
+
 public:
-    Frame(Size size, PixelFormat pixel_format);
+    explicit Frame(std::unique_ptr<Impl> impl);
     ~Frame();
+
+    [[nodiscard]] static std::unique_ptr<Frame> create_audio_frame();
+    [[nodiscard]] static std::unique_ptr<Frame> create_video_frame();
+    [[nodiscard]] static std::unique_ptr<Frame> create_video_frame(Size size, PixelFormat pixel_format, double timestamp = 0.0, double duration = 0.0, char picture_type = '?');
+
+    void update_from_frame(double stream_time_base);
 
     [[nodiscard]] bool is_audio_frame() const;
     [[nodiscard]] bool is_video_frame() const;
@@ -22,7 +31,7 @@ public:
     [[nodiscard]] Size size() const;
 
     [[nodiscard]] double timestamp() const;
-    void set_timestamp(double timestamp);
+    [[nodiscard]] double duration() const;
 
     [[nodiscard]] uint8_t** data();
     [[nodiscard]] int* linesizes();
@@ -35,7 +44,6 @@ public:
     void dump_to_file(const std::string& filename);
 
 private:
-    class Impl;
     std::unique_ptr<Impl> impl_;
 };
 

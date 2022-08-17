@@ -171,7 +171,7 @@ std::unique_ptr<Frame> VideoFile::Impl::decode_video_packet(AVPacket* packet)
         return nullptr;
 
     // get available frame from the decoder
-    std::unique_ptr<Frame> frame = video_codec_context_->receive_frame_from_decoder(video_codec_context_->stream_time_base());
+    std::unique_ptr<Frame> frame = video_codec_context_->receive_frame_from_decoder();
 
     if (dump_first_frame_ && frame) {
         frame->dump_to_file(filename_without_path_);
