@@ -51,6 +51,7 @@ private:
     int stream_index_;
 
     float fps_;
+    int64_t stream_duration_;
     double stream_time_base_;
 };
 
