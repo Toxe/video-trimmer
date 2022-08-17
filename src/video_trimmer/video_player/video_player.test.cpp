@@ -29,10 +29,9 @@ TEST_CASE("video_player::VideoPlayer")
                 CHECK(!video_player.is_playing());
             }
 
-            THEN("the current and previous playback positions are 0.0")
+            THEN("the current playback positions is 0.0")
             {
                 CHECK(video_player.playback_position() == Catch::Approx(0.0));
-                CHECK(video_player.prev_playback_position() == Catch::Approx(0.0));
             }
         }
 
@@ -101,15 +100,12 @@ TEST_CASE("video_player::VideoPlayer")
             {
                 video_player.update_time(now);
                 CHECK(video_player.playback_position() == Catch::Approx(0.0));
-                CHECK(video_player.prev_playback_position() == Catch::Approx(0.0));
 
                 video_player.update_time(now + 5ms);
                 CHECK(video_player.playback_position() == Catch::Approx(0.0));
-                CHECK(video_player.prev_playback_position() == Catch::Approx(0.0));
 
                 video_player.update_time(now + 10ms);
                 CHECK(video_player.playback_position() == Catch::Approx(0.0));
-                CHECK(video_player.prev_playback_position() == Catch::Approx(0.0));
             }
         }
     }
@@ -133,15 +129,12 @@ TEST_CASE("video_player::VideoPlayer")
             {
                 video_player.update_time(now);
                 CHECK(video_player.playback_position() == Catch::Approx(0.0));
-                CHECK(video_player.prev_playback_position() == Catch::Approx(0.0));
 
                 video_player.update_time(now + 5ms);
                 CHECK(video_player.playback_position() == Catch::Approx(0.0));
-                CHECK(video_player.prev_playback_position() == Catch::Approx(0.0));
 
                 video_player.update_time(now + 10ms);
                 CHECK(video_player.playback_position() == Catch::Approx(0.0));
-                CHECK(video_player.prev_playback_position() == Catch::Approx(0.0));
             }
         }
 
@@ -154,15 +147,12 @@ TEST_CASE("video_player::VideoPlayer")
 
                 video_player.update_time(now);
                 CHECK(video_player.playback_position() == Catch::Approx(0.0));
-                CHECK(video_player.prev_playback_position() == Catch::Approx(0.0));
 
                 video_player.update_time(now + 5ms);
                 CHECK(video_player.playback_position() == Catch::Approx(0.0));
-                CHECK(video_player.prev_playback_position() == Catch::Approx(0.0));
 
                 video_player.update_time(now + 10ms);
                 CHECK(video_player.playback_position() == Catch::Approx(0.0));
-                CHECK(video_player.prev_playback_position() == Catch::Approx(0.0));
             }
         }
 
@@ -175,19 +165,15 @@ TEST_CASE("video_player::VideoPlayer")
 
                 video_player.update_time(now);
                 CHECK(video_player.playback_position() == Catch::Approx(0.0));
-                CHECK(video_player.prev_playback_position() == Catch::Approx(0.0));
 
                 video_player.update_time(now + 5ms);
                 CHECK(video_player.playback_position() == Catch::Approx(0.005));
-                CHECK(video_player.prev_playback_position() == Catch::Approx(0.0));
 
                 video_player.update_time(now + 10ms);
                 CHECK(video_player.playback_position() == Catch::Approx(0.010));
-                CHECK(video_player.prev_playback_position() == Catch::Approx(0.005));
 
                 video_player.update_time(now + 15ms);
                 CHECK(video_player.playback_position() == Catch::Approx(0.015));
-                CHECK(video_player.prev_playback_position() == Catch::Approx(0.010));
             }
         }
 
@@ -201,15 +187,12 @@ TEST_CASE("video_player::VideoPlayer")
 
                 video_player.update_time(now);
                 CHECK(video_player.playback_position() == Catch::Approx(0.0));
-                CHECK(video_player.prev_playback_position() == Catch::Approx(0.0));
 
                 video_player.update_time(now + 5ms);
                 CHECK(video_player.playback_position() == Catch::Approx(0.0));
-                CHECK(video_player.prev_playback_position() == Catch::Approx(0.0));
 
                 video_player.update_time(now + 10ms);
                 CHECK(video_player.playback_position() == Catch::Approx(0.0));
-                CHECK(video_player.prev_playback_position() == Catch::Approx(0.0));
             }
         }
 
@@ -223,15 +206,12 @@ TEST_CASE("video_player::VideoPlayer")
 
                 video_player.update_time(now);
                 CHECK(video_player.playback_position() == Catch::Approx(0.0));
-                CHECK(video_player.prev_playback_position() == Catch::Approx(0.0));
 
                 video_player.update_time(now + 5ms);
                 CHECK(video_player.playback_position() == Catch::Approx(0.0));
-                CHECK(video_player.prev_playback_position() == Catch::Approx(0.0));
 
                 video_player.update_time(now + 10ms);
                 CHECK(video_player.playback_position() == Catch::Approx(0.0));
-                CHECK(video_player.prev_playback_position() == Catch::Approx(0.0));
             }
         }
 
@@ -247,17 +227,14 @@ TEST_CASE("video_player::VideoPlayer")
                 video_player.update_time(now + 10ms);
 
                 CHECK(video_player.playback_position() == Catch::Approx(0.0));
-                CHECK(video_player.prev_playback_position() == Catch::Approx(0.0));
 
                 video_player.stop();
 
                 video_player.update_time(now + 15ms);
                 CHECK(video_player.playback_position() == Catch::Approx(0.0));
-                CHECK(video_player.prev_playback_position() == Catch::Approx(0.0));
 
                 video_player.update_time(now + 20ms);
                 CHECK(video_player.playback_position() == Catch::Approx(0.0));
-                CHECK(video_player.prev_playback_position() == Catch::Approx(0.0));
             }
         }
 
@@ -274,44 +251,36 @@ TEST_CASE("video_player::VideoPlayer")
                 video_player.update_time(now + 10ms);
 
                 CHECK(video_player.playback_position() == Catch::Approx(0.010));
-                CHECK(video_player.prev_playback_position() == Catch::Approx(0.005));
 
                 // pause --> playback position freezes
                 video_player.toggle_pause();
 
                 video_player.update_time(now + 15ms);
                 CHECK(video_player.playback_position() == Catch::Approx(0.010));
-                CHECK(video_player.prev_playback_position() == Catch::Approx(0.005));
 
                 video_player.update_time(now + 20ms);
                 CHECK(video_player.playback_position() == Catch::Approx(0.010));
-                CHECK(video_player.prev_playback_position() == Catch::Approx(0.005));
 
                 video_player.update_time(now + 25ms);
                 CHECK(video_player.playback_position() == Catch::Approx(0.010));
-                CHECK(video_player.prev_playback_position() == Catch::Approx(0.005));
 
                 // unpause --> playback position continues
                 video_player.toggle_pause();
 
                 video_player.update_time(now + 30ms);
                 CHECK(video_player.playback_position() == Catch::Approx(0.015));
-                CHECK(video_player.prev_playback_position() == Catch::Approx(0.010));
 
                 video_player.update_time(now + 35ms);
                 CHECK(video_player.playback_position() == Catch::Approx(0.020));
-                CHECK(video_player.prev_playback_position() == Catch::Approx(0.015));
 
                 // pause --> playback position freezes
                 video_player.toggle_pause();
 
                 video_player.update_time(now + 40ms);
                 CHECK(video_player.playback_position() == Catch::Approx(0.020));
-                CHECK(video_player.prev_playback_position() == Catch::Approx(0.015));
 
                 video_player.update_time(now + 45ms);
                 CHECK(video_player.playback_position() == Catch::Approx(0.020));
-                CHECK(video_player.prev_playback_position() == Catch::Approx(0.015));
             }
         }
     }

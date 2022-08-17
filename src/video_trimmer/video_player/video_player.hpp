@@ -33,7 +33,6 @@ public:
     void update_time(std::chrono::steady_clock::time_point current_time);
 
     [[nodiscard]] double playback_position() const { return playback_position_; };
-    [[nodiscard]] double prev_playback_position() const { return prev_playback_position_; };
 
     [[nodiscard]] video_file::VideoFile* video_file() const { return video_file_.get(); }
 
@@ -51,7 +50,6 @@ private:
     std::chrono::steady_clock::time_point current_time_;
     std::chrono::steady_clock::time_point previous_frame_start_;
     std::chrono::steady_clock::time_point current_frame_start_;
-    double prev_playback_position_ = 0.0;
     double playback_position_ = 0.0;
 
     bool is_playing_ = false;

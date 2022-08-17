@@ -29,9 +29,7 @@ void VideoPlayer::play_file(std::unique_ptr<video_file::VideoFile> video_file, s
     is_playing_ = false;
     has_received_first_real_frame_ = false;
     playback_position_ = 0.0;
-    prev_playback_position_ = 0.0;
 
-    // current_frame_start_ = std::chrono::steady_clock::now();
     current_frame_start_ = current_time_;
     previous_frame_start_ = current_frame_start_;
 
@@ -57,7 +55,6 @@ void VideoPlayer::start(std::chrono::steady_clock::time_point current_time)
         is_playing_ = true;
         has_received_first_real_frame_ = false;
         playback_position_ = 0.0;
-        prev_playback_position_ = 0.0;
 
         current_frame_start_ = current_time_;
         previous_frame_start_ = current_frame_start_;
@@ -169,7 +166,6 @@ void VideoPlayer::update_time(std::chrono::steady_clock::time_point current_time
     // current position in playback
     if (has_received_first_real_frame_) {
         const std::chrono::duration<double> diff = current_frame_start_ - previous_frame_start_;
-        prev_playback_position_ = playback_position_;
         playback_position_ += diff.count();
     }
 }
@@ -184,7 +180,7 @@ std::unique_ptr<video_file::Frame> VideoPlayer::next_frame(std::chrono::steady_c
     if (!is_playing())
         return nullptr;
 
-    logger::log_trace(fmt::format("[next_frame] {:.3f} --> {:.3f} ---------------------", prev_playback_position_, playback_position_));
+    logger::log_trace(fmt::format("[next_frame] {:.3f} ---------------------", playback_position_));
 
     if (is_seeking_)
         return next_frame_seeking();
