@@ -190,22 +190,24 @@ std::unique_ptr<video_file::Frame> VideoPlayer::next_frame(std::chrono::steady_c
 
 std::unique_ptr<video_file::Frame> VideoPlayer::next_frame_normal_playback()
 {
+    const char* function_name = "next_frame_normal_playback";
+
     if (!available_frame_) {
-        logger::log_trace(fmt::format("[next_frame_normal_playback] {:.3f} | no available frame", playback_position_));
+        logger::log_trace(fmt::format("[{}] {:.3f} | no available frame", function_name, playback_position_));
 
         while (true) {
-            logger::log_trace(fmt::format("[next_frame_normal_playback] {:.3f} | request new frame", playback_position_));
+            logger::log_trace(fmt::format("[{}] {:.3f} | request new frame", function_name, playback_position_));
 
             available_frame_ = video_file_->read_next_frame();
 
             if (!available_frame_) {
-                logger::log_trace(fmt::format("[next_frame_normal_playback] {:.3f} | no new frame available", playback_position_));
+                logger::log_trace(fmt::format("[{}] {:.3f} | no new frame available", function_name, playback_position_));
 
                 if (!has_received_first_real_frame_)
                     continue;  // still waiting for the first frame, so keep reading
 
                 if (playback_position_ >= video_file_->duration()) {
-                    logger::log_trace(fmt::format("[next_frame_normal_playback] {:.3f} | reached the end --> STOP PLAYBACK", playback_position_));
+                    logger::log_trace(fmt::format("[{}] {:.3f} | reached the end --> STOP PLAYBACK", function_name, playback_position_));
                     stop();
                 }
 
@@ -215,7 +217,7 @@ std::unique_ptr<video_file::Frame> VideoPlayer::next_frame_normal_playback()
             ++received_frames_;
 
             if ((available_frame_->timestamp() + available_frame_->duration()) < playback_position_) {
-                logger::log_trace(fmt::format("[next_frame_normal_playback] {:.3f} | received {}, TOO OLD", playback_position_, available_frame_->description()));
+                logger::log_trace(fmt::format("[{}] {:.3f} | received {}, TOO OLD", function_name, playback_position_, available_frame_->description()));
                 ++dropped_frames_;
                 continue;
             }
@@ -225,28 +227,30 @@ std::unique_ptr<video_file::Frame> VideoPlayer::next_frame_normal_playback()
     }
 
     if (!has_received_first_real_frame_) {
-        logger::log_trace(fmt::format("[next_frame_normal_playback] {:.3f} | received first frame, begin playback", playback_position_));
+        logger::log_trace(fmt::format("[{}] {:.3f} | received first frame, begin playback", function_name, playback_position_));
         has_received_first_real_frame_ = true;
         playback_position_ = available_frame_->timestamp();
         current_frame_start_ = current_time_;
     }
 
     if (playback_position_ >= available_frame_->timestamp()) {
-        logger::log_trace(fmt::format("[next_frame_normal_playback] {:.3f} | available {}, RETURN", playback_position_, available_frame_->description()));
+        logger::log_trace(fmt::format("[{}] {:.3f} | available {}, RETURN", function_name, playback_position_, available_frame_->description()));
         return std::move(available_frame_);
     }
 
-    logger::log_trace(fmt::format("[next_frame_normal_playback] {:.3f} | available {}, WAIT", playback_position_, available_frame_->description()));
+    logger::log_trace(fmt::format("[{}] {:.3f} | available {}, WAIT", function_name, playback_position_, available_frame_->description()));
     return nullptr;
 }
 
 std::unique_ptr<video_file::Frame> VideoPlayer::next_frame_seeking()
 {
+    const char* function_name = "next_frame_seeking";
+
     bool found = false;
     bool should_stop = false;
 
     while (true) {
-        logger::log_trace(fmt::format("[next_frame_seeking] {:.3f} | request new frame", playback_position_));
+        logger::log_trace(fmt::format("[{}] {:.3f} | request new frame", function_name, playback_position_));
 
         std::unique_ptr<video_file::Frame> frame = video_file_->read_next_frame();
 
@@ -257,19 +261,19 @@ std::unique_ptr<video_file::Frame> VideoPlayer::next_frame_seeking()
                 available_frame_ = std::move(frame);
                 ++dropped_frames_;
 
-                logger::log_trace(fmt::format("[next_frame_seeking] {:.3f} | received {}, TOO OLD", playback_position_, available_frame_->description()));
+                logger::log_trace(fmt::format("[{}] {:.3f} | received {}, TOO OLD", function_name, playback_position_, available_frame_->description()));
                 found = true;
                 continue;
             } else {
                 available_frame_ = std::move(frame);
-                logger::log_trace(fmt::format("[next_frame_seeking] {:.3f} | received {}, BREAK", playback_position_, available_frame_->description()));
+                logger::log_trace(fmt::format("[{}] {:.3f} | received {}, BREAK", function_name, playback_position_, available_frame_->description()));
                 break;
             }
         } else {
-            logger::log_trace(fmt::format("[next_frame_seeking] {:.3f} | no new frame available", playback_position_));
+            logger::log_trace(fmt::format("[{}] {:.3f} | no new frame available", function_name, playback_position_));
 
             if (found) {
-                logger::log_trace(fmt::format("[next_frame_seeking] {:.3f} | available {}, FOUND", playback_position_, available_frame_->description()));
+                logger::log_trace(fmt::format("[{}] {:.3f} | available {}, FOUND", function_name, playback_position_, available_frame_->description()));
                 should_stop = true;
                 break;
             }
@@ -277,7 +281,7 @@ std::unique_ptr<video_file::Frame> VideoPlayer::next_frame_seeking()
     }
 
     if (!has_received_first_real_frame_) {
-        logger::log_trace(fmt::format("[next_frame_normal_playback] {:.3f} | received first frame, begin playback", playback_position_));
+        logger::log_trace(fmt::format("[{}] {:.3f} | received first frame, begin playback", function_name, playback_position_));
         has_received_first_real_frame_ = true;
         playback_position_ = available_frame_->timestamp();
         current_frame_start_ = current_time_;
@@ -289,11 +293,11 @@ std::unique_ptr<video_file::Frame> VideoPlayer::next_frame_seeking()
         stop();
 
     if (playback_position_ >= available_frame_->timestamp()) {
-        logger::log_trace(fmt::format("[next_frame_normal_playback] {:.3f} | available {}, RETURN", playback_position_, available_frame_->description()));
+        logger::log_trace(fmt::format("[{}] {:.3f} | available {}, RETURN", function_name, playback_position_, available_frame_->description()));
         return std::move(available_frame_);
     }
 
-    logger::log_trace(fmt::format("[next_frame_normal_playback] {:.3f} | available {}, WAIT", playback_position_, available_frame_->description()));
+    logger::log_trace(fmt::format("[{}] {:.3f} | available {}, WAIT", function_name, playback_position_, available_frame_->description()));
     return nullptr;
 }
 
