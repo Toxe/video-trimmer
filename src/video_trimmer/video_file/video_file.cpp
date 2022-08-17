@@ -186,9 +186,7 @@ float VideoFile::Impl::duration() const
     if (format_context_->duration == AV_NOPTS_VALUE)
         return -1.0f;
 
-    const int64_t duration = format_context_->duration + (format_context_->duration <= INT64_MAX - 5000 ? 5000 : 0);
-
-    return static_cast<float>(duration) / AV_TIME_BASE;
+    return static_cast<float>(format_context_->duration) / AV_TIME_BASE;
 }
 
 std::string VideoFile::Impl::format_duration() const
@@ -197,8 +195,7 @@ std::string VideoFile::Impl::format_duration() const
     if (format_context_->duration == AV_NOPTS_VALUE)
         return "N/A";
 
-    int64_t duration = format_context_->duration + (format_context_->duration <= INT64_MAX - 5000 ? 5000 : 0);
-    int64_t secs = duration / AV_TIME_BASE;
+    int64_t secs = format_context_->duration / AV_TIME_BASE;
     int64_t mins = secs / 60;
     secs %= 60;
     int64_t hours = mins / 60;
