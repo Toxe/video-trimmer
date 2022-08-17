@@ -21,7 +21,7 @@ public:
 
     [[nodiscard]] static std::unique_ptr<Frame> create_audio_frame();
     [[nodiscard]] static std::unique_ptr<Frame> create_video_frame();
-    [[nodiscard]] static std::unique_ptr<Frame> create_video_frame(Size size, PixelFormat pixel_format, double timestamp = 0.0, double duration = 0.0, char picture_type = '?');
+    [[nodiscard]] static std::unique_ptr<Frame> create_video_frame(Size size, PixelFormat pixel_format, int64_t stream_duration, double timestamp = 0.0, double duration = 0.0, char picture_type = '?');
 
     void update_from_frame(double stream_time_base);
 

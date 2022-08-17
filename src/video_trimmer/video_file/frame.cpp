@@ -28,7 +28,7 @@ public:
     Impl(FrameType frame_type, double timestamp, double duration, Size size, PixelFormat pixel_format);
 
     [[nodiscard]] static std::unique_ptr<Frame::Impl> create_audio_frame();
-    [[nodiscard]] static std::unique_ptr<Frame::Impl> create_video_frame(Size size, PixelFormat pixel_format, double timestamp, double duration, char picture_type);
+    [[nodiscard]] static std::unique_ptr<Frame::Impl> create_video_frame(Size size, PixelFormat pixel_format, int64_t stream_duration, double timestamp, double duration, char picture_type);
 
     void update_from_frame(double stream_time_base);
 
@@ -59,6 +59,7 @@ private:
     double duration_;
     int64_t pts_ = 0;
     int64_t pkt_duration_ = 0;
+    int64_t stream_duration_ = 0;
 
     Size size_;
     PixelFormat pixel_format_;
@@ -79,9 +80,10 @@ std::unique_ptr<Frame::Impl> Frame::Impl::create_audio_frame()
     return std::make_unique<Frame::Impl>(FrameType::audio, 0.0, 0.0, Size{0, 0}, PixelFormat{});
 }
 
-std::unique_ptr<Frame::Impl> Frame::Impl::create_video_frame(Size size, PixelFormat pixel_format, double timestamp, double duration, char picture_type)
+std::unique_ptr<Frame::Impl> Frame::Impl::create_video_frame(Size size, PixelFormat pixel_format, int64_t stream_duration, double timestamp, double duration, char picture_type)
 {
     auto frame = std::make_unique<Frame::Impl>(FrameType::video, timestamp, duration, size, pixel_format);
+    frame->stream_duration_ = stream_duration;
     frame->picture_type_ = picture_type;
 
     return frame;
@@ -121,7 +123,7 @@ void Frame::Impl::dump_to_file(const std::string& filename)
 std::string Frame::Impl::description() const
 {
     if (is_video_frame())
-        return fmt::format("[Frame V{} @{:.3f} {:.4f}s, {}x{}, pts={}, pkt_duration={}]", picture_type_, timestamp_, duration_, size_.width, size_.height, pts_, pkt_duration_);
+        return fmt::format("[Frame V{} @{:.3f} {:.4f}s, {}x{}, pts={}:{} ({}), pkt_duration={}]", picture_type_, timestamp_, duration_, size_.width, size_.height, pts_, stream_duration_, pts_ - stream_duration_, pkt_duration_);
     else
         return fmt::format("[Frame A @{:.3f} {:.4f}s]", timestamp_, duration_);
 }
@@ -129,8 +131,8 @@ std::string Frame::Impl::description() const
 Frame::Frame(std::unique_ptr<Impl> impl) : impl_(std::move(impl)) { }
 Frame::~Frame() = default;
 std::unique_ptr<Frame> Frame::create_audio_frame() { return std::make_unique<Frame>(Frame::Impl::create_audio_frame()); }
-std::unique_ptr<Frame> Frame::create_video_frame() { return create_video_frame(Size{}, PixelFormat{}); }
-std::unique_ptr<Frame> Frame::create_video_frame(Size size, PixelFormat pixel_format, double timestamp, double duration, char picture_type) { return std::make_unique<Frame>(Frame::Impl::create_video_frame(size, pixel_format, timestamp, duration, picture_type)); }
+std::unique_ptr<Frame> Frame::create_video_frame() { return create_video_frame(Size{}, PixelFormat{}, 0); }
+std::unique_ptr<Frame> Frame::create_video_frame(Size size, PixelFormat pixel_format, int64_t stream_duration, double timestamp, double duration, char picture_type) { return std::make_unique<Frame>(Frame::Impl::create_video_frame(size, pixel_format, stream_duration, timestamp, duration, picture_type)); }
 void Frame::update_from_frame(double stream_time_base) { impl_->update_from_frame(stream_time_base); }
 bool Frame::is_audio_frame() const { return impl_->is_audio_frame(); }
 bool Frame::is_video_frame() const { return impl_->is_video_frame(); }

@@ -123,14 +123,14 @@ TEST_CASE("video_file::Frame")
         {
             THEN("returns a correct description")
             {
-                CHECK_THAT(frame->description(), Catch::Matchers::Equals("[Frame V? @0.000 0.0000s, 0x0, pts=0, pkt_duration=0]"));
+                CHECK_THAT(frame->description(), Catch::Matchers::Equals("[Frame V? @0.000 0.0000s, 0x0, pts=0:0 (0), pkt_duration=0]"));
             }
         }
     }
 
     GIVEN("a video frame constructed with explicit values")
     {
-        const auto frame = Frame::create_video_frame(Size{640, 480}, PixelFormat{1}, 10.0, 1.0 / 60.0, 'I');
+        const auto frame = Frame::create_video_frame(Size{640, 480}, PixelFormat{1}, 1837735, 10.0, 1.0 / 60.0, 'I');
 
         WHEN("checking its timestamp")
         {
@@ -181,7 +181,7 @@ TEST_CASE("video_file::Frame")
         {
             THEN("returns a correct description")
             {
-                CHECK_THAT(frame->description(), Catch::Matchers::Equals("[Frame VI @10.000 0.0167s, 640x480, pts=0, pkt_duration=0]"));
+                CHECK_THAT(frame->description(), Catch::Matchers::Equals("[Frame VI @10.000 0.0167s, 640x480, pts=0:1837735 (-1837735), pkt_duration=0]"));
             }
         }
     }
@@ -192,7 +192,7 @@ TEST_CASE("video_file::Frame")
         {
             THEN("it sets new values")
             {
-                const auto frame = Frame::create_video_frame(Size{640, 480}, PixelFormat{1});
+                const auto frame = Frame::create_video_frame(Size{640, 480}, PixelFormat{1}, 1837735);
 
                 frame->frame()->best_effort_timestamp = 4503;
                 frame->frame()->pts = 4503;
@@ -200,7 +200,7 @@ TEST_CASE("video_file::Frame")
                 frame->frame()->pict_type = AV_PICTURE_TYPE_I;
                 frame->update_from_frame(0.00001111111111111111);
 
-                CHECK_THAT(frame->description(), Catch::Matchers::Equals("[Frame VI @0.050 0.0167s, 640x480, pts=4503, pkt_duration=1501]"));
+                CHECK_THAT(frame->description(), Catch::Matchers::Equals("[Frame VI @0.050 0.0167s, 640x480, pts=4503:1837735 (-1833232), pkt_duration=1501]"));
             }
         }
     }

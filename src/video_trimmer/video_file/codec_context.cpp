@@ -98,7 +98,7 @@ std::unique_ptr<Frame> CodecContext::receive_frame_from_decoder()
     if (is_audio_stream())
         frame = Frame::create_audio_frame();
     else if (is_video_stream())
-        frame = Frame::create_video_frame(size(), pixel_format());
+        frame = Frame::create_video_frame(size(), pixel_format(), stream_duration_);
 
     int ret = avcodec_receive_frame(codec_context_.get(), frame->frame());
 

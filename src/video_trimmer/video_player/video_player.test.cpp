@@ -342,10 +342,10 @@ TEST_CASE("video_player::VideoPlayer")
                 fakeit::When(Method(mock_video_file, read_next_frame))
                     .Do([] { return nullptr; })  // decoder needs a moment before returning the first real frame
                     .Do([] { return nullptr; })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 0.000, 1.0 / 60.0, 'I'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 0.017, 1.0 / 60.0, 'P'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 0.033, 1.0 / 60.0, 'P'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 0.050, 1.0 / 60.0, 'P'); });
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.000, 1.0 / 60.0, 'I'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.017, 1.0 / 60.0, 'P'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.033, 1.0 / 60.0, 'P'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.050, 1.0 / 60.0, 'P'); });
 
                 // return the first available frame at 0.0
                 CHECK(video_player.next_frame(now)->timestamp() == Catch::Approx(0.0));
@@ -363,10 +363,10 @@ TEST_CASE("video_player::VideoPlayer")
                 fakeit::When(Method(mock_video_file, read_next_frame))
                     .Do([] { return nullptr; })  // decoder needs a moment before returning the first real frame
                     .Do([] { return nullptr; })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 0.000, 1.0 / 60.0, 'I'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 0.017, 1.0 / 60.0, 'P'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 0.033, 1.0 / 60.0, 'P'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 0.050, 1.0 / 60.0, 'P'); });
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.000, 1.0 / 60.0, 'I'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.017, 1.0 / 60.0, 'P'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.033, 1.0 / 60.0, 'P'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.050, 1.0 / 60.0, 'P'); });
 
                 // progress time enough to return each frame
                 CHECK(video_player.next_frame(now)->timestamp() == Catch::Approx(0.0));
@@ -383,10 +383,10 @@ TEST_CASE("video_player::VideoPlayer")
                 fakeit::When(Method(mock_video_file, read_next_frame))
                     .Do([] { return nullptr; })  // decoder needs a moment before returning the first real frame
                     .Do([] { return nullptr; })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 0.000, 1.0 / 60.0, 'I'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 0.017, 1.0 / 60.0, 'P'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 0.033, 1.0 / 60.0, 'P'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 0.050, 1.0 / 60.0, 'P'); });
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.000, 1.0 / 60.0, 'I'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.017, 1.0 / 60.0, 'P'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.033, 1.0 / 60.0, 'P'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.050, 1.0 / 60.0, 'P'); });
 
                 CHECK(video_player.next_frame(now)->timestamp() == Catch::Approx(0.0));
                 CHECK(video_player.next_frame(now + 10ms) == nullptr);
@@ -407,16 +407,16 @@ TEST_CASE("video_player::VideoPlayer")
                 fakeit::When(Method(mock_video_file, read_next_frame))
                     .Do([] { return nullptr; })  // decoder needs a moment before returning the first real frame
                     .Do([] { return nullptr; })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 0.000, 1.0 / 60.0, 'I'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 0.017, 1.0 / 60.0, 'P'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 0.033, 1.0 / 60.0, 'P'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 0.050, 1.0 / 60.0, 'P'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 0.067, 1.0 / 60.0, 'P'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 0.083, 1.0 / 60.0, 'P'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 0.100, 1.0 / 60.0, 'P'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 0.117, 1.0 / 60.0, 'P'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 0.133, 1.0 / 60.0, 'P'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 0.150, 1.0 / 60.0, 'P'); });
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.000, 1.0 / 60.0, 'I'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.017, 1.0 / 60.0, 'P'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.033, 1.0 / 60.0, 'P'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.050, 1.0 / 60.0, 'P'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.067, 1.0 / 60.0, 'P'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.083, 1.0 / 60.0, 'P'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.100, 1.0 / 60.0, 'P'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.117, 1.0 / 60.0, 'P'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.133, 1.0 / 60.0, 'P'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.150, 1.0 / 60.0, 'P'); });
 
                 CHECK(video_player.next_frame(now)->timestamp() == Catch::Approx(0.0));
                 CHECK(video_player.next_frame(now + 40ms)->timestamp() == Catch::Approx(0.033));  // skip 0.017
@@ -433,10 +433,10 @@ TEST_CASE("video_player::VideoPlayer")
                 fakeit::When(Method(mock_video_file, read_next_frame))
                     .Do([] { return nullptr; })  // decoder needs a moment before returning the first real frame
                     .Do([] { return nullptr; })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 0.000, 1.0 / 60.0, 'I'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 0.017, 1.0 / 60.0, 'P'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 0.033, 1.0 / 60.0, 'P'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 0.050, 1.0 / 60.0, 'P'); });
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.000, 1.0 / 60.0, 'I'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.017, 1.0 / 60.0, 'P'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.033, 1.0 / 60.0, 'P'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.050, 1.0 / 60.0, 'P'); });
 
                 fakeit::When(Method(mock_video_file, duration)).AlwaysReturn(20.0f);
 
@@ -456,14 +456,14 @@ TEST_CASE("video_player::VideoPlayer")
                 fakeit::When(Method(mock_video_file, read_next_frame))
                     .Do([] { return nullptr; })  // decoder needs a moment before returning the first real frame
                     .Do([] { return nullptr; })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 0.000, 1.0 / 60.0, 'I'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 0.017, 1.0 / 60.0, 'P'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 0.033, 1.0 / 60.0, 'P'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 0.050, 1.0 / 60.0, 'P'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 0.000, 1.0 / 60.0, 'I'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 0.017, 1.0 / 60.0, 'P'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 0.033, 1.0 / 60.0, 'P'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 0.050, 1.0 / 60.0, 'P'); });
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.000, 1.0 / 60.0, 'I'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.017, 1.0 / 60.0, 'P'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.033, 1.0 / 60.0, 'P'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.050, 1.0 / 60.0, 'P'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.000, 1.0 / 60.0, 'I'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.017, 1.0 / 60.0, 'P'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.033, 1.0 / 60.0, 'P'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.050, 1.0 / 60.0, 'P'); });
 
                 fakeit::When(Method(mock_video_file, duration)).AlwaysReturn(20.0f);
 
@@ -490,10 +490,10 @@ TEST_CASE("video_player::VideoPlayer")
                 fakeit::When(Method(mock_video_file, read_next_frame))
                     .Do([] { return nullptr; })  // decoder needs a moment before returning the first real frame
                     .Do([] { return nullptr; })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 10.000, 1.0 / 60.0, 'I'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 10.017, 1.0 / 60.0, 'P'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 10.033, 1.0 / 60.0, 'P'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 10.050, 1.0 / 60.0, 'P'); });
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 10.000, 1.0 / 60.0, 'I'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 10.017, 1.0 / 60.0, 'P'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 10.033, 1.0 / 60.0, 'P'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 10.050, 1.0 / 60.0, 'P'); });
 
                 fakeit::When(Method(mock_video_file, duration)).AlwaysReturn(20.0f);
 
@@ -513,14 +513,14 @@ TEST_CASE("video_player::VideoPlayer")
                 fakeit::When(Method(mock_video_file, read_next_frame))
                     .Do([] { return nullptr; })  // decoder needs a moment before returning the first real frame
                     .Do([] { return nullptr; })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 0.000, 1.0 / 60.0, 'I'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 0.017, 1.0 / 60.0, 'P'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 0.033, 1.0 / 60.0, 'P'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 0.050, 1.0 / 60.0, 'P'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 10.067, 1.0 / 60.0, 'I'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 10.083, 1.0 / 60.0, 'P'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 10.100, 1.0 / 60.0, 'P'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 10.117, 1.0 / 60.0, 'P'); });
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.000, 1.0 / 60.0, 'I'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.017, 1.0 / 60.0, 'P'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.033, 1.0 / 60.0, 'P'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.050, 1.0 / 60.0, 'P'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 10.067, 1.0 / 60.0, 'I'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 10.083, 1.0 / 60.0, 'P'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 10.100, 1.0 / 60.0, 'P'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 10.117, 1.0 / 60.0, 'P'); });
 
                 fakeit::When(Method(mock_video_file, duration)).AlwaysReturn(20.0f);
 
@@ -547,10 +547,10 @@ TEST_CASE("video_player::VideoPlayer")
                 fakeit::When(Method(mock_video_file, read_next_frame))
                     .Do([] { return nullptr; })  // decoder needs a moment before returning the first real frame
                     .Do([] { return nullptr; })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 4.850, 1.0 / 60.0, 'I'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 4.867, 1.0 / 60.0, 'P'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 4.883, 1.0 / 60.0, 'P'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 4.900, 1.0 / 60.0, 'P'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 4.850, 1.0 / 60.0, 'I'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 4.867, 1.0 / 60.0, 'P'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 4.883, 1.0 / 60.0, 'P'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 4.900, 1.0 / 60.0, 'P'); })
                     .Do([] { return nullptr; });
 
                 fakeit::When(Method(mock_video_file, duration)).AlwaysReturn(5.0f);
@@ -569,14 +569,14 @@ TEST_CASE("video_player::VideoPlayer")
                 fakeit::When(Method(mock_video_file, read_next_frame))
                     .Do([] { return nullptr; })  // decoder needs a moment before returning the first real frame
                     .Do([] { return nullptr; })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 0.000, 1.0 / 60.0, 'I'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 0.017, 1.0 / 60.0, 'P'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 0.033, 1.0 / 60.0, 'P'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 0.050, 1.0 / 60.0, 'P'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 4.850, 1.0 / 60.0, 'I'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 4.867, 1.0 / 60.0, 'P'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 4.883, 1.0 / 60.0, 'P'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 4.900, 1.0 / 60.0, 'P'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.000, 1.0 / 60.0, 'I'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.017, 1.0 / 60.0, 'P'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.033, 1.0 / 60.0, 'P'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.050, 1.0 / 60.0, 'P'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 4.850, 1.0 / 60.0, 'I'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 4.867, 1.0 / 60.0, 'P'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 4.883, 1.0 / 60.0, 'P'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 4.900, 1.0 / 60.0, 'P'); })
                     .Do([] { return nullptr; });
 
                 fakeit::When(Method(mock_video_file, duration)).AlwaysReturn(5.0f);
