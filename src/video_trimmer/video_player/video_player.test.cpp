@@ -320,8 +320,9 @@ TEST_CASE("video_player::VideoPlayer")
                 CHECK(video_player.next_frame(now)->timestamp() == Catch::Approx(0.0));
 
                 // wait, because time has not progressed enough to return frames 0.017 or newer
-                CHECK(video_player.next_frame(now) == nullptr);
-                CHECK(video_player.next_frame(now) == nullptr);
+                CHECK(video_player.next_frame(now + 1ms) == nullptr);
+                CHECK(video_player.next_frame(now + 2ms) == nullptr);
+                CHECK(video_player.next_frame(now + 3ms) == nullptr);
             }
         }
 
@@ -411,10 +412,11 @@ TEST_CASE("video_player::VideoPlayer")
 
                 video_player.jump_backward(now);
 
-                CHECK(video_player.next_frame(now)->timestamp() == Catch::Approx(0.0));
-                CHECK(video_player.next_frame(now + 20ms)->timestamp() == Catch::Approx(0.017));
-                CHECK(video_player.next_frame(now + 40ms)->timestamp() == Catch::Approx(0.033));
-                CHECK(video_player.next_frame(now + 60ms)->timestamp() == Catch::Approx(0.050));
+                CHECK(video_player.next_frame(now + 10ms)->timestamp() == Catch::Approx(0.0));
+                CHECK(video_player.next_frame(now + 110ms) == nullptr);  // 100ms delay, because the first next_frame() call after a jump takes longer
+                CHECK(video_player.next_frame(now + 130ms)->timestamp() == Catch::Approx(0.017));
+                CHECK(video_player.next_frame(now + 150ms)->timestamp() == Catch::Approx(0.033));
+                CHECK(video_player.next_frame(now + 170ms)->timestamp() == Catch::Approx(0.050));
             }
         }
 
@@ -446,9 +448,10 @@ TEST_CASE("video_player::VideoPlayer")
                 video_player.jump_backward(now + 70ms);
 
                 CHECK(video_player.next_frame(now + 80ms)->timestamp() == Catch::Approx(0.0));
-                CHECK(video_player.next_frame(now + 100ms)->timestamp() == Catch::Approx(0.017));
-                CHECK(video_player.next_frame(now + 120ms)->timestamp() == Catch::Approx(0.033));
-                CHECK(video_player.next_frame(now + 140ms)->timestamp() == Catch::Approx(0.050));
+                CHECK(video_player.next_frame(now + 180ms) == nullptr);  // 100ms delay, because the first next_frame() call after a jump takes longer
+                CHECK(video_player.next_frame(now + 200ms)->timestamp() == Catch::Approx(0.017));
+                CHECK(video_player.next_frame(now + 220ms)->timestamp() == Catch::Approx(0.033));
+                CHECK(video_player.next_frame(now + 240ms)->timestamp() == Catch::Approx(0.050));
             }
         }
 
@@ -468,10 +471,11 @@ TEST_CASE("video_player::VideoPlayer")
 
                 video_player.jump_forward(now);
 
-                CHECK(video_player.next_frame(now)->timestamp() == Catch::Approx(10.000));
-                CHECK(video_player.next_frame(now + 20ms)->timestamp() == Catch::Approx(10.017));
-                CHECK(video_player.next_frame(now + 40ms)->timestamp() == Catch::Approx(10.033));
-                CHECK(video_player.next_frame(now + 60ms)->timestamp() == Catch::Approx(10.050));
+                CHECK(video_player.next_frame(now + 10ms)->timestamp() == Catch::Approx(10.000));
+                CHECK(video_player.next_frame(now + 110ms) == nullptr);  // 100ms delay, because the first next_frame() call after a jump takes longer
+                CHECK(video_player.next_frame(now + 130ms)->timestamp() == Catch::Approx(10.017));
+                CHECK(video_player.next_frame(now + 150ms)->timestamp() == Catch::Approx(10.033));
+                CHECK(video_player.next_frame(now + 170ms)->timestamp() == Catch::Approx(10.050));
             }
         }
 
@@ -503,9 +507,10 @@ TEST_CASE("video_player::VideoPlayer")
                 video_player.jump_forward(now + 70ms);  // jump --> 10.60
 
                 CHECK(video_player.next_frame(now + 80ms)->timestamp() == Catch::Approx(10.067));
-                CHECK(video_player.next_frame(now + 100ms)->timestamp() == Catch::Approx(10.083));
-                CHECK(video_player.next_frame(now + 120ms)->timestamp() == Catch::Approx(10.100));
-                CHECK(video_player.next_frame(now + 140ms)->timestamp() == Catch::Approx(10.117));
+                CHECK(video_player.next_frame(now + 180ms) == nullptr);  // 100ms delay, because the first next_frame() call after a jump takes longer
+                CHECK(video_player.next_frame(now + 200ms)->timestamp() == Catch::Approx(10.083));
+                CHECK(video_player.next_frame(now + 220ms)->timestamp() == Catch::Approx(10.100));
+                CHECK(video_player.next_frame(now + 240ms)->timestamp() == Catch::Approx(10.117));
             }
         }
 
@@ -527,7 +532,7 @@ TEST_CASE("video_player::VideoPlayer")
                 // skip to the end
                 video_player.jump_forward(now);  // --> jump 5.0
 
-                CHECK(video_player.next_frame(now)->timestamp() == Catch::Approx(4.900));
+                CHECK(video_player.next_frame(now + 10ms)->timestamp() == Catch::Approx(4.900));
             }
         }
 

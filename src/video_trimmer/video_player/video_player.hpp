@@ -47,7 +47,6 @@ private:
     std::unique_ptr<video_file::Frame> available_frame_;
     std::unique_ptr<video_file::VideoFile> video_file_;
 
-    std::chrono::steady_clock::time_point current_time_;
     std::chrono::steady_clock::time_point previous_frame_start_;
     std::chrono::steady_clock::time_point current_frame_start_;
     double playback_position_ = 0.0;
@@ -56,6 +55,7 @@ private:
     bool is_seeking_ = false;
     bool has_started_playing_ = false;
     bool has_received_first_real_frame_ = false;
+    bool was_seeking_ = false;
 
     bool dump_first_frame_ = false;
 
@@ -64,6 +64,8 @@ private:
 
     [[nodiscard]] std::unique_ptr<video_file::Frame> next_frame_normal_playback();
     [[nodiscard]] std::unique_ptr<video_file::Frame> next_frame_seeking();
+
+    void set_current_frame_start(std::chrono::steady_clock::time_point current_time);
 };
 
 }  // namespace video_trimmer::video_player
