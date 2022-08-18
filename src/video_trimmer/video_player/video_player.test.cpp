@@ -75,7 +75,7 @@ TEST_CASE("video_player::VideoPlayer")
         {
             THEN("it has started and stopped playing")
             {
-                video_player.start(std::chrono::steady_clock::now());
+                video_player.start();
 
                 CHECK(video_player.has_started_playing());
                 CHECK(video_player.is_playing());
@@ -142,7 +142,7 @@ TEST_CASE("video_player::VideoPlayer")
         {
             THEN("playback position stays at 0.0")
             {
-                video_player.start(now);
+                video_player.start();
                 video_player.set_has_received_first_real_frame(false);
 
                 video_player.update_time(now);
@@ -160,7 +160,7 @@ TEST_CASE("video_player::VideoPlayer")
         {
             THEN("playback position increases")
             {
-                video_player.start(now);
+                video_player.start();
                 video_player.set_has_received_first_real_frame(true);
 
                 video_player.update_time(now);
@@ -181,7 +181,7 @@ TEST_CASE("video_player::VideoPlayer")
         {
             THEN("playback position stays at 0.0")
             {
-                video_player.start(now);
+                video_player.start();
                 video_player.stop();
                 video_player.set_has_received_first_real_frame(false);
 
@@ -200,7 +200,7 @@ TEST_CASE("video_player::VideoPlayer")
         {
             THEN("playback position stays at 0.0")
             {
-                video_player.start(now);
+                video_player.start();
                 video_player.stop();
                 video_player.set_has_received_first_real_frame(true);
 
@@ -219,7 +219,7 @@ TEST_CASE("video_player::VideoPlayer")
         {
             THEN("playback position stays at 0.0")
             {
-                video_player.start(now);
+                video_player.start();
                 video_player.set_has_received_first_real_frame(false);
 
                 video_player.update_time(now);
@@ -242,7 +242,7 @@ TEST_CASE("video_player::VideoPlayer")
         {
             THEN("playback position stays at the moment of pause")
             {
-                video_player.start(now);
+                video_player.start();
                 video_player.set_has_received_first_real_frame(true);
 
                 // start --> playback position increases
@@ -301,7 +301,7 @@ TEST_CASE("video_player::VideoPlayer")
 
         VideoPlayer video_player(false);
         video_player.play_file(std::unique_ptr<video_file::VideoFile>(&mock_video_file.get()), now);
-        video_player.start(now);
+        video_player.start();
 
         logger::WithLogLevel with_log_level(logger::LogLevel::trace);
 
@@ -409,7 +409,7 @@ TEST_CASE("video_player::VideoPlayer")
                     .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.033, 1.0 / 60.0, 'P'); })
                     .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.050, 1.0 / 60.0, 'P'); });
 
-                video_player.jump_backward(now);
+                video_player.jump_backward();
 
                 CHECK(video_player.next_frame(now + 10ms)->timestamp() == Catch::Approx(0.0));
                 CHECK(video_player.next_frame(now + 110ms) == nullptr);  // 100ms delay, because the first next_frame() call after a jump takes longer
@@ -442,7 +442,7 @@ TEST_CASE("video_player::VideoPlayer")
                 CHECK(video_player.next_frame(now + 60ms)->timestamp() == Catch::Approx(0.050));
 
                 // skip back to the beginning and read the first 4 frames again
-                video_player.jump_backward(now + 70ms);
+                video_player.jump_backward();
 
                 CHECK(video_player.next_frame(now + 80ms)->timestamp() == Catch::Approx(0.0));
                 CHECK(video_player.next_frame(now + 180ms) == nullptr);  // 100ms delay, because the first next_frame() call after a jump takes longer
@@ -464,7 +464,7 @@ TEST_CASE("video_player::VideoPlayer")
                     .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 10.033, 1.0 / 60.0, 'P'); })
                     .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 10.050, 1.0 / 60.0, 'P'); });
 
-                video_player.jump_forward(now);
+                video_player.jump_forward();
 
                 CHECK(video_player.next_frame(now + 10ms)->timestamp() == Catch::Approx(10.000));
                 CHECK(video_player.next_frame(now + 110ms) == nullptr);  // 100ms delay, because the first next_frame() call after a jump takes longer
@@ -497,7 +497,7 @@ TEST_CASE("video_player::VideoPlayer")
                 CHECK(video_player.next_frame(now + 60ms)->timestamp() == Catch::Approx(0.050));
 
                 // skip forward to the middle of the video and read the next 4 frames
-                video_player.jump_forward(now + 70ms);  // jump --> 10.60
+                video_player.jump_forward();  // jump --> 10.60
 
                 CHECK(video_player.next_frame(now + 80ms)->timestamp() == Catch::Approx(10.067));
                 CHECK(video_player.next_frame(now + 180ms) == nullptr);  // 100ms delay, because the first next_frame() call after a jump takes longer
@@ -523,7 +523,7 @@ TEST_CASE("video_player::VideoPlayer")
                 fakeit::When(Method(mock_video_file, duration)).AlwaysReturn(5.0f);
 
                 // skip to the end
-                video_player.jump_forward(now);  // --> jump 5.0
+                video_player.jump_forward();  // --> jump 5.0
 
                 CHECK(video_player.next_frame(now + 10ms)->timestamp() == Catch::Approx(4.900));
             }
@@ -555,7 +555,7 @@ TEST_CASE("video_player::VideoPlayer")
                 CHECK(video_player.next_frame(now + 60ms)->timestamp() == Catch::Approx(0.050));
 
                 // skip to the end
-                video_player.jump_forward(now + 70ms);  // --> jump 5.0
+                video_player.jump_forward();  // --> jump 5.0
 
                 CHECK(video_player.next_frame(now + 80ms)->timestamp() == Catch::Approx(4.900));
             }

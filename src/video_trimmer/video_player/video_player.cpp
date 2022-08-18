@@ -45,17 +45,13 @@ void VideoPlayer::close_file()
     video_file_ = nullptr;
 }
 
-void VideoPlayer::start(std::chrono::steady_clock::time_point current_time)
+void VideoPlayer::start()
 {
     if (has_open_file() && !has_started_playing()) {
-        // current_time_ = current_time;
         has_started_playing_ = true;
         is_playing_ = true;
         has_received_first_real_frame_ = false;
         playback_position_ = 0.0;
-
-        set_current_frame_start(current_time);
-        previous_frame_start_ = current_time;
     }
 }
 
@@ -76,10 +72,10 @@ void VideoPlayer::toggle_pause()
         is_playing_ = true;
 }
 
-void VideoPlayer::jump_backward(std::chrono::steady_clock::time_point current_time)
+void VideoPlayer::jump_backward()
 {
     if (has_started_playing()) {
-        double skip_to = std::max(playback_position_ - 10.0, 0.0);
+        const double skip_to = std::max(playback_position_ - 10.0, 0.0);
         logger::log_trace(fmt::format("jump to {:.3f} - 10s = {:.3f}/{:.3f}", playback_position_, skip_to, video_file_->duration()));
 
         if (video_file_->seek_position(skip_to, -1)) {
@@ -88,17 +84,14 @@ void VideoPlayer::jump_backward(std::chrono::steady_clock::time_point current_ti
             available_frame_ = nullptr;
             playback_position_ = skip_to;
             has_received_first_real_frame_ = false;
-
-            set_current_frame_start(current_time);
-            previous_frame_start_ = current_time;
         }
     }
 }
 
-void VideoPlayer::jump_forward(std::chrono::steady_clock::time_point current_time)
+void VideoPlayer::jump_forward()
 {
     if (has_started_playing()) {
-        double skip_to = std::min(playback_position_ + 10.0, static_cast<double>(video_file_->duration()));
+        const double skip_to = std::min(playback_position_ + 10.0, static_cast<double>(video_file_->duration()));
         logger::log_trace(fmt::format("jump to {:.3f} + 10s = {:.3f}/{:.3f}", playback_position_, skip_to, video_file_->duration()));
 
         if (video_file_->seek_position(skip_to, -1)) {  // TODO: always -1?
@@ -107,9 +100,6 @@ void VideoPlayer::jump_forward(std::chrono::steady_clock::time_point current_tim
             available_frame_ = nullptr;
             playback_position_ = skip_to;
             has_received_first_real_frame_ = false;
-
-            set_current_frame_start(current_time);
-            previous_frame_start_ = current_time;
         }
     }
 }
@@ -158,8 +148,6 @@ void VideoPlayer::set_current_frame_start(std::chrono::steady_clock::time_point 
 
 void VideoPlayer::update_time(std::chrono::steady_clock::time_point current_time)
 {
-    assert(current_time >= current_frame_start_);
-
     if (!has_started_playing())
         return;
 

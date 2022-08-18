@@ -16,12 +16,12 @@ public:
     void play_file(std::unique_ptr<video_file::VideoFile> video_file, std::chrono::steady_clock::time_point current_time);
     void close_file();
 
-    void start(std::chrono::steady_clock::time_point current_time);
+    void start();
     void stop();
     void toggle_pause();
 
-    void jump_backward(std::chrono::steady_clock::time_point current_time);
-    void jump_forward(std::chrono::steady_clock::time_point current_time);
+    void jump_backward();
+    void jump_forward();
 
     [[nodiscard]] bool has_open_file() const;
     [[nodiscard]] bool has_started_playing() const;
