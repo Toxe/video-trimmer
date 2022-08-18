@@ -267,7 +267,6 @@ std::unique_ptr<video_file::Frame> VideoPlayer::next_frame_seeking()
 
             if ((frame->timestamp() + frame->duration()) < playback_position_) {
                 available_frame_ = std::move(frame);
-                ++dropped_frames_;
 
                 logger::log_trace(fmt::format("[{}] {:.3f} | received {}, TOO OLD", function_name, playback_position_, available_frame_->description()));
                 found = true;
