@@ -38,7 +38,7 @@ public:
 
     [[nodiscard]] std::unique_ptr<Frame> read_next_frame();
 
-    [[nodiscard]] bool seek_position(double position, int direction);
+    [[nodiscard]] bool seek_position(double position);
 
     void set_dump_first_frame(bool dump_frame) { dump_first_frame_ = dump_frame; }
 
@@ -204,14 +204,9 @@ std::string VideoFile::Impl::format_duration() const
     return fmt::format("{:02}:{:02}:{:02}", hours, mins, secs);
 }
 
-bool VideoFile::Impl::seek_position(double position, int direction)
+bool VideoFile::Impl::seek_position(double position)
 {
-    assert(direction != 0);
-
-    const int64_t timestamp = static_cast<int64_t>(position * AV_TIME_BASE);
-    const int flags = (direction < 0) ? AVSEEK_FLAG_BACKWARD : 0;
-
-    const int ret = av_seek_frame(format_context_.get(), -1, timestamp, flags);
+    const int ret = av_seek_frame(format_context_.get(), -1, static_cast<int64_t>(position * AV_TIME_BASE), AVSEEK_FLAG_BACKWARD);
 
     if (ret < 0) {
         error::show_error("av_seek_frame", ret);
@@ -241,6 +236,6 @@ void VideoFile::set_dump_first_frame(bool dump_frame) { impl_->set_dump_first_fr
 std::unique_ptr<Frame> VideoFile::read_next_frame() { return impl_->read_next_frame(); }
 float VideoFile::duration() const { return impl_->duration(); }
 std::string VideoFile::format_duration() const { return impl_->format_duration(); }
-bool VideoFile::seek_position(double position, int direction) { return impl_->seek_position(position, direction); }
+bool VideoFile::seek_position(double position) { return impl_->seek_position(position); }
 
 }  // namespace video_trimmer::video_file

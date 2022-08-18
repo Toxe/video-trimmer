@@ -78,7 +78,7 @@ void VideoPlayer::jump_backward(const double seconds)
         const double skip_to = std::max(playback_position_ - seconds, 0.0);
         logger::log_trace(fmt::format("jump to {:.3f} - {:.0f}s = {:.3f}/{:.3f}", playback_position_, seconds, skip_to, video_file_->duration()));
 
-        if (video_file_->seek_position(skip_to, -1)) {
+        if (video_file_->seek_position(skip_to)) {
             is_seeking_ = true;
 
             available_frame_ = nullptr;
@@ -94,7 +94,7 @@ void VideoPlayer::jump_forward(const double seconds)
         const double skip_to = std::min(playback_position_ + seconds, static_cast<double>(video_file_->duration()));
         logger::log_trace(fmt::format("jump to {:.3f} + {:.0f}s = {:.3f}/{:.3f}", playback_position_, seconds, skip_to, video_file_->duration()));
 
-        if (video_file_->seek_position(skip_to, -1)) {  // TODO: always -1?
+        if (video_file_->seek_position(skip_to)) {
             is_seeking_ = true;
 
             available_frame_ = nullptr;
