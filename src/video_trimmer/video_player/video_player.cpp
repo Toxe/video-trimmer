@@ -168,14 +168,12 @@ void VideoPlayer::update_time(std::chrono::steady_clock::time_point current_time
 
 std::unique_ptr<video_file::Frame> VideoPlayer::next_frame(std::chrono::steady_clock::time_point current_time)
 {
-    logger::log_trace(fmt::format("[next_frame] -----------------------------------------------------------------"));
-
     update_time(current_time);
 
     if (!has_started_playing())
         return nullptr;
 
-    if (!is_playing())
+    if (is_paused() && !is_seeking())
         return nullptr;
 
     logger::log_trace(fmt::format("[next_frame] playback position: {:.3f}/{:.3f}", playback_position_, video_file_->duration()));

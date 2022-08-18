@@ -86,6 +86,37 @@ TEST_CASE("video_player::VideoPlayer")
                 CHECK(!video_player.is_playing());
             }
         }
+
+        WHEN("calling toggle_pause() after start")
+        {
+            THEN("it is paused")
+            {
+                video_player.start();
+                video_player.toggle_pause();
+
+                CHECK(video_player.has_started_playing());
+                CHECK(video_player.is_paused());
+            }
+        }
+
+        WHEN("calling toggle_pause() if it has not yet started")
+        {
+            THEN("it is stopped")
+            {
+                video_player.toggle_pause();
+
+                CHECK(!video_player.has_started_playing());
+                CHECK(!video_player.is_playing());
+            }
+
+            THEN("it is not paused")
+            {
+                video_player.toggle_pause();
+
+                CHECK(!video_player.has_started_playing());
+                CHECK(!video_player.is_paused());
+            }
+        }
     }
 
     GIVEN("playback position of 0.0, without an open file")
@@ -558,6 +589,43 @@ TEST_CASE("video_player::VideoPlayer")
                 video_player.jump_forward(5.0);  // --> jump 5.0
 
                 CHECK(video_player.next_frame(now + 80ms)->timestamp() == Catch::Approx(4.900));
+            }
+        }
+
+        WHEN("seeking while paused")
+        {
+            THEN("return frame at the new position")
+            {
+                fakeit::When(Method(mock_video_file, read_next_frame))
+                    .Do([] { return nullptr; })  // decoder needs a moment before returning the first real frame
+                    .Do([] { return nullptr; })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.000, 1.0 / 60.0, 'I'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.017, 1.0 / 60.0, 'P'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.033, 1.0 / 60.0, 'P'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.050, 1.0 / 60.0, 'P'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 5.067, 1.0 / 60.0, 'I'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 5.083, 1.0 / 60.0, 'P'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 5.100, 1.0 / 60.0, 'P'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 5.117, 1.0 / 60.0, 'P'); });
+
+                // read the first 4 frames
+                CHECK(video_player.next_frame(now)->timestamp() == Catch::Approx(0.0));
+                CHECK(video_player.next_frame(now + 20ms)->timestamp() == Catch::Approx(0.017));
+                CHECK(video_player.next_frame(now + 40ms)->timestamp() == Catch::Approx(0.033));
+                CHECK(video_player.next_frame(now + 60ms)->timestamp() == Catch::Approx(0.050));
+
+                // pause
+                video_player.toggle_pause();
+
+                // skip forward to the middle of the video and read the next 4 frames
+                video_player.jump_forward(5.0);  // jump --> 5.60
+
+                // only return one frame while paused
+                CHECK(video_player.next_frame(now + 70ms)->timestamp() == Catch::Approx(5.067));
+                CHECK(video_player.next_frame(now + 170ms) == nullptr);  // 100ms delay, because the first next_frame() call after a jump takes longer
+                CHECK(video_player.next_frame(now + 190ms) == nullptr);
+                CHECK(video_player.next_frame(now + 210ms) == nullptr);
+                CHECK(video_player.next_frame(now + 230ms) == nullptr);
             }
         }
     }
