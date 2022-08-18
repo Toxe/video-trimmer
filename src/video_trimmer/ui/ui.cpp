@@ -61,7 +61,11 @@ void UI::render_help_window()
 
         ImGui::TextColored(colors::light_blue, "Left/Right");
         ImGui::SameLine();
-        ImGui::TextUnformatted("jump backward/forward");
+        ImGui::TextUnformatted("jump backward/forward 5 seconds");
+
+        ImGui::TextColored(colors::light_blue, "   Down/Up");
+        ImGui::SameLine();
+        ImGui::TextUnformatted("jump backward/forward 1 minute");
 
         if (ImGui::Button("Close"))
             event_handler_.handle_event(video_trimmer::event_handler::Event::ToggleHelp);

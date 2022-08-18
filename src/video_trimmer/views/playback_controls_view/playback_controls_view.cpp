@@ -59,12 +59,22 @@ void PlaybackControlsView::render(video_player::VideoPlayer& video_player)
         ImGui::SameLine();
 
         if (ImGui::Button("<<"))
-            event_handler_.handle_event(event_handler::Event::JumpBackward);
+            event_handler_.handle_event(event_handler::Event::JumpBackwardLong);
+
+        ImGui::SameLine();
+
+        if (ImGui::Button("<"))
+            event_handler_.handle_event(event_handler::Event::JumpBackwardShort);
+
+        ImGui::SameLine();
+
+        if (ImGui::Button(">"))
+            event_handler_.handle_event(event_handler::Event::JumpForwardShort);
 
         ImGui::SameLine();
 
         if (ImGui::Button(">>"))
-            event_handler_.handle_event(event_handler::Event::JumpForward);
+            event_handler_.handle_event(event_handler::Event::JumpForwardLong);
     }
 
     if (video_player.has_open_file()) {

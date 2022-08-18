@@ -24,8 +24,10 @@ void register_events(EventHandler& event_handler, main_window::MainWindow& windo
     event_handler.set_command(Event::OpenFile, video_player::OpenFileCommand(video_player, window, files_view));
     event_handler.set_command(Event::PlaybackStart, video_player::PlaybackStartCommand(video_player));
     event_handler.set_command(Event::PlaybackTogglePause, video_player::PlaybackTogglePauseCommand(video_player));
-    event_handler.set_command(Event::JumpBackward, video_player::JumpBackwardCommand(video_player));
-    event_handler.set_command(Event::JumpForward, video_player::JumpForwardCommand(video_player));
+    event_handler.set_command(Event::JumpBackwardShort, video_player::JumpBackwardShortCommand(video_player));
+    event_handler.set_command(Event::JumpBackwardLong, video_player::JumpBackwardLongCommand(video_player));
+    event_handler.set_command(Event::JumpForwardShort, video_player::JumpForwardShortCommand(video_player));
+    event_handler.set_command(Event::JumpForwardLong, video_player::JumpForwardLongCommand(video_player));
 }
 
 }  // namespace video_trimmer::event_handler

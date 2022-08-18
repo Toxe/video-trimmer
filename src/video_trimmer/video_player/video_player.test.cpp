@@ -409,7 +409,7 @@ TEST_CASE("video_player::VideoPlayer")
                     .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.033, 1.0 / 60.0, 'P'); })
                     .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.050, 1.0 / 60.0, 'P'); });
 
-                video_player.jump_backward();
+                video_player.jump_backward(5.0);
 
                 CHECK(video_player.next_frame(now + 10ms)->timestamp() == Catch::Approx(0.0));
                 CHECK(video_player.next_frame(now + 110ms) == nullptr);  // 100ms delay, because the first next_frame() call after a jump takes longer
@@ -442,7 +442,7 @@ TEST_CASE("video_player::VideoPlayer")
                 CHECK(video_player.next_frame(now + 60ms)->timestamp() == Catch::Approx(0.050));
 
                 // skip back to the beginning and read the first 4 frames again
-                video_player.jump_backward();
+                video_player.jump_backward(5.0);
 
                 CHECK(video_player.next_frame(now + 80ms)->timestamp() == Catch::Approx(0.0));
                 CHECK(video_player.next_frame(now + 180ms) == nullptr);  // 100ms delay, because the first next_frame() call after a jump takes longer
@@ -459,18 +459,18 @@ TEST_CASE("video_player::VideoPlayer")
                 fakeit::When(Method(mock_video_file, read_next_frame))
                     .Do([] { return nullptr; })  // decoder needs a moment before returning the first real frame
                     .Do([] { return nullptr; })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 10.000, 1.0 / 60.0, 'I'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 10.017, 1.0 / 60.0, 'P'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 10.033, 1.0 / 60.0, 'P'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 10.050, 1.0 / 60.0, 'P'); });
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 5.000, 1.0 / 60.0, 'I'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 5.017, 1.0 / 60.0, 'P'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 5.033, 1.0 / 60.0, 'P'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 5.050, 1.0 / 60.0, 'P'); });
 
-                video_player.jump_forward();
+                video_player.jump_forward(5.0);
 
-                CHECK(video_player.next_frame(now + 10ms)->timestamp() == Catch::Approx(10.000));
+                CHECK(video_player.next_frame(now + 10ms)->timestamp() == Catch::Approx(5.000));
                 CHECK(video_player.next_frame(now + 110ms) == nullptr);  // 100ms delay, because the first next_frame() call after a jump takes longer
-                CHECK(video_player.next_frame(now + 130ms)->timestamp() == Catch::Approx(10.017));
-                CHECK(video_player.next_frame(now + 150ms)->timestamp() == Catch::Approx(10.033));
-                CHECK(video_player.next_frame(now + 170ms)->timestamp() == Catch::Approx(10.050));
+                CHECK(video_player.next_frame(now + 130ms)->timestamp() == Catch::Approx(5.017));
+                CHECK(video_player.next_frame(now + 150ms)->timestamp() == Catch::Approx(5.033));
+                CHECK(video_player.next_frame(now + 170ms)->timestamp() == Catch::Approx(5.050));
             }
         }
 
@@ -485,10 +485,10 @@ TEST_CASE("video_player::VideoPlayer")
                     .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.017, 1.0 / 60.0, 'P'); })
                     .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.033, 1.0 / 60.0, 'P'); })
                     .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.050, 1.0 / 60.0, 'P'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 10.067, 1.0 / 60.0, 'I'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 10.083, 1.0 / 60.0, 'P'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 10.100, 1.0 / 60.0, 'P'); })
-                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 10.117, 1.0 / 60.0, 'P'); });
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 5.067, 1.0 / 60.0, 'I'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 5.083, 1.0 / 60.0, 'P'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 5.100, 1.0 / 60.0, 'P'); })
+                    .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 5.117, 1.0 / 60.0, 'P'); });
 
                 // read the first 4 frames
                 CHECK(video_player.next_frame(now)->timestamp() == Catch::Approx(0.0));
@@ -497,13 +497,13 @@ TEST_CASE("video_player::VideoPlayer")
                 CHECK(video_player.next_frame(now + 60ms)->timestamp() == Catch::Approx(0.050));
 
                 // skip forward to the middle of the video and read the next 4 frames
-                video_player.jump_forward();  // jump --> 10.60
+                video_player.jump_forward(5.0);  // jump --> 5.60
 
-                CHECK(video_player.next_frame(now + 80ms)->timestamp() == Catch::Approx(10.067));
+                CHECK(video_player.next_frame(now + 80ms)->timestamp() == Catch::Approx(5.067));
                 CHECK(video_player.next_frame(now + 180ms) == nullptr);  // 100ms delay, because the first next_frame() call after a jump takes longer
-                CHECK(video_player.next_frame(now + 200ms)->timestamp() == Catch::Approx(10.083));
-                CHECK(video_player.next_frame(now + 220ms)->timestamp() == Catch::Approx(10.100));
-                CHECK(video_player.next_frame(now + 240ms)->timestamp() == Catch::Approx(10.117));
+                CHECK(video_player.next_frame(now + 200ms)->timestamp() == Catch::Approx(5.083));
+                CHECK(video_player.next_frame(now + 220ms)->timestamp() == Catch::Approx(5.100));
+                CHECK(video_player.next_frame(now + 240ms)->timestamp() == Catch::Approx(5.117));
             }
         }
 
@@ -523,7 +523,7 @@ TEST_CASE("video_player::VideoPlayer")
                 fakeit::When(Method(mock_video_file, duration)).AlwaysReturn(5.0f);
 
                 // skip to the end
-                video_player.jump_forward();  // --> jump 5.0
+                video_player.jump_forward(5.0);  // --> jump 5.0
 
                 CHECK(video_player.next_frame(now + 10ms)->timestamp() == Catch::Approx(4.900));
             }
@@ -555,7 +555,7 @@ TEST_CASE("video_player::VideoPlayer")
                 CHECK(video_player.next_frame(now + 60ms)->timestamp() == Catch::Approx(0.050));
 
                 // skip to the end
-                video_player.jump_forward();  // --> jump 5.0
+                video_player.jump_forward(5.0);  // --> jump 5.0
 
                 CHECK(video_player.next_frame(now + 80ms)->timestamp() == Catch::Approx(4.900));
             }

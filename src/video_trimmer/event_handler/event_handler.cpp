@@ -37,8 +37,10 @@ EventHandler::Impl::Impl()
     commands_[Event::OpenFile] = no_command;
     commands_[Event::PlaybackStart] = no_command;
     commands_[Event::PlaybackTogglePause] = no_command;
-    commands_[Event::JumpBackward] = no_command;
-    commands_[Event::JumpForward] = no_command;
+    commands_[Event::JumpBackwardShort] = no_command;
+    commands_[Event::JumpBackwardLong] = no_command;
+    commands_[Event::JumpForwardShort] = no_command;
+    commands_[Event::JumpForwardLong] = no_command;
 }
 
 void EventHandler::Impl::set_command(const Event& event, Command command)
@@ -87,9 +89,13 @@ void EventHandler::Impl::handle_keyboard_events(const SDL_Event& event)
     else if (event.key.keysym.sym == SDLK_SPACE)
         handle_event(Event::PlaybackTogglePause);
     else if (event.key.keysym.sym == SDLK_LEFT)
-        handle_event(Event::JumpBackward);
+        handle_event(Event::JumpBackwardShort);
+    else if (event.key.keysym.sym == SDLK_DOWN)
+        handle_event(Event::JumpBackwardLong);
     else if (event.key.keysym.sym == SDLK_RIGHT)
-        handle_event(Event::JumpForward);
+        handle_event(Event::JumpForwardShort);
+    else if (event.key.keysym.sym == SDLK_UP)
+        handle_event(Event::JumpForwardLong);
 }
 
 EventHandler::EventHandler() : impl_(std::make_unique<EventHandler::Impl>()) { }

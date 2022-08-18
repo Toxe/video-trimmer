@@ -20,8 +20,8 @@ public:
     void stop();
     void toggle_pause();
 
-    void jump_backward();
-    void jump_forward();
+    void jump_backward(double seconds);
+    void jump_forward(double seconds);
 
     [[nodiscard]] bool has_open_file() const;
     [[nodiscard]] bool has_started_playing() const;

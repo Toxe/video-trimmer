@@ -9,8 +9,10 @@ enum class Event {
     OpenFile,
     PlaybackStart,
     PlaybackTogglePause,
-    JumpBackward,
-    JumpForward,
+    JumpBackwardShort,
+    JumpBackwardLong,
+    JumpForwardShort,
+    JumpForwardLong,
 };
 
 }  // namespace video_trimmer::event_handler

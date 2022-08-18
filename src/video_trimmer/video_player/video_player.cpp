@@ -72,11 +72,11 @@ void VideoPlayer::toggle_pause()
         is_playing_ = true;
 }
 
-void VideoPlayer::jump_backward()
+void VideoPlayer::jump_backward(const double seconds)
 {
     if (has_started_playing()) {
-        const double skip_to = std::max(playback_position_ - 10.0, 0.0);
-        logger::log_trace(fmt::format("jump to {:.3f} - 10s = {:.3f}/{:.3f}", playback_position_, skip_to, video_file_->duration()));
+        const double skip_to = std::max(playback_position_ - seconds, 0.0);
+        logger::log_trace(fmt::format("jump to {:.3f} - {:.0f}s = {:.3f}/{:.3f}", playback_position_, seconds, skip_to, video_file_->duration()));
 
         if (video_file_->seek_position(skip_to, -1)) {
             is_seeking_ = true;
@@ -88,11 +88,11 @@ void VideoPlayer::jump_backward()
     }
 }
 
-void VideoPlayer::jump_forward()
+void VideoPlayer::jump_forward(const double seconds)
 {
     if (has_started_playing()) {
-        const double skip_to = std::min(playback_position_ + 10.0, static_cast<double>(video_file_->duration()));
-        logger::log_trace(fmt::format("jump to {:.3f} + 10s = {:.3f}/{:.3f}", playback_position_, skip_to, video_file_->duration()));
+        const double skip_to = std::min(playback_position_ + seconds, static_cast<double>(video_file_->duration()));
+        logger::log_trace(fmt::format("jump to {:.3f} + {:.0f}s = {:.3f}/{:.3f}", playback_position_, seconds, skip_to, video_file_->duration()));
 
         if (video_file_->seek_position(skip_to, -1)) {  // TODO: always -1?
             is_seeking_ = true;

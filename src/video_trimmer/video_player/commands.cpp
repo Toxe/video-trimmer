@@ -4,6 +4,9 @@
 
 namespace video_trimmer::video_player {
 
+constexpr double short_jump_seconds = 5.0;
+constexpr double long_jump_seconds = 60.0;
+
 event_handler::Command OpenFileCommand(VideoPlayer& video_player, main_window::MainWindow& window, views::files_view::FilesView& files_view)
 {
     return [&] {
@@ -37,19 +40,35 @@ event_handler::Command PlaybackTogglePauseCommand(VideoPlayer& video_player)
     };
 }
 
-event_handler::Command JumpBackwardCommand(VideoPlayer& video_player)
+event_handler::Command JumpBackwardShortCommand(VideoPlayer& video_player)
 {
     return [&] {
-        logger::log_debug("JumpBackwardCommand");
-        video_player.jump_backward();
+        logger::log_debug("JumpBackwardShortCommand");
+        video_player.jump_backward(short_jump_seconds);
     };
 }
 
-event_handler::Command JumpForwardCommand(VideoPlayer& video_player)
+event_handler::Command JumpBackwardLongCommand(VideoPlayer& video_player)
 {
     return [&] {
-        logger::log_debug("JumpForwardCommand");
-        video_player.jump_forward();
+        logger::log_debug("JumpBackwardLongCommand");
+        video_player.jump_backward(long_jump_seconds);
+    };
+}
+
+event_handler::Command JumpForwardShortCommand(VideoPlayer& video_player)
+{
+    return [&] {
+        logger::log_debug("JumpForwardShortCommand");
+        video_player.jump_forward(short_jump_seconds);
+    };
+}
+
+event_handler::Command JumpForwardLongCommand(VideoPlayer& video_player)
+{
+    return [&] {
+        logger::log_debug("JumpForwardLongCommand");
+        video_player.jump_forward(long_jump_seconds);
     };
 }
 
