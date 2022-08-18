@@ -294,6 +294,7 @@ TEST_CASE("video_player::VideoPlayer")
         fakeit::Mock<video_file::VideoFile> mock_video_file;
         fakeit::Fake(Dtor(mock_video_file));
         fakeit::Fake(Method(mock_video_file, set_dump_first_frame));
+        fakeit::When(Method(mock_video_file, duration)).AlwaysReturn(20.0f);
         fakeit::When(Method(mock_video_file, filename)).AlwaysReturn("test.mov");
         fakeit::When(Method(mock_video_file, is_open)).AlwaysReturn(true);
         fakeit::When(Method(mock_video_file, seek_position)).AlwaysReturn(true);
@@ -408,8 +409,6 @@ TEST_CASE("video_player::VideoPlayer")
                     .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.033, 1.0 / 60.0, 'P'); })
                     .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.050, 1.0 / 60.0, 'P'); });
 
-                fakeit::When(Method(mock_video_file, duration)).AlwaysReturn(20.0f);
-
                 video_player.jump_backward(now);
 
                 CHECK(video_player.next_frame(now + 10ms)->timestamp() == Catch::Approx(0.0));
@@ -435,8 +434,6 @@ TEST_CASE("video_player::VideoPlayer")
                     .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.017, 1.0 / 60.0, 'P'); })
                     .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.033, 1.0 / 60.0, 'P'); })
                     .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 0.050, 1.0 / 60.0, 'P'); });
-
-                fakeit::When(Method(mock_video_file, duration)).AlwaysReturn(20.0f);
 
                 // read the first 4 frames
                 CHECK(video_player.next_frame(now)->timestamp() == Catch::Approx(0.0));
@@ -467,8 +464,6 @@ TEST_CASE("video_player::VideoPlayer")
                     .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 10.033, 1.0 / 60.0, 'P'); })
                     .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 10.050, 1.0 / 60.0, 'P'); });
 
-                fakeit::When(Method(mock_video_file, duration)).AlwaysReturn(20.0f);
-
                 video_player.jump_forward(now);
 
                 CHECK(video_player.next_frame(now + 10ms)->timestamp() == Catch::Approx(10.000));
@@ -494,8 +489,6 @@ TEST_CASE("video_player::VideoPlayer")
                     .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 10.083, 1.0 / 60.0, 'P'); })
                     .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 10.100, 1.0 / 60.0, 'P'); })
                     .Do([=] { return video_file::Frame::create_video_frame(size, pixel_format, 1837735, 10.117, 1.0 / 60.0, 'P'); });
-
-                fakeit::When(Method(mock_video_file, duration)).AlwaysReturn(20.0f);
 
                 // read the first 4 frames
                 CHECK(video_player.next_frame(now)->timestamp() == Catch::Approx(0.0));
