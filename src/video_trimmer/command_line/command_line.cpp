@@ -21,7 +21,7 @@ namespace video_trimmer::command_line {
     std::exit(error ? app.exit(error.value()) : 0);
 }
 
-CommandLine::CommandLine(int argc, const char* argv[])
+CommandLine::CommandLine(std::span<const char*> args)
 {
     const char* description = "Video Trimmer";
     int log_level_flag = 0;
@@ -41,7 +41,7 @@ CommandLine::CommandLine(int argc, const char* argv[])
     opt_height->check(CLI::PositiveNumber)->needs(opt_width);
 
     try {
-        app.parse(argc, argv);
+        app.parse(static_cast<int>(args.size()), args.data());
     } catch (const CLI::ParseError& error) {
         show_usage_and_exit(app, nullptr, error);
     }

@@ -12,7 +12,7 @@
 
 int main(int argc, const char* argv[])
 {
-    const video_trimmer::command_line::CommandLine cli(argc, argv);
+    const video_trimmer::command_line::CommandLine cli({argv, static_cast<std::size_t>(argc)});
 
     video_trimmer::event_handler::EventHandler event_handler;
 

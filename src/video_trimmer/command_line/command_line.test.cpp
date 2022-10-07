@@ -14,7 +14,7 @@ TEST_CASE("command_line::CommandLine")
         const auto directory = std::filesystem::current_path().parent_path().string();
 
         auto args = std::to_array({"video_trimmer", directory.c_str()});
-        const CommandLine cli(static_cast<int>(args.size()), args.data());
+        const CommandLine cli(args);
 
         CHECK(cli.directory() == directory);
     }
@@ -22,7 +22,7 @@ TEST_CASE("command_line::CommandLine")
     SECTION("can set window width and height")
     {
         auto args = std::to_array({"video_trimmer", "--width", "320", "--height", "240"});
-        const CommandLine cli(static_cast<int>(args.size()), args.data());
+        const CommandLine cli(args);
 
         CHECK(cli.window_size().width == 320);
         CHECK(cli.window_size().height == 240);
@@ -31,7 +31,7 @@ TEST_CASE("command_line::CommandLine")
     SECTION("default font size is 20")
     {
         auto args = std::to_array({"video_trimmer"});
-        const CommandLine cli(static_cast<int>(args.size()), args.data());
+        const CommandLine cli(args);
 
         CHECK(cli.font_size() == 20);
     }
@@ -39,7 +39,7 @@ TEST_CASE("command_line::CommandLine")
     SECTION("can set font size with --font-size")
     {
         auto args = std::to_array({"video_trimmer", "--font-size", "15"});
-        const CommandLine cli(static_cast<int>(args.size()), args.data());
+        const CommandLine cli(args);
 
         CHECK(cli.font_size() == 15);
     }
@@ -47,7 +47,7 @@ TEST_CASE("command_line::CommandLine")
     SECTION("default disable_vsync flag is false")
     {
         auto args = std::to_array({"video_trimmer"});
-        const CommandLine cli(static_cast<int>(args.size()), args.data());
+        const CommandLine cli(args);
 
         CHECK(cli.disable_vsync() == false);
     }
@@ -55,7 +55,7 @@ TEST_CASE("command_line::CommandLine")
     SECTION("can set disable_vsync flag with --no-vsync")
     {
         auto args = std::to_array({"video_trimmer", "--no-vsync"});
-        const CommandLine cli(static_cast<int>(args.size()), args.data());
+        const CommandLine cli(args);
 
         CHECK(cli.disable_vsync() == true);
     }
@@ -63,7 +63,7 @@ TEST_CASE("command_line::CommandLine")
     SECTION("default dump_first_video_frame flag is false")
     {
         auto args = std::to_array({"video_trimmer"});
-        const CommandLine cli(static_cast<int>(args.size()), args.data());
+        const CommandLine cli(args);
 
         CHECK(cli.dump_first_video_frame() == false);
     }
@@ -71,7 +71,7 @@ TEST_CASE("command_line::CommandLine")
     SECTION("can set dump_first_video_frame flag with -d")
     {
         auto args = std::to_array({"video_trimmer", "-d"});
-        const CommandLine cli(static_cast<int>(args.size()), args.data());
+        const CommandLine cli(args);
 
         CHECK(cli.dump_first_video_frame() == true);
     }
@@ -79,7 +79,7 @@ TEST_CASE("command_line::CommandLine")
     SECTION("can set dump_first_video_frame flag with --dump")
     {
         auto args = std::to_array({"video_trimmer", "--dump"});
-        const CommandLine cli(static_cast<int>(args.size()), args.data());
+        const CommandLine cli(args);
 
         CHECK(cli.dump_first_video_frame() == true);
     }
