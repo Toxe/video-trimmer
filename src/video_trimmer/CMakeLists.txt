@@ -106,6 +106,6 @@ add_library(LIB_video_trimmer
 set_target_properties(LIB_video_trimmer PROPERTIES CXX_EXTENSIONS OFF)
 target_compile_features(LIB_video_trimmer PUBLIC cxx_std_20)
 target_compile_options(LIB_video_trimmer PRIVATE ${SANITIZER_FLAGS} ${DEFAULT_COMPILER_OPTIONS} ${DEFAULT_COMPILER_WARNINGS})
-target_include_directories(LIB_video_trimmer PRIVATE include ${FFMPEG_INCLUDE_DIRS})
+target_include_directories(LIB_video_trimmer PUBLIC include ${FFMPEG_INCLUDE_DIRS})
 target_link_directories(LIB_video_trimmer PRIVATE ${FFMPEG_LIBRARY_DIRS})
 target_link_libraries(LIB_video_trimmer PRIVATE ${SANITIZER_FLAGS} LIB_ImGuiFileDialog CLI11::CLI11 fmt::fmt spdlog::spdlog glad::glad SDL2::SDL2 imgui::imgui ${FFMPEG_LIBRARIES})
