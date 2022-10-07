@@ -2,6 +2,7 @@
 
 #include <cstdlib>
 #include <filesystem>
+#include <optional>
 
 #include "CLI/App.hpp"
 #include "CLI/Config.hpp"
