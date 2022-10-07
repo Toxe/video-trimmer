@@ -9,7 +9,7 @@ namespace video_trimmer::command_line {
 
 class CommandLine {
 public:
-    CommandLine(int argc, char* argv[]);
+    CommandLine(int argc, const char* argv[]);
 
     [[nodiscard]] int font_size() const { return font_size_; }
     [[nodiscard]] Size window_size() const { return window_size_; }

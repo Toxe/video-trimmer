@@ -21,7 +21,7 @@ namespace video_trimmer::command_line {
     std::exit(error ? app.exit(error.value()) : 0);
 }
 
-CommandLine::CommandLine(int argc, char* argv[])
+CommandLine::CommandLine(int argc, const char* argv[])
 {
     const char* description = "Video Trimmer";
     int log_level_flag = 0;

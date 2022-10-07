@@ -10,9 +10,9 @@
 #include "video_trimmer/views/playback_controls_view/playback_controls_view.hpp"
 #include "video_trimmer/views/trim_controls_view/trim_controls_view.hpp"
 
-int main(int argc, char* argv[])
+int main(int argc, const char* argv[])
 {
-    video_trimmer::command_line::CommandLine cli(argc, argv);
+    const video_trimmer::command_line::CommandLine cli(argc, argv);
 
     video_trimmer::event_handler::EventHandler event_handler;
 
