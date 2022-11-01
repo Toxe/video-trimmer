@@ -8,7 +8,7 @@
 namespace video_trimmer::ui::widgets::memory_usage_widget {
 
 constexpr float graph_height = 70.0f;
-constexpr float time_between_updates = 1.0f / 15.0f;
+constexpr std::chrono::milliseconds time_between_updates{1000 / 10};
 
 MemoryUsageWidget::MemoryUsageWidget()
     : values_(10 * 30)  // 10 seconds worth of values at 30 FPS
@@ -19,9 +19,9 @@ MemoryUsageWidget::MemoryUsageWidget()
 
 void MemoryUsageWidget::render()
 {
-    const std::chrono::duration<float> time_since_last_update = std::chrono::steady_clock::now() - last_update_time_;
+    const auto time_since_last_update = std::chrono::steady_clock::now() - last_update_time_;
 
-    if (time_since_last_update.count() >= time_between_updates) {
+    if (time_since_last_update >= time_between_updates) {
         values_.push(memory_usage_->get_memory_usage());
         last_update_time_ = std::chrono::steady_clock::now();
     }

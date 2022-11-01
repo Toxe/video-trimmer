@@ -8,6 +8,8 @@ extern "C" {
 #include "libavutil/frame.h"
 }
 
+using namespace std::literals::chrono_literals;
+
 namespace video_trimmer::video_file {
 
 TEST_CASE("video_file::Frame")
@@ -18,17 +20,17 @@ TEST_CASE("video_file::Frame")
 
         WHEN("checking its timestamp")
         {
-            THEN("returns 0.0")
+            THEN("returns 0s")
             {
-                CHECK(frame->timestamp() == Catch::Approx(0.0));
+                CHECK(frame->timestamp() == 0s);
             }
         }
 
         WHEN("checking its duration")
         {
-            THEN("returns 0.0")
+            THEN("returns 0s")
             {
-                CHECK(frame->duration() == Catch::Approx(0.0));
+                CHECK(frame->duration() == 0s);
             }
         }
 
@@ -65,7 +67,7 @@ TEST_CASE("video_file::Frame")
         {
             THEN("returns a correct description")
             {
-                CHECK_THAT(frame->description(), Catch::Matchers::Equals("[Frame A @0.000 0.0000s]"));
+                CHECK_THAT(frame->description(), Catch::Matchers::Equals("[Frame A @0µs 0µs]"));
             }
         }
     }
@@ -76,9 +78,9 @@ TEST_CASE("video_file::Frame")
 
         WHEN("checking its timestamp")
         {
-            THEN("returns 0.0")
+            THEN("returns 0s")
             {
-                CHECK(frame->timestamp() == Catch::Approx(0.0));
+                CHECK(frame->timestamp() == 0s);
             }
         }
 
@@ -86,7 +88,7 @@ TEST_CASE("video_file::Frame")
         {
             THEN("returns 0.0")
             {
-                CHECK(frame->duration() == Catch::Approx(0.0));
+                CHECK(frame->duration() == 0us);
             }
         }
 
@@ -123,20 +125,20 @@ TEST_CASE("video_file::Frame")
         {
             THEN("returns a correct description")
             {
-                CHECK_THAT(frame->description(), Catch::Matchers::Equals("[Frame V? @0.000 0.0000s, 0x0, pts=0:0 (0), pkt_duration=0]"));
+                CHECK_THAT(frame->description(), Catch::Matchers::Equals("[Frame V? @0µs 0µs, 0x0, pts=0:0 (0), pkt_duration=0]"));
             }
         }
     }
 
     GIVEN("a video frame constructed with explicit values")
     {
-        const auto frame = Frame::create_video_frame(Size{640, 480}, PixelFormat{1}, 1837735, 10.0, 1.0 / 60.0, 'I');
+        const auto frame = Frame::create_video_frame(Size{640, 480}, PixelFormat{1}, 1837735, 10s, 16ms, 'I');
 
         WHEN("checking its timestamp")
         {
             THEN("returns correct timestamp")
             {
-                CHECK(frame->timestamp() == Catch::Approx(10.0));
+                CHECK(frame->timestamp() == 10s);
             }
         }
 
@@ -144,7 +146,7 @@ TEST_CASE("video_file::Frame")
         {
             THEN("returns correct duration")
             {
-                CHECK(frame->duration() == Catch::Approx(1.0 / 60.0));
+                CHECK(frame->duration() == 16ms);
             }
         }
 
@@ -181,7 +183,7 @@ TEST_CASE("video_file::Frame")
         {
             THEN("returns a correct description")
             {
-                CHECK_THAT(frame->description(), Catch::Matchers::Equals("[Frame VI @10.000 0.0167s, 640x480, pts=0:1837735 (-1837735), pkt_duration=0]"));
+                CHECK_THAT(frame->description(), Catch::Matchers::Equals("[Frame VI @10000000µs 16000µs, 640x480, pts=0:1837735 (-1837735), pkt_duration=0]"));
             }
         }
     }
@@ -200,7 +202,7 @@ TEST_CASE("video_file::Frame")
                 frame->frame()->pict_type = AV_PICTURE_TYPE_I;
                 frame->update_from_frame(0.00001111111111111111);
 
-                CHECK_THAT(frame->description(), Catch::Matchers::Equals("[Frame VI @0.050 0.0167s, 640x480, pts=4503:1837735 (-1833232), pkt_duration=1501]"));
+                CHECK_THAT(frame->description(), Catch::Matchers::Equals("[Frame VI @50033µs 16677µs, 640x480, pts=4503:1837735 (-1833232), pkt_duration=1501]"));
             }
         }
     }

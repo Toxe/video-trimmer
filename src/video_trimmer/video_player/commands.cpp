@@ -4,15 +4,15 @@
 
 namespace video_trimmer::video_player {
 
-constexpr double short_jump_seconds = 5.0;
-constexpr double long_jump_seconds = 60.0;
+constexpr std::chrono::seconds short_jump_seconds{5};
+constexpr std::chrono::seconds long_jump_seconds{60};
 
 event_handler::Command OpenFileCommand(VideoPlayer& video_player, main_window::MainWindow& window, views::files_view::FilesView& files_view)
 {
     return [&] {
         logger::log_debug("OpenFileCommand");
 
-        const auto now = std::chrono::steady_clock::now();
+        const auto now = std::chrono::time_point_cast<std::chrono::microseconds>(std::chrono::steady_clock::now());
 
         video_player.close_file();
         video_player.play_file(std::make_unique<video_file::VideoFile>(files_view.selected_filename()), now);

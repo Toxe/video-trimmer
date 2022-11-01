@@ -6,7 +6,7 @@
 namespace video_trimmer::ui::widgets::fps_widget {
 
 constexpr float graph_height = 70.0f;
-constexpr float time_between_avg_fps_updates = 1.0f / 5.0f;
+constexpr std::chrono::milliseconds time_between_avg_fps_updates{1000 / 5};
 
 FPSWidget::FPSWidget()
     : fps_values_(5 * 60)  // 5 seconds worth of values at 60 FPS
@@ -23,9 +23,9 @@ void FPSWidget::render()
     avg_fps_accum_ += current_fps;
     ++avg_fps_count_;
 
-    const std::chrono::duration<float> time_since_last_update = std::chrono::steady_clock::now() - last_avg_fps_update_time_;
+    const auto time_since_last_update = std::chrono::steady_clock::now() - last_avg_fps_update_time_;
 
-    if (time_since_last_update.count() >= time_between_avg_fps_updates) {
+    if (time_since_last_update >= time_between_avg_fps_updates) {
         avg_fps_ = (avg_fps_count_ > 0) ? avg_fps_accum_ / static_cast<float>(avg_fps_count_) : 0.0f;
         avg_fps_accum_ = 0.0f;
         avg_fps_count_ = 0;

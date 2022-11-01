@@ -13,15 +13,15 @@ class VideoPlayer {
 public:
     explicit VideoPlayer(bool dump_first_video_frame);
 
-    void play_file(std::unique_ptr<video_file::VideoFile> video_file, std::chrono::steady_clock::time_point current_time);
+    void play_file(std::unique_ptr<video_file::VideoFile> video_file, std::chrono::time_point<std::chrono::steady_clock, std::chrono::microseconds> current_time);
     void close_file();
 
     void start();
     void stop();
     void toggle_pause();
 
-    void jump_backward(double seconds);
-    void jump_forward(double seconds);
+    void jump_backward(std::chrono::seconds seconds);
+    void jump_forward(std::chrono::seconds seconds);
 
     [[nodiscard]] bool has_open_file() const;
     [[nodiscard]] bool has_started_playing() const;
@@ -30,13 +30,13 @@ public:
     [[nodiscard]] bool is_paused() const;
     [[nodiscard]] bool is_seeking() const;
 
-    void update_time(std::chrono::steady_clock::time_point current_time);
+    void update_time(std::chrono::time_point<std::chrono::steady_clock, std::chrono::microseconds> current_time);
 
-    [[nodiscard]] double playback_position() const { return playback_position_; };
+    [[nodiscard]] std::chrono::microseconds playback_position() const { return playback_position_; };
 
     [[nodiscard]] video_file::VideoFile* video_file() const { return video_file_.get(); }
 
-    [[nodiscard]] std::unique_ptr<video_file::Frame> next_frame(std::chrono::steady_clock::time_point current_time);
+    [[nodiscard]] std::unique_ptr<video_file::Frame> next_frame(std::chrono::time_point<std::chrono::steady_clock, std::chrono::microseconds> current_time);
 
     [[nodiscard]] int received_frames() const { return received_frames_; }
     [[nodiscard]] int dropped_frames() const { return dropped_frames_; }
@@ -47,9 +47,9 @@ private:
     std::unique_ptr<video_file::Frame> available_frame_;
     std::unique_ptr<video_file::VideoFile> video_file_;
 
-    std::chrono::steady_clock::time_point previous_frame_start_;
-    std::chrono::steady_clock::time_point current_frame_start_;
-    double playback_position_ = 0.0;
+    std::chrono::time_point<std::chrono::steady_clock, std::chrono::microseconds> previous_frame_start_;
+    std::chrono::time_point<std::chrono::steady_clock, std::chrono::microseconds> current_frame_start_;
+    std::chrono::microseconds playback_position_ = std::chrono::microseconds{0};
 
     bool is_playing_ = false;
     bool is_seeking_ = false;
@@ -65,7 +65,7 @@ private:
     [[nodiscard]] std::unique_ptr<video_file::Frame> next_frame_normal_playback();
     [[nodiscard]] std::unique_ptr<video_file::Frame> next_frame_seeking();
 
-    void set_current_frame_start(std::chrono::steady_clock::time_point current_time);
+    void set_current_frame_start(std::chrono::time_point<std::chrono::steady_clock, std::chrono::microseconds> current_time);
 };
 
 }  // namespace video_trimmer::video_player
