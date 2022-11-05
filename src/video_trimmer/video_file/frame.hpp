@@ -1,10 +1,11 @@
 #pragma once
 
-#include <chrono>
 #include <memory>
 #include <span>
 #include <string>
 
+#include "../clock/frame_duration.hpp"
+#include "../clock/playback_position.hpp"
 #include "pixel_format.hpp"
 #include "types.hpp"
 
@@ -23,7 +24,7 @@ public:
     [[nodiscard]] static std::unique_ptr<Frame> create_audio_frame();
     [[nodiscard]] static std::unique_ptr<Frame> create_video_frame();
     [[nodiscard]] static std::unique_ptr<Frame> create_video_frame(Size size, PixelFormat pixel_format, int64_t stream_duration);
-    [[nodiscard]] static std::unique_ptr<Frame> create_video_frame(Size size, PixelFormat pixel_format, int64_t stream_duration, std::chrono::microseconds timestamp, std::chrono::microseconds duration, char picture_type);
+    [[nodiscard]] static std::unique_ptr<Frame> create_video_frame(Size size, PixelFormat pixel_format, int64_t stream_duration, clock::PlaybackPosition timestamp, clock::FrameDuration duration, char picture_type);
 
     void update_from_frame(double stream_time_base);
 
@@ -32,8 +33,8 @@ public:
 
     [[nodiscard]] Size size() const;
 
-    [[nodiscard]] std::chrono::microseconds timestamp() const;
-    [[nodiscard]] std::chrono::microseconds duration() const;
+    [[nodiscard]] clock::PlaybackPosition timestamp() const;
+    [[nodiscard]] clock::FrameDuration duration() const;
 
     [[nodiscard]] uint8_t** data();
     [[nodiscard]] int* linesizes();

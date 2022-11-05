@@ -11,6 +11,12 @@ target_link_libraries(video_trimmer PRIVATE ${SANITIZER_FLAGS} LIB_video_trimmer
 # ---- Tests ----
 if (BUILD_TESTING)
     add_executable(video_trimmer_tests
+            video_trimmer/clock/fmt.test.cpp
+            video_trimmer/clock/frame_duration.test.cpp
+            video_trimmer/clock/playback_clock.test.cpp
+            video_trimmer/clock/playback_position.test.cpp
+            video_trimmer/clock/playback_time_point.test.cpp
+            video_trimmer/clock/video_duration.test.cpp
             video_trimmer/command_line/command_line.test.cpp
             video_trimmer/ui/widgets/ring_buffer.test.cpp
             video_trimmer/video_file/frame.test.cpp

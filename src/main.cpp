@@ -37,7 +37,7 @@ int main(int argc, const char* argv[])
         event_handler.poll_events();
 
         if (window.is_open()) {
-            window.show_video_frame(video_player.next_frame(std::chrono::time_point_cast<std::chrono::microseconds>(std::chrono::steady_clock::now())));
+            window.show_video_frame(video_player.next_frame(video_player.clock().now()));
 
             ui.render();
             additional_info_view.render(app.previous_frame_time(), video_player.video_file());

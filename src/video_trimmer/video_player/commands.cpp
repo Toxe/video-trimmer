@@ -1,5 +1,6 @@
 #include "commands.hpp"
 
+#include "../clock/playback_clock.hpp"
 #include "../logger/logger.hpp"
 
 namespace video_trimmer::video_player {
@@ -12,10 +13,8 @@ event_handler::Command OpenFileCommand(VideoPlayer& video_player, main_window::M
     return [&] {
         logger::log_debug("OpenFileCommand");
 
-        const auto now = std::chrono::time_point_cast<std::chrono::microseconds>(std::chrono::steady_clock::now());
-
         video_player.close_file();
-        video_player.play_file(std::make_unique<video_file::VideoFile>(files_view.selected_filename()), now);
+        video_player.play_file(std::make_unique<video_file::VideoFile>(files_view.selected_filename()));
 
         // immediately create a compatible render texture instead of waiting for the first frame
         window.video_view().create_compatible_render_texture_if_necessary(window.graphics(), video_player.video_file()->video_codec_context()->size(), video_player.video_file()->video_codec_context()->pixel_format());

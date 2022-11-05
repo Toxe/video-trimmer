@@ -29,7 +29,14 @@ add_library(LIB_video_trimmer
         app/system_info.hpp
         clock/clock.hpp
         clock/duration.hpp
+        clock/fmt.hpp
+        clock/frame_duration.hpp
+        clock/microsecond_duration.hpp
+        clock/playback_clock.hpp
+        clock/playback_position.hpp
+        clock/playback_time_point.hpp
         clock/stopwatch.hpp
+        clock/video_duration.hpp
         command_line/command_line.cpp
         command_line/command_line.hpp
         error/error.cpp

@@ -1,9 +1,9 @@
 #pragma once
 
-#include <chrono>
 #include <memory>
 #include <string>
 
+#include "../clock/video_duration.hpp"
 #include "codec_context.hpp"
 #include "frame.hpp"
 
@@ -20,7 +20,7 @@ public:
     [[nodiscard]] virtual const std::string& filename() const;
     [[nodiscard]] virtual const std::string& file_format() const;
 
-    [[nodiscard]] virtual std::chrono::microseconds duration() const;
+    [[nodiscard]] virtual clock::VideoDuration duration() const;
     [[nodiscard]] virtual std::string format_duration() const;
 
     [[nodiscard]] virtual CodecContext* audio_codec_context() const;
@@ -31,7 +31,7 @@ public:
 
     [[nodiscard]] virtual std::unique_ptr<Frame> read_next_frame();
 
-    [[nodiscard]] virtual bool seek_position(std::chrono::microseconds position);
+    [[nodiscard]] virtual bool seek_position(clock::PlaybackPosition position);
 
     virtual void set_dump_first_frame(bool dump_frame);
 

@@ -1,6 +1,5 @@
 #include "playback_controls_view.hpp"
 
-#include "fmt/chrono.h"
 #include "fmt/core.h"
 #include "imgui.h"
 
@@ -79,8 +78,8 @@ void PlaybackControlsView::render(video_player::VideoPlayer& video_player)
     }
 
     if (video_player.has_open_file()) {
-        const std::chrono::duration<float> position = video_player.playback_position();
-        const std::chrono::duration<float> duration = video_player.video_file()->duration();
+        const std::chrono::duration<float> position = video_player.playback_position().microseconds();
+        const std::chrono::duration<float> duration = video_player.video_file()->duration().microseconds();
         const float progress = position / duration;
         ImGui::ProgressBar(progress, ImVec2(-1.0f, 0.f), fmt::format("{:.2f} / {:.2f} ({:.1f}%)", position.count(), duration.count(), progress * 100.0f).c_str());
     } else {

@@ -3,9 +3,9 @@
 #include <cassert>
 #include <cmath>
 
-#include "fmt/chrono.h"
 #include "fmt/core.h"
 
+#include "../clock/fmt.hpp"
 #include "../logger/logger.hpp"
 
 using namespace std::literals::chrono_literals;
@@ -17,7 +17,7 @@ VideoPlayer::VideoPlayer(bool dump_first_video_frame)
 {
 }
 
-void VideoPlayer::play_file(std::unique_ptr<video_file::VideoFile> video_file, const std::chrono::time_point<std::chrono::steady_clock, std::chrono::microseconds> current_time)
+void VideoPlayer::play_file(std::unique_ptr<video_file::VideoFile> video_file)
 {
     assert(video_file != nullptr);
 
@@ -31,8 +31,10 @@ void VideoPlayer::play_file(std::unique_ptr<video_file::VideoFile> video_file, c
     has_received_first_real_frame_ = false;
     playback_position_ = 0us;
 
-    set_current_frame_start(current_time);
-    previous_frame_start_ = current_time;
+    clock_ = clock::PlaybackClock();
+
+    set_current_frame_start(clock_.now());
+    previous_frame_start_ = current_frame_start_;
 
     received_frames_ = 0;
     dropped_frames_ = 0;
@@ -78,7 +80,7 @@ void VideoPlayer::toggle_pause()
 void VideoPlayer::jump_backward(const std::chrono::seconds seconds)
 {
     if (has_started_playing()) {
-        const std::chrono::microseconds skip_to = std::max(playback_position_ - seconds, std::chrono::microseconds{0});
+        const clock::PlaybackPosition skip_to = std::max(playback_position_ - seconds, clock::PlaybackPosition{0us});
         logger::log_trace(fmt::format("jump to {} - {} = {}/{}", playback_position_, seconds, skip_to, video_file_->duration()));
 
         if (video_file_->seek_position(skip_to)) {
@@ -94,7 +96,7 @@ void VideoPlayer::jump_backward(const std::chrono::seconds seconds)
 void VideoPlayer::jump_forward(const std::chrono::seconds seconds)
 {
     if (has_started_playing()) {
-        const std::chrono::microseconds skip_to = std::min(playback_position_ + seconds, video_file_->duration());
+        const clock::PlaybackPosition skip_to = std::min(playback_position_ + seconds, clock::PlaybackPosition{video_file_->duration()});
         logger::log_trace(fmt::format("jump to {} + {} = {}/{}", playback_position_, seconds, skip_to, video_file_->duration()));
 
         if (video_file_->seek_position(skip_to)) {
@@ -137,19 +139,15 @@ bool VideoPlayer::is_seeking() const
     return has_started_playing() && is_seeking_;
 }
 
-void VideoPlayer::set_current_frame_start(const std::chrono::time_point<std::chrono::steady_clock, std::chrono::microseconds> current_time)
+void VideoPlayer::set_current_frame_start(const clock::PlaybackTimePoint current_time)
 {
-    if (is_playing()) {
-        logger::log_trace(fmt::format("current frame start: {} --> {} (+{})",
-            current_frame_start_.time_since_epoch(),
-            current_time.time_since_epoch(),
-            current_time - current_frame_start_));
-    }
+    if (is_playing())
+        logger::log_trace(fmt::format("current frame start: {} +{} --> {}", current_frame_start_, current_time - current_frame_start_, current_time));
 
     current_frame_start_ = current_time;
 }
 
-void VideoPlayer::update_time(const std::chrono::time_point<std::chrono::steady_clock, std::chrono::microseconds> current_time)
+void VideoPlayer::update_time(const clock::PlaybackTimePoint current_time)
 {
     if (!has_started_playing())
         return;
@@ -162,12 +160,12 @@ void VideoPlayer::update_time(const std::chrono::time_point<std::chrono::steady_
 
     // update current position in playback
     if (has_received_first_real_frame_ && !was_seeking_)
-        playback_position_ += current_frame_start_ - previous_frame_start_;
+        playback_position_ = playback_position_ + (current_frame_start_ - previous_frame_start_);
 
     was_seeking_ = false;
 }
 
-std::unique_ptr<video_file::Frame> VideoPlayer::next_frame(const std::chrono::time_point<std::chrono::steady_clock, std::chrono::microseconds> current_time)
+std::unique_ptr<video_file::Frame> VideoPlayer::next_frame(const clock::PlaybackTimePoint current_time)
 {
     update_time(current_time);
 
@@ -177,7 +175,7 @@ std::unique_ptr<video_file::Frame> VideoPlayer::next_frame(const std::chrono::ti
     if (is_paused() && !is_seeking())
         return nullptr;
 
-    logger::log_trace(fmt::format("[next_frame] playback position: {}/{}", playback_position_, video_file_->duration()));
+    logger::log_trace(fmt::format("[next_frame] playback position: {} / {}", playback_position_, video_file_->duration()));
 
     if (is_seeking_)
         return next_frame_seeking();
@@ -227,7 +225,7 @@ std::unique_ptr<video_file::Frame> VideoPlayer::next_frame_normal_playback()
         logger::log_trace(fmt::format("[{}] {} | received first frame, begin playback", function_name, playback_position_));
         has_received_first_real_frame_ = true;
         playback_position_ = available_frame_->timestamp();
-        set_current_frame_start(std::chrono::time_point_cast<std::chrono::microseconds>(std::chrono::steady_clock::now()));
+        // set_current_frame_start(std::chrono::time_point_cast<std::chrono::microseconds>(std::chrono::steady_clock::now()));  // TODO
     }
 
     if (playback_position_ >= available_frame_->timestamp()) {

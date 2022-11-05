@@ -27,7 +27,7 @@ public:
     [[nodiscard]] const std::string& filename() const { return filename_without_path_; }
     [[nodiscard]] const std::string& file_format() const { return file_format_; }
 
-    [[nodiscard]] std::chrono::microseconds duration() const;
+    [[nodiscard]] clock::VideoDuration duration() const;
     [[nodiscard]] std::string format_duration() const;
 
     [[nodiscard]] CodecContext* audio_codec_context() const { return audio_codec_context_.get(); }
@@ -38,7 +38,7 @@ public:
 
     [[nodiscard]] std::unique_ptr<Frame> read_next_frame();
 
-    [[nodiscard]] bool seek_position(std::chrono::microseconds position);
+    [[nodiscard]] bool seek_position(clock::PlaybackPosition position);
 
     void set_dump_first_frame(bool dump_frame) { dump_first_frame_ = dump_frame; }
 
@@ -179,14 +179,14 @@ std::unique_ptr<Frame> VideoFile::Impl::decode_video_packet(AVPacket* packet)
     return frame;
 }
 
-std::chrono::microseconds VideoFile::Impl::duration() const
+clock::VideoDuration VideoFile::Impl::duration() const
 {
     static_assert(AV_TIME_BASE == 1'000'000);
 
     if (format_context_->duration == AV_NOPTS_VALUE)
-        return std::chrono::microseconds{0};
+        return clock::VideoDuration{};
 
-    return std::chrono::microseconds{format_context_->duration};
+    return clock::VideoDuration{std::chrono::microseconds{format_context_->duration}};
 }
 
 std::string VideoFile::Impl::format_duration() const
@@ -204,11 +204,11 @@ std::string VideoFile::Impl::format_duration() const
     return fmt::format("{:02}:{:02}:{:02}", hours, mins, secs);
 }
 
-bool VideoFile::Impl::seek_position(std::chrono::microseconds position)
+bool VideoFile::Impl::seek_position(clock::PlaybackPosition position)
 {
     static_assert(AV_TIME_BASE == 1'000'000);
 
-    const int ret = av_seek_frame(format_context_.get(), -1, position.count(), AVSEEK_FLAG_BACKWARD);
+    const int ret = av_seek_frame(format_context_.get(), -1, position.microseconds().count(), AVSEEK_FLAG_BACKWARD);
 
     if (ret < 0) {
         error::show_error("av_seek_frame", ret);
@@ -236,8 +236,8 @@ bool VideoFile::has_audio_stream() const { return impl_->has_audio_stream(); }
 bool VideoFile::has_video_stream() const { return impl_->has_video_stream(); }
 void VideoFile::set_dump_first_frame(bool dump_frame) { impl_->set_dump_first_frame(dump_frame); }
 std::unique_ptr<Frame> VideoFile::read_next_frame() { return impl_->read_next_frame(); }
-std::chrono::microseconds VideoFile::duration() const { return impl_->duration(); }
+clock::VideoDuration VideoFile::duration() const { return impl_->duration(); }
 std::string VideoFile::format_duration() const { return impl_->format_duration(); }
-bool VideoFile::seek_position(std::chrono::microseconds position) { return impl_->seek_position(position); }
+bool VideoFile::seek_position(clock::PlaybackPosition position) { return impl_->seek_position(position); }
 
 }  // namespace video_trimmer::video_file

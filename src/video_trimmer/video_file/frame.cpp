@@ -6,7 +6,6 @@
 #include <fstream>
 #include <stdexcept>
 
-#include "fmt/chrono.h"
 #include "fmt/core.h"
 
 extern "C" {
@@ -14,6 +13,7 @@ extern "C" {
 #include "libavutil/imgutils.h"
 }
 
+#include "../clock/fmt.hpp"
 #include "../logger/logger.hpp"
 #include "auto_delete_resource.hpp"
 
@@ -26,10 +26,10 @@ public:
         video
     };
 
-    Impl(FrameType frame_type, std::chrono::microseconds timestamp, std::chrono::microseconds duration, Size size, PixelFormat pixel_format);
+    Impl(FrameType frame_type, clock::PlaybackPosition timestamp, clock::FrameDuration duration, Size size, PixelFormat pixel_format);
 
     [[nodiscard]] static std::unique_ptr<Frame::Impl> create_audio_frame();
-    [[nodiscard]] static std::unique_ptr<Frame::Impl> create_video_frame(Size size, PixelFormat pixel_format, int64_t stream_duration, std::chrono::microseconds timestamp, std::chrono::microseconds duration, char picture_type);
+    [[nodiscard]] static std::unique_ptr<Frame::Impl> create_video_frame(Size size, PixelFormat pixel_format, int64_t stream_duration, clock::PlaybackPosition timestamp, clock::FrameDuration duration, char picture_type);
 
     void update_from_frame(double stream_time_base);
 
@@ -38,8 +38,8 @@ public:
 
     [[nodiscard]] Size size() const { return size_; }
 
-    [[nodiscard]] std::chrono::microseconds timestamp() const { return timestamp_; }
-    [[nodiscard]] std::chrono::microseconds duration() const { return duration_; }
+    [[nodiscard]] clock::PlaybackPosition timestamp() const { return timestamp_; }
+    [[nodiscard]] clock::FrameDuration duration() const { return duration_; }
 
     [[nodiscard]] uint8_t** data() { return frame_->data; }
     [[nodiscard]] int* linesizes() { return frame_->linesize; }
@@ -56,8 +56,9 @@ private:
 
     FrameType frame_type_;
 
-    std::chrono::microseconds timestamp_;
-    std::chrono::microseconds duration_;
+    clock::PlaybackPosition timestamp_;
+    clock::FrameDuration duration_;
+
     int64_t pts_ = 0;
     int64_t pkt_duration_ = 0;
     int64_t stream_duration_ = 0;
@@ -67,7 +68,7 @@ private:
     char picture_type_ = '?';
 };
 
-Frame::Impl::Impl(FrameType frame_type, std::chrono::microseconds timestamp, std::chrono::microseconds duration, Size size, PixelFormat pixel_format)
+Frame::Impl::Impl(FrameType frame_type, clock::PlaybackPosition timestamp, clock::FrameDuration duration, Size size, PixelFormat pixel_format)
     : frame_type_(frame_type), timestamp_(timestamp), duration_(duration), size_(size), pixel_format_(pixel_format)
 {
     frame_ = AutoDeleteResource<AVFrame>(av_frame_alloc(), [](AVFrame* p) { av_frame_free(&p); });
@@ -78,10 +79,10 @@ Frame::Impl::Impl(FrameType frame_type, std::chrono::microseconds timestamp, std
 
 std::unique_ptr<Frame::Impl> Frame::Impl::create_audio_frame()
 {
-    return std::make_unique<Frame::Impl>(FrameType::audio, std::chrono::microseconds{0}, std::chrono::microseconds{0}, Size{0, 0}, PixelFormat{});
+    return std::make_unique<Frame::Impl>(FrameType::audio, clock::PlaybackPosition{}, clock::FrameDuration{}, Size{0, 0}, PixelFormat{});
 }
 
-std::unique_ptr<Frame::Impl> Frame::Impl::create_video_frame(Size size, PixelFormat pixel_format, int64_t stream_duration, std::chrono::microseconds timestamp, std::chrono::microseconds duration, char picture_type)
+std::unique_ptr<Frame::Impl> Frame::Impl::create_video_frame(Size size, PixelFormat pixel_format, int64_t stream_duration, clock::PlaybackPosition timestamp, clock::FrameDuration duration, char picture_type)
 {
     auto frame = std::make_unique<Frame::Impl>(FrameType::video, timestamp, duration, size, pixel_format);
     frame->stream_duration_ = stream_duration;
@@ -92,11 +93,9 @@ std::unique_ptr<Frame::Impl> Frame::Impl::create_video_frame(Size size, PixelFor
 
 void Frame::Impl::update_from_frame(double stream_time_base)
 {
-    const std::chrono::duration<double> ts{static_cast<double>(frame_->best_effort_timestamp) * stream_time_base};
-    const std::chrono::duration<double> dur{static_cast<double>(frame_->pkt_duration) * stream_time_base};
+    timestamp_ = clock::PlaybackPosition{std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::duration<double>{static_cast<double>(frame_->best_effort_timestamp) * stream_time_base})};
+    duration_ = clock::FrameDuration{std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::duration<double>{static_cast<double>(frame_->pkt_duration) * stream_time_base})};
 
-    timestamp_ = std::chrono::duration_cast<std::chrono::microseconds>(ts);
-    duration_ = std::chrono::duration_cast<std::chrono::microseconds>(dur);
     pts_ = frame_->pts;
     pkt_duration_ = frame_->pkt_duration;
     picture_type_ = av_get_picture_type_char(frame_->pict_type);
@@ -127,23 +126,23 @@ void Frame::Impl::dump_to_file(const std::string& filename)
 std::string Frame::Impl::description() const
 {
     if (is_video_frame())
-        return fmt::format("[Frame V{} @{} {}, {}x{}, pts={}:{} ({}), pkt_duration={}]", picture_type_, timestamp_, duration_, size_.width, size_.height, pts_, stream_duration_, pts_ - stream_duration_, pkt_duration_);
+        return fmt::format("[Frame V{} {} {}, {}x{}, pts={}:{} ({}), pkt_duration={}]", picture_type_, timestamp_, duration_, size_.width, size_.height, pts_, stream_duration_, pts_ - stream_duration_, pkt_duration_);
     else
-        return fmt::format("[Frame A @{} {}]", timestamp_, duration_);
+        return fmt::format("[Frame A {} {}]", timestamp_, duration_);
 }
 
 Frame::Frame(std::unique_ptr<Impl> impl) : impl_(std::move(impl)) { }
 Frame::~Frame() = default;
 std::unique_ptr<Frame> Frame::create_audio_frame() { return std::make_unique<Frame>(Frame::Impl::create_audio_frame()); }
 std::unique_ptr<Frame> Frame::create_video_frame() { return create_video_frame(Size{}, PixelFormat{}, 0); }
-std::unique_ptr<Frame> Frame::create_video_frame(Size size, PixelFormat pixel_format, int64_t stream_duration) { return std::make_unique<Frame>(Frame::Impl::create_video_frame(size, pixel_format, stream_duration, std::chrono::microseconds{0}, std::chrono::microseconds{0}, '?')); }
-std::unique_ptr<Frame> Frame::create_video_frame(Size size, PixelFormat pixel_format, int64_t stream_duration, std::chrono::microseconds timestamp, std::chrono::microseconds duration, char picture_type) { return std::make_unique<Frame>(Frame::Impl::create_video_frame(size, pixel_format, stream_duration, timestamp, duration, picture_type)); }
+std::unique_ptr<Frame> Frame::create_video_frame(Size size, PixelFormat pixel_format, int64_t stream_duration) { return std::make_unique<Frame>(Frame::Impl::create_video_frame(size, pixel_format, stream_duration, clock::PlaybackPosition{}, clock::FrameDuration{}, '?')); }
+std::unique_ptr<Frame> Frame::create_video_frame(Size size, PixelFormat pixel_format, int64_t stream_duration, clock::PlaybackPosition timestamp, clock::FrameDuration duration, char picture_type) { return std::make_unique<Frame>(Frame::Impl::create_video_frame(size, pixel_format, stream_duration, timestamp, duration, picture_type)); }
 void Frame::update_from_frame(double stream_time_base) { impl_->update_from_frame(stream_time_base); }
 bool Frame::is_audio_frame() const { return impl_->is_audio_frame(); }
 bool Frame::is_video_frame() const { return impl_->is_video_frame(); }
 Size Frame::size() const { return impl_->size(); }
-std::chrono::microseconds Frame::timestamp() const { return impl_->timestamp(); }
-std::chrono::microseconds Frame::duration() const { return impl_->duration(); }
+clock::PlaybackPosition Frame::timestamp() const { return impl_->timestamp(); }
+clock::FrameDuration Frame::duration() const { return impl_->duration(); }
 uint8_t** Frame::data() { return impl_->data(); }
 int* Frame::linesizes() { return impl_->linesizes(); }
 AVFrame* Frame::frame() { return impl_->frame(); }
