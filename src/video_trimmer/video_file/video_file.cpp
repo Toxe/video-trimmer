@@ -133,7 +133,7 @@ std::unique_ptr<CodecContext> VideoFile::Impl::find_best_stream(CodecContext::St
         return nullptr;
 
     try {
-        return std::make_unique<CodecContext>(stream);
+        return std::make_unique<CodecContext>(stream, format_context_.get());
     } catch (const std::exception&) {
         return nullptr;
     }

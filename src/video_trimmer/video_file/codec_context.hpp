@@ -8,6 +8,7 @@
 #include "types.hpp"
 
 struct AVCodecContext;
+struct AVFormatContext;
 struct AVPacket;
 struct AVStream;
 
@@ -20,7 +21,7 @@ public:
         video
     };
 
-    explicit CodecContext(AVStream* stream);
+    explicit CodecContext(const AVStream* stream, const AVFormatContext* format_context);
 
     [[nodiscard]] const std::string& codec_type() const { return codec_type_; }
     [[nodiscard]] const std::string& codec_name() const { return codec_name_; }

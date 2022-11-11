@@ -14,8 +14,10 @@ extern "C" {
 
 namespace video_trimmer::video_file {
 
-CodecContext::CodecContext(AVStream* stream)
+CodecContext::CodecContext(const AVStream* stream, const AVFormatContext* format_context)
 {
+    static_assert(AV_TIME_BASE == 1'000'000);
+
     assert(stream);
 
     const AVCodec* decoder = avcodec_find_decoder(stream->codecpar->codec_id);
@@ -44,12 +46,17 @@ CodecContext::CodecContext(AVStream* stream)
         throw std::runtime_error("avcodec_open2");
 
     stream_index_ = stream->index;
-    stream_duration_ = stream->duration;
     stream_time_base_ = av_q2d(stream->time_base);
     fps_ = codec_context_->codec_type == AVMEDIA_TYPE_VIDEO ? static_cast<float>(av_q2d(stream->avg_frame_rate)) : 0.0f;
 
     codec_type_ = av_get_media_type_string(codec_context_->codec_type);
     codec_name_ = codec_context_->codec->long_name;
+
+    // stream duration: either stored in stream or estimated
+    stream_duration_ = stream->duration;
+
+    if (stream_duration_ == INT64_MIN)
+        stream_duration_ = (format_context->duration * stream->time_base.den) / (stream->time_base.num * static_cast<int64_t>(AV_TIME_BASE));
 
     if (is_video_stream())
         codec_additional_info_ = fmt::format("{}x{}, {:.1f} fps, {}", codec_context_->width, codec_context_->height, fps_, pixel_format().name());
