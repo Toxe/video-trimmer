@@ -93,7 +93,7 @@ std::unique_ptr<Frame::Impl> Frame::Impl::create_video_frame(Size size, PixelFor
 
 void Frame::Impl::update_from_frame(double stream_time_base)
 {
-    timestamp_ = clock::PlaybackPosition{std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::duration<double>{static_cast<double>(frame_->best_effort_timestamp) * stream_time_base})};
+    timestamp_ = clock::PlaybackPosition{std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::duration<double>{static_cast<double>(frame_->pts) * stream_time_base})};
     duration_ = clock::FrameDuration{std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::duration<double>{static_cast<double>(frame_->pkt_duration) * stream_time_base})};
 
     pts_ = frame_->pts;
