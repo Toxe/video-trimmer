@@ -126,7 +126,7 @@ void Frame::Impl::dump_to_file(const std::string& filename)
 std::string Frame::Impl::description() const
 {
     if (is_video_frame())
-        return fmt::format("[Frame V{} {} {}, {}x{}, pts={}:{} ({}), pkt_duration={}]", picture_type_, timestamp_, duration_, size_.width, size_.height, pts_, stream_duration_, pts_ - stream_duration_, pkt_duration_);
+        return fmt::format("[Frame V{} {} {}, {}x{}, pts: {} / {} ({}), duration: {}]", picture_type_, timestamp_, duration_, size_.width, size_.height, pts_, stream_duration_, pts_ - stream_duration_, pkt_duration_);
     else
         return fmt::format("[Frame A {} {}]", timestamp_, duration_);
 }

@@ -124,7 +124,7 @@ TEST_CASE("video_file::Frame")
         {
             THEN("returns a correct description")
             {
-                CHECK_THAT(frame->description(), Catch::Matchers::Equals("[Frame V? (@ 0.000s | 0µs) (frame duration: 0.000s | 0µs), 0x0, pts=0:0 (0), pkt_duration=0]"));
+                CHECK_THAT(frame->description(), Catch::Matchers::Equals("[Frame V? (@ 0.000s | 0µs) (frame duration: 0.000s | 0µs), 0x0, pts: 0 / 0 (0), duration: 0]"));
             }
         }
     }
@@ -182,7 +182,7 @@ TEST_CASE("video_file::Frame")
         {
             THEN("returns a correct description")
             {
-                CHECK_THAT(frame->description(), Catch::Matchers::Equals("[Frame VI (@ 10.000s | 10000000µs) (frame duration: 0.016s | 16000µs), 640x480, pts=0:1837735 (-1837735), pkt_duration=0]"));
+                CHECK_THAT(frame->description(), Catch::Matchers::Equals("[Frame VI (@ 10.000s | 10000000µs) (frame duration: 0.016s | 16000µs), 640x480, pts: 0 / 1837735 (-1837735), duration: 0]"));
             }
         }
     }
@@ -201,7 +201,7 @@ TEST_CASE("video_file::Frame")
                 frame->frame()->pict_type = AV_PICTURE_TYPE_I;
                 frame->update_from_frame(0.00001111111111111111);
 
-                CHECK_THAT(frame->description(), Catch::Matchers::Equals("[Frame VI (@ 0.050s | 50033µs) (frame duration: 0.017s | 16677µs), 640x480, pts=4503:1837735 (-1833232), pkt_duration=1501]"));
+                CHECK_THAT(frame->description(), Catch::Matchers::Equals("[Frame VI (@ 0.050s | 50033µs) (frame duration: 0.017s | 16677µs), 640x480, pts: 4503 / 1837735 (-1833232), duration: 1501]"));
             }
         }
     }
