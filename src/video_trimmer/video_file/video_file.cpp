@@ -143,7 +143,10 @@ std::unique_ptr<Frame> VideoFile::Impl::read_next_frame()
 {
     // read until we get at least one video frame
     while (true) {
-        if (av_read_frame(format_context_.get(), packet_.get()) < 0)
+        const int ret = av_read_frame(format_context_.get(), packet_.get());
+
+        // ignore EOF because when using threads there might still be frames in the queue that can be received
+        if (ret < 0 && ret != AVERROR_EOF)
             break;
 
         // process only interesting packets, drop the rest
@@ -165,7 +168,10 @@ std::unique_ptr<Frame> VideoFile::Impl::read_next_frame()
 std::unique_ptr<Frame> VideoFile::Impl::decode_video_packet(AVPacket* packet)
 {
     // send packet to the decoder
-    if (video_codec_context_->send_packet_to_decoder(packet) < 0)
+    const int ret = video_codec_context_->send_packet_to_decoder(packet);
+
+    // ignore EOF because when using threads there might still be frames in the queue that can be received
+    if (ret < 0 && ret != AVERROR_EOF)
         return nullptr;
 
     // get available frame from the decoder

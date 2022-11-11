@@ -83,9 +83,9 @@ PixelFormat CodecContext::pixel_format() const
 
 int CodecContext::send_packet_to_decoder(AVPacket* packet)
 {
-    int ret = avcodec_send_packet(codec_context_.get(), packet);
+    const int ret = avcodec_send_packet(codec_context_.get(), packet);
 
-    if (ret < 0)
+    if (ret < 0 && ret != AVERROR_EOF)
         return video_trimmer::error::show_error("avcodec_send_packet", ret);
 
     return 0;
@@ -100,11 +100,11 @@ std::unique_ptr<Frame> CodecContext::receive_frame_from_decoder()
     else if (is_video_stream())
         frame = Frame::create_video_frame(size(), pixel_format(), stream_duration_);
 
-    int ret = avcodec_receive_frame(codec_context_.get(), frame->frame());
+    const int ret = avcodec_receive_frame(codec_context_.get(), frame->frame());
 
     if (ret < 0) {
         if (ret != AVERROR_EOF && ret != AVERROR(EAGAIN))
-            video_trimmer::error::show_error("avcodec_receive_frame");
+            video_trimmer::error::show_error("avcodec_receive_frame", ret);
 
         return nullptr;
     }
